@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 __version__ = "0.1"
+__description__ = "A simple DNS lookup utility, similar to 'dig'"
 
 # Basic usage examples
 # iterative: python3 dns-query.py wordpress.com -s 192.228.79.201 -q A -nr
