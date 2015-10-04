@@ -1,0 +1,6 @@
+.idea/
+*.pyc
+*.*swp
+dl_*/
+env/
+venv/
