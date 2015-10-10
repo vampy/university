@@ -1,6 +1,6 @@
 .idea/
 *.pyc
 *.*swp
-dl_*/
+dl*/
 env/
 venv/
