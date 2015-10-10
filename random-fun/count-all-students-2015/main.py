@@ -6,6 +6,7 @@ import sys
 import argparse
 import time
 
+import re
 import os
 import requests
 from collections import namedtuple
@@ -31,13 +32,7 @@ class SpecialityType:
     def __init__(self):
         self.total = 0  # Total number of students in all users
         self.years = {}  # Map from int (which represents the year) to total students in that year, eg: 1 => 100
-
-    def __repr__(self):
-        years = []
-        for year in self.years:
-            years.append('"Year {0}" = {1}'.format(year, self.years[year]))
-
-        return 'Total = {0}, {1}'.format(self.total, ", ".join(years))
+        self.language = None
 
 
 def is_cache_expired(file_mtime, expires_time=CACHE_EXPIRES_SECONDS):
@@ -60,6 +55,10 @@ def get_year_from_group(group, is_undergraduate):
     return year_indicator - 3
 
 
+def get_header(string, margin=20):
+    return '\n{0} {1} {0}'.format('=' * margin, string)
+
+
 def download_in_dir(docs, parent_dir, force_downloads=False, is_verbose=True):
     for href, filename, speciality in docs:
         local_path = os.path.join(parent_dir, filename)
@@ -79,6 +78,7 @@ def download_in_dir(docs, parent_dir, force_downloads=False, is_verbose=True):
 
 def process_excel(docs, parent_dir, specialities_total, is_undergraduate, is_verbose=True):
     total = 0
+    pattern_find_language = re.compile(r'((?:rom|mag|eng|ger).*(?:ă|a))\)?', re.IGNORECASE | re.UNICODE)
     for href, filename, speciality in docs:
         doc = xlrd.open_workbook(os.path.join(parent_dir, filename))
 
@@ -86,24 +86,37 @@ def process_excel(docs, parent_dir, specialities_total, is_undergraduate, is_ver
         for i in range(doc.nsheets):
             sheet = doc.sheet_by_index(i)
             if sheet.nrows and sheet.ncols:
+                # Ignore all other sheets and report anomaly
                 if i != 0:
                     print('WARNING: Sheet {0} has data in the document "{1}"'.format(i, filename))
                     continue
 
                 found_row = None
+                speciality_name_alt = None
 
                 # Try to find our number row on the first column
                 for row in range(sheet.nrows):
                     cell = sheet.cell(row, 0)
-                    if xlrd.XL_CELL_TEXT == cell.ctype and cell.value.lstrip().lower().startswith('nr'):
-                        found_row = row
-                        break
+                    if xlrd.XL_CELL_TEXT == cell.ctype:
+                        cell_value = cell.value.lstrip().lower()
 
-                    # Some stupid documents do not have the Nr. Crt. at the start, sigh, use the next cell
+                        # Found 'Sectia: ...' or 'Specializare...'
+                        if cell_value.startswith('sec') or cell_value.startswith('spe'):
+                            speciality_name_alt = cell.value.strip()
+
+                        # Found 'Nr. Crt.' columns
+                        if cell_value.startswith('nr'):
+                            found_row = row
+                            break
+
+                    # Some stupid documents do not have the 'Nr. Crt.' at the start, sigh, use the next cell
                     next_cell = sheet.cell(row, 1)
                     if xlrd.XL_CELL_TEXT == next_cell.ctype and next_cell.value.lstrip().lower().startswith('matricol'):
                         found_row = row
                         break
+
+                if speciality_name_alt is None:
+                    print('Could not find speciality for "{0}"'.format(filename))
 
                 if found_row is None:
                     print('Could not find row number for "{0}"'.format(filename))
@@ -122,12 +135,20 @@ def process_excel(docs, parent_dir, specialities_total, is_undergraduate, is_ver
 
                         # Total by speciality
                         specialities_total.setdefault(speciality, SpecialityType()).total += found
+                        speciality_type = specialities_total[speciality]
+
+                        # Find language from the excel 'Section name'
+                        if speciality_name_alt is not None:
+                            found_language = re.findall(pattern_find_language, speciality_name_alt)
+                            if found_language:
+                                speciality_type.language = found_language[0]
 
                         # Total by year in speciality
                         group = get_group_from_filename(filename)
                         year = get_year_from_group(group, is_undergraduate)
-                        specialities_total[speciality].years.setdefault(year, 0)
-                        specialities_total[speciality].years[year] += found
+                        speciality_type.years.setdefault(year, 0)
+                        speciality_type.years[year] += found
+
                         break
 
     return total
@@ -205,7 +226,8 @@ def main(path_root, force_downloads=False, is_verbose=True):
     total_groups = total_master_groups + total_undergraduate_groups
     total_students = total_undergraduate + total_master
 
-    print('\n\nGroups undergraduate = {0}'.format(total_undergraduate_groups))
+    print(get_header('Stats by total groups/students'))
+    print('Groups undergraduate = {0}'.format(total_undergraduate_groups))
     print('Students undergraduate = {0}'.format(total_undergraduate))
     print('Average per group = {0}'.format(total_undergraduate // total_undergraduate_groups))
 
@@ -217,18 +239,33 @@ def main(path_root, force_downloads=False, is_verbose=True):
     print('Total students = {0}'.format(total_students))
     print('Overall average = {0}'.format(total_students // total_groups))
 
-    print('\nStats by speciality')
+    print(get_header('Stats by speciality'))
     for speciality in sorted(specialities_total.keys()):
-        print('{0}\n\t{1}\n'.format(speciality, "\n\t".join(str(specialities_total[speciality]).split(','))))
-    # pprint(specialities_total, indent=4, width=120)
+        speciality_type = specialities_total[speciality]
+
+        # Add language
+        name = speciality
+        if speciality_type.language:
+
+            # Remove language if found, add our language below
+            found_index = name.find(speciality_type.language[:3])
+            if found_index != -1:
+                name = name[:found_index - 1]
+
+            name += ' - ' + speciality_type.language
+
+        years = []
+        for year in speciality_type.years:
+            years.append('"Year {0}" = {1}'.format(year, speciality_type.years[year]))
+
+        print('{0}\n\tTotal = {1}\n\t{2}\n'.format(name, speciality_type.total, "\n\t".join(years)))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='A program that counts students')
     parser.add_argument('-f', '--force', action='store_true', help='force file downloads')
     parser.add_argument('-c', '--clean', action='store_true', help='clean downloads directory')
-    parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity",
-                       )
+    parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
     parser.set_defaults(force_downloads=False)
     args = parser.parse_args()
 
