@@ -8,9 +8,9 @@ import time
 
 import os
 import requests
+from collections import namedtuple
 from bs4 import BeautifulSoup
 import xlrd
-
 
 PATH_DOWNLOAD = 'dl'
 PATH_WEBPAGE = os.path.join(PATH_DOWNLOAD, 'page.html')
@@ -24,37 +24,70 @@ LOCATION_DOWNLOAD = 'http://www.cs.ubbcluj.ro/repartizarea-studentilor-pe-grupe-
 ID_UNDERGRADUATE = 'http://www.cs.ubbcluj.ro/files/studenti/2015/licenta'
 ID_MASTER = 'http://www.cs.ubbcluj.ro/files/studenti/2015/master'
 
+Document = namedtuple('Document', ['href', 'filename', 'speciality'])
+
+
+class SpecialityType:
+    def __init__(self):
+        self.total = 0  # Total number of students in all users
+        self.years = {}  # Map from int (which represents the year) to total students in that year, eg: 1 => 100
+
+    def __repr__(self):
+        years = []
+        for year in self.years:
+            years.append('"Year {0}" = {1}'.format(year, self.years[year]))
+
+        return 'Total = {0}, {1}'.format(self.total, ", ".join(years))
+
 
 def is_cache_expired(file_mtime, expires_time=CACHE_EXPIRES_SECONDS):
     return int(time.time() - file_mtime) >= expires_time
 
 
-def download_in_dir(docs, parent_dir, force_downloads=False):
-    for href, doc_filename in docs:
-        local_path = os.path.join(parent_dir, doc_filename)
+def get_group_from_filename(filename):
+    # eg: 'grupa 246 - 2015-2016.xls'
+    return filename.split(' ')[1]
+
+
+def get_year_from_group(group, is_undergraduate):
+    year_indicator = int(group[1])
+
+    # undergraduate just indicates the year; eg: 213 (year 1)
+    if is_undergraduate:
+        return year_indicator
+
+    # graduate, normalize year; eg: 258 (year 2, because 5 - 3 = 2)
+    return year_indicator - 3
+
+
+def download_in_dir(docs, parent_dir, force_downloads=False, is_verbose=True):
+    for href, filename, speciality in docs:
+        local_path = os.path.join(parent_dir, filename)
 
         # File is already downloaded in our cache.
         if os.path.exists(local_path) and not force_downloads and not is_cache_expired(os.path.getmtime(local_path)):
-            print('File is cached: "{0}"'.format(doc_filename))
+            if is_verbose:
+                print('File is cached: "{0}"'.format(filename))
             continue
 
         r = requests.get(href)
-        print('Saving: "{0}"'.format(doc_filename))
+        if is_verbose:
+            print('Saving: "{0}"'.format(filename))
         with open(local_path, 'wb') as f:
             f.write(r.content)
 
 
-def process_excel(docs, parent_dir):
+def process_excel(docs, parent_dir, specialities_total, is_undergraduate, is_verbose=True):
     total = 0
-    for href, doc_filename in docs:
-        doc = xlrd.open_workbook(os.path.join(parent_dir, doc_filename))
+    for href, filename, speciality in docs:
+        doc = xlrd.open_workbook(os.path.join(parent_dir, filename))
 
-        # Should only have Sheet 1 with data
+        # Should only have 'Sheet 1' with data
         for i in range(doc.nsheets):
             sheet = doc.sheet_by_index(i)
             if sheet.nrows and sheet.ncols:
                 if i != 0:
-                    print('WARNING: Sheet {0} has data in the document "{1}"'.format(i, doc_filename))
+                    print('WARNING: Sheet {0} has data in the document "{1}"'.format(i, filename))
                     continue
 
                 found_row = None
@@ -73,22 +106,37 @@ def process_excel(docs, parent_dir):
                         break
 
                 if found_row is None:
-                    print('Could not find row number for "{0}"'.format(doc_filename))
+                    print('Could not find row number for "{0}"'.format(filename))
                     continue
 
-                # Assume that nr, is one of the last rows
+                # Assume that 'nr', is one of the last rows
                 for row in reversed(range(sheet.nrows)):
                     cell = sheet.cell(row, 0)
                     if xlrd.XL_CELL_NUMBER == cell.ctype:
                         found = int(cell.value)
-                        print('Found for "{0}" = {1}'.format(doc_filename, found))
+                        if is_verbose:
+                            print('Found for "{0}" = {1}'.format(filename, found))
+
+                        # Overall total
                         total += found
+
+                        # Total by speciality
+                        specialities_total.setdefault(speciality, SpecialityType()).total += found
+
+                        # Total by year in speciality
+                        group = get_group_from_filename(filename)
+                        year = get_year_from_group(group, is_undergraduate)
+                        specialities_total[speciality].years.setdefault(year, 0)
+                        specialities_total[speciality].years[year] += found
                         break
 
     return total
 
 
-def main(path_root, force_downloads=False):
+def main(path_root, force_downloads=False, is_verbose=True):
+    if not is_verbose:
+        print('Running...')
+
     path_webpage = os.path.join(path_root, PATH_WEBPAGE)
 
     # Create docs sub directories
@@ -103,12 +151,14 @@ def main(path_root, force_downloads=False):
     # Get html page
     # Get from cache
     if os.path.exists(path_webpage) and not force_downloads and not is_cache_expired(os.path.getmtime(path_webpage)):
-        print('Webpage is cached')
+        if is_verbose:
+            print('Webpage is cached')
         with open(path_webpage, 'r') as f:
             page_html = f.read()
 
     else:  # Get from the interwebz
-        print('Getting webpage')
+        if is_verbose:
+            print('Getting webpage')
         r = requests.get(LOCATION_DOWNLOAD)
         if r.status_code != 200:
             sys.exit('Failed to download, status code = {0}'.format(r.status_code))
@@ -119,37 +169,38 @@ def main(path_root, force_downloads=False):
             f.write(page_html)
 
     # HTML parser
-    print('Parsing HTML page')
+    if is_verbose:
+        print('Parsing HTML page')
     soup = BeautifulSoup(page_html, 'html.parser')
 
     # Parse links
-    print('Parsing links from HTML page')
+    if is_verbose:
+        print('Parsing links from HTML page')
     docs_undergraduate = []
-    # specialities_total_undergraduate = {}  # map from speciality name to (total students, group number)
-    # specialities_map_undergraduate = {}  # map from group name to speciality
+    specialities_total = {}  # map from speciality name to SpecialityType
     docs_master = []
     for link in soup.find_all('a'):
         href = urllib.parse.unquote(link.get('href').strip())
-        # found = False
         if href.startswith(ID_UNDERGRADUATE):
-            # speciality = link.find_previous('h3')
-            # specialities_total_undergraduate[link.string] =
-            docs_undergraduate.append((href, link.string))
+            speciality = link.find_previous('h3').string
+            docs_undergraduate.append(Document(href, filename=link.string, speciality=speciality))
         elif href.startswith(ID_MASTER):
-            # speciality = link.find_previous('h3')
-            # print(str(link.find_previous('h3')))
-            docs_master.append((href, link.string))
+            speciality = link.find_previous('h3').string
+            docs_master.append(Document(href, filename=link.string, speciality=speciality))
 
     # Download all documents
-    print('\nDownloading all documents')
-    download_in_dir(docs_undergraduate, path_undergraduate, force_downloads)
-    download_in_dir(docs_master, path_graduate, force_downloads)
+    if is_verbose:
+        print('\nDownloading all documents')
+    download_in_dir(docs_undergraduate, path_undergraduate, force_downloads, is_verbose=is_verbose)
+    download_in_dir(docs_master, path_graduate, force_downloads, is_verbose=is_verbose)
 
     # Process excel
-    print('\nProcessing Excel')
-    total_undergraduate = process_excel(docs_undergraduate, path_undergraduate)
+    if is_verbose:
+        print('\nProcessing Excel')
+    total_undergraduate = process_excel(docs_undergraduate, path_undergraduate, specialities_total, is_undergraduate=True,
+                                        is_verbose=is_verbose)
     total_undergraduate_groups = len(docs_undergraduate)
-    total_master = process_excel(docs_master, path_graduate)
+    total_master = process_excel(docs_master, path_graduate, specialities_total, is_undergraduate=False, is_verbose=is_verbose)
     total_master_groups = len(docs_master)
     total_groups = total_master_groups + total_undergraduate_groups
     total_students = total_undergraduate + total_master
@@ -166,22 +217,30 @@ def main(path_root, force_downloads=False):
     print('Total students = {0}'.format(total_students))
     print('Overall average = {0}'.format(total_students // total_groups))
 
+    print('\nStats by speciality')
+    for speciality in sorted(specialities_total.keys()):
+        print('{0}\n\t{1}\n'.format(speciality, "\n\t".join(str(specialities_total[speciality]).split(','))))
+    # pprint(specialities_total, indent=4, width=120)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='A program that counts students')
-    parser.add_argument('-f', '--force', dest='force_downloads', action='store_true', help='force file downloads')
-    parser.add_argument('-c', '--clean', dest='clean_dl', action='store_true', help='clean downloads directory')
+    parser.add_argument('-f', '--force', action='store_true', help='force file downloads')
+    parser.add_argument('-c', '--clean', action='store_true', help='clean downloads directory')
+    parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity",
+                       )
     parser.set_defaults(force_downloads=False)
     args = parser.parse_args()
 
     abs_path_root = os.getcwd()
-    if args.clean_dl:
+    if args.clean:
         path_clean = os.path.join(abs_path_root, PATH_DOWNLOAD)
         if os.path.exists(path_clean):
             import shutil
+
             print('Cleaning download directory')
             shutil.rmtree(path_clean)
         else:
             print('Download directory does not exist: "{0}"'.format(path_clean))
     else:
-        main(path_root=abs_path_root, force_downloads=args.force_downloads)
+        main(path_root=abs_path_root, force_downloads=args.force, is_verbose=args.verbose)
