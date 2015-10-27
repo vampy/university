@@ -4,3 +4,4 @@
 dl*/
 env/
 venv/
+*.o
