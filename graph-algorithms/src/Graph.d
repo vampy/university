@@ -605,7 +605,7 @@ public:
 	}
 
 	int[T] getLateStart()
-	{Con
+	{
 		return this.lateStart;
 	}
 
