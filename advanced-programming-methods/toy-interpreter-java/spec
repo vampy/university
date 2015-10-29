@@ -1,0 +1,80 @@
+Tipuri de date:
+ExeStack[20]		SymTable[10]		Out[10]
+Stiva				Array 				Array
+ADT:				de perechi			string[]
+pop/push			(string,text)		msg1 | msg2 | ...
+isFull
+top
+...
+Array de statements
+
+v=2; Print(v+3)
+
+clasa STATEMENT: (modifies the program state)
+derivam in CompoundSTMT; AsignSTMT; PrintSTMT; IfSTMT
+CompoundSTMT: doua fielduri de tip STMT S1; STMT S2
+AsignSTMT: String ID; Expr e
+Print: sintaxa:Print(expr); field de tip Expr
+IfSTMT: EXPR expr; STATEMENT then; STATEMENT else
+
+clasa EXPR(abstracta): fiecare clasa derivata din EXPR are o functie Eval
+ConstEXP:
+VarEXP: String var
+ArithmeticEXP: Exp exp1; Exp exp2; int Operator
+
+Meniu:
+1-introdu programul
+2-evaluare
+.....
+
+v=2;Print(v+3)
+Prog=new CompoundSTMT(new AsignSTMT("v",new ConstEXP(2)),new PrintSTMT(new ArithmeticEXP(new .......
+toString de implementat pentru a vedea ce este e ExeStack;SymTable;Out
+
+v=2;Print(v+3)
+v=2;
+Print
+
+Statement:
+- toString
+-
+
+interpreter has an eval method and an repository
+Repository has a program state (class?) and the original program
+- STMT
+- ExeStack
+- Out
+- SymTable
+
+Implement
+- MyStack
+- MyDictionary
+    - insert(Pair)
+    - update(
+- MyList
+
+Expresions:
+- eval()
+- has a reference to SymTable (only read)
+
+Statements do not have this(an eval method)
+
+
+
+Exe stack - array of statement
+var table - clasa de mana
+out - array of string
+
+class statement
+	if statement
+	assign statement
+		string nume variabila       v=exp
+		expresie - expresie
+	comp statement
+class expr
+	Eval
+	const expr
+	varexpr
+	byn opexpr
+
+Meniu introdus: intreb userul ce tip de statement

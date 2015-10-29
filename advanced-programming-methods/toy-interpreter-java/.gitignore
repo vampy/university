@@ -1,0 +1,6 @@
+.idea/
+out/
+*.toy.*
+*.toy
+toy-interpreter.iml
+debug.txt
