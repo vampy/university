@@ -143,6 +143,7 @@ public class Interpreter
                 LockUnlockStatement lock = (LockUnlockStatement) top;
                 int nr = lock.getNr();
 
+                // Only the program states that created the lock can unlock it
                 if (lockTable.get(nr) == cp.getID()) // delete lock
                 {
                     lockTable.set(nr, 0);
@@ -190,6 +191,10 @@ public class Interpreter
             else if (top instanceof ReturnStatement)
             {
                 cp.getTable().pop(); // remove current stack
+            }
+            else if (top instanceof NullStatement)
+            {
+                // Ignore NO OP statements
             }
             else
             {

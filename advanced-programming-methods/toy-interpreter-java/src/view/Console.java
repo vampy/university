@@ -581,27 +581,36 @@ public class Console
             )
         ), "9");
 
-        // TODO fix this
-//        testProgram(new CompStatement(
-//            new CompStatement(
-//                new CompStatement(
-//                    new LockAccessStatement(0),
-//                    new AssignStatement("nr", new HeapNewExpression(new ConstExpression(100)))
-//                ),
-//                new ForkStatement(new CompStatement(
-//                    new AssignStatement("nr_fork", new ConstExpression(0)),
-//                    new CompStatement(
-//                        new PrintStatement(new HeapReadExpression("nr_fork")),
-//                        new LockUnlockStatement(0)
-//                    )
-//                ))
-//            ),
-//            new CompStatement(
-//                new LockAccessStatement(0),
-//                //new AssignStatement("another_nr", new ConstExpression(11)),
-//                new PrintStatement(new VarExpression("nr"))
-//            )
-//        ), "10");
+        testProgram(new CompStatement(
+            new CompStatement(
+                new CompStatement(
+                    new NullStatement(),
+                    new AssignStatement("nr", new HeapNewExpression(new ConstExpression(100)))
+                ),
+                new ForkStatement(new CompStatement(
+                    new CompStatement(
+                        new LockAccessStatement(0),
+                        new AssignStatement("nr_fork", new ConstExpression(0))
+                    ),
+                    new CompStatement(
+                        new PrintStatement(new HeapReadExpression("nr_fork")),
+                        new LockUnlockStatement(0)
+                    )
+                ))
+            ),
+            new CompStatement(
+                // create false wait time, because if this thread acquires the lock first, the fork above
+                // will be in a deadlock
+                new CompStatement(
+                    new NullStatement(),
+                    new NullStatement()
+                ),
+                new CompStatement(
+                    new LockAccessStatement(0),
+                    new PrintStatement(new VarExpression("nr"))
+                )
+            )
+        ), "10");
 
         testProgram(new CompStatement(
             new AssignStatement("i", new ConstExpression(5)),

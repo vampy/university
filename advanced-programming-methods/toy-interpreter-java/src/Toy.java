@@ -1,7 +1,7 @@
 import controller.Interpreter;
 import model.*;
 import repository.MemRepository;
-import view.Console;
+import view.*;
 
 import java.util.Stack;
 
