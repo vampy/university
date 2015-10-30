@@ -16,8 +16,8 @@ public class IfStatement extends Statement
     /**
      * Instantiates a new If statement.
      *
-     * @param condition the condition
-     * @param consequent the consequent
+     * @param condition   the condition
+     * @param consequent  the consequent
      * @param alternative the alternative
      */
     public IfStatement(Expression condition, Statement consequent, Statement alternative)
@@ -57,7 +57,9 @@ public class IfStatement extends Statement
         return alternative;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
@@ -68,7 +70,9 @@ public class IfStatement extends Statement
             '}';
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Statement cloneDeep()
     {

@@ -12,31 +12,41 @@ public class JCExeStack implements IStack
 {
     private Stack<Statement> stack;
 
-    /** Constructs a new ExeStack. */
+    /**
+     * Constructs a new ExeStack.
+     */
     public JCExeStack()
     {
         stack = new Stack<Statement>();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public Statement top()
     {
         return stack.peek();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public Statement pop()
     {
         return stack.pop();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void push(Statement element)
     {
         stack.push(element);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean isEmpty()
     {
         return stack.empty();
@@ -69,7 +79,9 @@ public class JCExeStack implements IStack
         stack.clear();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
@@ -80,7 +92,7 @@ public class JCExeStack implements IStack
 
         String out = "|";
         int current = 0, size = stack.size() - 1;
-        for(Statement statement : stack)
+        for (Statement statement : stack)
         {
             out += statement.toString();
             if (current != size)

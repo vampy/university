@@ -7,7 +7,7 @@ public class DeclareProcStatement extends Statement
 {
     private String       name;
     private List<String> variables;
-    private Statement body;
+    private Statement    body;
 
     public DeclareProcStatement(String name, List<String> variables, Statement body)
     {
@@ -56,7 +56,7 @@ public class DeclareProcStatement extends Statement
     public Statement cloneDeep()
     {
         List<String> clone = new ArrayList<String>(variables.size());
-        for (String var: variables)
+        for (String var : variables)
         {
             clone.add(var);
         }

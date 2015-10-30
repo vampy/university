@@ -50,7 +50,7 @@ public class ProgramStateObservable
                 System.out.println("ERROR: INVALID TYPE registerObserver");
                 return;
         }
-        
+
         for (IProgramStateObserver observer : observers)
         {
             observer.update(arg);

@@ -4,7 +4,7 @@ import model.expression.Expression;
 
 public class HeapWriteStatement extends Statement
 {
-    private String varName;
+    private String     varName;
     private Expression value;
 
     /**

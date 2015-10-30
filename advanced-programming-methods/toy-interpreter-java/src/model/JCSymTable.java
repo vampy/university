@@ -12,7 +12,9 @@ public class JCSymTable implements IDictionary
 {
     private HashMap<String, Integer> table = new HashMap<String, Integer>();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public int get(String key) throws DictionaryException
     {
         if (!table.containsKey(key))
@@ -23,13 +25,17 @@ public class JCSymTable implements IDictionary
         return table.get(key);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void put(String key, int value)
     {
         table.put(key, value);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
         table.clear();
@@ -67,7 +73,9 @@ public class JCSymTable implements IDictionary
         return out;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {

@@ -29,14 +29,18 @@ public class PrintStatement extends Statement
         return expression;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return String.format("Print(%s)", expression.toString());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Statement cloneDeep()
     {

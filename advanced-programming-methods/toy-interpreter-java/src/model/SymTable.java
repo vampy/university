@@ -11,7 +11,6 @@ public class SymTable implements IDictionary
     private int size = 0;
 
     /**
-     *
      * @param key
      * @return
      * @throws DictionaryException
@@ -30,13 +29,17 @@ public class SymTable implements IDictionary
         throw new DictionaryException("Pair not found");
     }
 
-    /** Constructs a new SymTable. */
+    /**
+     * Constructs a new SymTable.
+     */
     public SymTable()
     {
         pairs = new Pair[Constants.MAX_SIZE];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public int get(String key) throws DictionaryException
     {
         Pair pair;
@@ -58,7 +61,9 @@ public class SymTable implements IDictionary
         return "NOT IMPLEMENTED\n";
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void put(String key, int value)
     {
         Pair foundPair = null;
@@ -98,14 +103,18 @@ public class SymTable implements IDictionary
         return dictionary;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
         pairs = new Pair[Constants.MAX_SIZE];
         size = 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {

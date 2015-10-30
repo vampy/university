@@ -22,7 +22,9 @@ public class VarExpression extends Expression
         this.varName = varName;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int eval(IDictionary table, IHeap heap) throws ExpressionException
     {
@@ -38,14 +40,18 @@ public class VarExpression extends Expression
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return varName;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression cloneDeep()
     {

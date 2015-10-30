@@ -20,7 +20,7 @@ public class GUI
     private JButton     button_input_default;
     private JButton     button_ser_to_file;
     private JButton     button_ser_from_file;
-    private JButton button_exit;
+    private JButton     button_exit;
     private Interpreter interpreter;
 
     public GUI(final Interpreter interpreter)

@@ -11,13 +11,13 @@ public class ArithmeticExpression extends Expression
 {
     private Expression left;
     private Expression right;
-    private int operator;
+    private int        operator;
 
     /**
      * Instantiates a new Arithmetic expression.
      *
-     * @param left the left
-     * @param right the right
+     * @param left     the left
+     * @param right    the right
      * @param operator the operator
      */
     public ArithmeticExpression(Expression left, Expression right, int operator)
@@ -27,7 +27,9 @@ public class ArithmeticExpression extends Expression
         this.operator = operator;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int eval(IDictionary table, IHeap heap) throws ExpressionException
     {
@@ -53,14 +55,18 @@ public class ArithmeticExpression extends Expression
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return String.format("%s %s %s", left.toString(), Operation.operationToString(operator), right.toString());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression cloneDeep()
     {

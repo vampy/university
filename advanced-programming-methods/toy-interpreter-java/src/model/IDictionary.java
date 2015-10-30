@@ -21,7 +21,7 @@ public interface IDictionary extends java.io.Serializable
     /**
      * Associates the specified value with the specified key in this map.Insert a key in the dictionary
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value
      * @throws DictionaryException the dictionary exception
      */

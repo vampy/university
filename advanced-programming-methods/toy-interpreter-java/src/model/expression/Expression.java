@@ -13,7 +13,7 @@ public abstract class Expression implements java.io.Serializable
      * Eval int.
      *
      * @param table the table
-     * @param heap the heap
+     * @param heap  the heap
      * @return the int
      * @throws ExpressionException the expression exception
      */

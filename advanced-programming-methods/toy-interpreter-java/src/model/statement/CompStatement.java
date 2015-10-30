@@ -12,7 +12,7 @@ public class CompStatement extends Statement
     /**
      * Instantiates a new Comp statement.
      *
-     * @param first the first
+     * @param first  the first
      * @param second the second
      */
     public CompStatement(Statement first, Statement second)
@@ -41,14 +41,18 @@ public class CompStatement extends Statement
         return second;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return String.format("%s; %s", first.toString(), second.toString());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Statement cloneDeep()
     {

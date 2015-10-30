@@ -21,21 +21,27 @@ public class ConstExpression extends Expression
         this.value = value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int eval(IDictionary table, IHeap heap) throws ExpressionException
     {
         return this.value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return Integer.toString(value);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Expression cloneDeep()
     {

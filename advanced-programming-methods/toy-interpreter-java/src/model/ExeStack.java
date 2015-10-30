@@ -8,10 +8,12 @@ import model.statement.Statement;
  */
 public class ExeStack implements IStack
 {
-    private int size;
+    private int         size;
     private Statement[] elements;
 
-    /** Constructs a new JCExeStack. */
+    /**
+     * Constructs a new JCExeStack.
+     */
     public ExeStack()
     {
         elements = new Statement[Constants.MAX_SIZE];
@@ -25,7 +27,9 @@ public class ExeStack implements IStack
         }
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public Statement top() throws StackException
     {
         ensureBounds();
@@ -33,7 +37,9 @@ public class ExeStack implements IStack
         return elements[size - 1];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public Statement pop() throws StackException
     {
         ensureBounds();
@@ -41,14 +47,18 @@ public class ExeStack implements IStack
         return elements[--size];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void push(Statement element) throws StackException
     {
         ensureBounds();
         elements[size++] = element;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean isEmpty()
     {
         return size == 0;
@@ -65,7 +75,9 @@ public class ExeStack implements IStack
         size = 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {

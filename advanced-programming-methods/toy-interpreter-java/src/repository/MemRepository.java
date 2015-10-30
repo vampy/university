@@ -89,13 +89,17 @@ public class MemRepository implements IRepository
         return false;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void setMain(Statement statement)
     {
         currentProgram.setProgram(statement);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public boolean startMain() // it is called only once
     {
         assert programs.size() == 0;
@@ -121,7 +125,9 @@ public class MemRepository implements IRepository
         return currentProgram;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void stopCP() // step every program
     {
         removeProgram(currentProgram);

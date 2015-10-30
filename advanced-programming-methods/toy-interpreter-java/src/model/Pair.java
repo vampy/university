@@ -6,12 +6,12 @@ package model;
 public class Pair
 {
     private String key;
-    private int value;
+    private int    value;
 
     /**
      * Instantiates a new Pair.
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value
      */
     public Pair(String key, int value)
@@ -60,7 +60,9 @@ public class Pair
         this.key = key;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {

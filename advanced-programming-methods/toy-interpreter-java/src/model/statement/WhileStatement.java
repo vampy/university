@@ -5,7 +5,7 @@ import model.expression.Expression;
 public class WhileStatement extends Statement
 {
     private Expression condition;
-    private Statement body;
+    private Statement  body;
 
     public WhileStatement(Expression condition, Statement body)
     {

@@ -9,13 +9,17 @@ public class JCOut implements IList
 {
     private ArrayList<String> list = new ArrayList<String>();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void add(String value)
     {
         list.add(value);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getLast()
     {
         int size = list.size();
@@ -27,13 +31,17 @@ public class JCOut implements IList
         return list.get(size - 1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
         list.clear();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getAll()
     {
         StringBuilder b = new StringBuilder();
@@ -47,7 +55,9 @@ public class JCOut implements IList
         return b.toString();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {

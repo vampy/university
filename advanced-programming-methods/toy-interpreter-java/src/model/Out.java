@@ -8,19 +8,25 @@ public class Out implements IList
     private int size = 0;
     private String[] queue;
 
-    /** Constructs a new Out. */
+    /**
+     * Constructs a new Out.
+     */
     public Out()
     {
         queue = new String[Constants.MAX_SIZE];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void add(String value)
     {
         queue[size++] = value;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getAll()
     {
         StringBuilder b = new StringBuilder();
@@ -34,7 +40,9 @@ public class Out implements IList
         return b.toString();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String getLast()
     {
         if (size == 0)
@@ -45,14 +53,18 @@ public class Out implements IList
         return queue[size - 1];
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public void clear()
     {
         queue = new String[Constants.MAX_SIZE];
         size = 0;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {

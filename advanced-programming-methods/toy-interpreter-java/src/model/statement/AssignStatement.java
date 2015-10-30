@@ -14,7 +14,7 @@ public class AssignStatement extends Statement
     /**
      * Instantiates a new Assign statement.
      *
-     * @param varName the var name
+     * @param varName    the var name
      * @param expression the expression
      */
     public AssignStatement(String varName, Expression expression)
@@ -43,14 +43,18 @@ public class AssignStatement extends Statement
         return varName;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString()
     {
         return String.format("%s = %s", varName, expression.toString());
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Statement cloneDeep()
     {

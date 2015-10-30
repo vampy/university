@@ -39,6 +39,7 @@ public interface IRepository
      * @return Value for property 'currentProgramState'.
      */
     public ProgramState getCP();
+
     /**
      * Stop the current program
      */
@@ -52,6 +53,8 @@ public interface IRepository
 
     public boolean saveToFile();
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public String toString();
 }

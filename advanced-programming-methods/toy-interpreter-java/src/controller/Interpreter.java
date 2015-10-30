@@ -6,10 +6,9 @@ import model.expression.Expression;
 import model.statement.*;
 import repository.IRepository;
 
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Stack;
 
 
@@ -30,7 +29,7 @@ public class Interpreter
      * The Repository.
      */
     private IRepository repository;
-     // TODO move to repository
+    // TODO move to repository
 
     /**
      * Instantiates a new Interpreter.
@@ -290,7 +289,10 @@ public class Interpreter
         return repository.serializeFromFile();
     }
 
-    public boolean saveToFile() { return repository.saveToFile(); }
+    public boolean saveToFile()
+    {
+        return repository.saveToFile();
+    }
 
     /**
      * Getter for property 'programStateString'.

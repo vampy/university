@@ -46,7 +46,7 @@ public class CallProcStatement extends Statement
     public Statement cloneDeep()
     {
         List<Expression> clone = new ArrayList<Expression>(expressions.size());
-        for (Expression expr: expressions)
+        for (Expression expr : expressions)
         {
             clone.add(expr.cloneDeep());
         }

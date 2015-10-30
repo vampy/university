@@ -19,9 +19,9 @@ public class Console
     public static final int COMMAND_COMPLETE_EVAL         = 2;
     public static final int COMMAND_DEBUG_EVAL            = 3;
     public static final int COMMAND_INPUT_DEFAULT_PROGRAM = 4;
-    public static final int COMMAND_SER_TO_FILE  = 5;
-    public static final int COMMAND_SER_FROM_FILE = 6;
-    public static final int COMMAND_SAVE_TO_FILE = 7;
+    public static final int COMMAND_SER_TO_FILE           = 5;
+    public static final int COMMAND_SER_FROM_FILE         = 6;
+    public static final int COMMAND_SAVE_TO_FILE          = 7;
 
     public static final int DEBUG_ALL    = 1;
     public static final int DEBUG_NEXT   = 2;
@@ -31,13 +31,13 @@ public class Console
     public static final int STATEMENT_ASSIGNMENT = 2;
     public static final int STATEMENT_PRINT      = 3;
     public static final int STATEMENT_IF         = 4;
-    public static final int STATEMENT_FORK = 5;
+    public static final int STATEMENT_FORK       = 5;
 
     public static final int EXPRESSION_CONSTANT   = 1;
     public static final int EXPRESSION_VARIABLE   = 2;
     public static final int EXPRESSION_ARITHMETIC = 3;
-    public static final int EXPRESSION_HEAP_NEW  = 4;
-    public static final int EXPRESSION_HEAP_READ = 5;
+    public static final int EXPRESSION_HEAP_NEW   = 4;
+    public static final int EXPRESSION_HEAP_READ  = 5;
 
     private Interpreter interpreter;
     private static Scanner keyboard = new Scanner(System.in);
@@ -639,7 +639,7 @@ public class Console
             new CompStatement(
                 new CallProcStatement("print_add", expr),
                 new CallProcStatement("print_add", expr)
-                )
+            )
         ), "12");
     }
 
