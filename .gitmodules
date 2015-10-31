@@ -1,0 +1,3 @@
+[submodule "software-engineering"]
+	path = software-engineering
+	url = git@github.com:leyyin/university-SE.git
