@@ -1,0 +1,209 @@
+    string s1 = "mary";
+    string s2 = "army";
+
+    // std map
+    map<string, set<string>> map_std;
+    addToMapStd(map_std, s1);
+    addToMapStd(map_std, s2);
+
+    cout << "Map std: " << endl;
+    for(auto it = map_std.begin(); it != map_std.end(); ++it)
+    {
+        cout << it->first << " => [";
+        for(auto vit = it->second.begin(); vit != it->second.end(); ++vit)
+        {
+            cout << *vit << ", ";
+        }
+        cout << "]" << endl;
+    }
+    cout << endl;
+
+
+    // vector map
+    MapVector::Map<string, set<string>> map_vector;
+    addToMapVector(map_vector, s1);
+    addToMapVector(map_vector, s2);
+
+    set<string> temp_v = {"second_value"};
+    map_vector.put("second", temp_v);
+
+    cout << "Map vector:" << endl;
+    auto vector_it = map_vector.getIterator();
+    while(vector_it->hasNext())
+    {
+        auto element = vector_it->next();
+        cout << element->key << " => [";
+        for(auto vit = element->value.begin(); vit != element->value.end(); ++vit)
+        {
+            cout << *vit << ", ";
+        }
+        cout << "]" << endl;
+    }
+    cout << endl;
+    delete vector_it;
+
+
+    // hash map
+    MapHash::Map<set<string>> map_hash;
+    addToMapHash(map_hash, s1);
+    addToMapHash(map_hash, s2);
+
+    map_hash.put("second", temp_v);
+
+    cout << "Map Hash:" << endl;
+    auto hash_it = map_hash.getIterator();
+    while(hash_it->hasNext())
+    {
+        auto element = hash_it->next();
+        cout << element->key << " => [";
+        for(auto vit = element->value.begin(); vit != element->value.end(); ++vit)
+        {
+            cout << *vit << ", ";
+        }
+        cout << "]" << endl;
+    }
+    delete hash_it; 
+    
+//void stringSortInternally(const string &unsorted, string &result)
+//{
+//    vector<char> temp_v;
+
+//    // add to vector
+//    for(auto it = unsorted.begin(); it != unsorted.end(); ++it)
+//    {
+//        temp_v.push_back(*it);
+//    }
+
+//    // sort vector
+//    sort(temp_v.begin(), temp_v.end());
+
+//    // add to result
+//    for(auto it = temp_v.begin(); it != temp_v.end(); ++it)
+//    {
+//        result += *it;
+//    }
+//}
+    
+//void addToMapVector(MapVector::Map<string, set<string>> &anagram, string word)
+//{
+//    string key = word;
+//    sort(key.begin(), key.end());
+
+//    if(!anagram.containsKey(key)) // not found, add new key
+//    {
+//        set<string> temp_v = {word};
+//        anagram.put(key, temp_v);
+//    }
+//    else // found, add to set
+//    {
+//        auto temp_set = anagram.get(key);
+//        temp_set.insert(word);
+//        anagram.put(key, temp_set);
+//    }
+//}
+
+//void addToMapHash(MapHash::Map<set<string>> &anagram, string word)
+//{
+//    string key = word;
+//    sort(key.begin(), key.end());
+
+//    if(!anagram.containsKey(key)) // not found, add new key
+//    {
+//        set<string> temp_v = {word};
+//        anagram.put(key, temp_v);
+//    }
+//    else // found, add to set
+//    {
+//        auto temp_set = anagram.get(key);
+//        temp_set.insert(word);
+//        anagram.put(key, temp_set);
+//    }
+//}
+
+//void readFromFileVector(ifstream &fHandle, MapVector::Map<string, set<string>> &map_vector, string filename)
+//{
+//    fHandle.open(filename, ios::in);
+//    if(!fHandle.is_open())
+//    {
+//        printError("Filename '" + filename + "' does not exist");
+//        return;
+//    }
+
+//    while(!fHandle.eof())
+//    {
+//        string word;
+//        fHandle >> word;
+
+//        if(word.length() > 3)
+//        {
+//            word = stringToLower(word);
+//            addToMapVector(map_vector, word);
+//        }
+//    }
+//    fHandle.close();
+//}
+
+//void readFromFileHash(ifstream &fHandle, MapHash::Map<set<string>> &map_hash, string filename)
+//{
+//    fHandle.open(filename, ios::in);
+//    if(!fHandle.is_open())
+//    {
+//        printError("Filename '" + filename + "' does not exist");
+//        return;
+//    }
+
+//    while(!fHandle.eof())
+//    {
+//        string word;
+//        fHandle >> word;
+
+//        if(word.length() > 3)
+//        {
+//            word = stringToLower(word);
+//            addToMapHash(map_hash, word);
+//        }
+//    }
+//    fHandle.close();
+//}
+
+//void printAllMapVector(MapVector::Map<string, set<string>> &map_vector)
+//{
+//    cout << "All anagrams: " << endl;
+//    auto hash_it = map_vector.getIterator();
+//    while(hash_it->hasNext())
+//    {
+//        auto element = hash_it->next();
+//        if(element->value.size() > 1)
+//        {
+//            cout << element->key << " => [";
+//            for(auto vit = element->value.begin(); vit != element->value.end(); ++vit)
+//            {
+//                cout << *vit << ", ";
+//            }
+//            cout << "]" << endl;
+//        }
+//    }
+//    delete hash_it;
+//    cout << endl;
+//}
+
+//void printAllMapHash(MapHash::Map<set<string>> &map_hash)
+//{
+//    cout << "All anagrams: " << endl;
+//    auto hash_it = map_hash.getIterator();
+//    while(hash_it->hasNext())
+//    {
+//        auto element = hash_it->next();
+//        if(element->value.size() > 1)
+//        {
+//            cout << element->key << " => [";
+//            for(auto vit = element->value.begin(); vit != element->value.end(); ++vit)
+//            {
+//                cout << *vit << ", ";
+//            }
+//            cout << "]" << endl;
+//        }
+//    }
+//    delete hash_it;
+//    cout << endl;
+//}
