@@ -1,0 +1,64 @@
+FF80
+1111 1111 1000 0000 = -128
+0000 0000 1000 0000 = 128
+
+FFB9
+1111 1111 1011 1001 = -71
+0000 0000 0100 0111 = 71
+
+
+[BX | BP] + [SI | DI] + [variable]
+
+
+
+    ; verify exception number should be >= 2
+    cmp test_n, 2
+    jl jmp_is_prime_false ; do a long jump
+    jmp end_jmp_is_prime_false 
+    jmp_is_prime_false:
+        jmp is_prime_false
+    end_jmp_is_prime_false:
+    
+    ; calculate the prime_end index
+    mov AX, test_n
+    mov DX, 0
+    ; DX:AX / 2 = AX remainder DX
+    div n2
+    mov prime_end, AX
+    inc prime_end ; just the right limit
+    
+    ; prepare loop
+    is_prime_loop:
+        ; divide by prime by each number between 2 and number/2 + 1
+        mov AX, test_n
+        mov DX, 0
+        div prime_start
+        
+        ; check primality
+        cmp DX, 0
+        jz is_prime_false ; if remainder is 0 number is not prime
+        
+        ; increment the numerator
+        inc prime_start
+        
+        ; loop
+        mov DX, prime_start
+        cmp DX, prime_end
+        jne is_prime_loop
+    
+    ; if we are here number is prime
+    jmp is_prime_true
+    
+    jmp end_is_prime
+    is_prime_true:
+        mov AX, 1
+        PRINT_CHAR 'T'
+        jmp end_is_prime
+    
+    jmp end_is_prime
+    is_prime_false:
+        mov AX, 0
+        PRINT_CHAR 'F'
+        jmp end_is_prime
+    
+    end_is_prime:
