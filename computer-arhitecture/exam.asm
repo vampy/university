@@ -1,133 +1,161 @@
-;cititi de la tastatura un numar de mai multe cifre
-;faceti suma cifrelor si scrieti intr-un fisier
+ASSUME CS: code, DS:data
 
-assume cs:code,ds:data
-data segment
-	msg db 'Name of the file: $'
-	mnr db 'Enter the number: $'
-	mNrLen db 12
-	lNr db ?
-	nr db 12 dup (?)
-	maxFileName db 12
-	lFileName db ?
-	fileName db 12 dup (?)
-	maxRezLen db 12
-	rezLen db ?
-	rez db 12 dup(?)
-	openErrorMsg db 'File does not exist.$'
-	writeErrorMsg db 'Can t write to file.$'
-	lgsum dw ?
-data ends
+; Read from the keyboard a number composed of multiple digits
+; and do the sum of all the digits and write the result into a file
 
+data SEGMENT    
+	filename DB 'sum.txt', 0
+	filename_len = $-filename
+    
+    nr_max       DB  32 ; max length of the 
+    nr_length    DB  ? ; characters received
+    nr           DB  32 DUP(?)
+	
+	sum DB 0
+	sum_write DB ? ; the number of sums to pop out
+	sum_temp DB ?
+    
+	n2 DB 2
+    n10 DB 10
+	n16 DB 16
+	
+	hex_table DB "0123456789ABCDEF"
+	
+	msg_give DB "Number: $"
+	msg_error_open DB "Error opening file. $"
+	msg_error_create DB "Error creating file. $"
+	msg_error_write DB "Error writing to file. $"
+data ENDS
 
-
-code segment
+code SEGMENT
+    PRINT_EOL MACRO
+        mov DL, 13 ; \r
+        mov AH, 02h
+        int 21h
+        mov DL, 10 ; \n
+        mov AH, 02h
+        int 21h
+        ; print \r\n
+    ENDM
+    
+    PRINT_STRING MACRO string
+        lea DX, string
+        mov AH, 09h
+        int 21h
+    ENDM
+    
+    PRINT_CHAR MACRO char
+        mov DL, char
+        mov AH, 02h
+        int 21h
+    ENDM
+   
 start:
-	mov ax,data
-	mov ds,ax
+    mov AX, data
+    mov DS, AX          
+    ; ......
 	
-	; print the string "mnr" on the screen	
-	mov ah, 09h
-	mov dx, offset mnr
+    PRINT_STRING msg_give
+	
+	; read string
+	mov AH, 0Ah
+	lea DX, nr_max
 	int 21h
 
-	;read the number
-	mov ah, 0ah
-	mov dx, offset mNrLen
-	int 21h
+	PRINT_EOL
 	
-	mov cl,lNr
-	mov ch,0
-	mov si,offset nr
-	aici:
-		LODSB
-		sub al,'0'
-		add bl,al
-		adc bh,0
-	loop aici
+	; compute the sum
+	mov CL, nr_length
+	mov CH, 0
+	mov SI, 0
+	compute_sum:
+		mov AL, nr[SI]
+		sub AL, '0' ; convert to normal number
+		add sum, AL
+		inc SI
+		loop compute_sum
 	
-	;put the inverted sum into rez
-	mov ax,bx
-	mov bx,0
-	inv:
-		mov cx,16
-		div cl
-		cmp ah,9
-		ja litera
-			add ah,'0'
-			jmp addddd
-		litera:
-			add ah,'A'-10
-		addddd:
-		mov rez[bx],ah
-		mov ah,0
-		add bx,1
-		cmp ax,0
-		jne inv
-	mov rez[bx],'$'
-	mov lgsum,bx
-	sub bx,1
-	mov bp,0
-	;invert rez
-	cmp bp,bx
-	jae qwerty
-	inve:
-		;swap rez[bp],rez[bx]
-		mov dl,rez[bp]
-		mov al,rez[bx]
-		mov rez[bx],dl
-		mov rez[bp],al
-		add bp,1
-		sub bx,1
-		cmp bp,bx
-		jb inve
-	; print the string "msg" on the screen	
-	qwerty:
-	mov ah, 09h
-	mov dx, offset msg
-	int 21h
+	; push sum to stack
+	mov AL, sum
+	mov AH, 0
+	mov sum_write, 0
+	push_repeat:
+		; AX / ten, AH remainder, AL quotient
+		div n16
+		
+		mov BL, AH
+		mov BH, 0
+		push BX
+		
+		; prepare for next
+		mov AH, 0
+		add sum_write, 1
+		
+		cmp AL, 0
+		jnz push_repeat
+	
 
-	
-	; read from the keyboard the name of the file using interrupt 21, function 0ah
-	mov ah, 0ah
-	mov dx, offset maxFileName
+	; create or empty file
+	mov AH, 3Ch
+	mov CX, 00h
+	lea DX, filename
 	int 21h
- 
-	; we transform the filename into an ASCIIZ string (put zero at the end)
-	mov al, lFileName
-	xor ah, ah
-	mov si, ax
-	mov fileName[si], 0
 	
-	; open the file using function 3dh of the interrupt 21h
-	mov ah, 3dh
-	mov al, 1 
-	mov dx, offset fileName
-	int 21h	
-	
-	jc openError ; CF will be set by the CPU if an error occured
-	mov bx, ax 
-	
-	;write to file	
-	mov ah,40h
-	mov cx,lgsum
-	mov dx,offset rez
-	int 21h
-	jc writeError
-	
-	jmp endprg
+	jc create_error
 
-	openError:		; print the openErrorMsg string using function 09h of interrupt 21h
-		mov ah, 09h
-		mov dx, offset openErrorMsg
+	mov BX, AX ; save file handle for writing
+
+    ; pop out and write to file in correct order
+	;mov AX, 0
+	pop_repeat:
+		POP AX
+		
+		;save copy
+		mov CX, BX
+        
+        ; use translation table for base 16
+		lea BX, hex_table
+		xlat
+        
+        ; AL our number move into memory
+		mov sum_temp, AL
+        
+        ; write to file
+        mov BX, CX ; recover file handle
+		mov AH, 40h
+		mov CX, 1
+		lea DX, sum_temp
 		int 21h
-		jmp endPrg 
-	writeError:		; print the readErrorMsg string using function 09h of interrupt 21h
-		mov ah, 09h
-		mov dx, offset writeErrorMsg
-		int 21h 
-	endprg: 
-	mov ax,4c00h
-	int 21h
-code ends
-end start
+		
+		jc write_error
+		
+		cmp sum_write, 0
+		dec sum_write
+		jnz pop_repeat
+	
+	jmp end_start
+	open_error:
+		PRINT_EOL
+		PRINT_STRING msg_error_open
+		jmp end_start
+		
+	jmp end_start
+	create_error:
+		PRINT_EOL
+		PRINT_STRING msg_error_create
+		jmp end_start
+		
+	jmp end_start
+	write_error:
+		PRINT_EOL
+		PRINT_STRING msg_error_write
+		jmp end_start
+		
+	
+    end_start:
+        PRINT_EOL
+        ;........
+        mov AX, 4C00h ; function 4C with exit code 0
+        int 21h
+code ENDS
+END start
