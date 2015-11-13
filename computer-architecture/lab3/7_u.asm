@@ -10,11 +10,11 @@ data ENDS
 
 code SEGMENT
 start:
-    mov ax,data
-    mov ds,ax             
+    mov ax, data
+    mov ds, ax
     ; .......
     ; (yy+yy+yy)-h+(d-m)
-    
+
     ;(yy+yy+yy)
     mov AH, 0
     mov AL, yy ; AX = yy
@@ -22,7 +22,7 @@ start:
     add BX, AX
     add BX, AX
     ; BX = (yy+yy+yy)
-    
+
     ; (yy+yy+yy)-h
     mov AH, 0
     mov AL, h
@@ -30,7 +30,7 @@ start:
     sub BX, AX
     ; BX = (yy+yy+yy)-h = -128
     mov BH, 0 ; BX = 128
-    
+
     ;(d-m)
     mov AH, 0
     mov AL, d
@@ -40,14 +40,14 @@ start:
     ; CX = m
     sub AX, CX
     ; AX = (d-m) = 19
-    
+
     ; ((yy+yy+yy)-h)+(d-m)
     add BX, AX
     mov result, BX
     ; result = 147
-    
+
     ;........
-    mov ax,4C00h
+    mov ax, 4C00h
     int 21h
 
 code ENDS

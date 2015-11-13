@@ -1,15 +1,15 @@
 ASSUME cs: code, ds:data
 
-data SEGMENT                
+data SEGMENT
     yy 	DB 	19 ; <the last two digits of your birth year (19yy)>
-    d 	DB 	26 ; <your birth day (1-31)>    
-    result DW ?  
+    d 	DB 	26 ; <your birth day (1-31)>
+    result DW ?
 data ENDS
- 
-code SEGMENT                
+
+code SEGMENT
 start:
-    mov AX, data             
-    mov DS, ax              
+    mov AX, data
+    mov DS, ax
     ; .......
     ; (84+yy+yy)-(d+d) = 70
 
@@ -33,7 +33,7 @@ start:
     mov result, BX
 
     ;........
-    mov AX,4C00h
+    mov AX, 4C00h
     int 21h         ;exit()
 code ENDS
 END start

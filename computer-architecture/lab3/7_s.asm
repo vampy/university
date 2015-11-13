@@ -10,15 +10,15 @@ data ENDS
 
 code SEGMENT
 start:
-    mov ax,data
-    mov ds,ax             
+    mov ax, data
+    mov ds, ax
     ; .......
     ; (yy+yy+yy)-h+(d-m) = (actual) -109
-    
+
     mov AX, 3
     add AX, AX
     add AX, AX
-    
+
     ;(yy+yy+yy)
     mov AL, yy ; AX = yy
     cbw
@@ -26,33 +26,33 @@ start:
     add BX, AX
     add BX, AX
     ; BX = (yy+yy+yy)
-    
+
     ; (yy+yy+yy)-h = -57
     mov AL, h
     cbw  ; AX = -70
     ; AX is negative add
     sub BX, AX
     ;add BX, AX
-    ; BX = -128 
-    
+    ; BX = -128
+
     ;(d-m)
     mov AL, d
     cbw
-    
+
     mov CX, AX
-    
+
     mov AL, m
     cbw
-    
+
     sub CX, AX
     ;CX = (d-m)
-    
+
     ; ((yy+yy+yy)-h)+(d-m)
     add BX, CX
     mov result, CX
-    
+
     ;........
-    mov ax,4C00h
+    mov ax, 4C00h
     int 21h
 code ENDS
 END start
