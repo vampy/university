@@ -1,0 +1,363 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{graphics,color}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{float}
+%\usepackage{txfonts} % disable to return to original font
+%\usepackage{showframe}% to show frames
+\begin{document}
+
+\title{No. 20: Taylor polynomials of functions of two variables.}
+\author{Butum Claudiu-Daniel. Group 911}
+\maketitle
+
+Let \emph{M} be a nonempty open  subset of $\mathbb{R}^2$ and let
+\emph{f} $\in$ $\mathbb{C}^2$(\emph{M}). \newline
+The first Taylor polynomial of \emph{f} at a point 
+(\emph{a,b}) $\in$ \emph{M} be defined as 
+
+\[ T_{1}(x,y) =  
+	f(a, b) + 
+	\frac{\partial f}{\partial x}(a, b)(x - a) + 
+	\frac{\partial f}{\partial y}(a, b)(y - a) \]
+
+The second Taylor polynomial of \emph{f} at (\emph{a,b}) $\in$ \emph{M}
+is called the \emph{quadratic approximation} to \emph{f} at (\emph{a, b})
+\begin{multline*}
+T_{2}(x,y) =  
+	f(a, b) + 
+	\frac{\partial f}{\partial x}(a, b)(x - a) + 
+	\frac{\partial f}{\partial y}(a, b)(y - a) \\ +
+	\frac{1}{2} * \frac{\partial^2 f}{\partial x^2}(a, b)(x - a)^2 +
+	\frac{\partial^2 f}{\partial x\partial y}(a, b)(x - a)(x - b) +
+	\frac{1}{2} * \frac{\partial^2 f}{\partial y^2}(a, b)(y - b)^2
+\end{multline*}
+
+\vspace{1cm} 
+1. If we compare the first and second partial derivatives of $T_{2}$ with $f$ we get the following results: 
+
+The first-order partial derivatives of $T_{2}$:
+% first partial with x
+\begin{multline*}
+\frac{\partial }{\partial x} T_{2}(x,y) =  
+    \frac{\partial }{\partial x} 
+    (
+    f(a, b) + 
+	\frac{\partial f}{\partial x}(a, b)(x - a) + 
+	\frac{\partial f}{\partial x}(a, b)(y - a) + \\
+	\frac{1}{2} * \frac{\partial^2 f}{\partial x^2}(a, b)(x - a)^2 +
+	\frac{\partial^2 f}{\partial x\partial y}(a, b)(x - a)(x - b) +
+	\frac{1}{2} * \frac{\partial^2 f}{\partial y^2}(a, b)(y - b)^2 
+	)
+\end{multline*}
+\begin{multline*}
+=  
+    \frac{\partial }{\partial x} f(a, b) + 
+	0 + 
+	0 + 
+	\frac{1}{2} * \frac{\partial^2 f}{\partial x^2}(a, b)*2*(x - a) +
+	\frac{\partial^2 f}{\partial x\partial y}(a, b)(y - b) +
+	0
+\end{multline*}
+\begin{multline*}
+\frac{\partial }{\partial x} T_{2}(x,y) =  
+    \frac{\partial f}{\partial x}(a, b) + 
+    \frac{\partial^2 f}{\partial x^2}(a, b)(x - a) +
+	\frac{\partial^2 f}{\partial x\partial y}(a, b)(y - b)
+\end{multline*}
+
+\begin{multline*} % first partial with y
+\frac{\partial }{\partial y} T_{2}(x,y)=  
+    \frac{\partial }{\partial y} 
+    (
+    f(a, b) + 
+	\frac{\partial f}{\partial x}(a, b)(x - a) + 
+	\frac{\partial f}{\partial x}(a, b)(y - a) + \\
+	\frac{1}{2} * \frac{\partial^2 f}{\partial x^2}(a, b)(x - a)^2 +
+	\frac{\partial^2 f}{\partial x\partial y}(a, b)(x - a)(x - b) +
+	\frac{1}{2} * \frac{\partial^2 f}{\partial y^2}(a, b)(y - b)^2 
+	)
+\end{multline*}
+\begin{multline*}
+\frac{\partial }{\partial y} T_{2}(x,y) =  
+    \frac{\partial f}{\partial y}(a, b) + 
+    \frac{\partial^2 f}{\partial x\partial y}(a, b)(x - a) +
+	\frac{\partial^2 f}{\partial y^2}(a, b)(y - b)
+\end{multline*}
+\newline
+
+The second-order partial derivatives of $T_{2}$:
+\begin{equation*}
+\frac{\partial^2 }{\partial x^2} T_{2}(x,y) =  
+\frac{\partial^2 f}{\partial x^2}(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 }{\partial y \partial x} T_{2}(x,y) =  
+\frac{\partial^2 f}{\partial y \partial x}(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 }{\partial x \partial y} T_{2}(x,y) =  
+\frac{\partial^2 f}{\partial x \partial y}(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 }{\partial y^2} T_{2}(x,y) =  
+\frac{\partial^2 f}{\partial y^2}(a, b)
+\end{equation*}
+
+If we take the point $(a, b)$ the following equations hold true:
+\begin{equation*}
+\frac{\partial }{\partial x} T_{2}(a,b) =
+ \frac{\partial }{\partial x} f(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial }{\partial y} T_{2}(a,b) =
+ \frac{\partial }{\partial y} f(a, b)
+\end{equation*}
+
+\begin{equation*}
+\frac{\partial^2 }{\partial x^2} T_{2}(a,b) =
+\frac{\partial^2 }{\partial x^2} f(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 }{\partial y \partial x} T_{2}(a,b) =
+\frac{\partial^2 }{\partial y \partial x} f(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 }{\partial x \partial y} T_{2}(a,b) =
+\frac{\partial^2 }{\partial x \partial y} f(a, b)
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 }{\partial y^2} T_{2}(a,b) =
+\frac{\partial^2 }{\partial y^2} f(a, b)
+\end{equation*}
+
+\vspace{1cm} 
+2. (a) \emph{f} : $\mathbb{R}^2$ $\to$  $\mathbb{R}$, \emph{f}(x, y). 
+% Here we begin our exercise 2.(a)
+=$e^{-x^2-y^2}$ at (0,0)  \newline
+In this case the first order derivates are: 
+\begin{equation*}
+\frac{\partial f}{\partial x}(x, y) = -2xe^{-x^2 - y^2}
+\end{equation*}
+\begin{equation*}
+\frac{\partial f}{\partial y}(x, y) = -2ye^{-x^2 - y^2}
+\end{equation*}
+And the second order derivates are:
+\begin{equation*}
+\frac{\partial^2 f}{\partial x^2}(x, y) = 4x^2e^{-x^2-y^2} - 2e^{-x^2-y^2}
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 f}{\partial y\partial x}(x, y) = 4xye^{-x^2-y^2}
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 f}{\partial x\partial y}(x, y) = 4xye^{-x^2-y^2}
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 f}{\partial y^2}(x, y) = 4y^2e^{-x^2-y^2} - 2e^{-x^2-y^2}
+\end{equation*} \newline
+The Taylor polynomials become:
+\begin{multline*}
+T_{1}(x,y) =  f(0,0) + \frac{\partial f}{\partial x}(0, 0)(x - 0)
++ \frac{\partial f}{\partial y}(0, 0)(y - 0) 
+=  e^{-0 - 0} + 0 + 0 = 1
+\end{multline*}
+and
+\begin{multline*}
+T_{2}(x,y) = f(0, 0) + 
+	\frac{\partial f}{\partial x}(0, 0)(x - 0) + 
+	\frac{\partial f}{\partial y}(0, 0)(y - 0) + 
+	\frac{1}{2} * \frac{\partial^2 f}{\partial x^2}(0, 0)(x - 0)^2  + \\
+	\frac{\partial^2 f}{\partial x\partial y}(0, 0)(x - 0)(y - 0) +
+	\frac{1}{2} * \frac{\partial^2 f}{\partial y^2}(0, 0)(y - 0)^2  \\
+= 1 + 0 + 0 + \frac{1}{2}*(-2)*x^2 + 0 + \frac{1}{2}*(-2)*y^2 
+= -x^2 - y^2 + 1
+\end{multline*}
+
+\clearpage
+(b)
+The graphs of \em{f}, \em{$T_{1}$} and \em{$T_{2}$}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.33]{2_f.jpg}
+    \caption{The graph of $f$}
+    \label{2_f}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.33]{2_t1.jpg}
+    \caption{The graph of $T_{1}$}
+    \label{2_t1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.357]{2_t2.jpg}
+    \caption{The graph of $T_{2}$}
+    \label{2_t2}
+\end{figure}
+\normalfont
+
+\clearpage
+Now we will combine the graphs to see better the aproximations.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.33]{2_f_t1_1.jpg}
+    \caption{The graph of $f$ and $T_{1}(blue)$}
+    \label{2_f_t1_1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{2_f_t1_2.jpg}
+    \caption{The graph of $f$ and $T_{1}(blue)$ from another perspective}
+    \label{2_f_t1_2}
+\end{figure}
+\normalfont
+
+As shown in figures 4 and 5 the $T_{1}$ polynomial is a very bad
+aproximation of \emph{f}. $T_{1}$ approximates the function only at the point
+$(0,0)$ .
+
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{2_f_t2_1.jpg}
+    \caption{The graph of $f$ and $T_{2}(blue)$}
+    \label{2_f_t2_1}
+\end{figure}
+\normalfont
+ 
+As shown in figure 6 the $T_{2}$ polynomial is a better aproximation of
+\emph{f}, it \newline
+approximates better \emph{f} around
+the point $(0,0)$ as shown with the color pink in the figure above.
+But as we distance ourselves from the point $(0,0)$ to the sides, $T_{2}$ does not approximate $f$
+that well.
+
+\clearpage % output to the next page
+% Here we begin our exercise 3.(a)
+3. (a) \emph{f} : $\mathbb{R}^2$ $\to$  $\mathbb{R}$, \emph{f}(x, y). 
+=$xe^y$ at (1,0)  \newline
+In this case the first order derivates are: 
+\begin{equation*}
+\frac{\partial f}{\partial x}(x, y) = e^y
+\end{equation*}
+\begin{equation*}
+\frac{\partial f}{\partial y}(x, y) = xe^y
+\end{equation*}
+And the second order derivates are:
+\begin{equation*}
+\frac{\partial^2 f}{\partial x^2}(x, y) = 0
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 f}{\partial y\partial x}(x, y) = e^y
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 f}{\partial x\partial y}(x, y) = e^y
+\end{equation*}
+\begin{equation*}
+\frac{\partial^2 f}{\partial y^2}(x, y) =  xe^y
+\end{equation*} \newline
+The Taylor polynomials become:
+\begin{multline*}
+T_{1}(x,y) =  f(1,0) + \frac{\partial f}{\partial x}(1, 0)(x - 1)
++ \frac{\partial f}{\partial y}(1, 0)(y - 0)
+=  e^0 + (x - 1) + (y - 0) = x + y
+\end{multline*}
+and
+\begin{multline*}
+T_{2}(x,y) = f(1, 0) + 
+	\frac{\partial f}{\partial x}(1, 0)(x - 1) + 
+	\frac{\partial f}{\partial y}(1, 0)(y - 0) + 
+	\frac{1}{2} * \frac{\partial^2 f}{\partial x^2}(1, 0)(x - 1)^2  + \\
+	\frac{\partial^2 f}{\partial x\partial y}(1, 0)(x - 1)(y - 0) +
+	\frac{1}{2} * \frac{\partial^2 f}{\partial y^2}(1, 0)(y - 0)^2  \\
+= x + y + \frac{1}{2} * 0 + (x - 1)y + \frac{1}{2} * y^2 = x + xy + \frac{1}{2} * y^2
+\end{multline*}
+
+(b) In the following we will compare \em{f}, \em{$T_{1}$} and \em{$T_{2}$} at the point $(0.9, 0.1)$
+\begin{equation*}
+f(0.9, 0.1) = 0.994653826268083
+\end{equation*}
+\begin{equation*}
+T_{1}(0.9, 0.1) = 1.00000000000000
+\end{equation*}
+\begin{equation*}
+T_{2}(0.9, 0.1) = 0.995000000000000
+\end{equation*}
+
+$T_{2}$ aproximates $f$ much better at that point with the
+margin of error being 0.000346173731917032 $< 10^{-3}$
+
+\clearpage
+(c)
+The graphs of \em{f}, \em{$T_{1}$} and \em{$T_{2}$}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.33]{3_f_1.jpg}
+    \caption{The graph of $f$ with small y}
+    \label{3_f_1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.33]{3_f_2.jpg}
+    \caption{The graph of $f$ with a larger $y$ span}
+    \label{3_f_2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{3_t1_1.jpg}
+    \caption{The graph of $T_{1}$ with small $y$}
+    \label{3_t1_1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{3_t1_2.jpg}
+    \caption{The graph of $T_{1}$ with a larger $y$ span}
+    \label{3_t1_2}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{3_t2_1.jpg}
+    \caption{The graph of $T_{2}$ with small $y$}
+    \label{3_t2_1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{3_t2_2.jpg}
+    \caption{The graph of $T_{2}$ with a larger $y$ span}
+    \label{3_t2_2}
+\end{figure}
+
+\clearpage
+Now we will combine the graphs to see better the aproximations(we will use a
+large y span from -5 to 5)
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{3_f_t1_1.jpg}
+    \caption{The graph of $f$ and $T_{1}(blue)$}
+    \label{3_f_t1_1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{3_f_t1_2.jpg}
+    \caption{The graph of $f$ and $T_{1}(blue)$ from another perspective}
+    \label{3_f_t1_2}
+\end{figure}
+As shown in figures 13 and 14 the $T_{1}$ polynomial approximates $f$ pretty
+well where $f$ does not deviate to much in the z-axis.
+
+\clearpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{3_f_t2_1.jpg}
+    \caption{The graph of $f$ and $T_{2}(blue)$}
+    \label{3_f_t2_1}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.34]{3_f_t2_2.jpg}
+    \caption{The graph of $f$ and $T_{2}(blue)$ from another perspective}
+    \label{3_f_t2_1}
+\end{figure}
+As shown in figures 15 and 16 the $T_{2}$ polynomial approximates $f$ slightly
+better, but fails to approximate the steep slopes of the $f$ function.
+\end{document}

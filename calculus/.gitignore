@@ -1,0 +1,7 @@
+tmp/
+*.gz
+document.pdf
+..sagenb/
+.sagenb/
+.project
+.texlipse
