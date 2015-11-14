@@ -1,6 +1,7 @@
 tmp/
 *.gz
 document.pdf
+document.log
 ..sagenb/
 .sagenb/
 .project
