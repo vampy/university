@@ -52,7 +52,7 @@ SELECT DISTINCT IC.issue_id, I.title
 SELECT P.id, P.name, P.[description], SC.count_stars FROM (
 		SELECT P.id -- get all the projects that do not have any issues
 			FROM projects P
-			WHERE P.id NOT IN (SELECT DISTINCT project_id FROM issues) 
+			WHERE P.id NOT IN (SELECT DISTINCT project_id FROM issues)
 		UNION
 		SELECT DISTINCT I.project_id -- get all the projects that have all the issues closed
 			FROM issues I
@@ -155,7 +155,7 @@ SELECT E.email
 			FROM users_star_projects -- N - N
 			WHERE project_id = '3'
 	) US ON U.id = US.id
-	INNER JOIN emails E -- N - N select email 
+	INNER JOIN emails E -- N - N select email
 		ON U.id = E.user_id
 
 -- 9. Get all the labels of an issue that has a project with
@@ -169,11 +169,11 @@ SELECT *
 -- 10. Get all the snippets of a user that has a project attached to it and the project has at least 1 stars
 -- and the user has access to it
 -- aka filter
-SELECT * 
+SELECT *
 	FROM snippets S -- N - N
 	INNER JOIN projects P
 		ON S.project_id = P.id
-	INNER JOIN ( 
+	INNER JOIN (
 	SELECT SP.project_id AS id, COUNT(*) AS count_stars -- count all the stars
 		FROM users_star_projects SP -- N - N
 		GROUP BY SP.project_id
@@ -186,7 +186,7 @@ SELECT *
 	WHERE S.project_id IS NOT NULL AND S.author_id = '3'
 
 
-SELECT * 
+SELECT *
 	FROM snippets S
 	INNER JOIN projects P
 		ON S.project_id = P.id

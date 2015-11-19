@@ -172,4 +172,3 @@ INSERT INTO labels_links(issue_id, label_id)
 	VALUES
 	('4', '5'),
 	('4', '4')
-

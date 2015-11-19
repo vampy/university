@@ -88,5 +88,3 @@ RETURN
 		GROUP BY station_id
 		HAVING COUNT(*) >= 3 
 	)
-
--- SELECT * FROM updateRoutes('10:01')
