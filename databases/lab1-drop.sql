@@ -1,0 +1,11 @@
+DROP TABLE snippets;
+DROP TABLE labels_links;
+DROP TABLE labels;
+DROP TABLE issue_comments;
+DROP TABLE issues;
+DROP TABLE milestones;
+DROP TABLE users_star_projects;
+DROP TABLE users_projects;
+DROP TABLE projects;
+DROP TABLE emails;
+DROP TABLE users;
