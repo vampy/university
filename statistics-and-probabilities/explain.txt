@@ -1,0 +1,9 @@
+
+theta = miu - sigma known    Z e N(0, 1) ztest
+            - sigma unknown  T(n - 1)    ttest
+
+theta = sigma^2    vartest
+theta = miu1 - miu2  - sigma1 = sigma2     T   ttest2(....., 'equal')
+					 - sigma1 != sigma2    T   ttest2(......, 'unequal')
+					 
+theta = sigma1^2/sigma2^2     vartest2

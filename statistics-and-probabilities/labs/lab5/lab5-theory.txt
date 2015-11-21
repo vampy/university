@@ -1,0 +1,27 @@
+- Expected value
+- X discrede pdf (xi, pi)
+- the mean is sum(xi*pi)
+
+- X continous on R
+- the mean is the integral: E(X) = the integral
+
+Variance(dispersion)
+V(X) = E[X-E(X)^2]
+V(X) = sqrt(V(X)) (standard distribution)
+
+Statistics Toolbox:
+- pdf
+- cdf
+- inv (inverse cdf)
+- stat
+[m, v] - namestat(params
+m  - mean
+v - variance
+[m, v] = namestat(n, p)
+m = n * p
+v = n * p * q
+
+
+X e B(n, p), n e N, p e (0, 1)
+Let X be the number of succeses in a binomial model
+E(X) = n * p
