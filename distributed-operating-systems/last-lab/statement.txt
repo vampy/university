@@ -1,0 +1,15 @@
+2 programe
+un program A
+creaza un segment de 100 octeti
+si din secunda in secunda pune un octet aleator
+
+programul B
+din 3 in 3 secunde
+verifica daca gaseste 2 octeti cel putin
+
+afiseaza toti octetii care se repeta
+si contitnutul segmentului
+daca a apare de cel putin de 2 ori si b
+afiseaza
+ab si continutul segmenetuil
+

@@ -1,0 +1,6 @@
+Avem 2 procese
+Un proces A citeste un 2 numere de la tastarura
+Si ii trimie prin pipe la procesul B, numarul citit
+Procesul B determina a^b si il trimite la A
+Si trimite la A
+A afiseaza ce o primit de la B
