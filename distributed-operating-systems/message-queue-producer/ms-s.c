@@ -4,8 +4,8 @@ consumatorul pune un numar
 producator ii intoarce radical din numar
 */
 
-#include "os.h"
-#include "math.h"
+#include "../os.h"
+#include "../math.h"
 
 #define PATH "/home/dan/dev/os/"
 #define TYPE_CLIENT 1 // the type of message sent by client

@@ -8,8 +8,8 @@
 // in message we put our processid
 // server: send back with the processid
 
-#include "os.h"
-#include "math.h"
+#include "../os.h"
+#include "../math.h"
 
 #define PATH "/home/dan/dev/os/"
 

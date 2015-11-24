@@ -1,5 +1,5 @@
 // SEE socket-hw-server.c
-#include "os.h"
+#include "../os.h"
 
 #define PORT 47000
 #define MAX_BUFFER 4096

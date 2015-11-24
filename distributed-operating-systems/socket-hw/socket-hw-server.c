@@ -5,7 +5,7 @@
 
 // il testam cu 2 clients
 // si fiecare client are 500ms delay
-#include "os.h"
+#include "../os.h"
 
 #define PORT 47000
 #define MAX_BUFFER 4096

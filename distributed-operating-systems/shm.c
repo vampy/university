@@ -42,8 +42,6 @@ int main()
             perror("Can not create shared memory");
             exit(1);
         }
-        
-
     }
     else
     {

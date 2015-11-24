@@ -1,5 +1,5 @@
 #pragma once
-#include "os.h"
+#include "../os.h"
 
 typedef struct table
 {

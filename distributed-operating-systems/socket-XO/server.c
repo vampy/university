@@ -2,7 +2,7 @@
 XO with the same client
 */
 
-#include "socket-xo.h"
+#include "server.h"
 #include <pthread.h>
 
 #define PORT 37000

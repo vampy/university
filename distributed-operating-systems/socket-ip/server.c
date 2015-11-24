@@ -4,7 +4,7 @@ Vrem sa nu lase se conecteze acelasi client de pe acelasi IP
 Clientul sa trimita un numar si adune la o suma globala
 */
 
-#include "os.h"
+#include "../os.h"
 
 #define PORT 35000
 #define MAX_BUFFER 512
