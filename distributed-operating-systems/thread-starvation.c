@@ -1,4 +1,9 @@
-// Sa se creeze un deadlock
+// Create a thread starvation
+/*
+ * Thread 1 print 10 times
+ * Thread 2 prints once
+ * Intercalate functions, every thread function locks itself and unlocks the other one at the end
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,12 +15,6 @@
 
 pthread_mutex_t mutex;
 pthread_mutex_t mutex2;
-
-/*
-    Thread 1 sa printeze de 10 ori
-    Thread 2 sa printeze 1 data
-    Intercalate functions, every thread function locks itself and unlocks the other one at the end
-*/
 
 void *func(void *arg)
 {

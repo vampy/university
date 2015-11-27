@@ -1,9 +1,8 @@
 /*
-N threads
-fiecare thread vrea sa gaseasca al 100 lea numar fibonacii
-primul care a terminat (trebuie sa stim care e)
-cand un thread isi da seama acesta zice ca a pierdut
-*/
+ * N threads
+ * Every thread wants to find the 100'th fibonacci number.
+ * We must know the first thread that finished and all other threads must know that they have lost.
+ */
 #include "os.h"
 #include <pthread.h>
 

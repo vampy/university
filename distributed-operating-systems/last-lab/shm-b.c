@@ -3,7 +3,7 @@
 int is_char_in(char find, char *haystack, int len)
 {
     int i;
-    
+
     for (i = 0; i < len; i++)
     {
         if (haystack[i] == find)
@@ -11,7 +11,7 @@ int is_char_in(char find, char *haystack, int len)
             return 1;
         }
     }
-    
+
     return 0;
 }
 
@@ -20,15 +20,13 @@ int main()
     int id, i = 0, isize = 100;
     char *data, repeating[100], repeating_len = 0;;
     key_t key = safe_ftok(".", 1);
-    
-    
+
     if ((id = shmget(key, isize, 0600)) == -1)
     {
         perror("shmget");
         exit(1);
     }
-    
-    
+
     data = (char *)shmat(id, NULL, 0);
     if (*((int *)data) == -1)
     {
@@ -49,7 +47,7 @@ int main()
                 }
             }
         }
-        
+
         printf("Repeating: \n");
         for (i = 0; i < repeating_len; i++)
         {
@@ -57,9 +55,9 @@ int main()
         }
         printf("\nData = %s\n\n", data);
         repeating_len = 0;
+        
         sleep(3);
     }
-    
-    
+
     return 0;
 }

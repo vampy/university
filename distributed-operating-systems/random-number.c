@@ -1,13 +1,14 @@
+/*
+ * A generate a random number between 100 and 1000.
+ * The process A sends the number to process B.
+ * B verifies if the number is >= 0 then it subtracts the value between 10 and 20
+ * B sends the number back.
+ * B does the same thing as A, only opposite to each other.
+ */
+
 #include "os.h"
 #include "math.h"
 
-/*
- * Genereaza un numar aleator intre 100 si 1000
- * il trimite le celelalal
- * daca numarul este mai mare decat 0 scade o valodare intre 10 si 20 random
- * il trimite inapoi
- * la fel si celalalt
-*/
 int main(int argc, char *argv[])
 {
     rand_seed();
