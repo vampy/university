@@ -1,9 +1,10 @@
-// se citeste un n de la tastarura n threaduri
-// vrem sa sorteze in paralele un sir de n intregi
-// de fiecare data cand se modifica sirul
-// numai atuncea se face blocarea
-// fiecare thread afiseaza cine e el si ce schimba
-// doarme timp de 10ms
+/*
+ * A number n is read from the keyboard.
+ * n threads are created.
+ * We want to sort an array of size n with n threads.
+ * Every time the array is modified, the array is locked.
+ * Every threads prints who it is and what it changed, then sleeps for 10 ms.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>

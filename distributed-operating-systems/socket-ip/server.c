@@ -1,8 +1,8 @@
 /*
-Avem client si server prin TCP
-Vrem sa nu lase se conecteze acelasi client de pe acelasi IP
-Clientul sa trimita un numar si adune la o suma globala
-*/
+ * We have a client and server that use UDP
+ * The server should not allow connection from clients with the same IP address.
+ * The client sends a number and the server adds it to the global sum.
+ */
 
 #include "../os.h"
 

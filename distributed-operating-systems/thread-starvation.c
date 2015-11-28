@@ -1,5 +1,5 @@
-// Create a thread starvation
 /*
+ * Create a thread starvation
  * Thread 1 print 10 times
  * Thread 2 prints once
  * Intercalate functions, every thread function locks itself and unlocks the other one at the end

@@ -1,3 +1,4 @@
+/* Semaphore test */
 #include "os.h"
 
 int semid;

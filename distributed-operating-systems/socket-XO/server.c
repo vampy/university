@@ -1,7 +1,6 @@
-/*
-XO with the same client
-*/
+/* XO with the same client */
 
+// TODO finish implementation
 #include "server.h"
 #include <pthread.h>
 

@@ -1,4 +1,8 @@
-// Sa se creeze un deadlock
+/*
+ * Create a deadlock
+ * sudo gdb -p <id>
+ *         thread apply all bt
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,11 +15,6 @@
 pthread_mutex_t mutex;
 pthread_mutex_t mutex2;
 
-/*
-    Sa se creeze un deadlock
-    sudo gdb -p <id>
-    thread apply all bt
-*/
 
 void *func(void *arg)
 {

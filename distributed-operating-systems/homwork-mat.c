@@ -1,12 +1,16 @@
-// TEMA OBLGIATOR
-// matrice NxN (one mutex for whole matrix)
-// n threaduri
-// threadul i
-// modifica daca i e par modifica coloana i
-//                      altfel modifica linia i
-
-
-// modifica = rand(0, 1), 0 aduna, 1 scade, din fiecare element i
+/*
+ * Homework
+ * Matrix N x N (one mutex for the whole matrix)
+ * N threads
+ * Thread i
+ * - if i is even:
+ *      - change column i
+ *    else
+ *      - change line i
+ * - change rand(0, 1) from every element i
+ *     - 0 - add
+ *     - 1 - subtract
+ */
 
 #include "os.h"
 #include "math.h"
@@ -22,7 +26,7 @@ void *thread_main(void *arg)
     int thread_number = *((int *)arg), i, j;
     int op = rand() % 2;
 
-    if (thread_number % 2 == 0) // coloana
+    if (thread_number % 2 == 0) // column
     {
         for (i = 0; i < n; i++)
         {
@@ -40,7 +44,7 @@ void *thread_main(void *arg)
             }
         }
     }
-    else // linie
+    else // line
     {
         for (j = 0; j < n; j++)
         {

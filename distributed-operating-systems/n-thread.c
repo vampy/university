@@ -1,3 +1,4 @@
+/* Create N threads */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,10 +6,6 @@
 #include <unistd.h>
 
 #define N 10
-
-/*
- Creaza n threaduri care
-*/
 
 void *func(void *arg)
 {

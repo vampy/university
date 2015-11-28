@@ -1,12 +1,10 @@
+/*
+ * P1 reads and sends the data to P2
+ * P2 determines the number of vowels, it sends to P1
+ */
 #include "os.h"
 
-/*
- P1 citeste il trimite la P2
- P2 determina numearul de vocale, trimite la P1
-*/
-
 #define MAX_STRING 256
-
 #define FIFO_A "a2b"
 #define FIFO_B "b2a"
 

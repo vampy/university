@@ -6,6 +6,7 @@
 #include <errno.h>
 
 #define N 2
+
 pthread_mutex_t mutex;
 pthread_mutex_t mutex2;
 

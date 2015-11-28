@@ -1,6 +1,8 @@
 #include "os.h"
 #include "math.h"
 
+#define PATH "/home/dan/dev/os/"
+
 typedef struct msg
 {
     long   type;
@@ -24,7 +26,7 @@ void routine(int s)
 
 int main()
 {
-    key_t key = safe_ftok("/home/dan/dev/os/", 1);
+    key_t key = safe_ftok(PATH, 1);
     m.type = rand_interval(1, 10);
     m.n = 42;
 

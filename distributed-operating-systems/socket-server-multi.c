@@ -13,7 +13,7 @@ void set_value(int new_value)
     op.sem_op = new_value; // increment by this value
     op.sem_flg = 0;
 
-    if (semop(semid, &op, 1 /* the number of elements in the buffer in op*/) < 0)
+    if (semop(semid, &op, 1 /* the number of elements in the buffer in op */) < 0)
     {
         perror("semop");
         exit(1);

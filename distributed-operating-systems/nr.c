@@ -1,9 +1,10 @@
-// avem 2 procese a si b
-// a citim numere de la tastatura
-// daca numarul e par il trimitem la procesul b
-// b afla radical trimite la a
-// a la b pipe
-// b la a fifo
+/*
+ * We have 2 processes, A and B
+ * A reads numbers from the keyboard and if the number is even it sends to process B.
+ * B gets the square root of the number and sends back to A
+ * A to B - pipe
+ * B to A - FIFO
+ */
 
 #include "os.h"
 #include "math.h"
