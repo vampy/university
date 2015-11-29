@@ -95,7 +95,6 @@ int main()
         int *temp_arg = malloc(sizeof(int));
         *temp_arg = cd;
         pthread_create(&id_thread, NULL, thread_main, temp_arg);
-
     }
 
     close(sd);

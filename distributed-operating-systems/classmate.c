@@ -24,10 +24,10 @@ void *write(void *arg)
     //printf("Got: %d\n", nr);
 
     // wait for the others until now
-    for(i = 0; i < nr; i++)
+    for (i = 0; i < nr; i++)
     {
         // wait for indivdual signal
-        while(signal[i] == SIG_LOCK) {}
+        while (signal[i] == SIG_LOCK) {}
     }
 
     // write to file
@@ -51,7 +51,7 @@ int main()
     FILE *handle = fopen(filename, "w");
     fclose(handle);
 
-    for(i = 0; i < N; i++)
+    for (i = 0; i < N; i++)
     {
         //printf("Sent: %d\n", v[i]);
         // create custom signals
@@ -61,7 +61,7 @@ int main()
     }
 
     // clean up
-    for(i = 0; i < N; i++)
+    for (i = 0; i < N; i++)
     {
         pthread_join(thr[i], NULL);
     }

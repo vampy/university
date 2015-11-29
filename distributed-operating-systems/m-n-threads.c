@@ -31,14 +31,14 @@ int main(int argc, char *argv[])
     pthread_t thr[n];
     sem_init(&sem, 0, m);
 
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         int *temp_i = malloc(sizeof(int));
         *temp_i = i;
         pthread_create (&thr[i], NULL, thread_main, temp_i);
     }
 
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         pthread_join(thr[i] , NULL) ;
     }

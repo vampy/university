@@ -1,13 +1,10 @@
 /*
 avem un program care genereaza un numar in 1 si 1000
-
 memorie partajata
-
 face un segment de lungimea care lo creat
 daca e creat, pune pe prima pozitie libera din segment
 si afiseaza continutul segmentului
 */
-
 
 /*
 Avem un client si un server
@@ -17,7 +14,6 @@ la primul numar o sa il scrie in centru
 al doilea deasupra (dupleaza ce o fost inapoi)
 al treilea in dreapta (dubleaza deasupra)
 in dreapta in stanga
-
 */
 #include "os.h"
 #include "math.h"

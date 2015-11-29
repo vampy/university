@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     pthread_create(&thr[1], NULL, func2, NULL);
 
     // clean
-    for (i = 0 ; i < N ; i++)
+    for (i = 0; i < N; i++)
     {
         pthread_join(thr[i] , NULL) ;
     }

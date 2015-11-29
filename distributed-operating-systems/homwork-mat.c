@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 
     rand_seed();
     print_matrix(matrix, n, n);
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         int *temp_i = malloc(sizeof(int));
         *temp_i = i;
@@ -94,13 +94,13 @@ int main(int argc, char *argv[])
     }
 
     // clean
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         pthread_join(array_threads[i] , NULL) ;
     }
     free(array_threads);
 
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         free(matrix[i]);
     }

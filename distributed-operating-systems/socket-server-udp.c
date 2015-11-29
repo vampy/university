@@ -6,7 +6,7 @@
 
 int main()
 {
-    int sd = socket(AF_INET, SOCK_DGRAM, 0);;
+    int sd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sd < 0)
     {
         perror("socket");

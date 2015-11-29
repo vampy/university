@@ -20,26 +20,26 @@ void *func(void *arg)
     int thread_number = *((int *)arg), i, j;
 
     for (i = 0; i < n; i++)
-	{
-		int index_of_min = i;
+    {
+        int index_of_min = i;
 
-		for (j = i; j < n; j++)
-		{
-			if (array[index_of_min] > array[j])
-			{
-				index_of_min = j;
-			}
-		}
+        for (j = i; j < n; j++)
+        {
+            if (array[index_of_min] > array[j])
+            {
+                index_of_min = j;
+            }
+        }
 
         pthread_mutex_lock(&array_mutex);
         printf("Thred %d switching positions %d and %d\n", thread_number, i, index_of_min);
-		int temp = array[i];
-		array[i] = array[index_of_min];
-		array[index_of_min] = temp;
+        int temp = array[i];
+        array[i] = array[index_of_min];
+        array[index_of_min] = temp;
         pthread_mutex_unlock(&array_mutex);
 
         usleep(10);
-	}
+    }
 
     //usleep(i * 1000);
     //printf("Thread %d finished\n", thread_number);

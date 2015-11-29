@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     pthread_t *array_threads = malloc(sizeof(pthread_t) * n);
 
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         int *temp_i = malloc(sizeof(int));
         *temp_i = i;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     }
 
     // clean
-    for (i = 0 ; i < n ; i++)
+    for (i = 0; i < n; i++)
     {
         pthread_join(array_threads[i] , NULL) ;
     }

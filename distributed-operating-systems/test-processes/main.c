@@ -13,7 +13,7 @@
  * Si ii trimie prin pipe la procesul B, numarul citit
  * Procesul B determina a^b si il trimite la A
  * Si trimite la A
- * A afiseaza ce o primit de la B 
+ * A afiseaza ce o primit de la B
 */
 int main(int argc, char *argv[])
 {

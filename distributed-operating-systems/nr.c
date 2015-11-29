@@ -43,7 +43,8 @@ int main(int argc, char *argv[])
 
                 printf("A: The number sqrt %f\n", fn);
             }
-        } while (n > 0);
+        }
+        while (n > 0);
 
         safe_close(fh_read);
         safe_close(fh_write);
@@ -65,8 +66,8 @@ int main(int argc, char *argv[])
 
         printf("B: The number sqrt %f\n", fn);
         write(fh_write, &fn, sizeof(float));
-
-    } while (n > 0);
+    }
+    while (n > 0);
 
     wait(0);
     close_pipe(a2b);
