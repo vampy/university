@@ -1,3 +1,4 @@
+// Find the number of cores on the system by doing computations.
 #include "../os.h"
 #include <sched.h>
 #include <pthread.h>
@@ -37,14 +38,14 @@ pid_t calculate_processes(const int nr_threads)
         pthread_t thr[nr_threads];
         pthread_mutex_init(&largest_mutex, NULL);
 
-        for (i = 0 ; i < nr_threads ; i++)
+        for (i = 0; i < nr_threads; i++)
         {
-            pthread_create (&thr[i], NULL, thread_main, NULL);
+            pthread_create(&thr[i], NULL, thread_main, NULL);
         }
 
-        for (i = 0 ; i < nr_threads ; i++)
+        for (i = 0; i < nr_threads; i++)
         {
-            pthread_join(thr[i] , NULL) ;
+            pthread_join(thr[i], NULL);
         }
         pthread_mutex_destroy(&largest_mutex);
 

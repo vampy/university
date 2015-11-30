@@ -1,9 +1,8 @@
 /*
-Avem producator si consumator
-consumatorul pune un numar
-producator ii intoarce radical din numar
-*/
-
+ * We have a producer and consumer
+ * The consumer puts a number
+ * The producer return the square root of the number
+ */
 #include "../os.h"
 #include "../math.h"
 

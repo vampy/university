@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
         perror("String is too long");
         exit(1);
     }
-    
+
     int sd = socket(AF_INET, SOCK_STREAM, 0);
     if (sd < 0)
     {
@@ -37,14 +37,13 @@ int main(int argc, char *argv[])
     adress.sin_family = AF_INET;
     adress.sin_port = htons(PORT);
     adress.sin_addr.s_addr = INADDR_ANY;
-    
+
     if (connect(sd, (struct sockaddr *)&adress, sizeof(adress)) < 0)
     {
         perror("Failed to connect");
         exit(1);
     }
-    
-    
+
     // send string
     if (write(sd, buffer, buffer_len) < 0)
     {
@@ -52,7 +51,7 @@ int main(int argc, char *argv[])
         close(sd);
         exit(1);
     }
-    
+
     // read
     int read_n = read(sd, buffer, buffer_len);
     if (read_n == -1)
@@ -65,10 +64,9 @@ int main(int argc, char *argv[])
     {
         perror("Read a string of different size");
     }
-    
+
     printf("got = %s\n", buffer);
-    
-    
+
     close(sd);
     return 0;
 }

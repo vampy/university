@@ -1,12 +1,12 @@
-// instante de client si de server
-// clientul trimite un numari
-// serverul intoarce daca numarul par sau impar
-// 0 daca e par si 1 dace impar
-// mai multe instante de client si server
-// different priority
-// send with priority 1
-// in message we put our processid
-// server: send back with the processid
+/*
+ * A client and a server.
+ * The client sends a number.
+ * The server returns if the number is even or odd.
+ * 0 if even or 1 if odd.
+ * Multiple instances of the client and server. Every one has a different priority.
+ * Client sends with priority 1 and in the message we put our process id.
+ * The server sets the type to the client process id.
+ */
 #include "../os.h"
 #include "../math.h"
 

@@ -1,10 +1,9 @@
-// Tema: un client si un server the udp
-// clientul o sa ii dam un nume de fisier
-// si o sa il trimita linie cu linie la server
-// serverul o sa ia linia si o sa faca append la un fisier
-
-// il testam cu 2 clients
-// si fiecare client are 500ms delay
+/**
+ * Homework. An UDP client and server.
+ * Client gets a file name and it will send the file, line by line to the server.
+ * The server gets a line and it will append to a file.
+ * We will test it with 2 clients and every client will have a delay of 500 ms between line sends.
+ */
 #include "../os.h"
 
 #define PORT 47000

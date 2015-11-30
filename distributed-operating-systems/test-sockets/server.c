@@ -1,8 +1,8 @@
 /*
-Avem un client si server TCP
-Clientul trimite un string
-Serverul returneaza stringul inversat
-*/
+ * We have a TCP client and server.
+ * The client sends a string.
+ * The string returns the string reversed.
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -41,19 +41,19 @@ int main()
     adress.sin_family = AF_INET;
     adress.sin_port = htons(PORT);
     adress.sin_addr.s_addr = INADDR_ANY;
-    
+
     if (bind(sd, (struct sockaddr *)&adress, sizeof(adress)) < 0)
     {
         perror("failed to bind");
         exit(1);
     }
-    
+
     if (listen(sd, SOMAXCONN) < 0)
     {
         perror("failed to listen");
         exit(1);
     }
-    
+
     while (1)
     {
         // open client connection
@@ -66,7 +66,7 @@ int main()
             close(cd);
             continue;
         }
-        
+
         // read from client
         char buffer[MAX_BUFFER];
         int read_n = read(cd, buffer, MAX_BUFFER - 1);
@@ -76,17 +76,17 @@ int main()
             close(cd);
             continue;
         }
-        
+
         // reverse
         buffer[read_n] = 0;
         string_reverse(buffer, read_n);
-        
+
         // send back
         if (write(cd, buffer, read_n) == -1)
         {
             perror("failed to write");
         }
-        
+
         close(cd);
     }
 

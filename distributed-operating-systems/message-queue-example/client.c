@@ -1,13 +1,3 @@
-// instante de client si de server
-// clientul trimite un numari
-// serverul intoarce daca numarul par sau impar
-// 0 daca e par si 1 dace impar
-// mai multe instante de client si server
-// different priority
-// send with priority 1
-// in message we put our processid
-// server: send back with the processid
-
 #include "../os.h"
 #include "../math.h"
 

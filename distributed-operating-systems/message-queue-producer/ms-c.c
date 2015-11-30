@@ -1,10 +1,4 @@
-/*
-Avem producator si consumator
-consumatorul pune un numar
-producator ii intoarce radical din numar
-
-Client uses type 1
-*/
+// Client uses type 1
 #include "../os.h"
 #include "../math.h"
 
