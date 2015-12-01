@@ -22,7 +22,7 @@ code SEGMENT
 start:
     mov AX, data
     mov DS, AX
-    ; .......
+
     mov SI, 0
     mov DI, 0
     mov CX, s_len
@@ -41,7 +41,6 @@ start:
         inc SI
         loop repeat
 
-    ;........
     mov AX, 4C00h
     int 21h
 code ENDS

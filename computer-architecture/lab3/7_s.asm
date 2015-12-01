@@ -12,7 +12,6 @@ code SEGMENT
 start:
     mov ax, data
     mov ds, ax
-    ; .......
     ; (yy+yy+yy)-h+(d-m) = (actual) -109
 
     mov AX, 3
@@ -51,7 +50,6 @@ start:
     add BX, CX
     mov result, CX
 
-    ;........
     mov ax, 4C00h
     int 21h
 code ENDS

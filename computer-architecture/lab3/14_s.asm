@@ -10,7 +10,6 @@ code SEGMENT
 start:
     mov AX, data
     mov DS, ax
-    ; .......
     ; (84+yy+yy)-(d+d) = 70
 
     ; 84 + yy + yy
@@ -32,8 +31,7 @@ start:
     sub BX, CX
     mov result, BX
 
-    ;........
     mov AX, 4C00h
-    int 21h         ;exit()
+    int 21h
 code ENDS
 END start

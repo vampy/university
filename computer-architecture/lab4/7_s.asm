@@ -35,7 +35,6 @@ start:
     add BX, c
     ; BX = (b+c)
 
-
     ; DX:AX / BX
     mov AX, CX
     ; AX = CX = (a - 2)
@@ -47,8 +46,7 @@ start:
     add word PTR result, BX
     adc word PTR result + 2, 0
 
-    ;........
     mov ax, 4C00h
-    int 21h                 ;finalul executiei programului aka exit()
+    int 21h
 code ENDS
 END start

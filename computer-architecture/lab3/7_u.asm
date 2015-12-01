@@ -12,7 +12,6 @@ code SEGMENT
 start:
     mov ax, data
     mov ds, ax
-    ; .......
     ; (yy+yy+yy)-h+(d-m)
 
     ;(yy+yy+yy)
@@ -46,7 +45,6 @@ start:
     mov result, BX
     ; result = 147
 
-    ;........
     mov ax, 4C00h
     int 21h
 

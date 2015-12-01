@@ -1,9 +1,9 @@
 ASSUME cs: code, ds:data
 
 ;9. The word A and the byte B are given. Obtain the byte C in the following way:
-;- the bits 0-3 of C are the same as the bits 6-9 of A
-;- the bits 4-5 of C have the value 1
-;- the bits 6-7 of C are the same as the bits 1-2 of B
+; - the bits 0-3 of C are the same as the bits 6-9 of A
+; - the bits 4-5 of C have the value 1
+; - the bits 6-7 of C are the same as the bits 1-2 of B
 
 data SEGMENT
     a dw 0111011101010111b ; 0111 0111 0101 0111
@@ -16,7 +16,6 @@ code SEGMENT
 start:
     mov AX, data
     mov DS, AX
-    ;........
 
     mov AX, a ; AX = a = 0111 0111 0101 0111b
     shr AX, 6 ; AX = 000 0001 1101 1101b = 1DDh
@@ -38,8 +37,7 @@ start:
     ; put onto c
     or c, AL
 
-    ;........
     mov AX, 4C00h
-    int 21h                 ;finalul executiei programului aka exit()
+    int 21h
 code ENDS
 END start

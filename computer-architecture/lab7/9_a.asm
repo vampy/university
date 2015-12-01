@@ -20,7 +20,7 @@ start:
     mov AX, data
     mov DS, AX
     mov ES, AX
-    ; .......
+
     ;mov AX, 0001101000101011b
     mov AX, 0ffffh
     add AX, 0
@@ -41,7 +41,6 @@ start:
         lodsw ; load the high significant word
         ; we have our number in AX:BX
 
-
         add BX, 0
         jnp bothodd
             ; reset parity
@@ -54,7 +53,6 @@ start:
         ; both AX and BX have even number of bits => even + even = even
         ; load into d
         jmp store
-
 
         bothodd:
             ; if here number of '1' bits in BX is odd
@@ -76,7 +74,6 @@ start:
         endloop:
         loop repeat
 
-    ;........
     mov AX, 4C00h
     int 21h
 code ENDS

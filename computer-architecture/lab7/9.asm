@@ -79,7 +79,6 @@ start:
         mov nrb, 0
         loop repeat
 
-    ;........
     mov AX, 4C00h
     int 21h
 code ENDS

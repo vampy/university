@@ -29,7 +29,7 @@ start:
 	mov dx, offset mnr
 	int 21h
 
-	;read the number
+	; read the number
 	mov ah, 0ah
 	mov dx, offset mNrLen
 	int 21h
@@ -44,7 +44,7 @@ start:
 		adc bh, 0
 	loop aici
 
-	;put the inverted sum into rez
+	; put the inverted sum into rez
 	mov ax, bx
 	mov bx, 0
 	inv:
@@ -66,11 +66,11 @@ start:
 	mov lgsum, bx
 	sub bx, 1
 	mov bp, 0
-	;invert rez
+	; invert rez
 	cmp bp, bx
 	jae qwerty
 	inve:
-		;swap rez[bp], rez[bx]
+		; swap rez[bp], rez[bx]
 		mov dl, rez[bp]
 		mov al, rez[bx]
 		mov rez[bx], dl
@@ -106,7 +106,7 @@ start:
 	jc openError ; CF will be set by the CPU if an error occured
 	mov bx, ax
 
-	;write to file
+	; write to file
 	mov ah,40h
 	mov cx,lgsum
 	mov dx,offset rez
