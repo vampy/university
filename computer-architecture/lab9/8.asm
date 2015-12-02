@@ -15,7 +15,6 @@ extrn print:proc
 start:
     mov AX, data
     mov DS, AX
-    ; .......
 
     repeat:
         mov AL, i_start

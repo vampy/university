@@ -21,7 +21,6 @@ start:
     mov AX, data
     mov DS, AX
     mov ES, AX
-    ; .......
 
     ; load addreses
     lea SI, s

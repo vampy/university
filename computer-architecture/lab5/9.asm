@@ -1,9 +1,9 @@
 ASSUME cs: code, ds:data
 
-;9. The word A and the byte B are given. Obtain the byte C in the following way:
-; - the bits 0-3 of C are the same as the bits 6-9 of A
-; - the bits 4-5 of C have the value 1
-; - the bits 6-7 of C are the same as the bits 1-2 of B
+; 9. The word A and the byte B are given. Obtain the byte C in the following way:
+;  - the bits 0-3 of C are the same as the bits 6-9 of A
+;  - the bits 4-5 of C have the value 1
+;  - the bits 6-7 of C are the same as the bits 1-2 of B
 
 data SEGMENT
     a dw 0111011101010111b ; 0111 0111 0101 0111

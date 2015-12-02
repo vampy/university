@@ -53,7 +53,6 @@ code SEGMENT
 start:
     mov AX, data
     mov DS, AX
-    ; ......
 
     PRINT_STRING msg_give
 
@@ -93,7 +92,6 @@ start:
 
 		cmp AL, 0
 		jnz push_repeat
-
 
 	; create or empty file
 	mov AH, 3Ch
@@ -154,7 +152,6 @@ start:
 
     end_start:
         PRINT_EOL
-        ;........
         mov AX, 4C00h ; function 4C with exit code 0
         int 21h
 code ENDS

@@ -17,7 +17,7 @@ start:
     mov ds, ax
     mov es, ax
 
-    lea si, s+2
+    lea si, s + 2
     lea di, d
 
     mov ch, leng-1

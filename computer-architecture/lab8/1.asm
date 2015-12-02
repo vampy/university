@@ -96,7 +96,6 @@ start:
 
     end_start:
         PRINT_EOL
-        ;........
         mov AX, 4C00h ; function 4C with exit code 0
         int 21h
 code ENDS

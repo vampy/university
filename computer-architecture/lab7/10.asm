@@ -33,7 +33,6 @@ start:
     ;rol x1, 4
     ;rol x2, 4
 
-    ;........
     mov AX, 4C00h
     int 21h
 code ENDS

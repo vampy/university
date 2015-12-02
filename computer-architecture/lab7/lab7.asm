@@ -31,7 +31,6 @@ start:
     mov AX, data
     mov DS, AX
 
-
     PRINT_STRING n
 
     mov AL, nr

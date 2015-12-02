@@ -1,4 +1,4 @@
-ASSUME cs: code, ds:data     ;spunem asamblorului care sunt segmentele folosite de noi
+ASSUME cs: code, ds:data     ; tell the assembler the segments used by us
 
 data SEGMENT
     yy 	DB 	19 ; <the last two digits of your birth year (19yy)>
@@ -8,9 +8,9 @@ data ENDS
 
 code SEGMENT
 start:
-    mov ax,data             ;adresa segmentului de date se copiaza in ax
-    mov ds,ax               ;continutul lui ax se copiaza in ds
-    ; (84+yy+yy)-(d+d)
+    mov ax,data             ; the address of the data segment is copied into AX
+    mov ds,ax               ; copy AX into DX
+    ; (84 + yy + yy) - (d + d)
 
     ; 84 + yy + yy
     mov AH, 0
@@ -23,7 +23,7 @@ start:
     mov BL, d ; BL = d
     add BL, d  ; BL += d aka BL = 2*d
 
-    ; (84+yy+yy)-(d+d)
+    ; (84 + yy + yy) - (d + d)
     sub AL, BL
     mov result, AL
 

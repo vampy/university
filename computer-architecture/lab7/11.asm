@@ -22,7 +22,6 @@ start:
     mov DS, AX
     mov ES, AX
 
-
     ; load addreses
     lea SI, s
     lea DI, d

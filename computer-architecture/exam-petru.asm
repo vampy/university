@@ -21,8 +21,8 @@ data ends
 
 code segment
 start:
-	mov ax,data
-	mov ds,ax
+	mov ax, data
+	mov ds, ax
 
 	; print the string "mnr" on the screen
 	mov ah, 09h
@@ -85,7 +85,6 @@ start:
 	mov dx, offset msg
 	int 21h
 
-
 	; read from the keyboard the name of the file using interrupt 21, function 0ah
 	mov ah, 0ah
 	mov dx, offset maxFileName
@@ -107,9 +106,9 @@ start:
 	mov bx, ax
 
 	; write to file
-	mov ah,40h
-	mov cx,lgsum
-	mov dx,offset rez
+	mov ah, 40h
+	mov cx, lgsum
+	mov dx, offset rez
 	int 21h
 	jc writeError
 
@@ -125,7 +124,7 @@ start:
 		mov dx, offset writeErrorMsg
 		int 21h
 	endprg:
-	mov ax, 4c00h
-	int 21h
+		mov ax, 4c00h
+		int 21h
 code ends
 end start

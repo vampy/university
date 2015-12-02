@@ -12,25 +12,25 @@ code SEGMENT
 start:
     mov ax, data
     mov ds, ax
-    ; (yy+yy+yy)-h+(d-m)
+    ; (yy + yy + yy) - h + (d - m)
 
-    ;(yy+yy+yy)
+    ;(yy + yy + yy)
     mov AH, 0
     mov AL, yy ; AX = yy
     mov BX, AX
     add BX, AX
     add BX, AX
-    ; BX = (yy+yy+yy)
+    ; BX = (yy + yy + yy)
 
-    ; (yy+yy+yy)-h
+    ; (yy + yy + yy) - h
     mov AH, 0
     mov AL, h
     ; AX = 185
     sub BX, AX
-    ; BX = (yy+yy+yy)-h = -128
+    ; BX = (yy + yy + yy) - h = -128
     mov BH, 0 ; BX = 128
 
-    ;(d-m)
+    ;(d - m)
     mov AH, 0
     mov AL, d
     ; AX = d
@@ -38,15 +38,14 @@ start:
     mov CL, m
     ; CX = m
     sub AX, CX
-    ; AX = (d-m) = 19
+    ; AX = (d - m) = 19
 
-    ; ((yy+yy+yy)-h)+(d-m)
+    ; ((yy + yy + yy) - h) + (d - m)
     add BX, AX
     mov result, BX
     ; result = 147
 
     mov ax, 4C00h
     int 21h
-
 code ENDS
 END start

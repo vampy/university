@@ -11,10 +11,9 @@ code SEGMENT
 start:
     mov ax, data
     mov ds, ax
-    ; .......
     ; a, b - byte
     ; c - word
-    ; 7. (a-2)/(b+c)+a*c = 101
+    ; 7. (a - 2) / (b + c) + a * c = 101
 
     ; DX:AX = AX * c
     mov AL, a
@@ -41,7 +40,7 @@ start:
     cwd
     idiv BX
     mov BX, AX
-    ; BX = (a-2)/(b+c)
+    ; BX = (a - 2) / (b + c)
 
     add word PTR result, BX
     adc word PTR result + 2, 0

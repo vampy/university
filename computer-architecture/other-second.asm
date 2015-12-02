@@ -1,10 +1,11 @@
-; Se da un sir de N cuvinte
-; Sa se tipareasca in baza 16 catul si restul impartii fara semn A/B
-; unde A este maximul valorilor octetilor inferiori ai sirului de cuvinte date
-; iar B este minimul valorilor octetilor superiori ai sirului de cuvinte date
-; Ex: sir_cuv DW 21520, -6, "xy", 0f5b2h, -129
-; A = 194 si B = 10
-; Se va printa: catul=13h si restul=04h
+; A string of size N words is given.
+; Print in base 16 the quotient and the remainder without sign, A / B,
+; where A is the maximum value of the inferior bytes of the string of words
+; and B is the minimum value of the superior bytes of the string
+; Eg:
+; sir_cuv DW 21520, -6, "xy", 0f5b2h, -129
+; A = 194 and B = 10
+; It will print: quotient = 13h and remainder = 04h
 ASSUME CS:code, DS:data
 
 data SEGMENT
@@ -131,7 +132,7 @@ start:
     mov AL, max_sir
     mov AH, 0
     div min_sir
-    ; quotient=AL, remainder = AH
+    ; quotient = AL, remainder = AH
     mov print_q, AL
     mov print_r, AH
 

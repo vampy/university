@@ -10,7 +10,7 @@ code SEGMENT
 start:
     mov AX, data
     mov DS, ax
-    ; (84+yy+yy)-(d+d) = 70
+    ; (84 + yy + yy) - (d + d) = 70
 
     ; 84 + yy + yy
     mov AL, yy ; AL = yy
@@ -18,7 +18,7 @@ start:
     mov BX, AX ; BX = AX = yy
     add BX, AX ; BX += AX  or BX =  yy + yy
     add BX, 84 ; BX += 84
-    ; BX = (84+yy+yy)
+    ; BX = (84 + yy + yy)
 
     ; d + d
     mov AL, d ; AL = d
@@ -27,7 +27,7 @@ start:
     add CX, AX
     ; CX = (d +d)
 
-    ; (84+yy+yy)-(d+d)
+    ; (84 + yy + yy) - (d + d)
     sub BX, CX
     mov result, BX
 
