@@ -2,9 +2,8 @@
 """
 @author: Daniel Butum, Group 911
 """
-from domain.number import Number, NumberException
-from ui.ui import UI
 import tests
+from ui.ui import UI
 
 # TODO fix dividing in hexa
 if __name__ == "__main__":

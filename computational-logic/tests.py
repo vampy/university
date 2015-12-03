@@ -58,8 +58,3 @@ def run():
         assert False
     except NumberException:
         assert True
-    #print "test"
-    #print Number("1010") + Number("1")
-
-
-    #print Number("1010", 2).convert_substitution(10)

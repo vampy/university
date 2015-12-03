@@ -9,7 +9,6 @@ class NumberException(Exception):
 
 
 class Number(object):
-
     # all hex numbers
     _number_map = "0123456789ABCDEF"
 
@@ -129,7 +128,7 @@ class Number(object):
         len_diff = abs(len_list2 - len_list1)
 
         if len_diff:
-            if len_list1 < len_list2: # extend the first list
+            if len_list1 < len_list2:  # extend the first list
                 list1.extend([0] * len_diff)
             else:  # extend second list
                 list2.extend([0] * len_diff)
@@ -158,7 +157,7 @@ class Number(object):
         """
         Add to another number
         """
-        #print "add number list = ", self._number_list, other._number_list
+        # print "add number list = ", self._number_list, other._number_list
 
         base = self.get_base()
         self._validate_operation(base, other.get_base())
@@ -168,7 +167,7 @@ class Number(object):
         # will hold the result
         number_c = []
 
-        #print number_a, number_b
+        # print number_a, number_b
         # normalize lists
         Number._normalize_lists(number_a, number_b)
 
@@ -225,16 +224,16 @@ class Number(object):
                 temp = (number_a[i] + transport) - number_b[i]
                 transport = 0
 
-            #temp = (number_a[i] + transport) - number_b[i]
-            #print "temp", temp
-            ## if the result is negative that means that the digit in number_a is smaller than number_b
-            #if temp < 0:
+            # temp = (number_a[i] + transport) - number_b[i]
+            # print "temp", temp
+            # # if the result is negative that means that the digit in number_a is smaller than number_b
+            # if temp < 0:
             #    # set transport for next iteration
             #    transport = -1
             #
             #    # add the appropriate borrow
             #    temp += base
-            #else:
+            # else:
             #    transport = 0
 
             # add to the result list
@@ -326,10 +325,8 @@ class Number(object):
         if return_remainder:
             return remainder
 
-
         # reverse it because we inserted in wrong order
         number_c = Number._reverse(number_c)
-
 
         return Number(Number._number_list_to_number_str(number_c), base)
 
@@ -371,7 +368,6 @@ class Number(object):
         result = Number("0", destination_base)
         power = Number("1", destination_base)
         while i < len_number:
-
             # because of our implementation we perform the calculus in the destination base
 
             # take every digit and multiply it by the corresponding power
@@ -405,7 +401,6 @@ class Number(object):
             result.append(digit)
 
             number = number / destination_base
-
 
         self.set_number(Number._number_list_to_number_str(result), destination_base)
 

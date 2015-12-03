@@ -8,8 +8,8 @@ try:
 except ImportError as e:
     pass  # fail silently
 
-from utils.number import convert_to_int
 from domain.number import Number, NumberException
+from utils.number import convert_to_int
 
 
 class Console(object):
@@ -40,7 +40,7 @@ class Console(object):
                     number_a = Number(self._get_command("Number a: "), base)
                     number_b = Number(self._get_command("Number b: "), base)
 
-                    print "Result: ", number_a + number_b, " (base %d)" % base
+                    print("Result: ", number_a + number_b, " (base %d)" % base)
 
                 elif option == "2":
                     print("Subtraction")
@@ -49,7 +49,7 @@ class Console(object):
                     number_a = Number(self._get_command("Number a(must be larger than b): "), base)
                     number_b = Number(self._get_command("Number b: "), base)
 
-                    print "Result: ", number_a - number_b, " (base %d)" % base
+                    print("Result: ", number_a - number_b, " (base %d)" % base)
 
                 elif option == "3":
                     print("Multiplication")
@@ -58,7 +58,7 @@ class Console(object):
                     number = Number(self._get_command("Number: "), base)
                     scalar = self._get_int_command("Scalar: ")
 
-                    print "Result: ", number * scalar, " (base %d)" % base
+                    print("Result: ", number * scalar, " (base %d)" % base)
 
                 elif option == "4":
                     print("Division")
@@ -67,7 +67,7 @@ class Console(object):
                     number = Number(self._get_command("Number: "), base)
                     scalar = self._get_command("Scalar: ")
 
-                    print "Quotient = ", number / scalar, " (base %d), \n Remainder = %s" % (base, number % scalar)
+                    print("Quotient = ", number / scalar, " (base %d), \n Remainder = %s" % (base, number % scalar))
 
                 elif option == "5" or option == "6" or option == "7":
                     if option == "5":
@@ -88,13 +88,13 @@ class Console(object):
                     if option == "7":
                         number.convert_rapid(destination_base)
 
-                    print "Result: %s (base %d)" % (number, destination_base)
+                    print("Result: %s (base %d)" % (number, destination_base))
 
                 else:
                     print("Option does not exist. Please try again")
 
-            except NumberException as e:
-                print e.message
+            except NumberException as ex:
+                print(ex)
 
     @staticmethod
     def _get_help_menu():
@@ -116,7 +116,6 @@ class Console(object):
     h. Display this help menu
     q. Quit
 """
-
 
     @staticmethod
     def _raw_input(message):
@@ -154,7 +153,6 @@ class Console(object):
             command = Console._raw_input(message)
 
         return int(command)
-
 
     @staticmethod
     def display_help():
