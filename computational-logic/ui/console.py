@@ -3,16 +3,11 @@
 @author: Daniel Butum, Group 911
 """
 
-try:
-    import readline
-except ImportError as e:
-    pass  # fail silently
-
 from domain.number import Number, NumberException
 from utils.number import convert_to_int
 
 
-class Console(object):
+class Console:
     def __init__(self):
         pass
 
@@ -118,39 +113,39 @@ class Console(object):
 """
 
     @staticmethod
-    def _raw_input(message):
+    def _input(message):
         """
-        Improved raw_input
+        Improved input
         Return:
             string - user command
         """
         try:
-            return raw_input(message).strip()
+            return input(message).strip()
         except KeyboardInterrupt:  # handle CTRL + C interrupt
-            return exit()
+            return exit('CTRL + D')
         except EOFError:  # handle CTRL + D
-            return exit()
+            return exit('CTRL + D')
 
     @staticmethod
     def _get_command(message=">>> "):
         """
         Gets the command inputed by the user
         """
-        return Console._raw_input(message).lower()
+        return Console._input(message).lower()
 
     @staticmethod
     def _get_int_command(message, not_empty=True):
         """
         Gets the command inputed by the user iff is an int
         """
-        command = Console._raw_input(message)
+        command = Console._input(message)
         while convert_to_int(command) is None:
             # if empty command and option is set => return
             if not not_empty and command == "":
                 return command
 
             print("Please retry again with an integer")
-            command = Console._raw_input(message)
+            command = Console._input(message)
 
         return int(command)
 

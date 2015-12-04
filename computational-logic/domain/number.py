@@ -1,14 +1,8 @@
-#!/usr/bin/python
-"""
-@author: Daniel Butum, Group 911
-"""
-
-
 class NumberException(Exception):
     pass
 
 
-class Number(object):
+class Number:
     # all hex numbers
     _number_map = "0123456789ABCDEF"
 
@@ -58,7 +52,7 @@ class Number(object):
         # reverse the number
         temp_reversed = Number._reverse(number_str)
 
-        # convert to aproppiate digits
+        # convert to appropriate digits
         return [int(i, number_base) for i in temp_reversed]
 
     @staticmethod
@@ -85,8 +79,8 @@ class Number(object):
 
         # use python builtin to convert char to number
         try:
-            temp_int = int(self._number_str, self._number_base)
-        except ValueError as e:
+            int(self._number_str, self._number_base)
+        except ValueError:
             raise NumberException("Number %s is not of base %d" % (self._number_str, self._number_base))
 
     def _validate_number_base(self):
@@ -110,11 +104,10 @@ class Number(object):
             raise NumberException("Can not do operation on 2 different bases. Please convert to a common base")
 
     @staticmethod
-    def _reverse(object_abstract):
+    def _reverse(object_abstract: list):
         """
         Reverse an object that is iterable
-        Return:
-            the object reversed
+        :returns the list reversed
         """
         return object_abstract[::-1]
 
@@ -173,7 +166,7 @@ class Number(object):
 
         len_number_a = len(number_a)
 
-        transport = 0  # transport number
+        transport = 0  # transport number, must be integer
         i = 0
 
         while i < len_number_a:
@@ -183,10 +176,11 @@ class Number(object):
             number_c.append(temp % base)
 
             # the transport is quotient
-            transport = temp / base
+            transport = temp // base
 
             i += 1
-        # if overflow append transport
+
+        # overflow append transport
         if transport:
             number_c.append(transport)
 
@@ -267,7 +261,7 @@ class Number(object):
 
         len_number_a = len(number_a)
 
-        transport = 0  # transport number
+        transport = 0  # transport number, must be an integer
         i = 0
         while i < len_number_a:
             temp = number_a[i] * number_b + transport
@@ -276,21 +270,21 @@ class Number(object):
             number_c.append(temp % base)
 
             # the transport is quotient
-            transport = temp / base
+            transport = temp // base
             i += 1
 
         # if overflow append transport
         while transport:
             number_c.append(transport % base)
-            transport /= base
+            transport //= base
 
         self._normalize_result(number_c)
 
         return Number(Number._number_list_to_number_str(number_c), base)
 
-    def __div__(self, other, return_remainder=False):
+    def __divmod__(self, other):
         """
-        Divide by another number of length 1 aka a scalar
+        Divide and return quotient and remainder
         """
         base = self.get_base()
         number_a = self._number_list[:]
@@ -315,32 +309,27 @@ class Number(object):
         while i >= 0:
             temp = remainder * base + number_a[i]
 
-            number_c.append(temp / number_b)
+            number_c.append(temp // number_b)
 
             remainder = temp % number_b
 
             i -= 1
 
-        # option set by mod operation
-        if return_remainder:
-            return remainder
-
         # reverse it because we inserted in wrong order
         number_c = Number._reverse(number_c)
 
-        return Number(Number._number_list_to_number_str(number_c), base)
+        return Number(Number._number_list_to_number_str(number_c), base), remainder
+
+    def __floordiv__(self, other):
+        return divmod(self, other)[0]
 
     def __mod__(self, other):
-        """
-        Mod by another scalar
-        """
-        return self.__div__(other, return_remainder=True)
+        return divmod(self, other)[1]
 
     def is_zero(self):
         """
         Check if number is zero
-        Return:
-            True or false
+        :returns True or false
         """
         if len(self._number_list) == 1 and self._number_list[0] == 0:
             return True
@@ -351,14 +340,14 @@ class Number(object):
 
         return True
 
-    def convert_substitution(self, destination_base):
+    def convert_substitution(self, destination_base: int):
         """
-        Convert number to another base substitution
-        Return:
-            A new Number object
+        Convert number to another base using substitution method
+        :param destination_base
+        :returns A new Number object
         """
         if destination_base < 2 or destination_base > 16:
-            raise NumberException("Base inputed is invalid")
+            raise NumberException("Base inputted is invalid")
 
         number = self._number_list[:]
         len_number = len(number)
@@ -382,16 +371,15 @@ class Number(object):
 
         return self
 
-    def convert_division(self, destination_base):
+    def convert_division(self, destination_base: int):
         """
         Convert number to another base using division and multiplication method
-        Return:
-            A new Number object
+        :param destination_base
+        :returns A new Number object
         """
         if destination_base < 2 or destination_base > 16:
             raise NumberException("Base inputed is invalid")
 
-        source_base = self.get_base()
         number = Number(self.get_number(), self.get_base())
 
         result = []
@@ -400,17 +388,17 @@ class Number(object):
 
             result.append(digit)
 
-            number = number / destination_base
+            number //= destination_base
 
         self.set_number(Number._number_list_to_number_str(result), destination_base)
 
         return self
 
-    def _validate_rapid_conversion(self, source_base, destination_base):
+    @staticmethod
+    def _validate_rapid_conversion(source_base, destination_base):
         """
         Checks if source_base if a power of destination_base or destination_base is a power of source_base
-        Raises:
-            NumberException on invalid bases
+        :raises NumberException on invalid bases
         """
 
         # checks if b is a power of a
@@ -429,11 +417,11 @@ class Number(object):
     def convert_rapid(self, destination_base):
         """
         Convert number to another base using rapid conversions
-        Return:
-            A new Number object
+        :param destination_base string
+        :returns A new Number object
         """
         if destination_base < 2 or destination_base > 16:
-            raise NumberException("Base inputed is invalid")
+            raise NumberException("Base inputted is invalid")
 
         source_base = self.get_base()
         self._validate_rapid_conversion(source_base, destination_base)
@@ -446,10 +434,10 @@ class Number(object):
             if base_a > base_b:
                 base_a, base_b = base_b, base_a
 
-            i = base_a
+            k = base_a
             length = 1
-            while i < base_b:
-                i *= base_a
+            while k < base_b:
+                k *= base_a
                 length += 1
 
             return length
@@ -457,24 +445,24 @@ class Number(object):
         # the length of the group of digits
         l_group = len_group(source_base, destination_base)
         if destination_base < source_base:
-            for i in xrange(len(number)):
+            for i in range(len(number)):
                 # the number of digits to convert to
-                for j in xrange(l_group):
+                for j in range(l_group):
                     result.append(number[i] % destination_base)
-                    number[i] /= destination_base
+                    number[i] //= destination_base
 
             self.set_number(Number._number_list_to_number_str(result), destination_base)
             return self
         else:  # source base is smaller than destination base
             i = 0
-            temp_len = len(number)
+            number_len = len(number)
 
             # compute the number
-            while i < temp_len:
+            while i < number_len:
                 power = 1
                 temp = 0
                 j = 0
-                while j < l_group and i < temp_len:
+                while j < l_group and i < number_len:
                     temp += power * number[i]
                     power *= source_base
                     i += 1

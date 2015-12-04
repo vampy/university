@@ -1,19 +1,11 @@
-#!/usr/bin/python
-"""
-@author: Daniel Butum, Group 911
-"""
-
-
-class Session(object):
+class Session:
     # session message
     _message = []
 
     @staticmethod
-    def get_message():
+    def get_message() -> list(str):
         """
         Get the list of all session messages
-        Return:
-            string of messages
         """
         return_str = ""
         for message in Session._message:
@@ -25,8 +17,10 @@ class Session(object):
         return return_str
 
     @staticmethod
-    def set_message(message):
+    def set_message(message: str):
         """
         Sets a session specific message into a list
+
+        :param message
         """
         Session._message.append(message)

@@ -3,6 +3,8 @@
 @author: Daniel Butum, Group 911
 """
 
+import sys
+
 from domain.number import Number, NumberException
 
 
@@ -24,12 +26,13 @@ def run():
     assert str(Number("42", 10) * 2) == "84"
 
     # test division
-    assert str(Number("100", 10) / 2) == "050"
-    assert str(Number("A5B", 16) / Number("8", 16)) == "14B"
+    assert str(Number("100", 10) // 2) == "050"
+    assert str(Number("A5B", 16) // Number("8", 16)) == "14B"
     assert str(Number("A5B", 16) % Number("8", 16)) == "3"
-    assert str(Number("2043", 8) / Number("5", 8)) == "0323"
+    assert str(Number("2043", 8) // Number("5", 8)) == "0323"
     assert str(Number("2043", 8) % Number("5", 8)) == "4"
 
+    # Test Conversions
     assert str(Number("1010", 2).convert_division(16)) == "A"
     assert str(Number("1010", 2).convert_substitution(16)) == "A"
     assert str(Number("1010", 2).convert_rapid(16)) == "A"
@@ -58,3 +61,10 @@ def run():
         assert False
     except NumberException:
         assert True
+
+
+if __name__ == "__main__":
+    if sys.version_info[0] < 3:
+        sys.exit("ERROR: Must be using at least Python 3")
+
+    run()

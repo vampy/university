@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from console import Console
+from .console import Console
 
 
 class UI(Console):
