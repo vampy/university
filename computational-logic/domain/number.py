@@ -13,23 +13,23 @@ class Number:
 
         self.set_number(str_number, base)
 
-    def get_number(self):
-        """
-        Return:
-            The number in string format
-        """
+    def get_number(self) -> str:
+        """:returns The number in string format"""
         return self._number_str
 
-    def get_base(self):
-        """
-        Return:
-            The base of the number
-        """
+    def get_base(self) -> int:
+        """:returns The base of the number"""
         return self._number_base
+
+    def get_number_list(self) -> list:
+        """:returns The internal number list"""
+        return self._number_list[:]
 
     def set_number(self, str_number, base):
         """
         Set the number and base
+        :param str_number
+        :param base
         """
         # set the number base
         self._number_base = base
@@ -97,8 +97,7 @@ class Number:
     def _validate_operation(base1, base2):
         """
         Check if we can do on an operation on these numbers
-        Raises:
-            NumberException - on invalid number
+        :raises NumberException - on invalid number
         """
         if base1 != base2:
             raise NumberException("Can not do operation on 2 different bases. Please convert to a common base")
@@ -126,7 +125,8 @@ class Number:
             else:  # extend second list
                 list2.extend([0] * len_diff)
 
-    def _normalize_result(self, result):
+    @staticmethod
+    def _normalize_result(result):
         """
         Remove all non significant zeroes from result
         eg: if result = [4, 3, 2, 1, 0, 0, 0] which
@@ -155,14 +155,14 @@ class Number:
         base = self.get_base()
         self._validate_operation(base, other.get_base())
 
-        number_a = self._number_list[:]
-        number_b = other._number_list[:]
+        number_a = self.get_number_list()
+        number_b = other.get_number_list()
         # will hold the result
         number_c = []
 
         # print number_a, number_b
         # normalize lists
-        Number._normalize_lists(number_a, number_b)
+        self._normalize_lists(number_a, number_b)
 
         len_number_a = len(number_a)
 
@@ -184,7 +184,7 @@ class Number:
         if transport:
             number_c.append(transport)
 
-        return Number(Number._number_list_to_number_str(number_c), base)
+        return Number(self._number_list_to_number_str(number_c), base)
 
     def __sub__(self, other):
         """
@@ -194,13 +194,13 @@ class Number:
         base = self.get_base()
         self._validate_operation(base, other.get_base())
 
-        number_a = self._number_list[:]
-        number_b = other._number_list[:]
+        number_a = self.get_number_list()
+        number_b = other.get_number_list()
         # will hold the result
         number_c = []
 
         # normalize lists
-        Number._normalize_lists(number_a, number_b)
+        self._normalize_lists(number_a, number_b)
 
         len_number_a = len(number_a)
 
@@ -214,7 +214,7 @@ class Number:
 
                 # set transport for next iteration
                 transport = -1
-            else:  # number_a[i] is bigger than number_b[i] NO need for borrowing
+            else:  # number_a[i] is bigger than number_b[i] NO need for borrow
                 temp = (number_a[i] + transport) - number_b[i]
                 transport = 0
 
@@ -237,14 +237,14 @@ class Number:
 
         self._normalize_result(number_c)
 
-        return Number(Number._number_list_to_number_str(number_c), base)
+        return Number(self._number_list_to_number_str(number_c), base)
 
     def __mul__(self, other):
         """
         Multiply with another number of 1 digit aka a scalar
         """
         base = self.get_base()
-        number_a = self._number_list[:]
+        number_a = self.get_number_list()
 
         if isinstance(other, Number):
             # works only with one digit
@@ -258,18 +258,17 @@ class Number:
 
         # will hold the result
         number_c = []
-
         len_number_a = len(number_a)
-
         transport = 0  # transport number, must be an integer
         i = 0
+
         while i < len_number_a:
             temp = number_a[i] * number_b + transport
 
             # add to the result list
             number_c.append(temp % base)
 
-            # the transport is quotient
+            # the transport is the quotient
             transport = temp // base
             i += 1
 
@@ -280,14 +279,14 @@ class Number:
 
         self._normalize_result(number_c)
 
-        return Number(Number._number_list_to_number_str(number_c), base)
+        return Number(self._number_list_to_number_str(number_c), base)
 
-    def __divmod__(self, other):
+    def __divmod__(self, other) -> tuple:
         """
         Divide and return quotient and remainder
         """
         base = self.get_base()
-        number_a = self._number_list[:]
+        number_a = self.get_number_list()
 
         if isinstance(other, Number):
             # works only with one digit
@@ -315,10 +314,10 @@ class Number:
 
             i -= 1
 
-        # reverse it because we inserted in wrong order
-        number_c = Number._reverse(number_c)
+        # reverse it because we inserted in reverse order
+        number_c = self._reverse(number_c)
 
-        return Number(Number._number_list_to_number_str(number_c), base), remainder
+        return Number(self._number_list_to_number_str(number_c), base), remainder
 
     def __floordiv__(self, other):
         return divmod(self, other)[0]
@@ -349,7 +348,7 @@ class Number:
         if destination_base < 2 or destination_base > 16:
             raise NumberException("Base inputted is invalid")
 
-        number = self._number_list[:]
+        number = self.get_number_list()
         len_number = len(number)
         source_base = self.get_base()
 
@@ -357,7 +356,7 @@ class Number:
         result = Number("0", destination_base)
         power = Number("1", destination_base)
         while i < len_number:
-            # because of our implementation we perform the calculus in the destination base
+            # because of our implementation we perform the calculation in the destination base
 
             # take every digit and multiply it by the corresponding power
             result += power * number[i]
@@ -378,7 +377,7 @@ class Number:
         :returns A new Number object
         """
         if destination_base < 2 or destination_base > 16:
-            raise NumberException("Base inputed is invalid")
+            raise NumberException("Base inputted is invalid")
 
         number = Number(self.get_number(), self.get_base())
 
@@ -390,7 +389,7 @@ class Number:
 
             number //= destination_base
 
-        self.set_number(Number._number_list_to_number_str(result), destination_base)
+        self.set_number(self._number_list_to_number_str(result), destination_base)
 
         return self
 
@@ -451,7 +450,7 @@ class Number:
                     result.append(number[i] % destination_base)
                     number[i] //= destination_base
 
-            self.set_number(Number._number_list_to_number_str(result), destination_base)
+            self.set_number(self._number_list_to_number_str(result), destination_base)
             return self
         else:  # source base is smaller than destination base
             i = 0
@@ -470,5 +469,5 @@ class Number:
 
                 result.append(temp)
 
-            self.set_number(Number._number_list_to_number_str(result), destination_base)
+            self.set_number(self._number_list_to_number_str(result), destination_base)
             return self

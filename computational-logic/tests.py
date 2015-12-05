@@ -27,10 +27,14 @@ def run():
 
     # test division
     assert str(Number("100", 10) // 2) == "050"
-    assert str(Number("A5B", 16) // Number("8", 16)) == "14B"
-    assert str(Number("A5B", 16) % Number("8", 16)) == "3"
-    assert str(Number("2043", 8) // Number("5", 8)) == "0323"
-    assert str(Number("2043", 8) % Number("5", 8)) == "4"
+
+    quotient, remainder = divmod(Number("A5B", 16), Number("8", 16))
+    assert str(quotient) == "14B"
+    assert str(remainder) == "3"
+
+    quotient, remainder = divmod(Number("2043", 8), Number("5", 8))
+    assert str(quotient) == "0323"
+    assert str(remainder) == "4"
 
     # Test Conversions
     assert str(Number("1010", 2).convert_division(16)) == "A"
@@ -55,6 +59,7 @@ def run():
 
     assert str(Number("FF", 16).convert_division(10)) == "255"
     assert str(Number("FF", 16).convert_substitution(10)) == "255"
+    assert str(Number("FABF", 16).convert_substitution(10)) == "64191"
 
     try:
         Number("A9", 16).convert_rapid(10)

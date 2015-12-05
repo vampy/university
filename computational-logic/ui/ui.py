@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from .console import Console
 
 

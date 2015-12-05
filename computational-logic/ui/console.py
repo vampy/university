@@ -1,4 +1,3 @@
-#!/usr/bin/python
 """
 @author: Daniel Butum, Group 911
 """
