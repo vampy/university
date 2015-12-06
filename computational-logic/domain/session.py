@@ -20,7 +20,6 @@ class Session:
     def set_message(message: str):
         """
         Sets a session specific message into a list
-
         :param message
         """
         Session._message.append(message)

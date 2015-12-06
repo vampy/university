@@ -45,9 +45,11 @@ class Number:
         self._number_list = self._number_str_to_number_list(self._number_str, self._number_base)
 
     @staticmethod
-    def _number_str_to_number_list(number_str, number_base):
+    def _number_str_to_number_list(number_str, number_base) -> list:
         """
-        Convert a str o proper list of numbers that are reversed
+        Convert a str to proper list of numbers that are reversed
+        e.g: "F9" (base 16) will output [9, 15]
+        :returns list
         """
         # reverse the number
         temp_reversed = Number._reverse(number_str)
@@ -328,7 +330,7 @@ class Number:
     def is_zero(self):
         """
         Check if number is zero
-        :returns True or false
+        :returns True or False
         """
         if len(self._number_list) == 1 and self._number_list[0] == 0:
             return True
@@ -349,22 +351,18 @@ class Number:
             raise NumberException("Base inputted is invalid")
 
         number = self.get_number_list()
-        len_number = len(number)
         source_base = self.get_base()
 
-        i = 0
+        # because of our implementation we perform the calculation in the destination base
         result = Number("0", destination_base)
         power = Number("1", destination_base)
-        while i < len_number:
-            # because of our implementation we perform the calculation in the destination base
-
+        for digit in number:
             # take every digit and multiply it by the corresponding power
-            result += power * number[i]
+            result += power * digit
 
             # increase the power for the next iteration
+            # e.g for base 2, the power will be: 1, 2, 4, 8, etc
             power *= source_base
-
-            i += 1
 
         self.set_number(result.get_number(), destination_base)
 
@@ -372,7 +370,10 @@ class Number:
 
     def convert_division(self, destination_base: int):
         """
-        Convert number to another base using division and multiplication method
+        Convert number to another base using division method
+        NOTE: only works with decimal numbers, and our internal number representation has decimal numbers,
+        so we can use the overwritten // and % operators.
+
         :param destination_base
         :returns A new Number object
         """
@@ -383,11 +384,13 @@ class Number:
 
         result = []
         while not number.is_zero():
-            digit = number % destination_base
+            quotient, remainder = divmod(number, destination_base)
 
-            result.append(digit)
+            # The remainder is part of the result
+            result.append(remainder)
 
-            number //= destination_base
+            # Use next quotient for the division
+            number = quotient
 
         self.set_number(self._number_list_to_number_str(result), destination_base)
 
@@ -416,8 +419,11 @@ class Number:
     def convert_rapid(self, destination_base):
         """
         Convert number to another base using rapid conversions
+        NOTE: For this method to work, one of the bases must be a power of another one
+        e.g: 2 and 16 (2^4 = 16), 3 and 9 (3^2 = 9)
+
         :param destination_base string
-        :returns A new Number object
+        :returns self
         """
         if destination_base < 2 or destination_base > 16:
             raise NumberException("Base inputted is invalid")
@@ -425,11 +431,13 @@ class Number:
         source_base = self.get_base()
         self._validate_rapid_conversion(source_base, destination_base)
 
-        number = self._number_list[:]
+        number = self.get_number_list()
         result = []
 
-        def len_group(base_a, base_b):
+        def get_len_group(base_a, base_b):
             # calculate the length of the group of replaced digits in base_b
+
+            # swap bases, base_a must be smaller than base_b
             if base_a > base_b:
                 base_a, base_b = base_b, base_a
 
@@ -442,26 +450,26 @@ class Number:
             return length
 
         # the length of the group of digits
-        l_group = len_group(source_base, destination_base)
-        if destination_base < source_base:
-            for i in range(len(number)):
+        len_group = get_len_group(source_base, destination_base)
+        len_number = len(number)
+
+        # convert to smaller base
+        if source_base > destination_base:
+            for i in range(len_number):
                 # the number of digits to convert to
-                for j in range(l_group):
+                for j in range(len_group):
                     result.append(number[i] % destination_base)
                     number[i] //= destination_base
 
-            self.set_number(self._number_list_to_number_str(result), destination_base)
-            return self
-        else:  # source base is smaller than destination base
+        else:  # convert to larger base
             i = 0
-            number_len = len(number)
 
             # compute the number
-            while i < number_len:
+            while i < len_number:
                 power = 1
                 temp = 0
                 j = 0
-                while j < l_group and i < number_len:
+                while j < len_group and i < len_number:
                     temp += power * number[i]
                     power *= source_base
                     i += 1
@@ -469,5 +477,5 @@ class Number:
 
                 result.append(temp)
 
-            self.set_number(self._number_list_to_number_str(result), destination_base)
-            return self
+        self.set_number(self._number_list_to_number_str(result), destination_base)
+        return self

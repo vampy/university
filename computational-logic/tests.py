@@ -57,12 +57,21 @@ def run():
     assert str(Number("A9", 16).convert_substitution(2)) == "10101001"
     assert str(Number("A9", 16).convert_rapid(2)) == "10101001"
 
+    assert str(Number("165", 9).convert_rapid(3)) == "012012"
+    assert str(Number("12012", 3).convert_rapid(9)) == "165"
+
     assert str(Number("FF", 16).convert_division(10)) == "255"
     assert str(Number("FF", 16).convert_substitution(10)) == "255"
     assert str(Number("FABF", 16).convert_substitution(10)) == "64191"
 
     try:
         Number("A9", 16).convert_rapid(10)
+        assert False
+    except NumberException:
+        assert True
+
+    try:
+        assert str(Number("5462", 8).convert_rapid(16)) == "B32"
         assert False
     except NumberException:
         assert True
