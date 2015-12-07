@@ -26,14 +26,14 @@ def run():
     assert str(Number("42", 10) * 2) == "84"
 
     # test division
-    assert str(Number("100", 10) // 2) == "050"
+    assert str(Number("100", 10) // 2) == "50"
 
     quotient, remainder = divmod(Number("A5B", 16), Number("8", 16))
     assert str(quotient) == "14B"
     assert str(remainder) == "3"
 
     quotient, remainder = divmod(Number("2043", 8), Number("5", 8))
-    assert str(quotient) == "0323"
+    assert str(quotient) == "323"
     assert str(remainder) == "4"
 
     # Test Conversions
@@ -57,7 +57,7 @@ def run():
     assert str(Number("A9", 16).convert_substitution(2)) == "10101001"
     assert str(Number("A9", 16).convert_rapid(2)) == "10101001"
 
-    assert str(Number("165", 9).convert_rapid(3)) == "012012"
+    assert str(Number("165", 9).convert_rapid(3)) == "12012"
     assert str(Number("12012", 3).convert_rapid(9)) == "165"
 
     assert str(Number("FF", 16).convert_division(10)) == "255"

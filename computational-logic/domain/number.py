@@ -62,6 +62,8 @@ class Number:
         """
         Convert a list of number in any base to a string
         """
+        Number._normalize_result(number_list)
+
         if not number_list:  # handle when list is empty
             return "0"
 
@@ -220,24 +222,9 @@ class Number:
                 temp = (number_a[i] + transport) - number_b[i]
                 transport = 0
 
-            # temp = (number_a[i] + transport) - number_b[i]
-            # print "temp", temp
-            # # if the result is negative that means that the digit in number_a is smaller than number_b
-            # if temp < 0:
-            #    # set transport for next iteration
-            #    transport = -1
-            #
-            #    # add the appropriate borrow
-            #    temp += base
-            # else:
-            #    transport = 0
-
             # add to the result list
             number_c.append(temp)
-
             i += 1
-
-        self._normalize_result(number_c)
 
         return Number(self._number_list_to_number_str(number_c), base)
 
@@ -278,8 +265,6 @@ class Number:
         while transport:
             number_c.append(transport % base)
             transport //= base
-
-        self._normalize_result(number_c)
 
         return Number(self._number_list_to_number_str(number_c), base)
 
@@ -404,12 +389,12 @@ class Number:
         """
 
         # checks if b is a power of a
-        def _check(a, b):
+        def _check(base_a, base_b):
             i = 1
-            while i < b:
-                i *= a
+            while i < base_b:
+                i *= base_a
 
-            return i == b
+            return i == base_b
 
         if _check(source_base, destination_base) or _check(destination_base, source_base):
             return  # do nothing
