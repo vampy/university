@@ -34,7 +34,7 @@ class Console:
                     number_a = Number(self._get_command("Number a: "), base)
                     number_b = Number(self._get_command("Number b: "), base)
 
-                    print("Result: ", number_a + number_b, " (base %d)" % base)
+                    print("Result: {0} (base {1})".format(number_a + number_b, base))
 
                 elif option == "2":
                     print("Subtraction")
@@ -43,7 +43,7 @@ class Console:
                     number_a = Number(self._get_command("Number a(must be larger than b): "), base)
                     number_b = Number(self._get_command("Number b: "), base)
 
-                    print("Result: ", number_a - number_b, " (base %d)" % base)
+                    print("Result: {0} (base {1})".format(number_a - number_b, base))
 
                 elif option == "3":
                     print("Multiplication")
@@ -52,16 +52,17 @@ class Console:
                     number = Number(self._get_command("Number: "), base)
                     scalar = self._get_int_command("Scalar: ")
 
-                    print("Result: ", number * scalar, " (base %d)" % base)
+                    print("Result: {0} (base {1})".format(number * scalar, base))
 
                 elif option == "4":
                     print("Division")
                     base = self._get_int_command("Base of the number: ")
 
                     number = Number(self._get_command("Number: "), base)
-                    scalar = self._get_command("Scalar: ")
+                    scalar = self._get_int_command("Scalar: ")
+                    quotient, remainder = divmod(number, scalar)
 
-                    print("Quotient = ", number / scalar, " (base %d), \n Remainder = %s" % (base, number % scalar))
+                    print("Quotient = {0} (base {1}), \n Remainder = {2}".format(quotient, base, remainder))
 
                 elif option == "5" or option == "6" or option == "7":
                     if option == "5":
@@ -82,7 +83,7 @@ class Console:
                     if option == "7":
                         number.convert_rapid(destination_base)
 
-                    print("Result: %s (base %d)" % (number, destination_base))
+                    print("Result: {0} (base {1})".format(number, destination_base))
 
                 else:
                     print("Option does not exist. Please try again")
@@ -128,14 +129,14 @@ class Console:
     @staticmethod
     def _get_command(message=">>> "):
         """
-        Gets the command inputed by the user
+        Gets the command inputted by the user
         """
         return Console._input(message).lower()
 
     @staticmethod
     def _get_int_command(message, not_empty=True):
         """
-        Gets the command inputed by the user iff is an int
+        Gets the command inputted by the user if is an int
         """
         command = Console._input(message)
         while convert_to_int(command) is None:

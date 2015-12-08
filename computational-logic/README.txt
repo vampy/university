@@ -19,6 +19,3 @@ Compiling:
         python setup.py py2exe
 
     The above command will compile the project and the exe files will be in 'dist' directory
-
-
-
