@@ -18,19 +18,16 @@ typedef struct Holiday
     float price;
 } Holiday;
 
-
 typedef struct Storage
 {
-    Vector *vector;
-    
+    Vector* vector;
+
     // only 128 history operations
-    Vector *undo_vectors[128];
+    Vector* undo_vectors[128];
     int undo_length;
 } Storage;
 
-
-
-Storage *storage_create();
+Storage* storage_create();
 
 void storage_destroy(Storage*);
 
@@ -69,7 +66,6 @@ void storage_print_holiday(const Holiday*);
 
 // Print all holidays
 void storage_print_all(const Storage*);
-
 
 void test_holiday();
 

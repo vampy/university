@@ -1,10 +1,10 @@
-# include_directories(${CMAKE_SOURCE_DIR})
-# set(HEADERS file1.h file2.h)
-# set(SOURCES file1.c file2.c)
-# add_executable(testc ${SOURCES} ${HEADERS})
+include_directories(${CMAKE_SOURCE_DIR})
+cmake_minimum_required(VERSION 2.8)
 
-project(iteration-1)
+project(lab2-4)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -g")
 
-add_executable(iteration-1 main.c utils.c ui.c holiday.c validate.c vector.c test.c)
+file(GLOB ALL_SRC "*.c")
 
-install(TARGETS iteration-1 RUNTIME DESTINATION bin)
+add_executable(${PROJECT_NAME} ${ALL_SRC})
