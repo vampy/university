@@ -5,32 +5,34 @@
 #include "mem_repository.hpp"
 #include "tests.hpp"
 
-/*
-* Tests dynamic vector
-*/
+/**
+ * Tests dynamic vector
+ */
 void testVector()
 {
-    int ints[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+    int ints[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 
     DynamicArray<int> v;
 
-    int nrInts = sizeof(ints) / sizeof(int);
+    size_t nrInts = sizeof(ints) / sizeof(int);
 
-    int i;
-    for (i = 0; i < nrInts; i++) {
+    size_t i;
+    for (i = 0; i < nrInts; i++)
+    {
         v.add(ints[i]);
     }
     assert(v.getLength() == nrInts);
 
-    for (i = 0; i < v.getLength(); i++) {
+    for (i = 0; i < v.getLength(); i++)
+    {
         int element = v.get(i);
         assert(ints[i] == element);
     }
 }
 
-/*
-* Test Repository functions
-*/
+/**
+ * Test Repository functions
+ */
 void testRepository()
 {
     MemRepository repo;
@@ -45,17 +47,16 @@ void testRepository()
     assert(repo.getById(2)->getQuantity() == 500);
 }
 
-/*
-* Test ingredient functions
-*/
+/**
+ * Test ingredient functions
+ */
 void testIngredient()
 {
     Ingredient ing(1, 20, "Faina", "Baneasa");
     assert(ing.getId() == 1);
-    assert(ing.getName() ==  "Faina");
+    assert(ing.getName() == "Faina");
     assert(ing.getProducer() == "Baneasa");
     assert(ing.getQuantity() == 20);
-
 
     ing.setName("Knor");
     ing.setProducer("Margaritar");
@@ -68,7 +69,7 @@ void testIngredient()
 
 void runTests()
 {
-    //testVector();
+    testVector();
     testRepository();
-    //testIngredient();
+    testIngredient();
 }

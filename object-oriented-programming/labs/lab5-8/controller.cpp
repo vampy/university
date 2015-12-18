@@ -2,17 +2,11 @@
 #include "controller.hpp"
 #include "repository.hpp"
 
-Controller::Controller(Repository *repository)
-{
-    this->repository = repository;
-}
+Controller::Controller(Repository* repository) { this->repository = repository; }
 
 bool Controller::addIngredient(unsigned int id, unsigned int quantity, string name, string producer)
 {
-    if(this->repository->exists(id))
-    {
-        return false;
-    }
+    if (this->repository->exists(id)) return false;
 
     this->repository->addIngredient(new Ingredient(id, quantity, name, producer));
 
@@ -21,54 +15,40 @@ bool Controller::addIngredient(unsigned int id, unsigned int quantity, string na
 
 bool Controller::removeIngredient(unsigned int id)
 {
-    if(!this->repository->exists(id))
-    {
-        return false;
-    }
-    this->repository->removeIngredient(id);
+    if (!this->repository->exists(id)) return false;
 
+    this->repository->removeIngredient(id);
     return true;
 }
 
 bool Controller::changeName(unsigned int id, string name)
 {
-    if(!this->repository->exists(id))
-    {
-        return false;
-    }
+    if (!this->repository->exists(id)) return false;
 
     this->repository->getById(id)->setName(name);
-
     return true;
 }
 
 bool Controller::changeProducer(unsigned int id, string producer)
 {
-    if(!this->repository->exists(id))
-    {
-        return false;
-    }
+    if (!this->repository->exists(id)) return false;
 
     this->repository->getById(id)->setProducer(producer);
-
     return true;
 }
 
 bool Controller::changeQuantity(unsigned int id, unsigned int quantity)
 {
-    if(!this->repository->exists(id))
-    {
-        return false;
-    }
+    if (!this->repository->exists(id)) return false;
 
     this->repository->getById(id)->setQuantity(quantity);
-
     return true;
 }
 
 void Controller::filterByQuantity(unsigned int quantity, int filter_type = 0)
 {
-    switch (filter_type) {
+    switch (filter_type)
+    {
     case -1:
     {
         printDebug("Filter quantity less than");
@@ -94,7 +74,7 @@ void Controller::filterByQuantity(unsigned int quantity, int filter_type = 0)
         break;
     }
     default:
-        throw ("filter_type not valid");
+        throw("filter_type not valid");
         break;
     }
 }
@@ -108,94 +88,88 @@ void Controller::filterByName(string name)
 
 void Controller::sortByProducer(bool reverse = false)
 {
-    if(reverse) // descending
+    if (reverse) // descending
     {
-        this->repository->sortBy([](const Ingredient *a, const Ingredient *b)
-        {
-            if(a->getProducer() == b->getProducer()) // second criteria
+        this->repository->sortBy([](const Ingredient* a, const Ingredient* b)
             {
-                return a->getQuantity() > b->getQuantity();
-            }
+                if (a->getProducer() == b->getProducer()) // second criteria
+                {
+                    return a->getQuantity() > b->getQuantity();
+                }
 
-            return a->getProducer() > b->getProducer();
-        });
+                return a->getProducer() > b->getProducer();
+            });
     }
     else // asscending
     {
-        this->repository->sortBy([](const Ingredient *a, const Ingredient *b)
-        {
-            if(a->getProducer() == b->getProducer()) // second criteria
+        this->repository->sortBy([](const Ingredient* a, const Ingredient* b)
             {
-                return a->getQuantity() < b->getQuantity();
-            }
+                if (a->getProducer() == b->getProducer()) // second criteria
+                {
+                    return a->getQuantity() < b->getQuantity();
+                }
 
-            return a->getProducer() < b->getProducer();
-        });
+                return a->getProducer() < b->getProducer();
+            });
     }
 }
 
 void Controller::sortByName(bool reverse = false)
 {
-    if(reverse) // descending
+    if (reverse) // descending
     {
-        this->repository->sortBy([](const Ingredient *a, const Ingredient *b)
-        {
-            if(a->getName() == b->getName()) // second criteria
+        this->repository->sortBy([](const Ingredient* a, const Ingredient* b)
             {
-                return a->getQuantity() > b->getQuantity();
-            }
+                if (a->getName() == b->getName()) // second criteria
+                {
+                    return a->getQuantity() > b->getQuantity();
+                }
 
-            return a->getName() > b->getName();
-        });
+                return a->getName() > b->getName();
+            });
     }
     else // asscending
     {
-        this->repository->sortBy([](const Ingredient *a, const Ingredient *b)
-        {
-            if(a->getName() == b->getName()) // second criteria
+        this->repository->sortBy([](const Ingredient* a, const Ingredient* b)
             {
-                return a->getQuantity() < b->getQuantity();
-            }
+                if (a->getName() == b->getName()) // second criteria
+                {
+                    return a->getQuantity() < b->getQuantity();
+                }
 
-            return a->getName() < b->getName();
-        });
+                return a->getName() < b->getName();
+            });
     }
 }
 
 void Controller::sortByQuantity(bool reverse)
 {
-    if(reverse) // descending
+    if (reverse) // descending
     {
-        this->repository->sortBy([](const Ingredient *a, const Ingredient *b)
-        {
-            if(a->getQuantity() == b->getQuantity()) // second criteria
+        this->repository->sortBy([](const Ingredient* a, const Ingredient* b)
             {
-                return a->getId() > b->getId();
-            }
+                if (a->getQuantity() == b->getQuantity()) // second criteria
+                {
+                    return a->getId() > b->getId();
+                }
 
-            return a->getQuantity() > b->getQuantity();
-        });
+                return a->getQuantity() > b->getQuantity();
+            });
     }
     else // asscending
     {
-        this->repository->sortBy([](const Ingredient *a, const Ingredient *b)
-        {
-            if(a->getQuantity() == b->getQuantity()) // second criteria
+        this->repository->sortBy([](const Ingredient* a, const Ingredient* b)
             {
-                return a->getId() < b->getId();
-            }
+                if (a->getQuantity() == b->getQuantity()) // second criteria
+                {
+                    return a->getId() < b->getId();
+                }
 
-            return a->getQuantity() < b->getQuantity();
-        });
+                return a->getQuantity() < b->getQuantity();
+            });
     }
 }
 
-bool Controller::undo()
-{
-    return this->repository->undo();
-}
+bool Controller::undo() { return this->repository->undo(); }
 
-Repository *Controller::getRepository()
-{
-    return this->repository;
-}
+Repository* Controller::getRepository() { return this->repository; }

@@ -1,3 +1,16 @@
+/*
+ * P7. Bakery
+ * Create an application to manage the stock of ingredients (name, provider ,quantity) in a bakery.
+ * 1. Add a new ingredient
+ * 2. Modify  ingredient
+ * 3. Remove ingredient
+ * 4. Filter
+ *      1. By quantity
+ *      2. By name
+ * 5. Undo the last operation
+ *      - undo – the last operation that has modified the list of ingredients is cancelled
+*/
+
 #include <iostream>
 #include <string>
 
@@ -21,10 +34,10 @@ int main()
     auto controller = new Controller(repository);
     UI ui(controller, "Bakery program");
 
-//    controller->addIngredient(1, 10, "Rom", "RomRomania");
-//    controller->addIngredient(2, 30, "Salam", "Carmolimp");
-//    controller->addIngredient(3, 20, "Varza", "Carmolimp");
-//    controller->addIngredient(4, 2, "Cheese", "Dalia");
+    //    controller->addIngredient(1, 10, "Rom", "RomRomania");
+    //    controller->addIngredient(2, 30, "Salam", "Carmolimp");
+    //    controller->addIngredient(3, 20, "Varza", "Carmolimp");
+    //    controller->addIngredient(4, 2, "Cheese", "Dalia");
 
     ui.run();
 

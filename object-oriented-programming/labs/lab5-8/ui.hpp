@@ -6,17 +6,17 @@ using namespace std;
 
 #include "controller.hpp"
 
-//#define UI_CONVERT_AND_CHECK_ID(_id_str, _id_int)               \
-//    if(!stringToInt(_id_str, _id_int))                          \
-//    {                                                           \
-//        isError = true;                                         \
-//        this->printToStdOut("Error: Id is not an int");         \
-//    }                                                           \
-//    else if(_id_int < 0)                                        \
-//    {                                                           \
-//        isError = true;                                         \
-//        this->printToStdOut("Error: Id can not be negative.");  \
-//    }
+#define UI_CONVERT_AND_CHECK_ID(_id_str, _id_int)              \
+    if (!stringToInt(_id_str, _id_int))                        \
+    {                                                          \
+        isError = true;                                        \
+        this->printToStdOut("Error: Id is not an int");        \
+    }                                                          \
+    else if (_id_int < 0)                                      \
+    {                                                          \
+        isError = true;                                        \
+        this->printToStdOut("Error: Id can not be negative."); \
+    }
 
 class UI
 {
@@ -25,7 +25,7 @@ public:
     void run();
 
 protected:
-    Controller *controller;
+    Controller* controller;
     string startupMessage;
 
     static void showMenu();
@@ -50,7 +50,6 @@ protected:
     void convertAndValidateQuantity(bool&, string&, int&) const;
 
     void undo();
-
 };
 
 #endif // UI_H_

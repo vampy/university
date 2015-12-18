@@ -4,16 +4,17 @@
 
 #include "util.hpp"
 
-class DynamicArrayException: public std::runtime_error {};
+class DynamicArrayException : public std::runtime_error
+{
+};
 class DynamicArrayException;
 
-template <typename TElement>
-class DynamicArray
+template <typename TElement> class DynamicArray
 {
 public:
     DynamicArray(int initial_capacity = 32)
     {
-        if(initial_capacity <= 0) // reset to default if initial capacity is small
+        if (initial_capacity <= 0) // reset to default if initial capacity is small
         {
             initial_capacity = 256;
         }
@@ -28,15 +29,15 @@ public:
         this->capacity = from.capacity;
         this->length = from.length;
         this->data = new TElement[this->capacity];
-        for (int i = 0; i < from.length; i++)
+        for (size_t i = 0; i < from.length; i++)
         {
             this->data[i] = from.data[i];
         }
     }
 
-    DynamicArray& operator =(const DynamicArray& second)
+    DynamicArray& operator=(const DynamicArray& second)
     {
-        if(this == &second)
+        if (this == &second)
         {
             return *this; // protect against self assignment (a = a)
         }
@@ -47,7 +48,7 @@ public:
         this->capacity = second.capacity;
         this->length = second.length;
         this->data = new TElement[this->capacity];
-        for (int i = 0; i < second.length; i++)
+        for (size_t i = 0; i < second.length; i++)
         {
             this->data[i] = second.data[i];
         }
@@ -63,9 +64,9 @@ public:
     }
 
     /**
-    * Adds an element in vector
-    * TElement - element to add
-    */
+     * Adds an element in vector
+     * TElement - element to add
+     */
     void add(TElement element)
     {
         this->resize();
@@ -75,20 +76,20 @@ public:
     }
 
     /**
-    * Returns element from vector from given position
-    * int position - the position
-    * returns TElement from position
-    */
-    TElement get(int position)
+     * Returns element from vector from given position
+     * size_t position - the position
+     * returns TElement from position
+     */
+    TElement get(size_t position)
     {
         this->validatePosition(position);
         return this->data[position];
     }
 
-    void remove(int position)
+    void remove(size_t position)
     {
         this->validatePosition(position);
-        for(int i = position; i < this->length - 1; i++)
+        for (size_t i = position; i < this->length - 1; i++)
         {
             this->data[i] = this->data[i + 1];
         }
@@ -96,31 +97,25 @@ public:
     }
 
     /**
-    * returns the number the elements
-    */
-    unsigned int getLength() const
-    {
-        return this->length;
-    }
+     * returns the number the elements
+     */
+    size_t getLength() const { return this->length; }
 
-    TElement *getInternalData()
-    {
-        return this->data;
-    }
+    TElement* getInternalData() { return this->data; }
 
 protected:
     /**
-    * Resize the internal data if necessary
-    */
+     * Resize the internal data if necessary
+     */
     void resize()
     {
-        if(this->length >= this->capacity)
+        if (this->length >= this->capacity)
         {
             // create mew buffer
             this->capacity *= 2;
-            TElement *temp_data = new TElement[this->capacity];
+            TElement* temp_data = new TElement[this->capacity];
 
-            for(int i = 0; i < this->length; i++)
+            for (size_t i = 0; i < this->length; i++)
             {
                 temp_data[i] = this->data[i];
             }
@@ -133,19 +128,19 @@ protected:
     }
 
     /**
-    * Validate current position throw exception if invalid
-    */
-    void validatePosition(int position)
+     * Validate current position throw exception if invalid
+     */
+    void validatePosition(size_t position)
     {
-        if(position < 0 || position >= this->length)
+        if (position >= this->length)
         {
-            throw ("DynamicArray: Position out of range");
+            throw("DynamicArray: Position out of range");
         }
     }
 
-    TElement *data;
-    unsigned int length;
-    unsigned int capacity;
+    TElement* data;
+    size_t length;
+    size_t capacity;
 };
 
 #endif // DYNAMIC_ARRAY_H_

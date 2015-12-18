@@ -8,56 +8,26 @@ Ingredient::Ingredient(unsigned int id, unsigned int quantity, string name, stri
     this->setQuantity(quantity);
     this->setName(name);
     this->setProducer(producer);
-
-//    printDebug("Ingredient constructed");
-}
-//Ingredient& operator =(const Ingredient &from)
-//{
-
-//}
-
-unsigned int Ingredient::getId() const
-{
-    return this->id;
 }
 
-unsigned int Ingredient::getQuantity() const
-{
-    return this->quantity;
-}
+unsigned int Ingredient::getId() const { return this->id; }
 
-string Ingredient::getName() const
-{
-    return this->name;
-}
+unsigned int Ingredient::getQuantity() const { return this->quantity; }
 
-string Ingredient::getProducer() const
-{
-    return this->producer;
-}
+string Ingredient::getName() const { return this->name; }
 
-void Ingredient::setId(unsigned int id)
-{
-    this->id = id;
-}
+string Ingredient::getProducer() const { return this->producer; }
 
-void Ingredient::setQuantity(unsigned int quantity)
-{
-    this->quantity = quantity;
-}
+void Ingredient::setId(unsigned int id) { this->id = id; }
 
-void Ingredient::setName(string name)
-{
-    this->name = name;
-}
+void Ingredient::setQuantity(unsigned int quantity) { this->quantity = quantity; }
 
-void Ingredient::setProducer(string producer)
-{
-    this->producer = producer;
-}
+void Ingredient::setName(string name) { this->name = name; }
+
+void Ingredient::setProducer(string producer) { this->producer = producer; }
 
 void Ingredient::printToStdOut() const
 {
-    cout << setw(4) << this->id << setw(15) << this->quantity
-         << setw(30) << this->name << setw(30) << this->producer << endl;
+    cout << setw(4) << this->id << setw(15) << this->quantity << setw(30) << this->name << setw(30) << this->producer
+         << endl;
 }

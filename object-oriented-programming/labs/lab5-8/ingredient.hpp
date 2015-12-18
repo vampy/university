@@ -13,32 +13,29 @@ public:
 
     Ingredient(unsigned int, unsigned int, string, string);
 
-    Ingredient& operator =(const Ingredient&);
+    Ingredient& operator=(const Ingredient&);
 
-    ~Ingredient()
-    {
-//        printDebug("Ingredient destroyed");
-    }
+    ~Ingredient() {}
 
     /**
-    * Get the id
-    *
-    * return unsigned int
-    */
+     * Get the id
+     *
+     * return unsigned int
+     */
     unsigned int getId() const;
 
     /**
-    * Get the quantity
-    *
-    * return unsigned int
-    */
+     * Get the quantity
+     *
+     * return unsigned int
+     */
     unsigned int getQuantity() const;
 
     /**
-    * Get the producer
-    *
-    * return string
-    */
+     * Get the producer
+     *
+     * return string
+     */
     string getProducer() const;
 
     string getName() const;
@@ -54,8 +51,8 @@ public:
     void printToStdOut() const;
 
 protected:
-    unsigned int id;
-    unsigned int quantity;
+    size_t id;
+    size_t quantity;
     string name;
     string producer;
 };

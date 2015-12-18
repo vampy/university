@@ -9,7 +9,7 @@
 
 using namespace std;
 
-UI::UI(Controller *controller, string message = "")
+UI::UI(Controller* controller, string message = "")
 {
     this->controller = controller;
     this->startupMessage = message;
@@ -17,7 +17,8 @@ UI::UI(Controller *controller, string message = "")
 
 void UI::showMenu()
 {
-    cout << endl << endl
+    cout << endl
+         << endl
          << "Chose an option: " << endl
          << "\t1 - Add an ingredient" << endl
          << "\t2 - Modify an ingredients name" << endl
@@ -26,7 +27,7 @@ void UI::showMenu()
          << "\t5 - Remove an ingredient" << endl
          << endl
          << "\t6 - Filter ingredients by quantity" << endl
-         << "\t7 - Filter ingredients by name" << endl 
+         << "\t7 - Filter ingredients by name" << endl
          << endl
          << "\t8 - Undo last modification" << endl
          << "\t9 - Show all ingredients" << endl
@@ -37,36 +38,36 @@ void UI::showMenu()
          << endl
          << "\t99 - Show this help menu" << endl
          << "\t0 - Exit" << endl;
-
 }
 
 void UI::printToStdOut(string error)
 {
-    cout << endl << error << endl;
+    cout << endl
+         << error << endl;
 }
 
 void UI::convertAndValidateId(bool& isError, string& id_str, int& id_int) const
 {
-    if(!stringToInt(id_str, id_int))
+    if (!stringToInt(id_str, id_int))
     {
         isError = true;
         printError("Id is not an int");
     }
-    else if(id_int < 0)
+    else if (id_int < 0)
     {
         isError = true;
         printError("Id can not be negative");
     }
 }
 
-void UI::convertAndValidateQuantity(bool& isError, string& quantity_str, int &quantity_int) const
+void UI::convertAndValidateQuantity(bool& isError, string& quantity_str, int& quantity_int) const
 {
-    if(!stringToInt(quantity_str, quantity_int))
+    if (!stringToInt(quantity_str, quantity_int))
     {
         isError = true;
         printError("Quantity is not an int");
     }
-    else if(quantity_int < 0)
+    else if (quantity_int < 0)
     {
         isError = true;
         printError("Quantity can not be negative.");
@@ -78,7 +79,6 @@ void UI::readIngredient()
     string name, producer, id_str, quantity_str;
     int id_int, quantity_int;
     bool isError = false;
-
 
     // read
     cout << "Add ingredient: " << endl;
@@ -99,17 +99,13 @@ void UI::readIngredient()
     this->convertAndValidateQuantity(isError, quantity_str, quantity_int);
 
     // all good ?
-    if(!isError)
+    if (!isError)
     {
         bool isAdded = this->controller->addIngredient(id_int, quantity_int, name, producer);
-        if(isAdded)
-        {
+        if (isAdded)
             printSuccess("Ingredient added");
-        }
         else
-        {
             printError("Ingredient with that ID already exists");
-        }
     }
 }
 
@@ -128,17 +124,13 @@ void UI::removeIngredient()
     this->convertAndValidateId(isError, id_str, id_int);
 
     // all good ?
-    if(!isError)
+    if (!isError)
     {
         bool isRemoved = this->controller->removeIngredient(id_int);
-        if(isRemoved)
-        {
+        if (isRemoved)
             printSuccess("Ingredient removed");
-        }
         else
-        {
             printError("Ingredient with that ID does not exist");
-        }
     }
 }
 
@@ -160,17 +152,13 @@ void UI::modifyName()
     this->convertAndValidateId(isError, id_str, id_int);
 
     // all good ?
-    if(!isError)
+    if (!isError)
     {
         bool exists = this->controller->changeName(id_int, name);
-        if(exists)
-        {
+        if (exists)
             printSuccess("Name updated");
-        }
         else
-        {
             printError("Id does not exist");
-        }
     }
 }
 
@@ -192,17 +180,13 @@ void UI::modifyProducer()
     this->convertAndValidateId(isError, id_str, id_int);
 
     // all good ?
-    if(!isError)
+    if (!isError)
     {
         bool exists = this->controller->changeProducer(id_int, producer);
-        if(exists)
-        {
+        if (exists)
             printSuccess("Producer updated");
-        }
         else
-        {
             printError("Id does not exist");
-        }
     }
 }
 
@@ -225,17 +209,13 @@ void UI::modifyQuantity()
     this->convertAndValidateQuantity(isError, quantity_str, quantity_int);
 
     // all good ?
-    if(!isError)
+    if (!isError)
     {
         bool exists = this->controller->changeQuantity(id_int, quantity_int);
-        if(exists)
-        {
+        if (exists)
             printSuccess("Quantity updated");
-        }
         else
-        {
             printError("Id does not exist");
-        }
     }
 }
 
@@ -271,19 +251,19 @@ void UI::filterIngredientsQuantity()
     // validate
     this->convertAndValidateQuantity(isError, quantity_str, quantity_int);
 
-    if(!stringToInt(filter_type_str, filter_type_int))
+    if (!stringToInt(filter_type_str, filter_type_int))
     {
         isError = true;
         printError("Filter type is not an int");
     }
-    else if(filter_type_int != -1 && filter_type_int != 0 && filter_type_int != 1)
+    else if (filter_type_int != -1 && filter_type_int != 0 && filter_type_int != 1)
     {
         isError = true;
         printError("Filter type is not valid. Please choose from -1, 0 or 1");
     }
 
     // filter
-    if(!isError)
+    if (!isError)
     {
         this->controller->filterByQuantity(quantity_int, filter_type_int);
         this->printIngredients();
@@ -296,7 +276,7 @@ void UI::sortByProducer()
     cout << "Sort descending [y/n] (enter to default to no): ";
     getline(cin, order_str);
 
-    if(order_str == "y")
+    if (order_str == "y")
     {
         this->controller->sortByProducer(true);
         printSuccess("Sorted by producer descending");
@@ -314,7 +294,7 @@ void UI::sortByName()
     cout << "Sort descending [y/n] (enter to default to no): ";
     getline(cin, order_str);
 
-    if(order_str == "y")
+    if (order_str == "y")
     {
         this->controller->sortByName(true);
         printSuccess("Sorted by name descending");
@@ -332,7 +312,7 @@ void UI::sortByQuantity()
     cout << "Sort descending [y/n] (enter to default to no): ";
     getline(cin, order_str);
 
-    if(order_str == "y")
+    if (order_str == "y")
     {
         this->controller->sortByQuantity(true);
         printSuccess("Sorted by quantity descending");
@@ -348,14 +328,10 @@ void UI::undo()
 {
     bool undone = this->controller->undo();
 
-    if(undone)
-    {
+    if (undone)
         printSuccess("Undone");
-    }
     else
-    {
         printWarning("Nothing to undo");
-    }
 }
 
 void UI::printIngredients() const
@@ -373,12 +349,12 @@ void UI::run()
     cout << this->startupMessage << endl;
     this->showMenu();
 
-    while(true)
+    while (true)
     {
         cout << "Command: ";
         getline(cin, optionStr);
 
-        if(stringToInt(optionStr, optionInt))
+        if (stringToInt(optionStr, optionInt))
         {
             switch (optionInt)
             {
@@ -434,6 +410,5 @@ void UI::run()
         {
             cout << "Invalid option please try again" << endl;
         }
-
     }
 }
