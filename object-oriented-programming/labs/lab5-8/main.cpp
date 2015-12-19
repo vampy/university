@@ -1,4 +1,4 @@
-/*
+/**
  * P7. Bakery
  * Create an application to manage the stock of ingredients (name, provider ,quantity) in a bakery.
  * 1. Add a new ingredient
@@ -9,7 +9,7 @@
  *      2. By name
  * 5. Undo the last operation
  *      - undo – the last operation that has modified the list of ingredients is cancelled
-*/
+ */
 
 #include <iostream>
 #include <string>

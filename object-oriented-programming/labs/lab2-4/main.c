@@ -1,16 +1,16 @@
-/*
-P9. Travel agency
-Create an application to manage the holiday offerings (destination, type – city
-break,..,price) in a travel agency.
-1. Add a new holiday offer
-2. Modify holiday offer
-3. Remove offer
-4. Filter
-    1. By type
-    2. By price
-5. Undo the last operation - the last operation that has modified the list of
-holidays is cancelled
-*/
+/**
+ * P9. Travel agency
+ * Create an application to manage the holiday offerings (destination, type – city
+ * break,..,price) in a travel agency.
+ * 1. Add a new holiday offer
+ * 2. Modify holiday offer
+ * 3. Remove offer
+ * 4. Filter
+ *    1. By type
+ *    2. By price
+ * 5. Undo the last operation - the last operation that has modified the list of
+ * holidays is cancelled
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
