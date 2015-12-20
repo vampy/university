@@ -4,25 +4,22 @@
 
 class FileRepositoryException : public MemRepository
 {
-
 };
 
 class FileRepository : public MemRepository
 {
 public:
-    FileRepository(string fileToWrite="ingredients.dat") :
-        MemRepository(),
-        filename(fileToWrite) { this->readFromFile(); }
+    FileRepository(string fileToWrite = "ingredients.dat") : MemRepository(), filename(fileToWrite)
+    {
+        this->readFromFile();
+    }
 
     ~FileRepository() { this->writeToFile(); }
 
     void writeToFile() const;
-    void readFromFile();
+    void readFromFile(bool tryWrite = false);
 
-    void setFileName(string newFileName)
-    {
-        this->filename = newFileName;
-    }
+    void setFileName(string newFileName) { this->filename = newFileName; }
 
     void removeIngredient(unsigned int);
 
@@ -39,4 +36,3 @@ protected:
 };
 
 #endif // FILE_REPOSITORY_H_
-

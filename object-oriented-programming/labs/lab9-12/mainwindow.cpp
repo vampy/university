@@ -1,42 +1,22 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    mainWidget(new QWidget),
-    mainSplitterLayout(new QHBoxLayout),
-    topLayout(new QHBoxLayout),
-    formLayout(new QFormLayout),
-    filterLayout1(new QFormLayout),
-    filterLayout2(new QHBoxLayout),
-    leftLayout(new QVBoxLayout),
-    rightLayout(new QVBoxLayout),
+MainWindow::MainWindow(QWidget* parent)
+    : QMainWindow(parent), mainWidget(new QWidget), mainSplitterLayout(new QHBoxLayout), topLayout(new QHBoxLayout),
+      formLayout(new QFormLayout), filterLayout1(new QFormLayout), filterLayout2(new QHBoxLayout),
+      leftLayout(new QVBoxLayout), rightLayout(new QVBoxLayout),
 
-    // form widgets
-    idLabel(new QLabel),
-    idText(new QLineEdit),
-    quantityLabel(new QLabel),
-    quantityText(new QLineEdit),
-    nameLabel(new QLabel),
-    nameText(new QLineEdit),
-    producerLabel(new QLabel),
-    producerText(new QLineEdit),
+      // form widgets
+      idLabel(new QLabel), idText(new QLineEdit), quantityLabel(new QLabel), quantityText(new QLineEdit),
+      nameLabel(new QLabel), nameText(new QLineEdit), producerLabel(new QLabel), producerText(new QLineEdit),
 
-    // filter widgets,
-    filterNameText(new QLineEdit),
-    filterNameButton(new QPushButton),
-    filterProducerText(new QLineEdit),
-    filterProducerButton(new QPushButton),
-    filterQuantityText(new QLineEdit),
-    filterQuantityCombo(new QComboBox),
-    filterQuantityButton(new QPushButton),
+      // filter widgets,
+      filterNameText(new QLineEdit), filterNameButton(new QPushButton), filterProducerText(new QLineEdit),
+      filterProducerButton(new QPushButton), filterQuantityText(new QLineEdit), filterQuantityCombo(new QComboBox),
+      filterQuantityButton(new QPushButton),
 
-    // other widgets
-    insertButton(new QPushButton),
-    updateButton(new QPushButton),
-    deleteButton(new QPushButton),
-    undoButton(new QPushButton),
-    table(new QTableWidget),
-    statusLabel(new QLabel)
+      // other widgets
+      insertButton(new QPushButton), updateButton(new QPushButton), deleteButton(new QPushButton),
+      undoButton(new QPushButton), table(new QTableWidget), statusLabel(new QLabel)
 {
     // set layout
     this->setCentralWidget(mainWidget);
@@ -75,7 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // set widgets options
     this->resize(800, 600);
     this->setMaximumSize(1366, 768);
-    filterCombo << "less" << "equal" << "greater";
+    filterCombo << "less"
+                << "equal"
+                << "greater";
 
     // table
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -90,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // slots connect
     connect(table->horizontalHeader(), SIGNAL(sectionClicked(int)), this, SLOT(headerClicked(int)));
-    connect(table, SIGNAL(itemSelectionChanged()), this,SLOT(itemSelectionChanged()));
+    connect(table, SIGNAL(itemSelectionChanged()), this, SLOT(itemSelectionChanged()));
     connect(insertButton, SIGNAL(clicked()), this, SLOT(insertClicked()));
     connect(updateButton, SIGNAL(clicked()), this, SLOT(updateClicked()));
     connect(deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
@@ -132,24 +114,21 @@ void MainWindow::setWidgetsText()
     filterQuantityCombo->addItems(this->filterCombo);
 }
 
-void MainWindow::cellClicked(int row, int column)
-{
-    qDebug() << row << " " << column;
-}
+void MainWindow::cellClicked(int row, int column) { qDebug() << row << " " << column; }
 
 void MainWindow::headerClicked(int index)
 {
     qDebug() << "clicked: header = " << index;
 
     // set table header order
-    if(sortHeader[index] == -1) // no sort set
+    if (sortHeader[index] == -1) // no sort set
     {
         table->sortByColumn(index, Qt::DescendingOrder);
         sortHeader[index] = Qt::DescendingOrder;
     }
     else // set a order
     {
-        if(sortHeader[index] == Qt::DescendingOrder)
+        if (sortHeader[index] == Qt::DescendingOrder)
         {
             table->sortByColumn(index, Qt::AscendingOrder);
             sortHeader[index] = Qt::AscendingOrder;
@@ -167,18 +146,13 @@ void MainWindow::headerClicked(int index)
     // add to new repo
     for (int row = 0; row < table->rowCount(); row++)
     {
-            auto idItem = table->item(row, 0);
-            auto nameItem = table->item(row, 1);
-            auto producerItem = table->item(row, 2);
-            auto quantityItem = table->item(row, 3);
+        auto idItem = table->item(row, 0);
+        auto nameItem = table->item(row, 1);
+        auto producerItem = table->item(row, 2);
+        auto quantityItem = table->item(row, 3);
 
-            controller->addIngredient(
-                idItem->text().toUInt(),
-                quantityItem->text().toUInt(),
-                nameItem->text().toStdString(),
-                producerItem->text().toStdString()
-            );
-
+        controller->addIngredient(idItem->text().toUInt(), quantityItem->text().toUInt(),
+            nameItem->text().toStdString(), producerItem->text().toStdString());
     }
 
     this->refreshTableData();
@@ -190,10 +164,7 @@ void MainWindow::insertClicked()
     unsigned int id, quantity;
     string name, producer;
 
-    if(!this->validateFormData(id, name, producer, quantity, true))
-    {
-        return;
-    }
+    if (!this->validateFormData(id, name, producer, quantity, true)) return;
 
     // add to repo
     controller->addIngredient(id, quantity, name, producer);
@@ -206,10 +177,8 @@ void MainWindow::updateClicked()
     qDebug() << "clicked: update button";
     unsigned int id, quantity;
     string name, producer;
-    if(!this->validateFormData(id, name, producer, quantity, false))
-    {
-        return;
-    }
+
+    if (!this->validateFormData(id, name, producer, quantity, false)) return;
 
     // update the repo
     controller->updateIngredient(id, name, producer, quantity);
@@ -221,10 +190,8 @@ void MainWindow::deleteClicked()
 {
     qDebug() << "clicked: delete button";
     unsigned int id;
-    if(!this->validateFormId(id, false))
-    {
-        return;
-    }
+
+    if (!this->validateFormId(id, false)) return;
 
     // delete from repo
     controller->removeIngredient(id);
@@ -235,7 +202,7 @@ void MainWindow::deleteClicked()
 void MainWindow::undoClicked()
 {
     qDebug() << "clicked: undo button";
-    if(controller->undo())
+    if (controller->undo())
     {
         statusLabel->setText("Undone");
         this->refreshTableData();
@@ -248,14 +215,14 @@ void MainWindow::undoClicked()
 
 void MainWindow::itemSelectionChanged()
 {
-    QList<QTableWidgetItem *> list = table->selectedItems();
+    QList<QTableWidgetItem*> list = table->selectedItems();
 
     if (!list.empty()) // get first widget
     {
-        QTableWidgetItem *firstWidget = list.first();
+        QTableWidgetItem* firstWidget = list.first();
         qDebug() << "Id to select: " << firstWidget->text().toInt();
 
-        Ingredient *ingredient = controller->getRepository()->getById(firstWidget->text().toUInt());
+        Ingredient* ingredient = controller->getRepository()->getById(firstWidget->text().toUInt());
         idText->setText(QString::number(ingredient->getId()));
         nameText->setText(QString::fromStdString(ingredient->getName()));
         producerText->setText(QString::fromStdString(ingredient->getProducer()));
@@ -273,7 +240,7 @@ void MainWindow::filterNameClicked()
 {
     qDebug() << "clicked: filter name";
     string name = filterNameText->text().trimmed().toStdString();
-    if(!name.length())
+    if (!name.length())
     {
         statusLabel->setText("Filter Name is empty");
         return;
@@ -289,7 +256,7 @@ void MainWindow::filterProducerClicked()
 {
     qDebug() << "clicked: filter producer";
     string producer = filterProducerText->text().trimmed().toStdString();
-    if(!producer.length())
+    if (!producer.length())
     {
         statusLabel->setText("Filter producer is empty");
         return;
@@ -299,7 +266,6 @@ void MainWindow::filterProducerClicked()
     controller->filterByProducer(producer);
     statusLabel->setText("");
     this->refreshTableData();
-
 }
 
 void MainWindow::filterQuantityClicked()
@@ -308,7 +274,7 @@ void MainWindow::filterQuantityClicked()
 
     bool okQuantity;
     unsigned int quantity = filterQuantityText->text().toUInt(&okQuantity);
-    if(!okQuantity)
+    if (!okQuantity)
     {
         statusLabel->setText("Filter Quantity is not an integer");
         return;
@@ -316,11 +282,11 @@ void MainWindow::filterQuantityClicked()
 
     // set filter type
     int filterType;
-    if(filterQuantityCombo->currentIndex() == 0)
+    if (filterQuantityCombo->currentIndex() == 0)
     {
         filterType = -1;
     }
-    else if(filterQuantityCombo->currentIndex() == 1)
+    else if (filterQuantityCombo->currentIndex() == 1)
     {
         filterType = 0;
     }
@@ -334,7 +300,7 @@ void MainWindow::filterQuantityClicked()
     this->refreshTableData();
 }
 
-void MainWindow::setController(Controller *controller)
+void MainWindow::setController(Controller* controller)
 {
     this->controller = controller;
     this->refreshTableData();
@@ -342,11 +308,11 @@ void MainWindow::setController(Controller *controller)
 
 void MainWindow::refreshTableData()
 {
-    Repository *repository = controller->getRepository();
+    Repository* repository = controller->getRepository();
     this->table->setRowCount(repository->getLength());
     for (unsigned int row = 0; row < repository->getLength(); row++)
     {
-        Ingredient *ingredient = repository->getByIndex(row);
+        Ingredient* ingredient = repository->getByIndex(row);
 
         // table
         auto w1 = new QTableWidgetItem;
@@ -364,21 +330,21 @@ void MainWindow::refreshTableData()
     }
 }
 
-bool MainWindow::validateFormId(unsigned int &id, bool idExists)
+bool MainWindow::validateFormId(unsigned int& id, bool idExists)
 {
     bool okId;
 
     id = idText->text().toUInt(&okId);
-    if(!okId)
+    if (!okId)
     {
         statusLabel->setText("Id is not an integer");
         return false;
     }
 
     // default behaviour to invalidate
-    if(idExists == controller->idExists(id))
+    if (idExists == controller->idExists(id))
     {
-        if(idExists)
+        if (idExists)
         {
             statusLabel->setText(QString("Id %1 already exists").arg(id));
         }
@@ -387,41 +353,37 @@ bool MainWindow::validateFormId(unsigned int &id, bool idExists)
             statusLabel->setText(QString("Id %1 does not exist").arg(id));
         }
 
-
         return false;
     }
 
     return true;
 }
 
-bool MainWindow::validateFormData(unsigned int &id,
-                                  string &name,
-                                  string &producer,
-                                  unsigned int &quantity,
-                                  bool idExists)
+bool MainWindow::validateFormData(
+    unsigned int& id, string& name, string& producer, unsigned int& quantity, bool idExists)
 {
-    if(!this->validateFormId(id, idExists))
+    if (!this->validateFormId(id, idExists))
     {
         return false;
     }
 
     bool okQuantity;
     quantity = quantityText->text().toUInt(&okQuantity);
-    if(!okQuantity)
+    if (!okQuantity)
     {
         statusLabel->setText("Quantity is not an integer");
         return false;
     }
 
     name = nameText->text().trimmed().toStdString();
-    if(!name.length())
+    if (!name.length())
     {
         statusLabel->setText("Name is empty");
         return false;
     }
 
     producer = producerText->text().trimmed().toStdString();
-    if(!producer.length())
+    if (!producer.length())
     {
         statusLabel->setText("Producer is empty");
         return false;

@@ -10,15 +10,14 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     // run tests
-
     runTests();
 
     // actual program
     auto repository = new FileRepository();
-    //repository->toString();
+    // repository->toString();
     auto controller = new Controller(repository);
     controller->addIngredient(1, 10, "Rom", "RomRomania");
     controller->addIngredient(2, 30, "Salam", "Carmolimp");
@@ -29,12 +28,6 @@ int main(int argc, char *argv[])
     MainWindow window;
     window.setController(controller);
     window.show();
-
-    vector<int> v = {1, 2, 3, 4, 5, 6, 7};
-    auto it = v.begin();
-
-    cout << it - v.begin() << endl;
-
 
     int returnCode = app.exec();
 

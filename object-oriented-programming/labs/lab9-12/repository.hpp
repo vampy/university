@@ -9,19 +9,21 @@ class Repository
 protected:
     virtual int getIndexByID(const unsigned int) const = 0;
 
-    vector<Ingredient*> *array;
-    
+    vector<Ingredient*>* array;
+
 public:
+    virtual ~Repository() {}
+
     virtual void addIngredient(Ingredient*) = 0;
-    
+
     virtual void removeIngredient(unsigned int) = 0;
 
     virtual unsigned int getLength() const = 0;
-    
+
     virtual void filterBy(const RepositoryFilter&) = 0;
-    
+
     virtual void sortBy(repositorySortFunc) = 0;
-    
+
     virtual bool exists(unsigned int) = 0;
 
     virtual Ingredient* getById(const unsigned int) const = 0;
@@ -40,7 +42,7 @@ public:
 class RepositoryException : public exception
 {
 public:
-    RepositoryException(string m="exception!") : msg(m) {}
+    RepositoryException(string m = "exception!") : msg(m) {}
     ~RepositoryException() throw() {}
     const char* what() const throw() { return msg.c_str(); }
 

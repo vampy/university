@@ -40,10 +40,7 @@ public:
 
     bool hasNext() { return this->current + 1 <= this->list->getLength(); }
 
-    void resetToHead()
-    {
-        this->current = 0;
-    }
+    void resetToHead() { this->current = 0; }
 
     TElement next()
     {
@@ -55,7 +52,7 @@ public:
     }
 
 protected:
-    size_t current;
+    int current;
     ArrayDoubleList<TElement>* list;
 };
 
@@ -129,7 +126,6 @@ public:
      */
     TElement get(size_t position)
     {
-        // printDebug("get -> " + to_string(position));
         this->validatePosition(position);
         return this->data[position]->info;
     }
@@ -138,7 +134,7 @@ public:
      * Remove element from position
      * Throw exception if position is invalid
      */
-    void remove(size_t position)
+    void remove(int position)
     {
         // TODO fix prev and next
         this->validatePosition(position);
@@ -164,14 +160,14 @@ public:
     /**
      * returns the number the elements
      */
-    const size_t getLength() const { return this->length; }
+    size_t getLength() const { return this->length; }
 
     void sort(bool (*sortCompareFunction)(const TElement, const TElement)) { throw("NOT IMPLEMENTED"); }
 
 protected:
     /**
-     * Resize the internal data if necessary
-     */
+    * Resize the internal data if necessary
+    */
     void resize()
     {
         if (this->length >= this->capacity) // resize condition
@@ -193,8 +189,8 @@ protected:
     }
 
     /**
-     * Validate current position throw exception if invalid
-     */
+    * Validate current position throw exception if invalid
+    */
     void validatePosition(size_t position)
     {
         if (position >= this->length)
