@@ -3,7 +3,7 @@
 #include "mytasks.h"
 #include "tests.cpp"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     testAll();
     QApplication app(argc, argv);

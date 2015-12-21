@@ -1,25 +1,17 @@
 #include "mytasks.h"
 
-MyTasks::MyTasks(QWidget *parent) :
-    QMainWindow(parent),
-    m_main_widget(new QWidget),
-    m_list(new QListWidget),
+MyTasks::MyTasks(QWidget* parent)
+    : QMainWindow(parent), m_main_widget(new QWidget), m_list(new QListWidget),
 
-    // add
-    m_id_label(new QLabel),
-    m_id_value(new QLineEdit),
-    m_name_label(new QLabel),
-    m_name_value(new QLineEdit),
-    m_hour_label(new QLabel),
-    m_hour_value(new QLineEdit),
-    m_add_button(new QPushButton),
+      // add
+      m_id_label(new QLabel), m_id_value(new QLineEdit), m_name_label(new QLabel), m_name_value(new QLineEdit),
+      m_hour_label(new QLabel), m_hour_value(new QLineEdit), m_add_button(new QPushButton),
 
-    // count
-    m_count_label(new QLabel),
+      // count
+      m_count_label(new QLabel),
 
-    // filter
-    m_slider_label(new QLabel),
-    m_slider_value(new QSlider)
+      // filter
+      m_slider_label(new QLabel), m_slider_value(new QSlider)
 {
     // setup main
     this->setCentralWidget(m_main_widget);
@@ -43,10 +35,7 @@ MyTasks::MyTasks(QWidget *parent) :
     this->resize(400, 400);
 }
 
-MyTasks::~MyTasks()
-{
-
-}
+MyTasks::~MyTasks() {}
 
 void MyTasks::setWidgetsText()
 {
@@ -59,7 +48,6 @@ void MyTasks::setWidgetsText()
     m_slider_value->setMaximum(10);
     m_slider_value->setValue(m_hours_max);
     m_slider_value->setOrientation(Qt::Horizontal);
-    //m_slider_value->tickPosition(QSlider::TicksRight);
 }
 
 void MyTasks::setWidgetsConnections()
@@ -73,16 +61,12 @@ void MyTasks::updateView()
     m_list->clear();
     auto tasks = controller->getTasksByHour(m_hours_max);
 
-    for(auto i = 0; i < tasks.size(); i++)
+    for (auto i = 0; i < tasks.size(); i++)
     {
         auto task = tasks.at(i);
 
-        m_list->addItem(QString("%1\t%2\t%3").arg(
-                            QString::number(task->getId()),
-                            task->getName(),
-                            QString::number(task->getHours())
-                            ));
-
+        m_list->addItem(QString("%1\t%2\t%3")
+                            .arg(QString::number(task->getId()), task->getName(), QString::number(task->getHours())));
     }
 
     // update counter
@@ -99,39 +83,39 @@ void MyTasks::onAddClicked()
     int hours = m_hour_value->text().toInt(&okHours);
     name = m_name_value->text().trimmed();
 
-    if(!okId)
+    if (!okId)
     {
         errors += "Id is not an integer number\n";
     }
 
-    if(!okHours)
+    if (!okHours)
     {
         errors += "Hours is not an integer number\n";
     }
 
-    if(name.isEmpty())
+    if (name.isEmpty())
     {
         okName = false;
         errors += "Name is empty";
     }
 
-    if(okId && okHours && okName)
+    if (okId && okHours && okName)
     {
         qDebug() << "validate adding";
         // id
-        if(controller->existsId(id))
+        if (controller->existsId(id))
         {
             errors += "That id already exists\n";
         }
 
         // hours
-        if(hours < 1 || hours > 10)
+        if (hours < 1 || hours > 10)
         {
             errors += "Hours need to be between 1 and 10\n";
         }
     }
 
-    if(errors.isEmpty()) // add
+    if (errors.isEmpty()) // add
     {
         controller->addTask(id, name, hours);
         this->updateView();
@@ -150,13 +134,6 @@ void MyTasks::onFilterSliderChanged(int value)
     this->updateView();
 }
 
-TaskController *MyTasks::getController() const
-{
-    return controller;
-}
+TaskController* MyTasks::getController() const { return controller; }
 
-void MyTasks::setController(TaskController *value)
-{
-    controller = value;
-}
-
+void MyTasks::setController(TaskController* value) { controller = value; }

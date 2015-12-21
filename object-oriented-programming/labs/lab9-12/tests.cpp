@@ -5,9 +5,9 @@
 #include "mem_repository.hpp"
 #include "tests.hpp"
 
-/*
-* Tests dynamic vector
-*/
+/**
+ * Tests dynamic vector
+ */
 void testVector()
 {
     int ints[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
@@ -30,9 +30,9 @@ void testVector()
     }
 }
 
-/*
-* Test Repository functions
-*/
+/**
+ * Test Repository functions
+ */
 void testRepository()
 {
     MemRepository repo;
@@ -47,9 +47,9 @@ void testRepository()
     assert(repo.getById(2)->getQuantity() == 500);
 }
 
-/*
-* Test ingredient functions
-*/
+/**
+ * Test ingredient functions
+ */
 void testIngredient()
 {
     Ingredient ing(1, 20, "Faina", "Baneasa");

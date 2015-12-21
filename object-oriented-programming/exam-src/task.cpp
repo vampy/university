@@ -7,31 +7,13 @@ Task::Task(int id, QString name, int hours)
     this->setHours(hours);
 }
 
-QString Task::getName() const
-{
-    return name;
-}
+QString Task::getName() const { return name; }
 
-void Task::setName(const QString &value)
-{
-    name = value;
-}
+void Task::setName(const QString& value) { name = value; }
 
-int Task::getHours() const
-{
-    return hours;
-}
+int Task::getHours() const { return hours; }
 
-void Task::setHours(int value)
-{
-    hours = value;
-}
-int Task::getId() const
-{
-    return id;
-}
+void Task::setHours(int value) { hours = value; }
+int Task::getId() const { return id; }
 
-void Task::setId(int value)
-{
-    id = value;
-}
+void Task::setId(int value) { id = value; }

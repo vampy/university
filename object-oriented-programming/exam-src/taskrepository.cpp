@@ -2,10 +2,7 @@
 
 #include <QtAlgorithms>
 
-static bool cmpSortTasks(const Task *a, const Task *b)
-{
-    return a->getName() < b->getName();
-}
+static bool cmpSortTasks(const Task* a, const Task* b) { return a->getName() < b->getName(); }
 
 TaskRepository::TaskRepository(QString filename)
 {
@@ -16,28 +13,23 @@ TaskRepository::TaskRepository(QString filename)
 
 TaskRepository::~TaskRepository()
 {
-    foreach (Task *task, *tasks) {
+    foreach (Task* task, *tasks)
+    {
         delete task;
     }
     delete tasks;
 }
 
-void TaskRepository::add(Task *task)
+void TaskRepository::add(Task* task)
 {
     tasks->push_back(task);
     this->sort();
     this->writeToFile();
 }
 
-void TaskRepository::sort()
-{
-    qSort(tasks->begin(), tasks->end(), cmpSortTasks);
-}
+void TaskRepository::sort() { qSort(tasks->begin(), tasks->end(), cmpSortTasks); }
 
-QString TaskRepository::getFilename() const
-{
-    return filename;
-}
+QString TaskRepository::getFilename() const { return filename; }
 
 void TaskRepository::writeToFile()
 {
@@ -47,23 +39,18 @@ void TaskRepository::writeToFile()
 
     QTextStream out(&handle);
 
-    foreach (Task *task, *tasks) {
-        out << QString("%1||%2||%3\n").arg(
-                   QString::number(task->getId()),
-                   task->getName(),
-                   QString::number(task->getHours()));
+    foreach (Task* task, *tasks)
+    {
+        out << QString("%1||%2||%3\n")
+                   .arg(QString::number(task->getId()), task->getName(), QString::number(task->getHours()));
     }
-
 }
 
-QVector<Task *> *TaskRepository::getTasks()
-{
-    return tasks;
-}
+QVector<Task*>* TaskRepository::getTasks() { return tasks; }
 
 void TaskRepository::readFromFile()
 {
-    if(filename.isEmpty())
+    if (filename.isEmpty())
     {
         qDebug() << "filename is empty nothing to read from";
         return;
@@ -71,9 +58,9 @@ void TaskRepository::readFromFile()
 
     QFile handle(filename);
 
-    if(!handle.exists()) // create first time then write
+    if (!handle.exists()) // create first time then write
     {
-        if(!handle.open(QFile::WriteOnly))
+        if (!handle.open(QFile::WriteOnly))
         {
             qDebug() << "Error openeing the file for writing";
             return;
@@ -85,16 +72,17 @@ void TaskRepository::readFromFile()
     }
 
     // read from file
-    if(!handle.open(QFile::ReadOnly))
+    if (!handle.open(QFile::ReadOnly))
     {
         qDebug() << "Error opening file for reading";
         return;
     }
 
-    while(!handle.atEnd())
+    while (!handle.atEnd())
     {
-        QString line = handle.readLine(); line = line.trimmed();
-        if(line.isEmpty())
+        QString line = handle.readLine();
+        line = line.trimmed();
+        if (line.isEmpty())
         {
             continue;
         }
@@ -104,11 +92,7 @@ void TaskRepository::readFromFile()
         qDebug() << line;
 
         assert(fields.length() == 3);
-        tasks->push_back(new Task(
-                             fields.at(0).toInt(),
-                             fields.at(1),
-                             fields.at(2).toInt()
-        ));
+        tasks->push_back(new Task(fields.at(0).toInt(), fields.at(1), fields.at(2).toInt()));
     }
     qDebug() << "read succesfully";
 

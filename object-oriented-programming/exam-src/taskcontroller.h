@@ -9,14 +9,14 @@ private:
     /*
      * Get repository
     */
-    TaskRepository *repository;
+    TaskRepository* repository;
 
 public:
     /*
      * Controller constructor
      * @param TaskRepository repository
     */
-    TaskController(TaskRepository *repository);
+    TaskController(TaskRepository* repository);
 
     /*
      * Check if the id exists in the repository
@@ -42,8 +42,7 @@ public:
      *
      * @return QVector<Task *> *
     */
-    QVector<Task *> *getTasks();
-
+    QVector<Task*>* getTasks();
 
     /*
      * Get all the tasks from the repository which are <= hour_max
@@ -52,7 +51,7 @@ public:
      *
      * @return QVector<Task *>
     */
-    QVector<Task *> getTasksByHour(int hour_max);
+    QVector<Task*> getTasksByHour(int hour_max);
 };
 
 #endif // TASKCONTROLLER_H

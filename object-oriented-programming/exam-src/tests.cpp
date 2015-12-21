@@ -48,7 +48,6 @@ void testRepositoryAndController()
     assert(tasks->at(0)->getHours() == 5);
 }
 
-
 void testAll()
 {
     qDebug() << "Testing started";
