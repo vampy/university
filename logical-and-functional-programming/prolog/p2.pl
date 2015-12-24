@@ -1,5 +1,5 @@
-% 5. Determine the value of a polynomial in a point. The polynomial is given as the 
-%   list of its coefficients. 
+% 5. Determine the value of a polynomial in a point. The polynomial is given as the
+%   list of its coefficients.
 
 % list starts from 0 as being the first coefficient
 polynomial(X, List, Result) :-
@@ -12,4 +12,3 @@ polynomial(X, [Head | Tail], Result, Power) :-
     polynomial(X, Tail, NextResult, NextPower),    % next coeficcient
     ValuePower is X ** Power,                      % calculate current power: X^n
     Result is Head * ValuePower + NextResult.      % a * current power + next coeficcient
-

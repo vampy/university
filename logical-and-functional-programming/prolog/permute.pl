@@ -5,7 +5,7 @@ generate_list(K, N, [K|R]) :-
 perm([], []).
 perm([E|L], Result) :-
     perm(L, Result1),
-    perm_ins(E, Result, Result1).   
+    perm_ins(E, Result, Result1).
 perm_ins(E, [E|X], X).
 perm_ins(E, [A|X], [A|Y]) :-
     perm_ins(E, X, Y).
@@ -14,4 +14,4 @@ allperm(L, Result) :-
 
 p(N, Result) :-
     generate_list(1, N, R1),
-    allperm(R1, Result). 
+    allperm(R1, Result).

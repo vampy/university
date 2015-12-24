@@ -12,7 +12,7 @@
   (cond
     ((numberp l) l)
     ((or (null l) (atom l)) 9999999999999999)
-    (t (apply #'min (mapcar #'min-el l))))) 
+    (t (apply #'min (mapcar #'min-el l)))))
 
 (defun insert-el (l el)
   (insert-el-aux l  el (min-el l)))
@@ -28,8 +28,8 @@
     (t (cons (car l) (insert-el-aux (cdr l) el minel))))) ; continue down the list
 
 
-; problema lui petru, rezolvata in ~1 min :P 
-; filter all non numeric from an unliniar list 
+; problema lui petru, rezolvata in ~1 min :P
+; filter all non numeric from an unliniar list
 (defun filter-atoms (l)
   (cond
     ((or (null l) (numberp l)) nil)

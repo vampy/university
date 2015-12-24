@@ -96,31 +96,28 @@
     (t (cons (car tree) (mapcar #'(lambda (l) (nodes-klevel-replace l (- k 1) e)) (cdr tree))))))
 
 
-	
+; (setX '(1 2 3 1 2 3)) => (1 2 3)
+(defun countX(el l)
+    (cond
+        ((null l) 0)
+        ((= el (car l)) (+ 1 (countX el (cdr l))))
+        (t (countX el (cdr l)))
+    )
+)
 
-    ; (setX '(1 2 3 1 2 3)) => (1 2 3)
-     
-    (defun countX(el l)
-            (cond
-                    ((null l) 0)
-                    ((= el (car l)) (+ 1 (countX el (cdr l))))
-                    (t (countX el (cdr l)))
-            )
+(defun removeX(el l)
+    (cond
+        ((null l) nil)
+        ((= el (car l)) (removeX el (cdr l)))
+        (t (cons (car l) (removeX el (cdr l))))
     )
-     
-    (defun removeX(el l)
-            (cond
-                    ((null l) nil)
-                    ((= el (car l)) (removeX el (cdr l)))
-                    (t (cons (car l) (removeX el (cdr l))))
-            )
+)
+
+(defun setX(l)
+    (cond
+        ((null l) nil)
+        ((< 1 (countX (car l) l)) (cons (car l) (setx (removeX (car l) (cdr l)))))
+        (t (setX (cdr l)))
     )
-     
-    (defun setX(l)
-            (cond
-                    ((null l) nil)
-                    ((< 1 (countX (car l) l)) (cons (car l) (setx (removeX (car l) (cdr l)))))
-                    (t (setX (cdr l)))
-            )
-    )
+)
 

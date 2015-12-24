@@ -1,6 +1,6 @@
-;4.  Return the list of nodes of a tree of type (1) accessed inorder.
-;inorder(l:list)
-;l - the list representing the tree
+; 4.  Return the list of nodes of a tree of type (1) accessed inorder.
+; inorder(l:list)
+; l - the list representing the tree
 (defun inorder(l)
   (cond
     ((null l) nil)
@@ -10,9 +10,9 @@
   )
 )
 
-;left_subtree(l:list, n:number)
-;l - the list representing the tree to be split
-;n - number of leafs to be searched
+; left_subtree(l:list, n:number)
+; l - the list representing the tree to be split
+; n - number of leafs to be searched
 (defun left_subtree(l n)
     (cond
         ((null l) nil)
@@ -24,9 +24,9 @@
 )
 
 
-;right_subtree(l:list, n:number)
-;l - the list representing the tree to be split
-;n - number of leafs to be searched
+; right_subtree(l:list, n:number)
+; l - the list representing the tree to be split
+; n - number of leafs to be searched
 (defun right_subtree(l n)
     (cond
         ((null l) nil)
@@ -35,10 +35,7 @@
         ((= (cadr l) 0) (right_subtree (cddr l) (- n 1)))
         (t (right_subtree (cddr l) n))
     )
-) 
-
-
-
+)
 
 ; 4.  Return the list of nodes of a tree of type (1) accessed inorder.
 ; Example:

@@ -11,10 +11,10 @@
 %
 
 member(Elem, [Elem | _]) :- !.
-member(Elem, [_ | Tail]) :- 
+member(Elem, [_ | Tail]) :-
     member(Elem, Tail).
 
-%is_set(List) :-
+% is_set(List) :-
 %    length(List, Length),
 %    sort(List, Sorted), % removes duplicates
 %    length(Sorted, Length).
@@ -23,8 +23,8 @@ is_set([]).
 is_set([Head | Tail]) :-
 	not(member(Head, Tail)),
 	is_set(Tail).
-    
-% 11. b. Remove the first three occurences of an element in a list. 
+
+% 11. b. Remove the first three occurences of an element in a list.
 %        If the element occurs less than three times, all occurences will be removed.
 %
 % remove_3(L: list, D: number, R: list)
@@ -48,11 +48,11 @@ remove_3(List, Del, Result) :-
 	remove_3(List, Del, Result, 0).
 
 remove_3([], _, [], _).
-remove_3([Elem | Tail], Del, Result, N) :- 
+remove_3([Elem | Tail], Del, Result, N) :-
 	(
 	   Elem == Del, N \= 3
 	   ->  N1 is N + 1, remove_3(Tail, Del, Result, N1);
-	       
+
 	       Result = [Elem | Rest],
            remove_3(Tail, Del, Rest, N)
 	).

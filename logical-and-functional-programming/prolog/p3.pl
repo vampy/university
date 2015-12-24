@@ -1,8 +1,8 @@
-% 15. Given a list of integer numbers. 
+% 15. Given a list of integer numbers.
 %     Remove from list the longest sequence formed from prime numbers.
 %     Ex: [1, 3, 5, 4, 2, 5, 7, 8] => [1, 3, 5, 4, 8]
 
-prime_is_divisible(Number, Divisor) :- 
+prime_is_divisible(Number, Divisor) :-
     Number mod Divisor =:= 0.
 prime_is_divisible(Number, Divisor) :-
 	NextDivisor is Divisor + 2,            % increment by two, we work only with odd numbers
@@ -22,17 +22,17 @@ largest_p(List, Start, End) :-
     largest_p(List, 0, 0, 0, 0, Start, End).
 largest_p([], _, _, _, _, -1, -1) :- !.
 largest_p([Head], 0, 0, _, _, -1, -1) :- not(is_prime(Head)), !. % no sequence found
-largest_p([_], 0, 0, I, _, Start, End) :- 
-    Start is I, 
+largest_p([_], 0, 0, I, _, Start, End) :-
+    Start is I,
     End is I + 1, !. % no sequence found
-largest_p([_], _, PreviousLength, _, StartI, Start, End) :- 
-    Start is StartI, 
+largest_p([_], _, PreviousLength, _, StartI, Start, End) :-
+    Start is StartI,
     End is PreviousLength + StartI + 1, !.
 largest_p([Head, NextHead | Tail], Length, PreviousLength, I, _, Start, End) :-
     is_prime(Head),
     is_prime(NextHead), % condition % a[i+1] > a[i]
     NextLength is Length + 1,
-       
+
     NextLength > PreviousLength,  % new length is bigger than old one
     largest_p([NextHead | Tail], NextLength, NextLength, I + 1, I + 1 - NextLength, Start, End), !.  % previous_len = len
 largest_p([Head, NextHead | Tail], _, PreviousLength, I, StartI, Start, End) :- % if HEAD is  not prime, ignore it, move forward

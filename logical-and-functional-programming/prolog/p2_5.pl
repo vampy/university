@@ -1,5 +1,5 @@
-% 5. Determine the value of a polynomial in a point. The polynomial is given as the 
-%   list of its coefficients. 
+% 5. Determine the value of a polynomial in a point. The polynomial is given as the
+%   list of its coefficients.
 
 % list starts from 0 as being the first coefficient
 polynomial(X, List, Result) :-

@@ -6,17 +6,9 @@
     (t (+ 1 (apply #'max (mapcar #'max-depth l))))))
 
 
-
-
-
-
-
-
-
-
-; 3. Se da o lista neliniara. Sa se scrie un program LISP pt determinarea numarului de subliste de la orice 
+; 3. Se da o lista neliniara. Sa se scrie un program LISP pt determinarea numarului de subliste de la orice
 ; nivel pt care nr-ul atomilor nenumerici de pe nivelurile pare(de la orice nivel)este impar
-;- nivelul superficial al listei se considera 1. Prelucrarea se va face folosind o functie MAP. 
+;- nivelul superficial al listei se considera 1. Prelucrarea se va face folosind o functie MAP.
 ; De exemplu, lista A (B 2) (1 C 4) (1(6 F)) (((G)4)6)) are 3 astfel de subliste: lista, (1(6 F)) si ((G)4)
 ; remove all numbers in list, except the first one odd one number if it exists, this function works as a filter
 (defun nr-sublists-remove1 (l &optional found_nr found)
@@ -41,11 +33,11 @@
     ((atom l) 0)
     (t (apply #'+ (mapcar #'nr-sublists (nr-sublists-remove l))))))
 
-; numarul atomilor dintr-o lista neliniara 
+; numarul atomilor dintr-o lista neliniara
 (defun nr-atoms (l)
   (cond
     ((null l) 0)
-    ((atom l) 1) ; mark with number 
+    ((atom l) 1) ; mark with number
     (t (apply #'+ (mapcar #'nr-atoms l))))) ; acumulate results, add all of them
 
 ; double the element at every N steps

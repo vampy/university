@@ -23,7 +23,7 @@
   (cond
     ((null l) NIL)
     ((and (not (numberp node)) (= node_nr 0) (null tail)) (cons node '(NIL NIL) )) ; leaf
-    ((and (not (numberp node)) (= node_nr 0)) (cons (cons node '(NIL NIL)) (list (transform tail)))) 
+    ((and (not (numberp node)) (= node_nr 0)) (cons (cons node '(NIL NIL)) (list (transform tail))))
     ((not (numberp node)) (cons node (list (transform tail)))) ; is a node
     (T (transform (cdr l)))))) ; is a number, not sure....!
 
@@ -34,17 +34,17 @@
     ;((atom l) l) ; node is leaf
     ((numberp node) (cons node (tree_left (cdr l) nr)))
     ((and (= nr 1) (= (cadr l) 0)) (list node (cadr l))) ; (E 0)
-    (T (cons (car l) (tree_left (cdr l) (+ (car (cdr l)) (- nr 1)))))))) 
+    (T (cons (car l) (tree_left (cdr l) (+ (car (cdr l)) (- nr 1))))))))
 
 (defun tree_right(l nr)
-  (cond 
+  (cond
     ((= nr 1) (tree_left l nr)) ; ref count is 1, go left
     ;((atom l) l) ; node is leaf
     (T (tree_right (cddr l) (+ (cadr l) (- nr 1)))))) ; ref count is 2
 
 (defun transf (l)
   (let ((node (car l)) (nr_nodes (cadr l)) (tail (cddr l)))
-    (cond 
+    (cond
       ((null l) NIL)
       ((= 0 nr_nodes) (cons node '(NIL NIL))) ; node is leaf
       ((= 1 nr_nodes) (list node (transf (tree_left tail '1)))) ; has only left tree

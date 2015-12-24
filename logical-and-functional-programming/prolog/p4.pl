@@ -1,4 +1,4 @@
-prime_is_divisible(Number, Divisor) :- 
+prime_is_divisible(Number, Divisor) :-
     Number mod Divisor =:= 0.
 prime_is_divisible(Number, Divisor) :-
     NextDivisor is Divisor + 2,            % increment by two, we work only with odd numbers
@@ -19,9 +19,9 @@ sieve(N, [2|PS]) :-       % PS is list of odd primes up to N
 sieve_O(I,N,PS) :-        % sieve odds from I up to N to get PS
     I =< N, !, I1 is I+2,
     (   mult(I) -> sieve_O(I1,N,PS)
-    ;   (   I =< N / I -> 
+    ;   (   I =< N / I ->
             ISq is I*I, DI  is 2*I, add_mults(DI,ISq,N)
-        ;   true 
+        ;   true
         ),
         PS = [I|T],
         sieve_O(I1,N,T)
@@ -33,7 +33,7 @@ add_mults(DI,I,N) :-
     I1 is I+DI,
     add_mults(DI,I1,N).
 add_mults(_,I,N) :- I > N.
-      
+
 
 % 5. Determine all the decompositions of a given N, as a sum of distinct
 %   prime numbers.
@@ -61,26 +61,23 @@ sum_primes(N, Result) :-
     allSubsets(Primes, Subsets),
     sum_primes_correct(Subsets, Result, N).
 
-
-
-
-
-
 goldbach(4,[2, 2]) :- !.
-goldbach(Number, L) :- 
-    Number > 4, 
+goldbach(Number, L) :-
+    Number > 4,
     goldbach(Number, L, 3).
-goldbach(N, [P, Q], P) :- 
-    Q is N - P, 
+goldbach(N, [P, Q], P) :-
+    Q is N - P,
     is_prime(Q), !.
-goldbach(N, L, P) :- 
-    P < N, 
-    next_prime(P, P1), 
+goldbach(N, L, P) :-
+    P < N,
+    next_prime(P, P1),
     goldbach(N, L, P1).
 
-next_prime(P, P1) :- 
+next_prime(P, P1) :-
     P1 is P + 1,
     is_prime(P1), !.
-next_prime(P, P1) :- 
-    P2 is P + 1, 
+next_prime(P, P1) :-
+    P2 is P + 1,
     next_prime(P2, P1).
+
+    
