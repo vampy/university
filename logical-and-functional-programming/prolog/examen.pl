@@ -105,10 +105,10 @@ max_positions(List, Result) :-
 
 max_positions([], [], _, _) :-  !.
 max_positions([Head | Tail], Result, Max, Pos) :- % found element
-	Head =:= Max,
-	Pos1 is Pos + 1,
-	max_positions(Tail, Result1, Max, Pos1),
-	Result = [Pos | Result1], !.
+   Head =:= Max,
+   Pos1 is Pos + 1,
+   max_positions(Tail, Result1, Max, Pos1),
+   Result = [Pos | Result1], !.
 
 max_positions([Head | Tail], Result, Max, Pos) :- % element not found
     Pos1 is Pos + 1,
@@ -120,17 +120,17 @@ double_el([H | L], [H, H | Result]) :-
 	double_el(L, Result).
 
 
-f([],[]).
+f([], []).
 
-f(L,R):-
-faux(L,0,1,1,R).
-faux([],_,_,_,[]).
-faux([_|T],Index,PosToDel,PosC,R):-
-	PosToDel == PosC,
-	NewIndex is (Index+1),
-	NewPosToDel is (PosToDel + NewIndex),
-	NewPosC is (PosC+1),
-	faux(T,NewIndex,NewPosToDel,NewPosC,R), !.
-faux([H|T],Index,PosToDel,PosC,[H|R]):-
-	NewPosC is (PosC+1),
-	faux(T,Index,PosToDel,NewPosC,R).
+f(L, R):-
+faux(L, 0, 1, 1, R).
+faux([], _, _, _, []).
+faux([_ | T], Index, PosToDel, PosC, R) :-
+   PosToDel == PosC,
+   NewIndex is (Index + 1),
+   NewPosToDel is (PosToDel + NewIndex),
+   NewPosC is (PosC + 1),
+   faux(T, NewIndex, NewPosToDel, NewPosC, R), !.
+faux([H | T], Index, PosToDel, PosC, [H | R]) :-
+   NewPosC is (PosC + 1),
+   faux(T, Index, PosToDel, NewPosC, R).

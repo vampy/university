@@ -47,14 +47,14 @@ allSubsets(L, Res) :- findall(Y, subsets(L, Y), Res).
 % the second one is the result
 sum_primes_correct([], [], _).
 sum_primes_correct([H|T], Result, N) :- % list of lists, H is a list
-	sum_list(H, Sum),
-	Sum =:= N,
-	sum_primes_correct(T, ResultNext, N),
-	Result = [H | ResultNext].
+    sum_list(H, Sum),
+    Sum =:= N,
+    sum_primes_correct(T, ResultNext, N),
+    Result = [H | ResultNext].
 sum_primes_correct([H|T], Result, N) :-
-	sum_list(H, Sum),
+    sum_list(H, Sum),
     Sum =\= N,
-	sum_primes_correct(T, Result, N).
+    sum_primes_correct(T, Result, N).
 
 sum_primes(N, Result) :-
     sieve(N - 1, Primes),
@@ -79,5 +79,3 @@ next_prime(P, P1) :-
 next_prime(P, P1) :-
     P2 is P + 1,
     next_prime(P2, P1).
-
-    

@@ -9,7 +9,6 @@ in(X, Y) :-
     directlyIn(X, Z),
     in(Z, Y).
 
-
 % 3.3
 directTrain(saarbruecken, dudweiler).
    directTrain(forbach, saarbruecken).

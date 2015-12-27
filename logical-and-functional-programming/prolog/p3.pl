@@ -5,16 +5,16 @@
 prime_is_divisible(Number, Divisor) :-
     Number mod Divisor =:= 0.
 prime_is_divisible(Number, Divisor) :-
-	NextDivisor is Divisor + 2,            % increment by two, we work only with odd numbers
-	Divisor * Divisor < Number,            % L < sqrt(N)
-	prime_is_divisible(Number, NextDivisor).
+    NextDivisor is Divisor + 2,            % increment by two, we work only with odd numbers
+    Divisor * Divisor < Number,            % L < sqrt(N)
+    prime_is_divisible(Number, NextDivisor).
 
 is_prime(2) :- !.
 is_prime(3) :- !.
 is_prime(Number) :-
-	Number > 3,
-	Number mod 2 =\= 0,   % take out even numbers
-	not(prime_is_divisible(Number, 3)).
+    Number > 3,
+    Number mod 2 =\= 0,   % take out even numbers
+    not(prime_is_divisible(Number, 3)).
 
 
 % base case
@@ -43,8 +43,8 @@ largest_p([_, NextHead | Tail], Length, PreviousLength, I, StartI, Start, End) :
 
 
 remove_p(List, Result) :-
-	largest_p(List, Start, End),
-	remove_p(List, Start, End, 0, Result).
+    largest_p(List, Start, End),
+    remove_p(List, Start, End, 0, Result).
 remove_p([], _, _, _, []) :- !.
 remove_p([_ | Tail], Start, End, I, Result) :- % element is in range, do not include
     I >= Start, I < End,

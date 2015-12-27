@@ -6,15 +6,15 @@ largest(List, Start, End) :-
 largest([], _, _, _, 0, 0) :- !.
 largest([_], _, _, _, _, _) :- !.
 largest([Head, NextHead | Tail], Length, PreviousLength, I, Start, End) :-
-       NextHead > Head, % condition % a[i+1] > a[i]
-       NextLength is Length + 1,
+    NextHead > Head, % condition % a[i+1] > a[i]
+    NextLength is Length + 1,
 
-       NextLength > PreviousLength,                    % new length is bigger than old one
-       largest([NextHead | Tail], NextLength, NextLength, I + 1, Start, End),  % previous_len = len
+    NextLength > PreviousLength,                    % new length is bigger than old one
+    largest([NextHead | Tail], NextLength, NextLength, I + 1, Start, End),  % previous_len = len
 
-       % finish program, return
-       Start is I + 1 - NextLength,
-       End is NextLength + 1 + Start, !.
+    % finish program, return
+    Start is I + 1 - NextLength,
+    End is NextLength + 1 + Start, !.
 
 largest([Head, NextHead | Tail], _, PreviousLength, I, Start, End) :- % else, negate first, start over
     NextHead < Head,
@@ -61,23 +61,23 @@ pow(X, Y, Z) :-
 max_list([], 0).
 max_list([Head], Head) :- !.
 max_list([Head | Tail], Max) :-
-	max_list(Tail, MaxNext),
-	Max is max(Head, MaxNext).
+    max_list(Tail, MaxNext),
+    Max is max(Head, MaxNext).
 remove_max_list(List, Result) :-
-	max_list(List, Max),
-	remove(List, Max, Result), !.
+    max_list(List, Max),
+    remove(List, Max, Result), !.
 
 remove_repetitive(List, Result) :-
-	remove_repetitive(List, Result, []).
+    remove_repetitive(List, Result, []).
 
 remove_repetitive([], [], _) :- !.
 remove_repetitive([Head | Tail], Result, Seen) :- % we got an element
-	member(Head, Seen),
-	remove_repetitive(Tail, Result, Seen). % without head
+    member(Head, Seen),
+    remove_repetitive(Tail, Result, Seen). % without head
 remove_repetitive([Head | Tail], Result, Seen) :- % not seen element
-	Result = [Head | ResultNext],
-	add(Seen, Head, SeenNext),
-	remove_repetitive(Tail, ResultNext, SeenNext), !.
+    Result = [Head | ResultNext],
+    add(Seen, Head, SeenNext),
+    remove_repetitive(Tail, ResultNext, SeenNext), !.
 
 my_last(X,[X]).
 my_last(X,[_|L]) :- my_last(X,L).
