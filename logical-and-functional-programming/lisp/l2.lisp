@@ -20,10 +20,10 @@
 
 
 ; 5.  Return the list of nodes of a tree of type (1) accessed in postorder.
-(defun list_append (x y) 
+(defun list_append (x y)
   (let ((head (car x)) (tail (cdr x)))
-    (cond 
-      ((null x) y) 
+    (cond
+      ((null x) y)
       (t (cons head (append tail y))))))
 
 ; tree_left(l: list, nr: number)
@@ -43,7 +43,7 @@
 ; nr must start with 2
 (defun tree_right (l nr)
   (let ((node_nr (cadr l)) (tail (cddr l)))
-    (cond 
+    (cond
       ((= nr 1) l) ; ref count is 1, we skipped the left graph
       (T (tree_right tail (+ node_nr (- nr 1))))))) ; ref count is 2 or higher, skip left graph
 
@@ -51,7 +51,7 @@
 ; - l - the graph list we want to traverse in post order
 (defun postorder1 (l)
   (let ((node (car l)) (nr_nodes (cadr l)) (tail (cddr l)))
-    (cond 
+    (cond
       ((null l) NIL)
       ((= 0 nr_nodes) (list node)) ; node is leaf
       ((= 1 nr_nodes) (append (postorder1 (tree_left tail 1)) (list node))) ; has only left tree
@@ -98,26 +98,19 @@
 
 ; (setX '(1 2 3 1 2 3)) => (1 2 3)
 (defun countX(el l)
-    (cond
-        ((null l) 0)
-        ((= el (car l)) (+ 1 (countX el (cdr l))))
-        (t (countX el (cdr l)))
-    )
-)
+  (cond
+    ((null l) 0)
+      ((= el (car l)) (+ 1 (countX el (cdr l))))
+      (t (countX el (cdr l)))))
 
 (defun removeX(el l)
-    (cond
-        ((null l) nil)
-        ((= el (car l)) (removeX el (cdr l)))
-        (t (cons (car l) (removeX el (cdr l))))
-    )
-)
+  (cond
+    ((null l) nil)
+      ((= el (car l)) (removeX el (cdr l)))
+      (t (cons (car l) (removeX el (cdr l))))))
 
 (defun setX(l)
-    (cond
-        ((null l) nil)
-        ((< 1 (countX (car l) l)) (cons (car l) (setx (removeX (car l) (cdr l)))))
-        (t (setX (cdr l)))
-    )
-)
-
+  (cond
+    ((null l) nil)
+      ((< 1 (countX (car l) l)) (cons (car l) (setx (removeX (car l) (cdr l)))))
+      (t (setX (cdr l)))))

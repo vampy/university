@@ -28,14 +28,12 @@
 ; l - the list representing the tree to be split
 ; n - number of leafs to be searched
 (defun right_subtree(l n)
-    (cond
-        ((null l) nil)
-        ((= n 0) l)
-        ((= (cadr l) 2) (right_subtree (cddr l) (+ n 1)))
-        ((= (cadr l) 0) (right_subtree (cddr l) (- n 1)))
-        (t (right_subtree (cddr l) n))
-    )
-)
+  (cond
+    ((null l) nil)
+      ((= n 0) l)
+      ((= (cadr l) 2) (right_subtree (cddr l) (+ n 1)))
+      ((= (cadr l) 0) (right_subtree (cddr l) (- n 1)))
+      (t (right_subtree (cddr l) n))))
 
 ; 4.  Return the list of nodes of a tree of type (1) accessed inorder.
 ; Example:

@@ -20,12 +20,14 @@
       ((and is_number        found_nr       (not found)) (nr-sublists-remove tail T F))  ; ignore all numbers
       ((and is_number        (not found_nr) (not found)) (nr-sublists-remove tail T F)) ; found a number but it is not odd, remove all numbers
       (t (cons head (nr-sublists-remove tail found))))))
+
 (defun nr-sublists-remove (l &optional found)
   (cond
     ((null l) nil)
     ((and (numberp (car l)) (oddp (car l)) found) (nr-sublists-remove (cdr l) found))
     ((and (numberp (car l)) (oddp (car l)) (not found)) (cons (car l) (nr-sublists-remove (cdr l) T))) ; found or odd umber
     (t (cons (car l) (nr-sublists-remove (cdr l) found)))))
+  
 (defun nr-sublists (l)
   (cond
     ((null l) 0)
