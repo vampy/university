@@ -1,6 +1,6 @@
 USE test;
 
--- ALTER TABLE snippets 
+-- ALTER TABLE snippets
 --	ALTER COLUMN title NVARCHAR(255);
 
 -- sys.objects sys.columns sys.types
@@ -8,7 +8,6 @@ USE test;
 SELECT *
 FROM sys.objects
 WHERE type = 'F';
-
 
 SELECT
     O.name,

@@ -16,9 +16,9 @@ CREATE TABLE schema_migrations (
 );
 
 -- Convention
--- <action> create, update, delete, 
+-- <action> create, update, delete,
 -- <type> column, dconstraint, type
--- <table> 
+-- <table>
 -- <column>
 
 -- add a column
@@ -167,7 +167,7 @@ AS
             INTO @upgrade_proc, @version;
             WHILE @@FETCH_STATUS = 0
                 BEGIN
-                    -- PRINT CONVERT(CHAR(2), @version) + '	' + @upgrade_proc;
+                    -- PRINT CONVERT(CHAR(2), @version) + '    ' + @upgrade_proc;
 
                     PRINT CHAR(13);
                     PRINT 'EXECUTING: ' + @upgrade_proc;
@@ -207,7 +207,7 @@ AS
             INTO @revert_proc, @version
             WHILE @@FETCH_STATUS = 0
                 BEGIN
-                    --PRINT CONVERT(CHAR(2), @version) + '	' + @revert_proc;
+                    --PRINT CONVERT(CHAR(2), @version) + '    ' + @revert_proc;
                     PRINT CHAR(13);
                     PRINT 'EXECUTING: ' + @revert_proc
                     EXEC sp_executesql @revert_proc
