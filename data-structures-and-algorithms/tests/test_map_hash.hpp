@@ -56,7 +56,7 @@ void testMapHashIterator()
     unsigned int length = 0, test_length = 1200, i;
     auto test = new MapHash::Map<int>;
 
-    for(i = 0; i < test_length; i++)
+    for (i = 0; i < test_length; i++)
     {
         length++;
         test->put(to_string(i), i);
@@ -65,7 +65,7 @@ void testMapHashIterator()
 
     auto it = test->getIterator();
     length = 0;
-    while(it->hasNext())
+    while (it->hasNext())
     {
         auto element = it->next();
         assert(element->key == to_string(element->value));

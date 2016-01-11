@@ -17,7 +17,7 @@ public:
 
     virtual unsigned int getLength() const = 0;
 
-    virtual     void clear() = 0;
+    virtual void clear() = 0;
 };
 
 #endif // MAP_ADT_H_

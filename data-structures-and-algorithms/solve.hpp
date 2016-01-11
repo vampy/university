@@ -10,12 +10,12 @@
 
 using namespace std;
 
-void addToMapStd(map<string, set<string>> &anagram, string word)
+void addToMapStd(map<string, set<string>>& anagram, string word)
 {
     string key = word;
     sort(key.begin(), key.end());
 
-    if(anagram.find(key) == anagram.end()) // not found, add new key
+    if (anagram.find(key) == anagram.end()) // not found, add new key
     {
         set<string> temp_v = {word};
         anagram[key] = temp_v;
@@ -27,13 +27,13 @@ void addToMapStd(map<string, set<string>> &anagram, string word)
 }
 
 template <typename MapType>
-void addToMapADT(MapType &map_type, string word)
+void addToMapADT(MapType& map_type, string word)
 {
     string key = word;
     sort(key.begin(), key.end());
-    //cout << "word = " << word << " --- " << "key = " << key << endl;
+    // cout << "word = " << word << " --- " << "key = " << key << endl;
 
-    if(!map_type.containsKey(key)) // not found, add new key
+    if (!map_type.containsKey(key)) // not found, add new key
     {
         set<string> temp_v = {word};
         map_type.put(key, temp_v);
@@ -46,21 +46,21 @@ void addToMapADT(MapType &map_type, string word)
     }
 }
 
-void readFromFileStd(ifstream &fHandle, map<string, set<string>> &map_std, string filename)
+void readFromFileStd(ifstream& fHandle, map<string, set<string>>& map_std, string filename)
 {
     fHandle.open(filename, ios::in);
-    if(!fHandle.is_open())
+    if (!fHandle.is_open())
     {
         printError("Filename '" + filename + "' does not exist");
         return;
     }
 
-    while(!fHandle.eof())
+    while (!fHandle.eof())
     {
         string word;
         fHandle >> word;
 
-        if(word.length() > 3)
+        if (word.length() > 3)
         {
             word = stringToLower(word);
             addToMapStd(map_std, word);
@@ -70,21 +70,21 @@ void readFromFileStd(ifstream &fHandle, map<string, set<string>> &map_std, strin
 }
 
 template <typename MapType>
-void readFromFileADT(ifstream &fHandle, MapType &map_type, string filename)
+void readFromFileADT(ifstream& fHandle, MapType& map_type, string filename)
 {
     fHandle.open(filename, ios::in);
-    if(!fHandle.is_open())
+    if (!fHandle.is_open())
     {
         printError("Filename '" + filename + "' does not exist");
         return;
     }
 
-    while(!fHandle.eof())
+    while (!fHandle.eof())
     {
         string word;
         fHandle >> word;
 
-        if(word.length() > 3)
+        if (word.length() > 3)
         {
             word = stringToLower(word);
             addToMapADT<MapType>(map_type, word);
@@ -93,15 +93,15 @@ void readFromFileADT(ifstream &fHandle, MapType &map_type, string filename)
     fHandle.close();
 }
 
-void printAllMapStd(map<string, set<string>> &map_std)
+void printAllMapStd(map<string, set<string>>& map_std)
 {
     cout << "All anagrams: " << endl;
-    for(auto it = map_std.begin(); it != map_std.end(); ++it)
+    for (auto it = map_std.begin(); it != map_std.end(); ++it)
     {
-        if(it->second.size() > 1)
+        if (it->second.size() > 1)
         {
             cout << it->first << " => [";
-            for(auto vit = it->second.begin(); vit != it->second.end(); ++vit)
+            for (auto vit = it->second.begin(); vit != it->second.end(); ++vit)
             {
                 cout << *vit << ", ";
             }
@@ -112,17 +112,17 @@ void printAllMapStd(map<string, set<string>> &map_std)
 }
 
 template <typename MapType>
-void printAllMapADT(MapType &map_type)
+void printAllMapADT(MapType& map_type)
 {
     cout << "All anagrams: " << endl;
     auto hash_it = map_type.getIterator();
-    while(hash_it->hasNext())
+    while (hash_it->hasNext())
     {
         auto element = hash_it->next();
-        if(element->value.size() > 1)
+        if (element->value.size() > 1)
         {
             cout << element->key << " => [";
-            for(auto vit = element->value.begin(); vit != element->value.end(); ++vit)
+            for (auto vit = element->value.begin(); vit != element->value.end(); ++vit)
             {
                 cout << *vit << ", ";
             }

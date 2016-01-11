@@ -6,7 +6,7 @@
 static void testVectorInit()
 {
     unsigned int capacity = 1024;
-    DynamicArray<int> *test = new DynamicArray<int>(capacity);
+    DynamicArray<int>* test = new DynamicArray<int>(capacity);
 
     assert(test->getLength() == 0);
     assert(test->getCapacity() == capacity);
@@ -16,12 +16,12 @@ static void testVectorInit()
 
 static void testVectorCRUD()
 {
-    DynamicArray<unsigned int> *test = new DynamicArray<unsigned int>;
+    DynamicArray<unsigned int>* test = new DynamicArray<unsigned int>;
 
     unsigned int length = 0, test_length = 1200, i;
 
     // add
-    for(i = test_length; i > 0; i--)
+    for (i = test_length; i > 0; i--)
     {
         length++;
         test->add(i);
@@ -29,7 +29,7 @@ static void testVectorCRUD()
     }
 
     // get/set
-    for(i = 0; i < test_length; i++)
+    for (i = 0; i < test_length; i++)
     {
         assert(test->get(i) == test_length - i);
         test->set(i, i);
@@ -37,23 +37,22 @@ static void testVectorCRUD()
     }
 
     // insert, replace at position
-    for(i = 0; i < test_length; i+=50)
+    for (i = 0; i < test_length; i += 50)
     {
-        //length++;
-        test->insert(i, i*i);
+        // length++;
+        test->insert(i, i * i);
         assert(test->getLength() == length);
-        assert(test->get(i) == i*i);
+        assert(test->get(i) == i * i);
     }
 
     assert(test_length == length);
     // remove
-    for(i = 0; i < test_length; i++)
+    for (i = 0; i < test_length; i++)
     {
         length--;
         test->remove(test_length - i - 1);
         assert(test->getLength() == length);
     }
-
 
     delete test;
 }

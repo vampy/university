@@ -5,7 +5,9 @@
 
 #include "util.hpp"
 
-class DynamicArrayException: public std::runtime_error {};
+class DynamicArrayException : public std::runtime_error
+{
+};
 class DynamicArrayException;
 
 template <typename TElement>
@@ -13,12 +15,12 @@ class DynamicArray
 {
 public:
     /**
-    * DynamicArray consructor
-    * @param int initial_capacity - the initial build capacity, to allocate
-    */
+     * DynamicArray consructor
+     * @param int initial_capacity - the initial build capacity, to allocate
+     */
     DynamicArray(int initial_capacity = 128)
     {
-        if(initial_capacity <= 0) // reset to default if initial capacity is small
+        if (initial_capacity <= 0) // reset to default if initial capacity is small
         {
             initial_capacity = 256;
         }
@@ -39,9 +41,9 @@ public:
         }
     }
 
-    DynamicArray& operator =(const DynamicArray& second)
+    DynamicArray& operator=(const DynamicArray& second)
     {
-        if(this == &second)
+        if (this == &second)
         {
             return *this; // protect against self assignment (a = a)
         }
@@ -68,9 +70,9 @@ public:
     }
 
     /**
-    * Adds an element in the vector, to the end
-    * TElement - element to add
-    */
+     * Adds an element in the vector, to the end
+     * TElement - element to add
+     */
     void add(TElement element)
     {
         this->resize();
@@ -80,28 +82,28 @@ public:
     }
 
     /**
-    * Insert an alement at a given position
-    * @param int position - the position
-    * @param TElement element
-    */
+     * Insert an alement at a given position
+     * @param int position - the position
+     * @param TElement element
+     */
     void insert(unsigned int position, TElement element)
     {
         this->resize();
 
         // move to the right
-        for(unsigned int i = this->length; i > position ; i--)
+        for (unsigned int i = this->length; i > position; i--)
         {
             this->data[i] = this->data[i - 1];
         }
-        //this->length++;
+        // this->length++;
         this->data[position] = element;
     }
 
     /**
-    * Get element from vector from a given position
-    * @param int position - the position
-    * @return TElement the element we are searching for
-    */
+     * Get element from vector from a given position
+     * @param int position - the position
+     * @return TElement the element we are searching for
+     */
     TElement get(unsigned int position)
     {
         this->validatePosition(position);
@@ -109,10 +111,10 @@ public:
     }
 
     /**
-    * Set the given position with the value of element
-    * @param int position - the position we want to replace
-    * @param TElement elemnt - the new element
-    */
+     * Set the given position with the value of element
+     * @param int position - the position we want to replace
+     * @param TElement elemnt - the new element
+     */
     void set(unsigned int position, TElement element)
     {
         this->validatePosition(position);
@@ -120,15 +122,15 @@ public:
     }
 
     /**
-    * Remove element at a given position
-    * @param int position - the position we want to replace
-    */
+     * Remove element at a given position
+     * @param int position - the position we want to replace
+     */
     void remove(int position)
     {
         this->validatePosition(position);
 
         // move to the left minus the last one
-        for(unsigned int i = position; i < this->length; i++)
+        for (unsigned int i = position; i < this->length; i++)
         {
             this->data[i] = this->data[i + 1];
         }
@@ -136,43 +138,34 @@ public:
     }
 
     /**
-    * @return unsigned int - the number the elements
-    */
-    unsigned int getLength() const
-    {
-        return this->length;
-    }
+     * @return unsigned int - the number the elements
+     */
+    unsigned int getLength() const { return this->length; }
 
     /**
      * @return unsigned int - the allocated capacity
-    */
-    unsigned int getCapacity() const
-    {
-        return this->capacity;
-    }
+     */
+    unsigned int getCapacity() const { return this->capacity; }
 
     /**
      * @return TElement* - the internal array representation
-    */
-    TElement *getInternalData() const
-    {
-        return this->data;
-    }
+     */
+    TElement* getInternalData() const { return this->data; }
 
 protected:
     /**
-    * Resize the internal data if necessary
-    * If the length is larger or equal to the capacity
-    */
+     * Resize the internal data if necessary
+     * If the length is larger or equal to the capacity
+     */
     void resize()
     {
-        if(this->length >= this->capacity)
+        if (this->length >= this->capacity)
         {
             // create mew buffer
             this->capacity *= 2;
-            TElement *temp_data = new TElement[this->capacity];
+            TElement* temp_data = new TElement[this->capacity];
 
-            for(unsigned int i = 0; i < this->length; i++)
+            for (unsigned int i = 0; i < this->length; i++)
             {
                 temp_data[i] = this->data[i];
             }
@@ -185,20 +178,20 @@ protected:
     }
 
     /**
-    * Validate current position throw exception if invalid
-    * @param unsigned int position
-    * @throws DynamicArrayException
-    */
+     * Validate current position throw exception if invalid
+     * @param unsigned int position
+     * @throws DynamicArrayException
+     */
     void validatePosition(unsigned int position)
     {
-        if(position < 0 || position >= this->length)
+        if (position < 0 || position >= this->length)
         {
             printError("DynamicArray: Position out of range, position = " + std::to_string(position));
-            throw ("DynamicArray: Position out of range");
+            throw("DynamicArray: Position out of range");
         }
     }
 
-    TElement *data;
+    TElement* data;
     unsigned int length;
     unsigned int capacity;
 };

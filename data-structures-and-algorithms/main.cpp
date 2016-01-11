@@ -23,7 +23,8 @@ void printMenu()
     cout << "3. Print all anagrams" << endl;
 
     cout << "h. Print this help menu" << endl;
-    cout << "q. Quit" << endl << endl;
+    cout << "q. Quit" << endl
+         << endl;
 }
 
 int main()
@@ -40,30 +41,32 @@ int main()
     MapHash::Map<set<string>> map_hash;
     MapVector::Map<string, set<string>> map_vector;
     readFromFileADT<MapHash::Map<set<string>>>(fHandle, map_hash, filename);
-    //readFromFileADT<MapVector::Map<string, set<string>>>(fHandle, map_vector, filename);
-    while(1)
+    // readFromFileADT<MapVector::Map<string, set<string>>>(fHandle, map_vector, filename);
+    while (1)
     {
         string option;
-        cout << ">> "; cin >> option;
+        cout << ">> ";
+        cin >> option;
 
         option = trim(option);
-        if(option == "1")
+        if (option == "1")
         {
             cout << "Filename with words(no spaces) = ";
             cin >> filename;
             map_hash.clear();
             readFromFileADT<MapHash::Map<set<string>>>(fHandle, map_hash, filename);
         }
-        else if(option == "2")
+        else if (option == "2")
         {
             cout << "Word = ";
             cin >> word;
-            string key = word; sort(key.begin(), key.end());
-            if(map_hash.containsKey(key)) // get all anagrams
+            string key = word;
+            sort(key.begin(), key.end());
+            if (map_hash.containsKey(key)) // get all anagrams
             {
                 cout << "Anagrams: ";
                 set<string> anagrams = map_hash.get(key);
-                for(auto it = anagrams.begin(); it != anagrams.end(); ++it)
+                for (auto it = anagrams.begin(); it != anagrams.end(); ++it)
                 {
                     cout << *it << " ";
                 }
@@ -74,16 +77,17 @@ int main()
                 printError("There are no anagrams for the word '" + word + "'");
             }
         }
-        else if(option == "3")
+        else if (option == "3")
         {
             printAllMapADT<MapHash::Map<set<string>>>(map_hash);
-            cout << endl << map_hash.getLength() << endl;
+            cout << endl
+                 << map_hash.getLength() << endl;
         }
-        else if(option == "h")
+        else if (option == "h")
         {
             printMenu();
         }
-        else if(option == "q")
+        else if (option == "q")
         {
             cout << "Quiting" << endl;
             break;
