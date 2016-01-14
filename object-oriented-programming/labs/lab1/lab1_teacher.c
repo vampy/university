@@ -15,8 +15,7 @@ int factorial(int n)
 {
     int i, n_fact = 1;
 
-    for (i = 1; i <= n; i++)
-        n_fact = n_fact * i;
+    for (i = 1; i <= n; i++) n_fact = n_fact * i;
 
     return n_fact;
 }
@@ -32,8 +31,7 @@ void print_pascal_triangle(int dimension)
     {
         // print the current row
         // Combination of k taken with i
-        for (i = 0; i <= k; i++)
-            printf("%d ", factorial(k) / (factorial(i) * factorial(k - i)));
+        for (i = 0; i <= k; i++) printf("%d ", factorial(k) / (factorial(i) * factorial(k - i)));
 
         printf("\n");
     }

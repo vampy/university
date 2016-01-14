@@ -14,8 +14,7 @@
 // return: 1 if true 0 otherwise
 int is_leap_year(int year)
 {
-    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-        return 1;
+    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) return 1;
 
     return 0;
 }
@@ -25,7 +24,7 @@ int is_leap_year(int year)
 //      *year - a pointer to the year
 //      *day  - a pointer to the day
 // return 1 if everything is ok 0 otherwise
-int read_data(int *year, int *day)
+int read_data(int* year, int* day)
 {
     printf("The year: ");
     if (scanf("%d", year) == 0)
@@ -52,9 +51,8 @@ int read_data(int *year, int *day)
 // return 1 if everything is ok 0 otherwise
 int validate_data(int year, int day)
 {
-    int limit_day = 365; // normal year
-    if (is_leap_year(year))
-        limit_day++; // 366 leap year
+    int limit_day = 365;                 // normal year
+    if (is_leap_year(year)) limit_day++; // 366 leap year
 
     // check year
     if (year <= 0)
@@ -85,21 +83,19 @@ int validate_data(int year, int day)
 //      *found_month - where the result of our month will be stored
 //      *found_day  - where the result of our day will be stored
 // return 1 if everything is ok 0 otherwise
-int find_month_and_day(int year, int day, int *found_month, int *found_day)
+int find_month_and_day(int year, int day, int* found_month, int* found_day)
 {
     int months[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}, i, temp_day = 0;
 
     // make february longer
-    if (is_leap_year(year))
-        months[1]++; // 29 days
+    if (is_leap_year(year)) months[1]++; // 29 days
 
     // iterate and add the months
     for (i = 0; i < 12; i++)
     {
         temp_day += months[i];
 
-        if (DEBUG)
-            printf("DEBUG: i = %d, temp_day = %d, day = %d\n", i, temp_day, day);
+        if (DEBUG) printf("DEBUG: i = %d, temp_day = %d, day = %d\n", i, temp_day, day);
 
         // found the month i
         if (temp_day >= day)
@@ -131,30 +127,15 @@ int main()
 {
     int read_year, read_day, found_month, found_day;
 
-    char *months_map[] = {
-        "NULL", // not valid index 0
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    };
+    char* months_map[] = {"NULL", // not valid index 0
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+        "December"};
 
-    if (read_data(&read_year, &read_day) == 0)
-        exit(1);
+    if (read_data(&read_year, &read_day) == 0) exit(1);
 
-    if (DEBUG)
-        printf("DEBUG: read from user --> year = %d, day = %d \n", read_year, read_day);
+    if (DEBUG) printf("DEBUG: read from user --> year = %d, day = %d \n", read_year, read_day);
 
-    if (validate_data(read_year, read_day) == 0)
-        exit(1);
+    if (validate_data(read_year, read_day) == 0) exit(1);
 
     if (find_month_and_day(read_year, read_day, &found_month, &found_day) == 0)
     {

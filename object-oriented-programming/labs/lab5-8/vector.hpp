@@ -9,7 +9,8 @@ class DynamicArrayException : public std::runtime_error
 };
 class DynamicArrayException;
 
-template <typename TElement> class DynamicArray
+template <typename TElement>
+class DynamicArray
 {
 public:
     DynamicArray(int initial_capacity = 32)

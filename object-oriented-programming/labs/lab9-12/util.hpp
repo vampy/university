@@ -31,7 +31,8 @@ static inline std::string& trim(std::string& s) { return ltrim(rtrim(s)); }
 /**
 * Print to the screen in debug mode
 */
-template <typename TElement> void printDebug(TElement output)
+template <typename TElement>
+void printDebug(TElement output)
 {
     if (UTIL_DEBUG)
     {
@@ -39,17 +40,20 @@ template <typename TElement> void printDebug(TElement output)
     }
 }
 
-template <typename TElement> void printError(TElement output)
+template <typename TElement>
+void printError(TElement output)
 {
     std::cout << "\033[0;31mERROR: " << output << "\033[0m" << std::endl;
 }
 
-template <typename TElement> void printWarning(TElement output)
+template <typename TElement>
+void printWarning(TElement output)
 {
     std::cout << "\033[0;33mWARNING: " << output << "\033[0m" << std::endl;
 }
 
-template <typename TElement> void printSuccess(TElement output)
+template <typename TElement>
+void printSuccess(TElement output)
 {
     std::cout << "\033[0;32m" << output << "\033[0m" << std::endl;
 }

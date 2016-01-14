@@ -7,11 +7,15 @@
 #include "util.hpp"
 
 // forward declare
-template <typename TElement> class ArrayDoubleListIterator;
-template <typename TElement> class ArrayDoubleListNode;
-template <typename TElement> class ArrayDoubleList;
+template <typename TElement>
+class ArrayDoubleListIterator;
+template <typename TElement>
+class ArrayDoubleListNode;
+template <typename TElement>
+class ArrayDoubleList;
 
-template <typename TElement> class ArrayDoubleListNode
+template <typename TElement>
+class ArrayDoubleListNode
 {
 public:
     ArrayDoubleListNode()
@@ -27,7 +31,8 @@ public:
     TElement info;
 };
 
-template <typename TElement> class ArrayDoubleListIterator
+template <typename TElement>
+class ArrayDoubleListIterator
 {
 public:
     ArrayDoubleListIterator(ArrayDoubleList<TElement>* list, int current = 0)
@@ -56,7 +61,8 @@ protected:
     ArrayDoubleList<TElement>* list;
 };
 
-template <typename TElement> class ArrayDoubleList
+template <typename TElement>
+class ArrayDoubleList
 {
 public:
     ArrayDoubleList(int initial_capacity = 32)
