@@ -14,11 +14,11 @@ x_std = std(x);
 n = length(x);
 
 % t(alpha/2) = -t(1 - alpha/2)
-t1 = tinv(1 - alpha/2, n - 1);
-t2 = tinv(alpha/2, n - 1);
+t1 = tinv(1 - alpha / 2, n - 1);
+t2 = tinv(alpha / 2, n - 1);
 
-q_lower = x_mean - (x_std/sqrt(n)) * t1; 
-q_upper = x_mean - (x_std/sqrt(n)) * t2;
+q_lower = x_mean - (x_std / sqrt(n)) * t1; 
+q_upper = x_mean - (x_std / sqrt(n)) * t2;
 
 % the probability that the mean weight will belong to that interval = conf_level
 fprintf('The c.i miu of the average weight is (%f, %f)\n', q_lower, q_upper);

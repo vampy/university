@@ -14,11 +14,11 @@ x = [1.48, 1.26, 1.52, 1.56, 1.48, 1.46,...
 x_var = var(x);
 n = length(x);
 
-chi1 = chi2inv(1 - alpha/2, n - 1);
-chi2 = chi2inv(alpha/2, n - 1);
+chi1 = chi2inv(1 - alpha / 2, n - 1);
+chi2 = chi2inv(alpha / 2, n - 1);
 
-q_lower = (n - 1) * x_var/chi1;
-q_upper = (n - 1) * x_var/chi2;
+q_lower = (n - 1) * x_var / chi1;
+q_upper = (n - 1) * x_var / chi2;
 
 fprintf('The c.i for the variance is (%f, %f)\n', q_lower, q_upper);
 % variance^2 e ( v1^2, v2^2)

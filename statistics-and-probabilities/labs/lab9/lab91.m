@@ -18,10 +18,10 @@ n = length(x);
 % not every quantile is the opposite of the other
 % z(1/2) = -z(1 - 1/2)
 % quantiles inv
-z1 = norminv(1 - alpha/2, 0, 1);
-z2 = norminv(alpha/2, 0, 1);
-q_lower = x_mean - (sigma/sqrt(n)) * z1; 
-q_upper = x_mean - (sigma/sqrt(n)) * z2;
+z1 = norminv(1 - alpha / 2, 0, 1);
+z2 = norminv(alpha / 2, 0, 1);
+q_lower = x_mean - (sigma / sqrt(n)) * z1; 
+q_upper = x_mean - (sigma / sqrt(n)) * z2;
 
 fprintf('The c.i miu is (%f, %f)\n', q_lower, q_upper);
 
