@@ -46,7 +46,7 @@ a_q_upper = x1_mean - x2_mean + a_t1 * pooled_std * sqrt(1 / x1_n + 1 / x2_n);
 fprintf('a) The c.i (miu1 - miu2) where sigma1 = sigma2, is (%f, %f)\n\n', a_q_lower, a_q_upper);
 
 % b)
-c = (x1_var / x1_n) / (x1_var /x1_n + x2_var / x2_n);
+c = (x1_var / x1_n) / (x1_var / x1_n + x2_var / x2_n);
 n = 1 / (c ^ 2 / (x1_n - 1) + (1 - c) ^ 2 / (x2_n - 1));
 
 b_t1 = tinv(1 - alpha/2, n);

@@ -54,17 +54,16 @@ fprintf(' P value = %f\n Z0(test statistic) = %f\n RR(rejection region) is (%f, 
 fprintf('\n\n');
 
 
-
 % 1. b
 % H0: sigma = 5 i.e. sigma^2 = 25
 % H1: sigma != 5 i.e. sigma^2 != 25
 
-[h, p, ci, stats] = vartest(x, sigma^2, alpha, 0); % both
+[h, p, ci, stats] = vartest(x, sigma ^ 2, alpha, 0); % both
 % stats - chisqstat (chi^2
 %       - df (n - 1)
 
-q0 = chi2inv(alpha/2, stats.df);
-q1 = chi2inv(1 - alpha/2, stats.df);
+q0 = chi2inv(alpha / 2, stats.df);
+q1 = chi2inv(1 - alpha / 2, stats.df);
 
 fprintf('For the variance.\n');
 if h == 0
