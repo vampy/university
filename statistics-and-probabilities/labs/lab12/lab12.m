@@ -35,8 +35,8 @@ else
 end
 
 
-f1 = finv(alpha/2, stats.df1, stats.df2);
-f2 = finv(1-alpha/2, stats.df1, stats.df2);
+f1 = finv(alpha / 2, stats.df1, stats.df2);
+f2 = finv(1 - alpha / 2, stats.df1, stats.df2);
 fprintf(' P value = %f\n TS(test statistic) = %f\n RR(rejection region) is (%f, %f) U (%f, %f) \n', p, stats.fstat, -inf, f1, f2, inf);
 fprintf('\n\n');
 % alpha < P and TS !e RR
