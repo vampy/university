@@ -4,7 +4,7 @@ a = input('a = ');
 b = input('b (>a) = ');
 
 x = unifrnd(a, b, 1, N); % sample
-n = 1 + 10/3 * log10(N);
+n = 1 + 10 / 3 * log10(N);
 i = 1:n;
 
 % lim min(x) : (max - min)/n: max(x)
