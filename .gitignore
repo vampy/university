@@ -6,3 +6,4 @@ dl*/
 build/
 _build/
 CMakeLists.txt.user
+.~lock.*
