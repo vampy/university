@@ -16,6 +16,16 @@ To check the anagrams of a word:
 - Look up the key in the dictionary
 - Iterate over the set of words (now we have all the anagrams, if any)
 
+## Example
+We have two words: `mary` and `army`.
+
+The key of `mary` would be `amry` and the key of `army` would be `amry`.
+So map would have the:
+```
+key => list of words
+“amry” => [mary, army]
+```
+
 # Map ADT
 ## Type: `Map<TKey, TValue>`
 ## Methods
@@ -129,3 +139,6 @@ Function getCapacity()
     Description: Get the total allocated capacity for the vector
     Post: unsigned int - the allocated capacity
 ```
+
+# Benchmark
+Time and memory comparison by using representation (dynamic vector) or representation 2 (hash table collision through chaining).
