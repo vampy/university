@@ -142,3 +142,33 @@ Function getCapacity()
 
 # Benchmark
 Time and memory comparison by using representation (dynamic vector) or representation 2 (hash table collision through chaining).
+
+Dictionaries used:
+- `words.txt` - the [unix words files](https://en.wikipedia.org/wiki/Words_(Unix)).
+- `english-words.95` - somewhere on sourceforge? (TODO find)
+
+## Dynamic Vector
+| Data set size (nr words)   | Time          | Memory  |
+| -------------------------- | ------------- | ------- |
+| ~ 1000                     | < 1 second    | ~ 1 MB  |
+| 99171 (words.txt)          | ~ 4 minutes   | ~ 20 MB |
+| 2457044 (english-words.95) | ~ 20 minutes  | ~ 45 MB |
+
+## Hash table
+| Data set size (nr words)   | Time          | Memory  |
+| -------------------------- | ------------- | ------- |
+| ~ 1000                     | < 1 second    | ~ 1 MB  |
+| 99171 (words.txt)          | ~ 1.5 seconds | ~ 25 MB |
+| 2457044 (english-words.95) | ~ 1.6 seconds | ~ 55 MB |
+
+# What did I learn from this project?
+As clearly shown in the benchmarks above the best suited data representation is a hash table. And the tables below show the hash table has perfect timing when considering the average column.
+
+The map ADT is clearly the most suited for this type of problem, because it allow fast data access.
+
+## Dynamic Vector
+|        | Average | Worst case |
+| ------ |:-------:|:----------:|
+| Search | O(n)    | O(n)       |
+| Insert | O(n)    | O(n)       |
+| Delete | O(n)    | O(n)       |
