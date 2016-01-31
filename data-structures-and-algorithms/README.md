@@ -172,3 +172,10 @@ The map ADT is clearly the most suited for this type of problem, because it allo
 | Search | O(n)    | O(n)       |
 | Insert | O(n)    | O(n)       |
 | Delete | O(n)    | O(n)       |
+
+## Hash table
+|        | Average | Worst case |
+| ------ |:-------:|:----------:|
+| Search | O(1)    | O(n)       |
+| Insert | O(1)    | O(n)       |
+| Delete | O(1)    | O(n)       |
