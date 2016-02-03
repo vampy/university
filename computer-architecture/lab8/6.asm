@@ -50,7 +50,7 @@ code SEGMENT
         mov AH, 0Ah
         lea DX, max_bytes
         int 21h
-        ; Afet IHR will be executred the name of the file will be stored
+        ; After IHR will be executred the name of the file will be stored
         ; at max_bytes + 2 and the offset max_bytes + 1 will store the length
     ENDM
 
