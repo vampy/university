@@ -23,7 +23,7 @@ Ex. 1
 Write a program which concatenates 2 strings by calling a procedure written
 in a different module
 
-;Module main.asm
+; Module main.asm
 ASSUME DS:data, CS:code
 data SEGMENT
     ; asciiz strings ends in 0
@@ -56,7 +56,7 @@ start:
 code ENDS
 END start
 
-;Module second.asm
+; Module second.asm
 ASSUME DS:data, CS:code
 
 data SEGMENT
@@ -117,8 +117,7 @@ concatenated with the data segment from the second module and the same
 happens with the code segments from both modules
 
 
-
-Ex.2
+Ex. 2
 A string of bytes is read from a file. Build a new string of bytes in which we
 put the reverse of the bytes from the first string which have an equal number
 bits 1 and 0,

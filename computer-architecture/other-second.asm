@@ -21,8 +21,8 @@ data SEGMENT
     print_q DB 0
     print_r DB 0
 
-    msg_q DB "Catul: $"
-    msg_r DB "Restul: $"
+    msg_q DB "Quotient: $"
+    msg_r DB "Remainder: $"
 
     ; used for xlat
     hex_table DB "012345678ABCDEF"

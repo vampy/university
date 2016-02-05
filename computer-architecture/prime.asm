@@ -1,4 +1,5 @@
 ASSUME CS: code, DS:data
+; Check if a number is prime
 
 data SEGMENT
     ; variables for is_prime procedure
