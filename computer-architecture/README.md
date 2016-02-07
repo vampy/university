@@ -18,3 +18,8 @@ In this example we will be compiling a file called `source.asm`.
 `tlink /v source.obj`
 
 3. Run file or run (debug) with editor: `td source.exe`
+
+## Documentation
+See the [Assembly language Norton Guide](http://www.ousob.com/ng/asm/).
+
+Other docs and courses notes can be found in the `docs` directory.
