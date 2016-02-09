@@ -1,7 +1,0 @@
-dist/
-main.spec
-build/
-env/
-*.pyc
-.idea/
-__pycache__
