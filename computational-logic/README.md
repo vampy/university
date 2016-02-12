@@ -1,5 +1,5 @@
 # Computational logic
-The final optional homework project.
+The final optional homework project is located in `src-number-converter`.
 
 ## Problem statement:
 Implement the basic arithmetic operations: addition, subtraction, multiplication by one digit and division  by one digit in any base between 2 and 16.
