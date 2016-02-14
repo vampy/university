@@ -1,9 +1,9 @@
 # Computer Architecture
+[Website Course](http://www.cs.ubbcluj.ro/~vancea/). [Website Lab](http://www.cs.ubbcluj.ro/~radu.dragos/teaching/arhitectura-sistemelor-de-calcul/).
+
 The source code of all the labs.
 
-To run this code you must use [DOSBox](http://www.dosbox.com/).
-
-An example configuration file for DOSBox file is in [`dosbox-0.74.conf`](https://github.com/leyyin/university/blob/master/computer-architecture/dosbox-0.74.conf).
+To run this code you must use [DOSBox](http://www.dosbox.com/). An example configuration file for DOSBox file is in [`dosbox-0.74.conf`](https://github.com/leyyin/university/blob/master/computer-architecture/dosbox-0.74.conf).
 On linux you can put the config file in `~/.dosbox/`.
 
 ## Compiling
