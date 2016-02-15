@@ -1,4 +1,6 @@
 # Computational logic
+[Website Course](http://www.cs.ubbcluj.ro/~lupea/LOGICA/Engleza/)
+
 The final optional homework project is located in `src-number-converter`.
 
 ## Problem statement:
