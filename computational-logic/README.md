@@ -32,5 +32,4 @@ pip install -r requirements.txt
 ### Building
 `pyinstaller --onefile --windowed main.py`
 
-The above command will compile the project and the executable file will be in 'dist' directory
-More details [here](https://pythonhosted.org/PyInstaller/).
+The above command will compile the project and the executable file will be in `dist` directory. More details [here](https://pythonhosted.org/PyInstaller/).
