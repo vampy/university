@@ -1,2 +1,2 @@
-# Polynomial Approximation
+# Calculus
 
