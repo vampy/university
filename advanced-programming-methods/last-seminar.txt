@@ -1,0 +1,65 @@
+1. input operations
+	read(varname) - Stmt
+	read( ) - Expr
+
+2. file operations
+		file table
+			file_name -> (type_of_file, buffer, buffer.pos, file.pos)
+	2.1 openRFILE(file.name)
+		closeRFILE(file.name)
+	2.2 openWFILE(file.name)
+		closeWFILE(file.name)
+	2.3 readFile(file.name)
+	    readFile(file.name, varname)
+	2.4 EOF(file.name)
+
+3. loop instructions
+	3.1 while(exp) Stmt - Stmt
+			- pop
+			- eval(exp)
+			- if (exp != 0) push(while...)
+							push(Stmt)
+	3.2 for(i=exp1;exp2;exp3)
+
+4. logical expressions
+	exp1 < exp2
+	exp1 <= exp2
+	exp1 >= exp2
+	exp1 == exp2
+	exp1 != exp2
+	exp1 ... exp2
+
+5. increment/decrement
+	inc(varname) - Stmt
+	decrement(varname) - Stmt
+
+6. heap operations
+	w(varname, exp)
+		ex: w(v, 100); (heap: {(0->11)}; symtable: v=0;)
+			=> this will put the value of the exp (in this case 100) in the heap, at the address of v
+
+7. concurrency operations
+	LockTable - buffer that holds prgstates, ex: (0|id|0|0|0)
+		id - prgstate
+	7.1 lockEnter(number) (number -> one of the numbers from the buffer)
+		if (number is already in use) we push the instruction back to the stack
+	7.2 lockExit(number)
+		if (buffer[number] == id) then we release that key, 0 on it
+
+8. procedure call
+	declare procedures (session ~the same as input program only we input procedures)
+		proc.name - string
+		(v1....v2) parameters
+		Stmt
+	ProcTable
+		proc.name
+
+	- stack of symtables (all operations will work on the top of the stack (the first symtable))
+
+	call proc.name(exp1, exp2, ..., expn) - Stmt
+		create symtable and v1->exp1, v2->exp2, etc.
+		push new symtable on the stack of symtables
+		exestack: push Return (pop from the top of the symtable stack)
+				  push Stmt (from the procedure)
+
+				  
