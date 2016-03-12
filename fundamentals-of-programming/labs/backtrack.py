@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 def solution_found(x):
-    print "*******Solution******"
+    print
+    "*******Solution******"
     # str = ""
     # for i in x:
     #
@@ -10,7 +11,9 @@ def solution_found(x):
     #     else:
     #         str += "("
     # print str
-    print x
+    print
+    x
+
 
 # def solution(x):
 #     return len(x) == DIM
@@ -104,16 +107,20 @@ Generate all subsequences of length 2n+1, formed only by 0, -1 or 1, such that a
 a2n+1 = 0 and |a(i+1) - ai| = 1 or 2, for any 1 <= i <= 2n
 """
 N = 1
-DIM = 2*N + 1
+DIM = 2 * N + 1
+
 
 def solution_found(x):
     pr = ""
     for i in x:
         pr += str(i) + ", "
-    print pr[:-2]
+    print
+    pr[:-2]
+
 
 def solution(x):
     return len(x) == DIM
+
 
 def consistent(x):
     len_x = len(x)
@@ -124,13 +131,14 @@ def consistent(x):
     if len_x == DIM and x[-1] != 0:
         return False
 
-    #check the domain
+    # check the domain
     if x[len_x - 1] not in [-1, 0, 1]:
         return False
 
     # check last inserted
     value = abs(x[len_x - 1] - x[len_x - 2])
     return value == 1 or value == 2
+
 
 def backtrack_recursive(x):
     x.append(0)
@@ -159,9 +167,14 @@ def backtrack_iterative():
         else:  # cut the last element
             x = x[:-1]
 
-print "N = " + str(N)
-print "Recursive"
+
+print
+"N = " + str(N)
+print
+"Recursive"
 backtrack_recursive([])
-print "\n\n"
-print "Iterative"
+print
+"\n\n"
+print
+"Iterative"
 backtrack_iterative()

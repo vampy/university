@@ -9,7 +9,7 @@ class Movie(object):
         self.__type = movie_type
 
     def __str__(self):
-        return "%s\t\t\t"*4 % (self.__id, self.__title, self.__type,  self.__description[0:20])
+        return "%s\t\t\t" * 4 % (self.__id, self.__title, self.__type, self.__description[0:20])
 
     def get_id(self):
         return self.__id

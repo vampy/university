@@ -1,7 +1,6 @@
 #!/usr/bin/python
 from domain.client import Client
 from repository import Repository, RepositoryException
-from filerepository import FileRepository, FileRepositoryException
 
 
 class ClientRepository(Repository):

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import utils.other
 
+
 class RepositoryException(Exception):
     pass
 
@@ -104,7 +105,7 @@ class Repository(object):
         """
         return self._repository.values()
 
-    #def _get_index_for_id(self, instance_id):
+    # def _get_index_for_id(self, instance_id):
     #    """
     #    Get the index for the instance id
     #    """
@@ -125,9 +126,8 @@ class Repository(object):
     def __str__(self):
         if not self._repository:
             return "Repository is empty"
-        
+
         return_str = self._get_table_header() + "\n\n"
         for el in self.select_all():
-
             return_str += str(el) + "\n"
         return return_str

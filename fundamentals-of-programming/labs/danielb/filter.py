@@ -28,5 +28,3 @@ def filter(iterable, filter_function):
             return_iterable.append(li)
 
     return return_iterable
-
-

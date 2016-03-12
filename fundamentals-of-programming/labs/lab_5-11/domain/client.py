@@ -6,10 +6,10 @@ class Client(object):
         self.__id = client_id
         self.__name = client_name
         self.__cnp = client_cnp
-    
+
     def __str__(self):
         # "Name %s" % name
-        return "%s\t\t\t"*3 % (self.__id, self.__name, self.__cnp)
+        return "%s\t\t\t" * 3 % (self.__id, self.__name, self.__cnp)
 
     def __cmp__(self, other):
         if self.get_name() < other.get_name():

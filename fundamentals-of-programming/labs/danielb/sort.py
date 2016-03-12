@@ -3,6 +3,7 @@
 Module by Butum Daniel - Group 911
 """
 
+
 def selection(iterable, cmp_function):
     """
     First find the smallest element in the array and exchange it with the element in the first position,
@@ -91,9 +92,9 @@ def shake(iterable, cmp_function):
         swapped = False
         # go ascending
         for i in range_index:
-            if cmp_function(iterable[i], iterable[i+1]) == 1:
+            if cmp_function(iterable[i], iterable[i + 1]) == 1:
                 # swap
-                iterable[i], iterable[i+1] = iterable[i+1], iterable[i]
+                iterable[i], iterable[i + 1] = iterable[i + 1], iterable[i]
                 swapped = True
 
         # we can exit the outer loop here if no swaps occurred.
@@ -103,9 +104,9 @@ def shake(iterable, cmp_function):
         swapped = False
         # go descending
         for i in reversed(range_index):
-            if cmp_function(iterable[i], iterable[i+1]) == 1:
+            if cmp_function(iterable[i], iterable[i + 1]) == 1:
                 # swap
-                iterable[i], iterable[i+1] = iterable[i+1], iterable[i]
+                iterable[i], iterable[i + 1] = iterable[i + 1], iterable[i]
                 swapped = True
 
     return iterable

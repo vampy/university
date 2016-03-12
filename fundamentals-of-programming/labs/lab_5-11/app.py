@@ -1,14 +1,13 @@
 #!/usr/bin/python
 
-from ui.ui import UI
-from domain.session import Session
-
-from repository.fileclient import FileClientRepository
-from repository.filemovie import FileMovieRepository
-from repository.filerent import FileRentRepository
 from controller.client import ClientController
 from controller.movie import MovieController
 from controller.rent import RentController
+from domain.session import Session
+from repository.fileclient import FileClientRepository
+from repository.filemovie import FileMovieRepository
+from repository.filerent import FileRentRepository
+from ui.ui import UI
 
 
 class App(object):
@@ -33,13 +32,13 @@ class App(object):
         """
         Main loop of the application
         """
-        #self.load()
+        # self.load()
         self.ui.display_message()
         self.ui.run()
-        #self.save()
+        # self.save()
         self.exit()
 
-    #def load(self):
+    # def load(self):
     #    """
     #    Load the previous state
     #    """
@@ -67,7 +66,7 @@ class App(object):
     #    except IOError:
     #        pass
     #
-    #def save(self):
+    # def save(self):
     #    """
     #    Saves the current state
     #    """

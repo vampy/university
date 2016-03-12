@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 
-#TODO USE IDS INSTEAD of instance
+# TODO USE IDS INSTEAD of instance
 class Rent(object):
     def __init__(self, client_id, movie_id, start_date, end_date):
         self.__client_id = client_id
@@ -12,7 +12,8 @@ class Rent(object):
         self.returned = None
 
     def __str__(self):
-        return "%s\t\t\t"*5 % (str(self.client_id), str(self.movie_id), str(self.start_date), str(self.end_date), str(self.returned))
+        return "%s\t\t\t" * 5 % (
+        str(self.client_id), str(self.movie_id), str(self.start_date), str(self.end_date), str(self.returned))
 
     def get_client_id(self):
         return self.__client_id
@@ -51,7 +52,8 @@ class Rent(object):
         del self.__end_date
 
     def get_id(self):
-        return str(self.client_id) + "_" + str(self.movie_id) + "_" + str(self.start_date) + "_" + str(self.end_date) + "|"
+        return str(self.client_id) + "_" + str(self.movie_id) + "_" + str(self.start_date) + "_" + str(
+            self.end_date) + "|"
 
     id = property(fget=get_id)
     client_id = property(get_client_id, set_client_id, del_client_id, "client_id's docstring")

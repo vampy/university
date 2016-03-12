@@ -1,9 +1,10 @@
 #!/usr/bin/python
+import copy
+
 from controller import Controller
 from domain.movie import Movie
 from domain.session import Session
 from repository.repository import RepositoryException
-import copy
 
 
 class MovieController(Controller):
@@ -19,7 +20,8 @@ class MovieController(Controller):
             False - failure
         Raises:
         """
-        movie_obj = Movie(movie_id=movie_id, movie_title=movie_title, movie_type=movie_type, movie_description=movie_description)
+        movie_obj = Movie(movie_id=movie_id, movie_title=movie_title, movie_type=movie_type,
+                          movie_description=movie_description)
         try:
             self._repository.insert(movie_obj)
         except RepositoryException as e:
@@ -45,7 +47,7 @@ class MovieController(Controller):
             Session.set_message(self._repository.template_message_id_not_exists % movie_id)
             return False
 
-        #if here all good
+        # if here all good
         new_movie = copy.deepcopy(movie)
         if movie_title:
             new_movie.title = movie_title

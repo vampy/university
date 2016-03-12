@@ -4,10 +4,11 @@ Created on Oct 18, 2013
 
 @author: daniel
 """
-import json
-from ui import UI
-from bloc import Bloc
 import copy
+import json
+
+from bloc import Bloc
+from ui import UI
 
 
 class App():
@@ -24,7 +25,7 @@ class App():
             temp_dict = {}
 
         # load the apartments into the dict
-        #for key in temp_dict:
+        # for key in temp_dict:
         #    temp_dict[key] = Apartment.from_dictionary(temp_dict[key])
 
         # create the bloc object
@@ -126,7 +127,7 @@ class App():
 
             # print all messages
             print(UI.get_message())
-            #print(UI.get_bloc_table(self.bloc.get()))
+            # print(UI.get_bloc_table(self.bloc.get()))
 
     def _undo_start(self, operation):
         """
@@ -151,8 +152,8 @@ class App():
         """
         Saves the current bloc into the apartments.json file
         """
-        #bloc_dict = self.bloc.get()
-        #for apartment_id in bloc_dict.keys():
+        # bloc_dict = self.bloc.get()
+        # for apartment_id in bloc_dict.keys():
         #    bloc_dict[apartment_id] = Apartment.to_dictionary(bloc_dict[apartment_id])
         #
         fp = open("apartments.json", "w")
@@ -163,6 +164,7 @@ class App():
         """
         Quits the app, called on 'quit' command
         """
-        print "\n"
+        print
+        "\n"
         self.save()
         exit()

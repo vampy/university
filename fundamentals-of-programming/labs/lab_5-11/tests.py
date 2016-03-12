@@ -3,7 +3,6 @@
 import unittest
 
 import utils.number
-
 from domain.client import Client
 from domain.movie import Movie
 from repository.client import ClientRepository, RepositoryException
@@ -125,7 +124,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(self.client.name, self.client_name)
         self.assertEqual(self.client.cnp, self.client_cnp)
         self.assertNotEqual(self.client.id, 999)
-        self.assertEqual(str(self.client), "%s\t\t\t"*3 %(self.client_id, self.client_name, self.client_cnp))
+        self.assertEqual(str(self.client), "%s\t\t\t" * 3 % (self.client_id, self.client_name, self.client_cnp))
 
     def test_set(self):
         self.client.name = "Bruce"
@@ -182,7 +181,8 @@ class TestFileClientRepository(unittest.TestCase):
 
     def test_insert(self):
         self.assertTrue(self.repo.insert(Client(self.client_id, self.client_name, self.client_cnp)))
-        self.assertRaises(RepositoryException, self.repo.insert, Client(self.client_id, self.client_name, self.client_cnp))
+        self.assertRaises(RepositoryException, self.repo.insert,
+                          Client(self.client_id, self.client_name, self.client_cnp))
 
     def test_get(self):
         self.assertEqual(self.client_id, 1)
@@ -202,9 +202,9 @@ class TestClientRepository(unittest.TestCase):
 
     def test_insert(self):
         self.assertTrue(self.repo.insert(Client(self.client_id, self.client_name, self.client_cnp)))
-        self.assertRaises(RepositoryException, self.repo.insert, Client(self.client_id, self.client_name, self.client_cnp))
+        self.assertRaises(RepositoryException, self.repo.insert,
+                          Client(self.client_id, self.client_name, self.client_cnp))
         self.assertTrue(self.repo.delete_by_id(1))
-
 
     def test_del(self):
         self.assertRaises(RepositoryException, self.repo.delete_by_id, 1)
@@ -228,9 +228,9 @@ class TestMovieRepository(unittest.TestCase):
 
     def test_insert(self):
         self.assertTrue(self.repo.insert(Movie(self.movie_id, self.movie_title, self.movie_type)))
-        self.assertRaises(RepositoryException, self.repo.insert, Movie(self.movie_id, self.movie_title, self.movie_type))
+        self.assertRaises(RepositoryException, self.repo.insert,
+                          Movie(self.movie_id, self.movie_title, self.movie_type))
         self.assertTrue(self.repo.delete_by_id(1))
-
 
     def test_del(self):
         self.assertRaises(RepositoryException, self.repo.delete_by_id, 1)
@@ -255,7 +255,8 @@ class TestFileMovieRepository(unittest.TestCase):
 
     def test_insert(self):
         self.assertTrue(self.repo.insert(Movie(self.movie_id, self.movie_title, self.movie_type)))
-        self.assertRaises(RepositoryException, self.repo.insert, Movie(self.movie_id, self.movie_title, self.movie_type))
+        self.assertRaises(RepositoryException, self.repo.insert,
+                          Movie(self.movie_id, self.movie_title, self.movie_type))
 
     def test_get(self):
         self.assertEqual(self.movie_id, 1)

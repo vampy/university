@@ -1,9 +1,10 @@
 #!/usr/bin/python
+import copy
+
 from controller import Controller
 from domain.client import Client
 from domain.session import Session
 from repository.repository import RepositoryException
-import copy
 
 
 class ClientController(Controller):
@@ -43,7 +44,7 @@ class ClientController(Controller):
             Session.set_message(self._repository.template_message_id_not_exists % client_id)
             return False
 
-        #if here all good
+        # if here all good
         new_client = copy.deepcopy(client)
         if client_name:
             new_client.name = client_name

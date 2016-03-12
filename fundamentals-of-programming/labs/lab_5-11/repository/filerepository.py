@@ -1,6 +1,6 @@
 #!/usr/bin/python
-from repository import Repository, RepositoryException
 import cPickle
+from repository import Repository, RepositoryException
 
 
 class FileRepositoryException(RepositoryException):

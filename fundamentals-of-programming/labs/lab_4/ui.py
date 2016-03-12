@@ -9,7 +9,8 @@ try:
 except ImportError as e:
     print(("\n" * 3) + "--- READLINE IS DISABLED TERMINAL APPLICATION WILL NOT WORK PROPERLY ---")
     print("\tTHE EXCEPTION: " + e.message + ("\n" * 3))
-    
+
+
 class UI:
     # session message
     session_message = []
@@ -87,8 +88,8 @@ class UI:
             return_str += "\t\n"
         return_str += footer
 
-        #return_str += "OLD: Apartments: \n\tID\tExpenses\n\n"
-        #for apartment_id in bloc_dict_or_list.iterkeys():
+        # return_str += "OLD: Apartments: \n\tID\tExpenses\n\n"
+        # for apartment_id in bloc_dict_or_list.iterkeys():
         #
         #    return_str += "\t" + apartment_id + "\t"
         #

@@ -82,13 +82,13 @@ def test_get_max_expenses_type():
     apart.expenses["heating"] = -233
     assert apart.get_max_expenses_type() == []
 
+
 import bloc
-import ui
 
 
 def test_bloc():
     bloc_obj = bloc.Bloc()
-    #try:
+    # try:
     assert not bloc_obj._command
     assert not bloc_obj._parsed_command
 
@@ -109,7 +109,7 @@ def test_bloc():
     assert not bloc_obj.replace_apartment_parse("replace 2, gas with 100")
     assert bloc_obj.replace_apartment_parse("replace 0, gas at 1")
     bloc_obj.insert_apartment()
-    #assert bloc.insert_apartment_parse("replace 200, others at 4")
+    # assert bloc.insert_apartment_parse("replace 200, others at 4")
 
     assert not bloc_obj.remove_apartment_parse("remove 54")
     assert not bloc_obj.remove_apartment_parse("remove from34")
@@ -201,10 +201,11 @@ def test_bloc():
     assert bloc_obj.filter_parse("filter others")
     assert bloc_obj.filter_parse("filter gas")
 
-    #except AssertionError as e:
+    # except AssertionError as e:
     #    print(ui.UI.get_message())
     #    print(e)
     #    raise e
+
 
 if __name__ == "__main__":
     test_convert_to_int()

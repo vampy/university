@@ -1,6 +1,6 @@
 #!/usr/bin/python
-from repository.repository import RepositoryException
 from domain.session import Session
+from repository.repository import RepositoryException
 
 
 class Controller(object):

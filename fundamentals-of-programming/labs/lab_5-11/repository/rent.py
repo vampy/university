@@ -1,7 +1,6 @@
 #!/usr/bin/python
 from domain.rent import Rent
 from repository import Repository, RepositoryException
-from filerepository import FileRepository, FileRepositoryException
 
 
 class RentRepository(Repository):

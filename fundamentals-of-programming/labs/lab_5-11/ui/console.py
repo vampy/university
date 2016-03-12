@@ -6,8 +6,9 @@ except ImportError as e:
     print(("\n" * 3) + "--- READLINE IS DISABLED TERMINAL APPLICATION WILL NOT WORK PROPERLY ---")
     print("\tTHE EXCEPTION: " + e.message + ("\n" * 3))
 from datetime import datetime
-from utils.number import convert_to_int
+
 from domain.session import Session
+from utils.number import convert_to_int
 
 
 class Console(object):
@@ -180,13 +181,15 @@ class Console(object):
                 self.rent_controller.get_most_rented_movies()
                 # item[0] the movie object and item[1] the number of apereances
                 for item in self.rent_controller.get_most_rented_movies():
-                    print "Rented ", item[1], " times -->(ID, Title, Type, Description):", item[0]
+                    print
+                    "Rented ", item[1], " times -->(ID, Title, Type, Description):", item[0]
 
             elif option == self.OPTION_STAT_2:
                 print("Clients with rented movies ordered by number of rents")
                 # item[0] the client object and item[1] the number of rents
                 for item in self.rent_controller.get_clients_with_most_rents():
-                    print "Number of rents : ", item[1], " by client -->(ID, Name, CNP):", item[0]
+                    print
+                    "Number of rents : ", item[1], " by client -->(ID, Name, CNP):", item[0]
 
             self.display_message()
 
@@ -246,7 +249,6 @@ class Console(object):
     %s. Display this help menu
     %s. Quit
 """ % tuple(Console._get_options_ordered())
-
 
     @staticmethod
     def _raw_input(message):

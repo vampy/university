@@ -5,12 +5,12 @@ Created on Oct 18, 2013
 @author: daniel
 """
 import re
+
 from apartment import Apartment
 from ui import UI
 
 
 class Bloc():
-
     # the regex patterns used
     _PATTERN_INSERT = "^insert\s+([-+]?[0-9]*\.?[0-9]+)\s*,\s*([a-zA-Z]+)\s+at\s+(\d+)$"
     _PATTERN_REPLACE = "^replace\s+([-+]?[0-9]*\.?[0-9]+)\s*,\s*([a-zA-Z]+)\s+at\s+(\d+)$"
@@ -32,7 +32,6 @@ class Bloc():
 
     _PATTERN_FILTER_BY_TYPE = "^filter\s+(\w+)$"
     _PATTERN_FILTER_GREATER_THAN_TOTAL = "^filter\s+([-+]?[0-9]*\.?[0-9]+)$"
-
 
     @staticmethod
     def from_dictionary(dictionary):
@@ -109,7 +108,7 @@ class Bloc():
         Raises:
             Exception on invalid key
         """
-        #if not isinstance(list_of_keys, list):
+        # if not isinstance(list_of_keys, list):
         #    raise Exception("Incorrect list_of_keys. should be a list.")
 
         for key in list_of_keys:
@@ -216,14 +215,14 @@ class Bloc():
             # apartment does  exist in the list
             if self.is_apartment(apartment_id):
                 UI.set_message("Apartment " + apartment_id + " does exist in the list. "
-                               "Use this command to replace: replace " + amount + ", " +
+                                                             "Use this command to replace: replace " + amount + ", " +
                                expense_type + " at " + apartment_id)
                 return False
         elif command_type is "replace":
             # apartment does not exist in the list
             if not self.is_apartment(apartment_id):
                 UI.set_message("Apartment " + apartment_id + " does not exist in the list. "
-                               "Use this command to add: insert " + amount + ", " +
+                                                             "Use this command to add: insert " + amount + ", " +
                                expense_type + " at " + apartment_id)
                 return False
 
@@ -236,7 +235,7 @@ class Bloc():
             Remove the expenses from an apartment or from a list of apartments.
         """
 
-        if "id" in self._parsed_command:    # remove only from one apartments
+        if "id" in self._parsed_command:  # remove only from one apartments
             apartment_id = self._parsed_command["id"]
             self._bloc_dict[apartment_id] = Apartment()
             UI.set_message("Removed all expenses from apartment " + apartment_id)
@@ -274,7 +273,8 @@ class Bloc():
         if pattern_remove_by_id:
             apartment_id = pattern_remove_by_id.group(1)
             if not self.is_apartment(apartment_id):
-                UI.set_message("Apartment " + apartment_id + " does not exist in this list so all the expenses are by default 0")
+                UI.set_message(
+                    "Apartment " + apartment_id + " does not exist in this list so all the expenses are by default 0")
                 return False
 
             self._parsed_command = {"id": apartment_id}
@@ -471,7 +471,7 @@ class Bloc():
 
         sum_type = self._parsed_command["expense_type"]
         total = sum([self._bloc_dict[i].expenses[sum_type] for i in self._bloc_dict])
-        #for apartment_id in self._bloc_dict:
+        # for apartment_id in self._bloc_dict:
         #    total += self._bloc_dict[apartment_id].expenses[sum_type]
 
         UI.set_message("Total expenses for " + sum_type + " = " + str(total))
@@ -510,7 +510,8 @@ class Bloc():
         biggest_types = self._bloc_dict[apartment_id].get_max_expenses_type()
 
         if biggest_types:
-            UI.set_message("Biggest expense is " + biggest_types.__str__() + " = " + str(self._bloc_dict[apartment_id].expenses[biggest_types[0]]))
+            UI.set_message("Biggest expense is " + biggest_types.__str__() + " = " + str(
+                self._bloc_dict[apartment_id].expenses[biggest_types[0]]))
         else:
             UI.set_message("Apartment has all expenses = 0")
 
@@ -553,7 +554,9 @@ class Bloc():
         # simple sort by total expense
         if self._parsed_command["type"] is None:
             # we create a list of tuples consisting of (id, apartment_obj, total_expense)
-            list_of_tuples = [(apartment_id, self._bloc_dict[apartment_id], self._bloc_dict[apartment_id].get_total_expenses()) for apartment_id in self._bloc_dict]
+            list_of_tuples = [
+                (apartment_id, self._bloc_dict[apartment_id], self._bloc_dict[apartment_id].get_total_expenses()) for
+                apartment_id in self._bloc_dict]
 
             # set message
             header_message += " by total expenses"
@@ -561,15 +564,17 @@ class Bloc():
         else:  # sort by type
             expense_type = self._parsed_command["type"]
             # we create a list of tuples consisting of (id, apartment_obj, expense_type_amount)
-            list_of_tuples = [(apartment_id, self._bloc_dict[apartment_id], self._bloc_dict[apartment_id].expenses[expense_type]) for apartment_id in self._bloc_dict]
+            list_of_tuples = [
+                (apartment_id, self._bloc_dict[apartment_id], self._bloc_dict[apartment_id].expenses[expense_type]) for
+                apartment_id in self._bloc_dict]
 
             # set message
             header_message += " by expense '" + expense_type + "'"
 
-        #print "raw_list: ", list_of_tuples
+        # print "raw_list: ", list_of_tuples
         # use the last key of the tuple for the value
         sorted_list_of_tuples = sorted(list_of_tuples, key=lambda item: item[2], reverse=reverse_sort)
-        #print "sorted_list: ", sorted_sort_it
+        # print "sorted_list: ", sorted_sort_it
 
         UI.set_message(UI.get_bloc_table(sorted_list_of_tuples, header_message))
 
@@ -616,7 +621,7 @@ class Bloc():
             filtered_bloc_dict = {}
             for apartment_id in self._bloc_dict.keys():
                 if self._bloc_dict[apartment_id].expenses[expense_type]:
-                        filtered_bloc_dict[apartment_id] = self._bloc_dict[apartment_id]
+                    filtered_bloc_dict[apartment_id] = self._bloc_dict[apartment_id]
 
             self._bloc_dict = filtered_bloc_dict
 
@@ -626,11 +631,11 @@ class Bloc():
             filtered_bloc_dict = {}
             for apartment_id in self._bloc_dict.keys():
                 if self._bloc_dict[apartment_id].get_total_expenses() > amount_greater:
-                        filtered_bloc_dict[apartment_id] = self._bloc_dict[apartment_id]
+                    filtered_bloc_dict[apartment_id] = self._bloc_dict[apartment_id]
 
             self._bloc_dict = filtered_bloc_dict
 
-        #print filtered_bloc_dict
+        # print filtered_bloc_dict
         if not filtered_bloc_dict:
             UI.set_message("No apartment fits the criteria")
         else:

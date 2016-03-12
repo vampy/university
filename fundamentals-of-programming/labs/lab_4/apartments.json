@@ -1,1 +1,38 @@
-{"1": {"expenses": {"water": 999.0, "illuminating": 0, "gas": 0.0, "heating": 43.0, "others": 0}}, "10": {"expenses": {"water": 100.0, "illuminating": 0, "gas": 30.0, "heating": 100.0, "others": 0}}, "2": {"expenses": {"water": 23.0, "illuminating": 0, "gas": 0.0, "heating": 0, "others": 0}}, "5": {"expenses": {"water": 0, "illuminating": 0, "gas": 10.0, "heating": 10.0, "others": 0}}}
+{
+  "1": {
+    "expenses": {
+      "water": 999.0,
+      "illuminating": 0,
+      "gas": 0.0,
+      "heating": 43.0,
+      "others": 0
+    }
+  },
+  "10": {
+    "expenses": {
+      "water": 100.0,
+      "illuminating": 0,
+      "gas": 30.0,
+      "heating": 100.0,
+      "others": 0
+    }
+  },
+  "2": {
+    "expenses": {
+      "water": 23.0,
+      "illuminating": 0,
+      "gas": 0.0,
+      "heating": 0,
+      "others": 0
+    }
+  },
+  "5": {
+    "expenses": {
+      "water": 0,
+      "illuminating": 0,
+      "gas": 10.0,
+      "heating": 10.0,
+      "others": 0
+    }
+  }
+}
