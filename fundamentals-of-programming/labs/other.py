@@ -55,8 +55,7 @@ all_clients = client_repository.select_all()
 quickSortRec(all_clients, 0, len(all_clients) - 1)
 
 for client in all_clients:
-    print
-    client
+    print(client)
 
 
 # quickSortRec(act, 0, len(act)-1)

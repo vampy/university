@@ -19,5 +19,4 @@ def gcd_2(a, b):
 
 line = raw_input("Give 2 numbers separated by ',': ").split(", ")
 a, b = int(line[0]), int(line[1])
-print
-"GCD(%d, %d) = %d" % (a, b, gcd(a, b))
+print("GCD(%d, %d) = %d" % (a, b, gcd(a, b)))

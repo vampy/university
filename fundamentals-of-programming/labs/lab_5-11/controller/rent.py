@@ -105,7 +105,7 @@ class RentController(Controller):
         # item[1] will contain the number of rents
         li_sorted = sorted(list(temp_dict.items()), key=lambda tu: tu[1], reverse=True)
         return [(self._client_controller.get_by_id(i[0]), i[1]) for i in li_sorted]
-        # print sorted(list(temp_dict), key=lambda item: item[1])
+        # print(sorted(list(temp_dict), key=lambda item: item[1]))
 
     def get_most_rented_movies(self):
         """

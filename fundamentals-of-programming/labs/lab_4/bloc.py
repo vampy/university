@@ -571,10 +571,10 @@ class Bloc():
             # set message
             header_message += " by expense '" + expense_type + "'"
 
-        # print "raw_list: ", list_of_tuples
+        # print("raw_list: ", list_of_tuples)
         # use the last key of the tuple for the value
         sorted_list_of_tuples = sorted(list_of_tuples, key=lambda item: item[2], reverse=reverse_sort)
-        # print "sorted_list: ", sorted_sort_it
+        # print("sorted_list: ", sorted_sort_it)
 
         UI.set_message(UI.get_bloc_table(sorted_list_of_tuples, header_message))
 
@@ -635,7 +635,7 @@ class Bloc():
 
             self._bloc_dict = filtered_bloc_dict
 
-        # print filtered_bloc_dict
+        # print(filtered_bloc_dict)
         if not filtered_bloc_dict:
             UI.set_message("No apartment fits the criteria")
         else:

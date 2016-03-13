@@ -36,4 +36,4 @@ if __name__ == "__main__":
     # use timedelta
     # d = datetime.datetime(int(year), 1, 1) + datetime.timedelta(int(day) - 1)
 
-    print "The time in format Year/Month/Day: " + d.strftime("%Y/%m/%d")
+    print("The time in format Year/Month/Day: " + d.strftime("%Y/%m/%d"))

@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
 def solution_found(x):
-    print
-    "*******Solution******"
+    print("*******Solution******")
     # str = ""
     # for i in x:
     #
@@ -10,9 +9,8 @@ def solution_found(x):
     #         str += ")"
     #     else:
     #         str += "("
-    # print str
-    print
-    x
+    # print(str)
+    print(x)
 
 
 # def solution(x):
@@ -114,8 +112,7 @@ def solution_found(x):
     pr = ""
     for i in x:
         pr += str(i) + ", "
-    print
-    pr[:-2]
+    print(pr[:-2])
 
 
 def solution(x):
@@ -168,13 +165,9 @@ def backtrack_iterative():
             x = x[:-1]
 
 
-print
-"N = " + str(N)
-print
-"Recursive"
+print("N = " + str(N))
+print("Recursive")
 backtrack_recursive([])
-print
-"\n\n"
-print
-"Iterative"
+print("\n\n")
+print("Iterative")
 backtrack_iterative()

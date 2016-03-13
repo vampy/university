@@ -15,5 +15,4 @@ def isPrime(n):
     return True
 
 
-print
-isPrime(int(raw_input("Check if number is prime: ")))
+print(isPrime(int(raw_input("Check if number is prime: "))))

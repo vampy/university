@@ -44,7 +44,7 @@ class FileRepository(Repository):
         try:
             with open(self._filename, "r") as fp:
                 self._repository = cPickle.load(fp)
-                # print self._repository
+                # print(self._repository)
         except cPickle.UnpickleableError:
             print("Unpickle Error on filename '%s'. continue" % self._filename)
         except IOError:

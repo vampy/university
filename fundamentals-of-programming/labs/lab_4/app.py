@@ -164,7 +164,6 @@ class App():
         """
         Quits the app, called on 'quit' command
         """
-        print
-        "\n"
+        print("\n")
         self.save()
         exit()
