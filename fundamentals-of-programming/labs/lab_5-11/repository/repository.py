@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import utils.other
+import utils.sort
 
 
 class RepositoryException(Exception):
@@ -83,7 +83,7 @@ class Repository(object):
             the instance or None
         Raises:
         """
-        found = utils.other.search(self.select_all(), instance_id, "get_id")
+        found = utils.sort.search(self.select_all(), instance_id, "get_id")
         if found:
             return found[0]
 
