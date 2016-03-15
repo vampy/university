@@ -67,3 +67,13 @@ def linear(iterable, search_value, key):
 
     return return_list
     # print(linear(pers,1, key="getPersonId"))
+
+# from repository.fileclient import FileClientRepository
+#
+# client_repository = FileClientRepository("clients_new.dat")
+#
+# all_clients = client_repository.select_all()
+# quickSortRec(all_clients, 0, len(all_clients) - 1)
+#
+# for client in all_clients:
+#     print(client)
