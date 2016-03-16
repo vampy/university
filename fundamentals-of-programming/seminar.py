@@ -133,15 +133,15 @@ class MyRepo(object):
         return self
 
     def __next__(self):
-        if self.poz > len(self.li):
+        if self.poz > len(self._li):
             self.poz += 1
 
-        return self.li[self.poz]
+        return self._li[self.poz]
 
 
-repo = MyRepo()
+repo = MyRepo([])
 for client in repod:
-    print client
+    print(client)
 
 
 """
@@ -242,7 +242,7 @@ def test_dei_gcd():
     m = {}
     m[2] = [2, 6]
     m[1] = [5, 6]
-    for k in m,keys():
+    for k in m, keys():
         assert dei_gcd(m[k]) == k
 
 """
@@ -286,7 +286,7 @@ def max_subarray_3(array, low, high):
     
     middle = (low + high)/2
     
-    return max( max_subarray_3(array, left, middle), 
+    return max( max_subarray_3(array, low, middle),
                 max_subarray_3(array, middle, high),
                 center_sum(array, low, high))
 def center_sum(array, low, high):
