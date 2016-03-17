@@ -13,7 +13,7 @@ class Rent(object):
 
     def __str__(self):
         return "%s\t\t\t" * 5 % (
-        str(self.client_id), str(self.movie_id), str(self.start_date), str(self.end_date), str(self.returned))
+            str(self.client_id), str(self.movie_id), str(self.start_date), str(self.end_date), str(self.returned))
 
     def get_client_id(self):
         return self.__client_id

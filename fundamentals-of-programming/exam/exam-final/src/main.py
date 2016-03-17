@@ -9,4 +9,3 @@ from app import SpellCheckerApp
 if __name__ == "__main__":
     app = SpellCheckerApp()
     app.main()
-    

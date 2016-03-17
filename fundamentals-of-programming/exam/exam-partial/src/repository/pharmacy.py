@@ -5,8 +5,10 @@ Created on Dec 2, 2013
 '''
 from domain.product import Product
 
+
 class RepositoryException(Exception):
     pass
+
 
 class PharmacyRepo():
     def __init__(self, fileName="products.dat"):
@@ -25,7 +27,7 @@ class PharmacyRepo():
         self.__validate_instance(instance)
         if instance.getID() in self.__repository:
             raise RepositoryException("Id does already exist")
-        
+
         self.__repository[instance.getID()] = instance
 
     def getAll(self):
@@ -51,7 +53,6 @@ class PharmacyRepo():
         if not isinstance(instance, Product):
             raise RepositoryException("Not of type product")
 
-
     def __load(self, fileName):
         """
         Load the repository from a file
@@ -65,16 +66,17 @@ class PharmacyRepo():
                 for line in fp:
                     # the format is in <id>;<name;<price>
                     temp = line.strip().split(";")
-                    
+
                     # create instance
                     product = Product(product_id=int(temp[0]), product_name=temp[1], product_price=int(temp[2]))
-                    
+
                     # insert it
                     self.insert(product)
-                    
+
         except IOError:
             with open(fileName, "w") as fp:
                 pass
         except ValueError:
-            print "Repository is bad. ABBORTING"
+            print
+            "Repository is bad. ABBORTING"
             exit()

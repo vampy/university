@@ -7,13 +7,15 @@ insertion sort
 Best Case: T(n) (e) O(n)
 Worst Case: n(n-1)/n (e) O(n^2)
 """
+
+
 def sort_insertion(li):
     len_list = len(li)
 
     for i in range(1, len_list):
         current_value = li[i]
         hole_pos = i
-        
+
         # shift list
         while hole_pos > 0 and li[hole_pos - 1] > current_value:
             li[hole_pos] = li[hole_pos - 1]
@@ -22,7 +24,7 @@ def sort_insertion(li):
 
         # insert in right position
         li[hole_pos] = current_value
-        
+
     return li
 
 
@@ -58,7 +60,6 @@ T(n) = 2/3(n^2 - 1) + ... (e) O(n^2)
 
 """
 
-
 """
 Binary search
 
@@ -69,6 +70,8 @@ n = 2^k
 
 T(n) (e) O(log(2)  n)
 """
+
+
 def binary_search_recusive(li, search_value, left, right):
     if left > right:
         return False
@@ -91,7 +94,8 @@ def binary_search_recusive(li, search_value, left, right):
 Sorting in python
 """
 s = [("bea", "A"), ("adrian", "B"), ("jan", "B")]
-sorted(s, key=lamda t: t[1], reverse=False)
+sorted(s, key=lamda
+t: t[1], reverse = False)
 
 
 # We have a list of persons
@@ -102,8 +106,11 @@ def cmp_age(a, b):
         return 1
     else:
         return 0
-l = [] 
+
+
+l = []
 sorted(l, cmp=cmp_age)
+
 
 # or use operator overloading def __cmp__() <- this is the python way
 
@@ -112,14 +119,15 @@ sorted(l, cmp=cmp_age)
 def __hash__(self):
     return self.__id
 
-def __eq__(self, other): # overload '='
+
+def __eq__(self, other):  # overload '='
     pass
+
 
 # if a == b => a.__hash__ == b.__hash__
 
 def __repr__(self):
     return self.__str__()
-
 
 
 # iterator over an object
@@ -143,7 +151,6 @@ repo = MyRepo([])
 for client in repod:
     print(client)
 
-
 """
 Magic methods for lists
 __getItem__
@@ -152,7 +159,6 @@ __delItem__
 works on a list
 a[0] or a[0] = 2 or del a[0]
 """
-
 
 """
 SEMINAR
@@ -171,6 +177,8 @@ SEMINAR
 15 = 2 x 7 + 1
 """
 coins = [1, 5, 10, 50]
+
+
 def make_change(n, coins):
     # n - the change we want back
     change = []
@@ -184,12 +192,17 @@ def make_change(n, coins):
         change.append(coins[p])
 
     return change
+
+
 """
 T(n) (e) O(n)
 """
+
+
 def test_make_change():
     for i in range(1, 100):
         assert sum(make_change(i, coins)) == i
+
 
 """
 * Traveling salesman
@@ -211,6 +224,8 @@ def test_make_change():
 
 * smallest nr in list
 """
+
+
 def detimpera_min(li):
     if len(li) == 1:
         return l[0]
@@ -220,9 +235,11 @@ def detimpera_min(li):
     # or
     return min(l[0], detimpera_min(l[1:])
 
-"""
-* gcd of a list of numbers
-"""
+    """
+    * gcd of a list of numbers
+    """
+
+
 def gcd(a, b):
     while a != b:
         if a < b:
@@ -231,12 +248,14 @@ def gcd(a, b):
             b -= a
     return a
 
+
 def dei_gcd(li):
     if len(li) == 1:
         return li[0]
 
     middle = len(li) / 2
     return gcd(dei_gcd(li[:m]), dei_gcd(li[m:])
+
 
 def test_dei_gcd():
     m = {}
@@ -245,12 +264,15 @@ def test_dei_gcd():
     for k in m, keys():
         assert dei_gcd(m[k]) == k
 
+
 """
 * Max SubArray
 [-2, -5, 6, -2, -3, 1, 5, -6]
          | the sum is 7|
 
 """
+
+
 def max_subarray_1(li):
     max = l[0]
     for i in range(0, len(li)):
@@ -262,48 +284,58 @@ def max_subarray_1(li):
                     max = s
 
     return max
+
+
 """
 T(n) (e) O(n^3)
 """
+
 
 def max_subarray_2(li)
     max = l[0]
     for i in range(0, len(li)):
         s = 0
         for j in range(i, len(li)):
-            s += li[j] # the sum between i and j(aka the subarray)
+            s += li[j]  # the sum between i and j(aka the subarray)
             if s > max:
                 max = s
 
     return max
+
+
 """
 T(n) = O(n^2)
 """
 
+
 def max_subarray_3(array, low, high):
     if low == high:
         return array[low]
-    
-    middle = (low + high)/2
-    
-    return max( max_subarray_3(array, low, middle),
-                max_subarray_3(array, middle, high),
-                center_sum(array, low, high))
+
+    middle = (low + high) / 2
+
+    return max(max_subarray_3(array, low, middle),
+               max_subarray_3(array, middle, high),
+               center_sum(array, low, high))
+
+
 def center_sum(array, low, high):
     sum = 0
     middle = (low + high) / 2
-    left_sum = -1000 # 
+    left_sum = -1000  #
     i = middle
     while i > l:
         sum += l[i]
         i -= 1
-        
+
         if sum > left_sum:
             left_sum = sum
 
     # the same idea for right sum
 
     return left_sum + right_sum
+
+
 """
 T(n) = 2*T(n/2) + n 
 T(n/2) = 2*T(n/4) + n/2
@@ -337,20 +369,20 @@ a (e) [1, 2]
 a (e) [1,15]
 """
 
+
 def recursive_root(n, a, low, high):
     if high - low < a:
         return n
-    
-    middle = (low + high)/2
 
-    if a**r < n**r:
+    middle = (low + high) / 2
+
+    if a ** r < n ** r:
         return recursive_root(n, a, low, middle)
     else:
         return recursive_root(n, a, middle, high)
 
+
 recursive_root(2, 2, 0, 2)
-
-
 
 """
 Backtracking method
@@ -368,21 +400,26 @@ n = 4 => 4!
 
 x = [1, 2, 3, 4] (can be represented as a tree)
 """
+
+
 def solution(x):
-    return len(x) == N # N the number of permutations
+    return len(x) == N  # N the number of permutations
+
 
 def candidate(x):
     return len(x) == len(set(x))
+
 
 def backtrack_recursive(x):
     x.append(0)
     for i in range(0, DIM):
         x[len(x) - 1] = i
-        if consistent(x): # or candidate(x)
+        if consistent(x):  # or candidate(x)
             if solution(x):
                 found(x)
             else:
                 backtrack_recursive(x[:])
+
 
 def backtrack_iterative():
     x = [-1]
@@ -390,14 +427,15 @@ def backtrack_iterative():
         c = False
         while c == False and x[len(x) - 1] < DIM - 1:
             x[len(x) - 1] += 1
-            c = consistent(x) # or candidate(x)
-       if c:
-             if solution(x):
-                found(x)
-            else:
-                x.append(-1)
-        else:
-            x = x[:-1]
+            c = consistent(x)  # or candidate(x)
+    if c:
+        if solution(x):
+            found(x)
+    else:
+        x.append(-1)
+    else:
+    x = x[:-1]
+
 
 """
 Queen problem
@@ -410,12 +448,16 @@ column 1 row 4
 column 3 row 1
 column 4 row 3
 """
-def solution(x): # same as previous
+
+
+def solution(x):  # same as previous
     pass
-def consistent(x): # or candidate
+
+
+def consistent(x):  # or candidate
     # the columns are handled by the indexes
-   
-   # handle line
+
+    # handle line
     if len(x) != len(set(x)):
         return False
 
@@ -427,7 +469,7 @@ def consistent(x): # or candidate
 
     return True
 
- 
+
 """
 Latin squares
 N = 3
@@ -443,12 +485,15 @@ X = [1, 2, 3,   2, 3, 1,   3, 1, 2]
 x[0:3] - 1 line
 x[3:6] - 2 line
 """
+
+
 def solution(x):
-    return len(x) == N**2
+    return len(x) == N ** 2
+
 
 def consistent(x):
     # handle line
-    for i in range(0, N**2, N):
+    for i in range(0, N ** 2, N):
         if len(set(x[i:i + N])) != len(set(x[i:i + N])):
             return False
 
@@ -460,7 +505,7 @@ def consistent(x):
         while j < len(x):
             col.append(x[j])
             j += N
-        
+
         # check if ok
         if len(col) != len(set(col)):
             return False
@@ -476,8 +521,11 @@ N = 4
 ( - 1
 ) - -1
 """
+
+
 def solution(x):
     return len(x) == N and sum(x) == 0
+
 
 def consistent(x):
     # do not have more closed vs open parantheses
@@ -490,7 +538,7 @@ def consistent(x):
         if i == 1:
             op += 1
 
-    return op <= N/2
+    return op <= N / 2
 
     # v2 the sum should not be bigger than the rest of remaing space
     return sum(x) <= N - len(x)
@@ -507,10 +555,12 @@ m = {}
 m[0] = 0
 m[1] - 1
 """
+
+
 # linear complexity O(n)
 def fibonaci_memory(n):
     if n not in m.keys():
-        m[n] = fibonaci_memory(n-1) + fibonaci_memory(n-2)
+        m[n] = fibonaci_memory(n - 1) + fibonaci_memory(n - 2)
 
     return m[n]
 
@@ -533,7 +583,6 @@ we build the cost matrix
 | 1 | 2 | x | 4 | 3 |
 """
 
-
 """
 x = [-2, -5, 6, -2, -3, 1, 5, -6]
              |j     7      |
@@ -542,6 +591,8 @@ divide and conquer - O(nlog(n))
 dynamic programming - O(n)
 """
 M = []
+
+
 # Mj = max{Mj-1 + Xj, Xj}
 # Mj-1 + Xj > Xj
 # Mj-1 > 0
@@ -551,53 +602,57 @@ def max_sub(li):
     len_li = len(li)
     if not len_li:
         return 0
-    
+
     sum_li = 0
     M = []
-    M.append(l[0]) # the first limit
+    M.append(l[0])  # the first limit
     T = []
-    T.append(0) # remember the indexes 
+    T.append(0)  # remember the indexes
     # sum_li = l[0]
     # start = 0
     # end = 0
     for i in range(1, len_li):
-        if M[i - 1] > 1: # start over
+        if M[i - 1] > 1:  # start over
             M.append(M[i - 1] + l[i])
             T.append(T[i - 1])
-        else: # continue to append
+        else:  # continue to append
             M.append(l[i])
             T.append(i)
         if M[i] > sum_li:
             sum_li = M[i]
             start = T[i]
             end = i
-            
+
 
 """
 At exam possible:
 Product of prime number of list
 """
+
+
 # Return True if prime
 def is_prime(n):
     if n < 2:
         return False
-        
-    for i in range(2, n/2):
+
+    for i in range(2, n / 2):
         if n % i == 0:
-            return False # not prime found divisor
-            
+            return False  # not prime found divisor
+
     return True
-    
+
+
 def prime_li(li):
     len_li = len(li)
     if len_li == 1:
         if is_prime(l[0]):
             return l[0]
         else:
-            return 1 # the neutral element
-    
-    return prime_li(l[:len_li/2]) * prime_li(l[len_li/2:])
-    
+            return 1  # the neutral element
+
+    return prime_li(l[:len_li / 2]) * prime_li(l[len_li / 2:])
+
+
 """
 Specify
 test
@@ -617,23 +672,25 @@ Output:
 Raises:
     ValueError if n is odd or n is not a naturoa number
 """
+
+
 def gb(n):
     if not isinstance(n, int) or n < 0 or n % 2 == 0:
         raise ValueError()
-    
+
     for i in range(2, n):
         if is_prime(i) and is_prime(n - i):
             return [i, n - i]
-    
+
     raise BadConjecture()
-    
+
+
 def test_gb():
     try:
         gb(1)
         assert False
     except ValueError:
         assert True
-        
+
     assert gb(10) == [3, 7]
     assert gb(20) == [3, 17]
-            
