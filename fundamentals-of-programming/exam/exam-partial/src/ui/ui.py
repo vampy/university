@@ -3,6 +3,9 @@ Created on Dec 2, 2013
 
 @author: daniel
 '''
+# http://python-future.org/compatible_idioms.html
+from __future__ import print_function
+from builtins import input
 
 
 class PharmacyUI(object):
@@ -32,12 +35,11 @@ class PharmacyUI(object):
         
         """
         while True:
-            print
-            self.getMenu()
-            command = raw_input(">>> ").strip()
+            print(self.getMenu())
+            command = input(">>> ").strip()
             while command not in self.__commands:
                 print("Invalid commmand")
-                command = raw_input(">>> ").strip()
+                command = input(">>> ").strip()
 
             self.__commands[command]()
 
@@ -50,29 +52,25 @@ class PharmacyUI(object):
         """
 
         # get the name and quantity from the user
-        print
-        "Buy Product"
-        name = raw_input("Product name: ").strip()
-        qty = raw_input("Product quantity: ").strip()
+        print("Buy Product")
+        name = input("Product name: ").strip()
+        qty = input("Product quantity: ").strip()
         try:
             qty = int(qty)
         except ValueError:
-            print
-            "Quantity is not a number please try again"
+            print("Quantity is not a number please try again")
             return
 
         # find the product instance by name
         products = self.__pController.filterByName(name)
         # if empty do nothing
         if not products:
-            print
-            "There are no products with that name"
+            print("There are no products with that name")
             return
 
         # if found use the first product with that name
         self.__pController.addProductToCart(products[0], qty)
-        print
-        "Product added"
+        print("Product added")
 
     def __total(self):
         """
@@ -81,8 +79,7 @@ class PharmacyUI(object):
         Output:
         
         """
-        print
-        "Total: %d" % self.__pController.getCartTotal()
+        print("Total: %d" % self.__pController.getCartTotal())
 
     def __search(self):
         """
@@ -91,22 +88,19 @@ class PharmacyUI(object):
         Output:
         
         """
-        name = raw_input("Product name: ").strip()
+        name = input("Product name: ").strip()
         products = self.__pController.filterByName(name)
 
         # check empty product list
         if not products:
-            print
-            "There are no products with that name"
+            print("There are no products with that name")
             return
 
         # if here all good display found products
         print("Found products: ")
         for product in products:
-            print
-            product
+            print(product)
 
     def __quit(self):
-        print
-        "\n\nBye Bye."
+        print("\n\nBye Bye.")
         exit()

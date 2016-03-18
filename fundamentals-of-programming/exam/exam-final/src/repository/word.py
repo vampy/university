@@ -27,7 +27,7 @@ class WordsRepository(object):
             None otherwise
         """
         # category not define
-        if not lang in self._repository:
+        if lang not in self._repository:
             return None
 
         # return the instance if found
@@ -66,8 +66,7 @@ class WordsRepository(object):
 
         # write to file
         with open(self._file_name, "a") as fp:
-            print
-            "Saving to file"
+            print("Saving to file")
 
             fp.write(str(word.id) + " " + word.lang + " " + word.word + "\n")
 
@@ -103,5 +102,4 @@ class WordsRepository(object):
         except IOError:
             # file is not present
             with open(self._file_name, "w") as fp:
-                print
-                "File is not present making a new one"
+                print("File is not present making a new one")

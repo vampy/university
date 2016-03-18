@@ -3,6 +3,11 @@ Created on Jan 30, 2014
 
 @author: daniel
 '''
+# http://python-future.org/compatible_idioms.html
+from __future__ import print_function
+from builtins import input
+
+
 try:
     import readline
 except ImportError:
@@ -25,16 +30,14 @@ class SpellChekerUI(object):
         """
         The main loop
         """
-        print
-        self._start_message
+        print(self._start_message)
         self.cmd_help()
 
         while True:
 
             command = self.get_cmd()
             while command not in self._menu:
-                print
-                "Command not valid please try again"
+                print("Command not valid please try again")
                 command = self.get_cmd()
 
             # execute the command
@@ -56,55 +59,48 @@ q. Quit
         Get the command from the user
         """
         try:
-            return raw_input(">>> ").strip()
+            return input(">>> ").strip()
         except KeyboardInterrupt:
-            print
-            "Control-C pressed quiting"
+            print("Control-C pressed quiting")
             return "q"
 
     def cmd_spellc_phrase(self):
         """
         Spellcheck a phrase
         """
-        lang = raw_input("Language: ").strip().capitalize()
-        phrase = raw_input("Phrase: ").strip()
+        lang = input("Language: ").strip().capitalize()
+        phrase = input("Phrase: ").strip()
 
-        print
-        self._spellc_controller.check_phrase(lang, phrase)
+        print(self._spellc_controller.check_phrase(lang, phrase))
 
     def cmd_spellc_file(self):
         """
         Spellcheck a file
         """
-        lang = raw_input("Language: ").strip().capitalize()
-        input_file_name = raw_input("Input filename: ").strip()
-        output_file_name = raw_input("Output filename: ").strip()
+        lang = input("Language: ").strip().capitalize()
+        input_file_name = input("Input filename: ").strip()
+        output_file_name = input("Output filename: ").strip()
 
-        print
-        self._spellc_controller.check_filename(input_file_name, lang, output_file_name)
+        print(self._spellc_controller.check_filename(input_file_name, lang, output_file_name))
 
     def cmd_add_word(self):
         """
         Add a word
         """
-        print
-        "Add word"
+        print("Add word")
 
-        word_id = raw_input("Word id: ").strip()
-        word_lang = raw_input("Word language: ").strip().capitalize()
-        word_word = raw_input("Word: ").strip()
+        word_id = input("Word id: ").strip()
+        word_lang = input("Word language: ").strip().capitalize()
+        word_word = input("Word: ").strip()
 
         not_words = self._spellc_controller.add_word(word_id, word_lang, word_word)
-        if len(not_words) == 0:
-            print
-            "All words are in the dictionary"
+        if not not_words:
+            print("All words are in the dictionary")
         else:
-            print
-            not_words
+            print(not_words)
 
     def cmd_quit(self):
         exit("Bye bye.")
 
     def cmd_help(self):
-        print
-        self.get_menu()
+        print(self.get_menu())
