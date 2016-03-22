@@ -5,7 +5,9 @@ Problem number 3
 
 @author: Daniel Butum, Group 911
 '''
-
+# http://python-future.org/compatible_idioms.html
+from __future__ import print_function
+from builtins import input
 import datetime
 
 
@@ -17,8 +19,8 @@ def get_read_data():
     """
     # return 1994, 200
 
-    year = raw_input("Input the year: ")
-    day = raw_input("Input the day of the year: ")
+    year = input("Input the year: ")
+    day = input("Input the day of the year: ")
     return year, day
 
 

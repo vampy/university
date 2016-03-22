@@ -1,3 +1,7 @@
+# http://python-future.org/compatible_idioms.html
+from __future__ import print_function
+from builtins import input
+
 import math
 
 
@@ -15,4 +19,4 @@ def isPrime(n):
     return True
 
 
-print(isPrime(int(raw_input("Check if number is prime: "))))
+print(isPrime(int(input("Check if number is prime: "))))

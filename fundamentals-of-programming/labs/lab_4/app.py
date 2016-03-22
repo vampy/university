@@ -4,6 +4,8 @@ Created on Oct 18, 2013
 
 @author: daniel
 """
+from __future__ import print_function
+
 import copy
 import json
 

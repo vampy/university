@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# http://python-future.org/compatible_idioms.html
+from __future__ import print_function
+from builtins import input
+
 try:
     import readline
 except ImportError as e:
@@ -181,15 +185,13 @@ class Console(object):
                 self.rent_controller.get_most_rented_movies()
                 # item[0] the movie object and item[1] the number of apereances
                 for item in self.rent_controller.get_most_rented_movies():
-                    print
-                    "Rented ", item[1], " times -->(ID, Title, Type, Description):", item[0]
+                    print("Rented ", item[1], " times -->(ID, Title, Type, Description):", item[0])
 
             elif option == self.OPTION_STAT_2:
                 print("Clients with rented movies ordered by number of rents")
                 # item[0] the client object and item[1] the number of rents
                 for item in self.rent_controller.get_clients_with_most_rents():
-                    print
-                    "Number of rents : ", item[1], " by client -->(ID, Name, CNP):", item[0]
+                    print("Number of rents : ", item[1], " by client -->(ID, Name, CNP):", item[0])
 
             self.display_message()
 
@@ -260,7 +262,7 @@ class Console(object):
             string - user command
         """
         try:
-            return raw_input(message).strip()
+            return input(message).strip()
         except KeyboardInterrupt:  # handle CTRL + C interrupt
             return Console.OPTION_QUIT
         except EOFError:  # handle CTRL + D
@@ -309,8 +311,8 @@ class Console(object):
             try:
                 start_date = datetime.strptime(command, "%d/%m/%Y")
                 return start_date
-            except ValueError as e:
-                print("Date formath should be day/month/year as 23/05/1985")
+            except ValueError:
+                print("Date format should be day/month/year as 23/05/1985")
 
     @staticmethod
     def get_option():

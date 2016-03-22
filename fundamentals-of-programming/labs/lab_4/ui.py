@@ -4,6 +4,10 @@ Created on Oct 18, 2013
 
 @author: daniel
 """
+# http://python-future.org/compatible_idioms.html
+from __future__ import print_function
+from builtins import input
+
 try:
     import readline
 except ImportError as e:
@@ -129,7 +133,7 @@ class UI:
         Gets the command inputed by the user
         """
         try:
-            return raw_input(">>> ").strip().lower()
+            return input(">>> ").strip().lower()
         except KeyboardInterrupt:  # handle CTRL + C interrupt
             return "exit"
         except EOFError:  # handle CTRL + D
