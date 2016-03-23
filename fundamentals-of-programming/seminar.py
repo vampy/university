@@ -72,7 +72,7 @@ T(n) (e) O(log(2)  n)
 """
 
 
-def binary_search_recusive(li, search_value, left, right):
+def binary_search_recursive(li, search_value, left, right):
     if left > right:
         return False
 
@@ -94,8 +94,7 @@ def binary_search_recusive(li, search_value, left, right):
 Sorting in python
 """
 s = [("bea", "A"), ("adrian", "B"), ("jan", "B")]
-sorted(s, key=lamda
-t: t[1], reverse = False)
+sorted(s, key=lambda t: t[1], reverse = False)
 
 
 # We have a list of persons
@@ -148,7 +147,7 @@ class MyRepo(object):
 
 
 repo = MyRepo([])
-for client in repod:
+for client in repo:
     print(client)
 
 """
@@ -231,9 +230,9 @@ def detimpera_min(li):
         return l[0]
 
     middle = len(li) / 2
-    return min(deimpera_min(l[:m]), detimpera_min(l[m:]))
+    return min(detimpera_min(l[:middle]), detimpera_min(l[middle:]))
     # or
-    return min(l[0], detimpera_min(l[1:])
+    return min(l[0], detimpera_min(l[1:]))
 
     """
     * gcd of a list of numbers
@@ -291,7 +290,7 @@ T(n) (e) O(n^3)
 """
 
 
-def max_subarray_2(li)
+def max_subarray_2(li):
     max = l[0]
     for i in range(0, len(li)):
         s = 0
@@ -332,6 +331,7 @@ def center_sum(array, low, high):
             left_sum = sum
 
     # the same idea for right sum
+    right_sum = 0 # TODO
 
     return left_sum + right_sum
 
@@ -401,6 +401,9 @@ n = 4 => 4!
 x = [1, 2, 3, 4] (can be represented as a tree)
 """
 
+
+def found(argv):
+    pass
 
 def solution(x):
     return len(x) == N  # N the number of permutations
@@ -672,6 +675,8 @@ Output:
 Raises:
     ValueError if n is odd or n is not a naturoa number
 """
+class BadConjecture(Exception):
+    pass
 
 
 def gb(n):
