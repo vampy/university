@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 
+
 class Board:
     def __init__(self, rows, cols):
         self.rows = rows
@@ -24,6 +25,7 @@ class Board:
 
     def __str__(self):
         return "\n".join([", ".join(["%2i" % i for i in row]) for row in self.board])
+
 
 class BoardHeuristic(Board):
     # move_x, move_y
@@ -76,8 +78,10 @@ class BoardHeuristic(Board):
 
         return moves
 
+
 def exit_error(message):
     exit("ERROR: " + message)
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:

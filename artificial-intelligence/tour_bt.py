@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import sys
 import copy
+import sys
 
 
 class Board:
@@ -68,6 +68,7 @@ class BoardKT(Board):
 
 def exit_error(message):
     exit("ERROR: " + message)
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
