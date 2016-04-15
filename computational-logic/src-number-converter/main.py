@@ -2,10 +2,10 @@
 """
 @author: Daniel Butum, Group 911
 """
-import tests
 import sys
-from ui.ui import UI
 
+import tests
+from ui.ui import UI
 
 if __name__ == "__main__":
     if sys.version_info[0] < 3:

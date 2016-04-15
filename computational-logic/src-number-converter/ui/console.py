@@ -7,6 +7,7 @@ from utils.number import convert_to_int
 
 
 class Console:
+
     def __init__(self):
         pass
 
