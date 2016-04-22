@@ -1,32 +1,51 @@
+# See https://clangformat.com/
+# http://clang-format.me/
+# http://llvm.org/releases/3.8.0/tools/clang/docs/ClangFormatStyleOptions.html
 ---
 Language:        Cpp
+
+# The extra indent or outdent of access modifiers, e.g. public:
 AccessModifierOffset: -4
-AlignAfterOpenBracket: false
+
+# If true, horizontally aligns arguments after an open bracket.
+AlignAfterOpenBracket: true
 AlignEscapedNewlinesLeft: true
-AlignOperands: false
+
+# If true, horizontally align operands of binary and ternary expressions.
+AlignOperands: true
 AlignTrailingComments: true
-AllowAllParametersOfDeclarationOnNextLine: true
+
+# If true, aligns consecutive assignments.
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: false
+
+AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortIfStatementsOnASingleLine: true
-AllowShortLoopsOnASingleLine: true
-AllowShortFunctionsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: All
+
 AlwaysBreakAfterDefinitionReturnType: false
 AlwaysBreakTemplateDeclarations: true
 AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakAfterReturnType: None
+
 BreakBeforeBinaryOperators: All
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: false
-BinPackParameters: true
-BinPackArguments: true
+BreakBeforeBraces: Allman
 
+# If false, a function call’s or function definition’s parameters will either all be on the same line or will have one line each.
+BinPackParameters: false
+BinPackArguments: false
 
 # Pointer and reference alignment style.
 PointerAlignment: Left
 
-ColumnLimit:     120
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
-ConstructorInitializerIndentWidth: 4
+# If the constructor initializers don’t fit on a line, put each initializer on its own line.
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
 DerivePointerAlignment: false
 ExperimentalAutoDetectBinPacking: false
 IndentCaseLabels: false
@@ -34,23 +53,35 @@ IndentWrappedFunctionNames: false
 IndentFunctionDeclarationAfterType: false
 MaxEmptyLinesToKeep: 1
 KeepEmptyLinesAtTheStartOfBlocks: true
-NamespaceIndentation: Inner
+
 ObjCBlockIndentWidth: 4
 ObjCSpaceAfterProperty: true
 ObjCSpaceBeforeProtocolList: true
+
+# https://stackoverflow.com/questions/26635370/in-clang-format-what-do-the-penalties-do
 PenaltyBreakBeforeFirstCallParameter: 19
 PenaltyBreakComment: 300
 PenaltyBreakString: 1000
 PenaltyBreakFirstLessLess: 120
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
-SpacesBeforeTrailingComments: 1
+
 Cpp11BracedListStyle: true
+
+# Indent only in inner namespaces (nested in other namespaces).
+NamespaceIndentation: Inner
+
+# The number of spaces before trailing line comments (// - comments).
+SpacesBeforeTrailingComments: 1
+
+ColumnLimit:     120
 Standard:        Cpp11
 IndentWidth:     4
-TabWidth:        8
+ConstructorInitializerIndentWidth: 4
+TabWidth:        4
+ContinuationIndentWidth: 4
 UseTab:          Never
-BreakBeforeBraces: Allman
+
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpacesInAngles:  false
@@ -59,9 +90,16 @@ SpacesInCStyleCastParentheses: false
 SpaceAfterCStyleCast: false
 SpacesInContainerLiterals: true
 SpaceBeforeAssignmentOperators: true
-ContinuationIndentWidth: 4
+
 CommentPragmas:  '^ IWYU pragma:'
 ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
+IncludeCategories:
+  - Regex:           '^<.*\.h>'
+    Priority:        1
+  - Regex:           '^<.*'
+    Priority:        2
+  - Regex:           '.*'
+    Priority:        3
 SpaceBeforeParens: ControlStatements
 DisableFormat:   false
 ...
