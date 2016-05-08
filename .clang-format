@@ -1,6 +1,6 @@
 # See https://clangformat.com/
 # http://clang-format.me/
-# http://llvm.org/releases/3.8.0/tools/clang/docs/ClangFormatStyleOptions.html
+# http://clang.llvm.org/docs/ClangFormatStyleOptions.html
 ---
 Language:        Cpp
 
