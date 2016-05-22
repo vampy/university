@@ -1,24 +1,24 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QList>
-#include <QVector>
-#include <QString>
-#include <QStringList>
 #include <QDebug>
-#include <QWidget>
-#include <QMainWindow>
-#include <QPushButton>
-#include <QLineEdit>
+#include <QFormLayout>
+#include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QLayout>
-#include <QFormLayout>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QGridLayout>
+#include <QLineEdit>
+#include <QList>
 #include <QListWidget>
+#include <QMainWindow>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QSlider>
+#include <QString>
+#include <QStringList>
+#include <QVBoxLayout>
+#include <QVector>
+#include <QWidget>
 
 #include "taskcontroller.h"
 

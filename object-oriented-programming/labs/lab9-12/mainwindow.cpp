@@ -1,22 +1,42 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent), mainWidget(new QWidget), mainSplitterLayout(new QHBoxLayout), topLayout(new QHBoxLayout),
-      formLayout(new QFormLayout), filterLayout1(new QFormLayout), filterLayout2(new QHBoxLayout),
-      leftLayout(new QVBoxLayout), rightLayout(new QVBoxLayout),
+    : QMainWindow(parent),
+      mainWidget(new QWidget),
+      mainSplitterLayout(new QHBoxLayout),
+      topLayout(new QHBoxLayout),
+      formLayout(new QFormLayout),
+      filterLayout1(new QFormLayout),
+      filterLayout2(new QHBoxLayout),
+      leftLayout(new QVBoxLayout),
+      rightLayout(new QVBoxLayout),
 
       // form widgets
-      idLabel(new QLabel), idText(new QLineEdit), quantityLabel(new QLabel), quantityText(new QLineEdit),
-      nameLabel(new QLabel), nameText(new QLineEdit), producerLabel(new QLabel), producerText(new QLineEdit),
+      idLabel(new QLabel),
+      idText(new QLineEdit),
+      quantityLabel(new QLabel),
+      quantityText(new QLineEdit),
+      nameLabel(new QLabel),
+      nameText(new QLineEdit),
+      producerLabel(new QLabel),
+      producerText(new QLineEdit),
 
       // filter widgets,
-      filterNameText(new QLineEdit), filterNameButton(new QPushButton), filterProducerText(new QLineEdit),
-      filterProducerButton(new QPushButton), filterQuantityText(new QLineEdit), filterQuantityCombo(new QComboBox),
+      filterNameText(new QLineEdit),
+      filterNameButton(new QPushButton),
+      filterProducerText(new QLineEdit),
+      filterProducerButton(new QPushButton),
+      filterQuantityText(new QLineEdit),
+      filterQuantityCombo(new QComboBox),
       filterQuantityButton(new QPushButton),
 
       // other widgets
-      insertButton(new QPushButton), updateButton(new QPushButton), deleteButton(new QPushButton),
-      undoButton(new QPushButton), table(new QTableWidget), statusLabel(new QLabel)
+      insertButton(new QPushButton),
+      updateButton(new QPushButton),
+      deleteButton(new QPushButton),
+      undoButton(new QPushButton),
+      table(new QTableWidget),
+      statusLabel(new QLabel)
 {
     // set layout
     this->setCentralWidget(mainWidget);
@@ -146,13 +166,15 @@ void MainWindow::headerClicked(int index)
     // add to new repo
     for (int row = 0; row < table->rowCount(); row++)
     {
-        auto idItem = table->item(row, 0);
-        auto nameItem = table->item(row, 1);
+        auto idItem       = table->item(row, 0);
+        auto nameItem     = table->item(row, 1);
         auto producerItem = table->item(row, 2);
         auto quantityItem = table->item(row, 3);
 
-        controller->addIngredient(idItem->text().toUInt(), quantityItem->text().toUInt(),
-            nameItem->text().toStdString(), producerItem->text().toStdString());
+        controller->addIngredient(idItem->text().toUInt(),
+                                  quantityItem->text().toUInt(),
+                                  nameItem->text().toStdString(),
+                                  producerItem->text().toStdString());
     }
 
     this->refreshTableData();
@@ -164,7 +186,8 @@ void MainWindow::insertClicked()
     unsigned int id, quantity;
     string name, producer;
 
-    if (!this->validateFormData(id, name, producer, quantity, true)) return;
+    if (!this->validateFormData(id, name, producer, quantity, true))
+        return;
 
     // add to repo
     controller->addIngredient(id, quantity, name, producer);
@@ -178,7 +201,8 @@ void MainWindow::updateClicked()
     unsigned int id, quantity;
     string name, producer;
 
-    if (!this->validateFormData(id, name, producer, quantity, false)) return;
+    if (!this->validateFormData(id, name, producer, quantity, false))
+        return;
 
     // update the repo
     controller->updateIngredient(id, name, producer, quantity);
@@ -191,7 +215,8 @@ void MainWindow::deleteClicked()
     qDebug() << "clicked: delete button";
     unsigned int id;
 
-    if (!this->validateFormId(id, false)) return;
+    if (!this->validateFormId(id, false))
+        return;
 
     // delete from repo
     controller->removeIngredient(id);
@@ -359,8 +384,11 @@ bool MainWindow::validateFormId(unsigned int& id, bool idExists)
     return true;
 }
 
-bool MainWindow::validateFormData(
-    unsigned int& id, string& name, string& producer, unsigned int& quantity, bool idExists)
+bool MainWindow::validateFormData(unsigned int& id,
+                                  string& name,
+                                  string& producer,
+                                  unsigned int& quantity,
+                                  bool idExists)
 {
     if (!this->validateFormId(id, idExists))
     {

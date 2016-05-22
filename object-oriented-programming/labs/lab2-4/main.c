@@ -15,9 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "utils.h"
-#include "ui.h"
 #include "test.h"
+#include "ui.h"
+#include "utils.h"
 
 int main()
 {

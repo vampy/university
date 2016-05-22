@@ -1,9 +1,9 @@
 #ifndef TASKREPOSITORY_H
 #define TASKREPOSITORY_H
 
-#include <QVector>
 #include <QFile>
 #include <QStringList>
+#include <QVector>
 
 #include "task.h"
 

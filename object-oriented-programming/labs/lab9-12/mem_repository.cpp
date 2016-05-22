@@ -1,17 +1,17 @@
 #include <algorithm>
 #include <cassert>
-#include <string>
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
+#include <string>
 #include <vector>
 
-#include "mem_repository.hpp"
 #include "ingredient.hpp"
+#include "mem_repository.hpp"
 #include "util.hpp"
 
 MemRepository::MemRepository()
 {
-    this->array = new vector<Ingredient*>;
+    this->array      = new vector<Ingredient*>;
     this->undoVector = new vector<vector<Ingredient*>*>;
 
     printDebug("Repository constructed");
@@ -157,8 +157,10 @@ void MemRepository::addToUndo()
     for (unsigned int i = 0; i < array->size(); i++)
     {
         Ingredient* old_ingredient = array->at(i);
-        undo_vector->push_back(new Ingredient(old_ingredient->getId(), old_ingredient->getQuantity(),
-            old_ingredient->getName(), old_ingredient->getProducer()));
+        undo_vector->push_back(new Ingredient(old_ingredient->getId(),
+                                              old_ingredient->getQuantity(),
+                                              old_ingredient->getName(),
+                                              old_ingredient->getProducer()));
     }
 
     this->undoVector->push_back(undo_vector);
@@ -180,8 +182,7 @@ bool MemRepository::undo()
 
 void MemRepository::toString() const
 {
-    cout << setw(4) << "ID" << setw(15) << "Quantity" << setw(30) << "Name" << setw(30) << "Producer" << endl
-         << endl;
+    cout << setw(4) << "ID" << setw(15) << "Quantity" << setw(30) << "Name" << setw(30) << "Producer" << endl << endl;
 
     for (size_t i = 0; i < array->size(); i++)
     {

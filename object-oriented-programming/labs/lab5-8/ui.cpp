@@ -1,17 +1,17 @@
-#include <iostream>
-#include <string>
 #include <cstdlib>
 #include <iomanip>
+#include <iostream>
+#include <string>
 
-#include "ui.hpp"
 #include "controller.hpp"
+#include "ui.hpp"
 #include "util.hpp"
 
 using namespace std;
 
 UI::UI(Controller* controller, string message = "")
 {
-    this->controller = controller;
+    this->controller     = controller;
     this->startupMessage = message;
 }
 
@@ -40,11 +40,7 @@ void UI::showMenu()
          << "\t0 - Exit" << endl;
 }
 
-void UI::printToStdOut(string error)
-{
-    cout << endl
-         << error << endl;
-}
+void UI::printToStdOut(string error) { cout << endl << error << endl; }
 
 void UI::convertAndValidateId(bool& isError, string& id_str, int& id_int) const
 {

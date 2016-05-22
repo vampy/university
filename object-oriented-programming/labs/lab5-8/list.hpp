@@ -1,8 +1,8 @@
 #ifndef DOUBLE_LINKED_LIST_H_
 #define DOUBLE_LINKED_LIST_H_
+#include <cstdlib>
 #include <stdexcept>
 #include <string>
-#include <cstdlib>
 
 #include "util.hpp"
 
@@ -20,7 +20,7 @@ class ArrayDoubleListNode
 public:
     ArrayDoubleListNode()
     {
-        this->next = -1;
+        this->next     = -1;
         this->previous = -1;
     }
 
@@ -38,7 +38,7 @@ public:
     ArrayDoubleListIterator(ArrayDoubleList<TElement>* list, int current = 0)
     {
         this->current = current;
-        this->list = list;
+        this->list    = list;
     }
 
     std::string toString() { return "ArrayDoubleListIterator -> current=" + to_string(this->current); }
@@ -72,10 +72,10 @@ public:
             initial_capacity = 256;
         }
         this->capacity = initial_capacity;
-        this->length = 0;
+        this->length   = 0;
 
         // alocate memory
-        this->data = new ArrayDoubleListNode<TElement>* [this->capacity];
+        this->data = new ArrayDoubleListNode<TElement>*[this->capacity];
         for (size_t i = 0; i < this->capacity; i++)
         {
             this->data[i] = new ArrayDoubleListNode<TElement>;
@@ -181,7 +181,7 @@ protected:
         {
             // create new buffer
             this->capacity *= 2;
-            ArrayDoubleListNode<TElement>** temp_data = new ArrayDoubleListNode<TElement>* [this->capacity];
+            ArrayDoubleListNode<TElement>** temp_data = new ArrayDoubleListNode<TElement>*[this->capacity];
 
             for (size_t i = 0; i < this->length; i++)
             {

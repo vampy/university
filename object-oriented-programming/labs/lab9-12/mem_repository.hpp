@@ -1,9 +1,9 @@
 #ifndef MEM_REPOSITORY_H_
 #define MEM_REPOSITORY_H_
-#include "vector.hpp"
-#include "list.hpp"
 #include "ingredient.hpp"
+#include "list.hpp"
 #include "repository.hpp"
+#include "vector.hpp"
 
 class MemRepositoryException : public RepositoryException
 {

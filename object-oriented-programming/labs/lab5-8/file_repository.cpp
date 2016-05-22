@@ -1,5 +1,5 @@
-#include <fstream>
 #include "file_repository.hpp"
+#include <fstream>
 #include "util.hpp"
 
 void FileRepository::writeToFile() const
@@ -26,8 +26,10 @@ void FileRepository::writeToFile() const
             Ingredient* temp_ingredient = iterator->next();
 
             // write ingredient
-            fileHandle << temp_ingredient->getId() << "\n" << temp_ingredient->getQuantity() << "\n"
-                       << temp_ingredient->getName() << "\n" << temp_ingredient->getProducer() << "\n"
+            fileHandle << temp_ingredient->getId() << "\n"
+                       << temp_ingredient->getQuantity() << "\n"
+                       << temp_ingredient->getName() << "\n"
+                       << temp_ingredient->getProducer() << "\n"
                        << "\n"; // separate by newline
         }
     }

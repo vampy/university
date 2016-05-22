@@ -1,8 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "vector.h"
 #include <assert.h>
 #include <memory.h>
-#include "vector.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // TODO make memset in double capacity inteligent to 0
 void vector_init(Vector* vector, size_t element_size)
@@ -11,8 +11,8 @@ void vector_init(Vector* vector, size_t element_size)
     // assert(vector != NULL);
 
     // init variables
-    vector->_length = 0;
-    vector->_capacity = VECTOR_INITIAL_CAPACITY;
+    vector->_length       = 0;
+    vector->_capacity     = VECTOR_INITIAL_CAPACITY;
     vector->_element_size = element_size;
 
     // allocate memory
@@ -91,7 +91,8 @@ void vector_clear_data(Vector* vector)
     int i;
     for (i = 0; i < vector->_length; i++)
     {
-        if (vector->_data[i] != NULL) free(vector->_data[i]);
+        if (vector->_data[i] != NULL)
+            free(vector->_data[i]);
     }
     vector->_length = 0;
 }
@@ -124,7 +125,8 @@ Vector* vector_new_from(Vector* vector)
     Vector* new_vector = (Vector*)malloc(sizeof(Vector));
     vector_init(new_vector, vector->_element_size);
 
-    for (int i = 0; i < vector->_length; i++) vector_append(new_vector, vector_get(vector, i));
+    for (int i = 0; i < vector->_length; i++)
+        vector_append(new_vector, vector_get(vector, i));
 
     return new_vector;
 }

@@ -1,10 +1,10 @@
 #ifndef TASK_H
 #define TASK_H
 
-#include <QString>
 #include <QDebug>
-#include <cassert>
+#include <QString>
 #include <QtAlgorithms>
+#include <cassert>
 
 class Task
 {

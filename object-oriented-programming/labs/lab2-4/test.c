@@ -1,9 +1,9 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
-#include "vector.h"
 #include "holiday.h"
+#include "vector.h"
 
 void test_vector_all()
 {

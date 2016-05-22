@@ -1,9 +1,9 @@
 #include <cassert>
 
-#include "vector.hpp"
 #include "ingredient.hpp"
 #include "mem_repository.hpp"
 #include "tests.hpp"
+#include "vector.hpp"
 
 /**
  * Tests dynamic vector

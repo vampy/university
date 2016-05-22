@@ -1,17 +1,25 @@
 #include "mytasks.h"
 
 MyTasks::MyTasks(QWidget* parent)
-    : QMainWindow(parent), m_main_widget(new QWidget), m_list(new QListWidget),
+    : QMainWindow(parent),
+      m_main_widget(new QWidget),
+      m_list(new QListWidget),
 
       // add
-      m_id_label(new QLabel), m_id_value(new QLineEdit), m_name_label(new QLabel), m_name_value(new QLineEdit),
-      m_hour_label(new QLabel), m_hour_value(new QLineEdit), m_add_button(new QPushButton),
+      m_id_label(new QLabel),
+      m_id_value(new QLineEdit),
+      m_name_label(new QLabel),
+      m_name_value(new QLineEdit),
+      m_hour_label(new QLabel),
+      m_hour_value(new QLineEdit),
+      m_add_button(new QPushButton),
 
       // count
       m_count_label(new QLabel),
 
       // filter
-      m_slider_label(new QLabel), m_slider_value(new QSlider)
+      m_slider_label(new QLabel),
+      m_slider_value(new QSlider)
 {
     // setup main
     this->setCentralWidget(m_main_widget);
@@ -79,9 +87,9 @@ void MyTasks::onAddClicked()
     QString errors, name;
 
     bool okId, okHours, okName = true;
-    int id = m_id_value->text().toInt(&okId);
+    int id    = m_id_value->text().toInt(&okId);
     int hours = m_hour_value->text().toInt(&okHours);
-    name = m_name_value->text().trimmed();
+    name      = m_name_value->text().trimmed();
 
     if (!okId)
     {

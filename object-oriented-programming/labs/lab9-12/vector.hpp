@@ -20,16 +20,16 @@ public:
             initial_capacity = 256;
         }
         this->capacity = initial_capacity;
-        this->data = new TElement[this->capacity];
-        this->length = 0;
+        this->data     = new TElement[this->capacity];
+        this->length   = 0;
         printDebug("DynamicArray constructed");
     }
 
     DynamicArray(const DynamicArray& from)
     {
         this->capacity = from.capacity;
-        this->length = from.length;
-        this->data = new TElement[this->capacity];
+        this->length   = from.length;
+        this->data     = new TElement[this->capacity];
         for (size_t i = 0; i < from.length; i++)
         {
             this->data[i] = from.data[i];
@@ -47,8 +47,8 @@ public:
 
         // copy data
         this->capacity = second.capacity;
-        this->length = second.length;
-        this->data = new TElement[this->capacity];
+        this->length   = second.length;
+        this->data     = new TElement[this->capacity];
         for (size_t i = 0; i < second.length; i++)
         {
             this->data[i] = second.data[i];

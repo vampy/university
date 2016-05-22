@@ -1,8 +1,8 @@
 #ifndef INGREDIENT_H_
 #define INGREDIENT_H_
-#include <string>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <string>
 
 using namespace std;
 

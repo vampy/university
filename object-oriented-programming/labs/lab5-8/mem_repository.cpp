@@ -1,20 +1,20 @@
 #include <algorithm>
 #include <cassert>
-#include <string>
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
+#include <string>
 
-#include "mem_repository.hpp"
-#include "vector.hpp"
 #include "ingredient.hpp"
+#include "mem_repository.hpp"
 #include "util.hpp"
+#include "vector.hpp"
 
 MemRepository::MemRepository()
 {
-    this->array = new DynamicArray<Ingredient*>;
-    this->list = new ArrayDoubleList<Ingredient*>;
+    this->array             = new DynamicArray<Ingredient*>;
+    this->list              = new ArrayDoubleList<Ingredient*>;
     this->undo_array_length = 0;
-    this->undo_array_max = 0;
+    this->undo_array_max    = 0;
 
     printDebug("Repository constructed");
 }
@@ -98,7 +98,7 @@ void MemRepository::deleteUndo()
 
 int MemRepository::getIndexByID(unsigned int id)
 {
-    auto iterator = this->list->getIterator();
+    auto iterator  = this->list->getIterator();
     unsigned int i = 0;
     // printDebug("getIndexByID -> " + iterator->toString());
     while (iterator->hasNext())
@@ -118,7 +118,8 @@ Ingredient* MemRepository::getById(const unsigned int id) { return this->list->g
 
 bool MemRepository::exists(unsigned int id)
 {
-    if (this->getIndexByID(id) == -1) return false;
+    if (this->getIndexByID(id) == -1)
+        return false;
 
     return true;
 }
@@ -188,8 +189,10 @@ void MemRepository::copyListToArray(ArrayDoubleList<Ingredient*>* fromList, Dyna
     for (size_t i = 0; i < fromList->getLength(); i++)
     {
         Ingredient* old_ingredient = fromList->get(i);
-        Ingredient* new_ingredient = new Ingredient(old_ingredient->getId(), old_ingredient->getQuantity(),
-            old_ingredient->getName(), old_ingredient->getProducer());
+        Ingredient* new_ingredient = new Ingredient(old_ingredient->getId(),
+                                                    old_ingredient->getQuantity(),
+                                                    old_ingredient->getName(),
+                                                    old_ingredient->getProducer());
         toArray->add(new_ingredient);
     }
 }
@@ -200,8 +203,10 @@ void MemRepository::copyArrayToList(DynamicArray<Ingredient*>* fromArray, ArrayD
     for (size_t i = 0; i < fromArray->getLength(); i++)
     {
         Ingredient* old_ingredient = fromArray->get(i);
-        Ingredient* new_ingredient = new Ingredient(old_ingredient->getId(), old_ingredient->getQuantity(),
-            old_ingredient->getName(), old_ingredient->getProducer());
+        Ingredient* new_ingredient = new Ingredient(old_ingredient->getId(),
+                                                    old_ingredient->getQuantity(),
+                                                    old_ingredient->getName(),
+                                                    old_ingredient->getProducer());
         printDebug("Adding");
         toList->add(new_ingredient);
     }
@@ -222,7 +227,8 @@ void MemRepository::addToUndo()
 
 bool MemRepository::undo()
 {
-    if (this->undo_array_length == 0) return false;
+    if (this->undo_array_length == 0)
+        return false;
 
     // list undo
     this->deleteList();
@@ -240,8 +246,7 @@ bool MemRepository::undo()
 
 void MemRepository::printToStdOut() const
 {
-    cout << setw(4) << "ID" << setw(15) << "Quantity" << setw(30) << "Name" << setw(30) << "Producer" << endl
-         << endl;
+    cout << setw(4) << "ID" << setw(15) << "Quantity" << setw(30) << "Name" << setw(30) << "Producer" << endl << endl;
 
     auto iterator = this->list->getIterator();
     while (iterator->hasNext())

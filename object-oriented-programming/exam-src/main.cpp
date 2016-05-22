@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 
     auto repository = new TaskRepository();
     auto controller = new TaskController(repository);
-    auto window = new MyTasks();
+    auto window     = new MyTasks();
     window->show();
     window->setController(controller);
     window->updateView();

@@ -1,14 +1,15 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 
 #include "holiday.h"
 #include "utils.h"
 #include "vector.h"
 
-#define STORAGE_SET_UNDO(block) \
-    if (st->_undo_state.undoing == 0) block
+#define STORAGE_SET_UNDO(block)       \
+    if (st->_undo_state.undoing == 0) \
+    block
 
 Storage* storage_create()
 {
@@ -91,7 +92,8 @@ int storage_find_index_by_id(Storage* storage, const int id)
 
 int storage_holiday_id_exists(Storage* storage, const int id)
 {
-    if (storage_find_index_by_id(storage, id) != -1) return 1;
+    if (storage_find_index_by_id(storage, id) != -1)
+        return 1;
 
     return 0;
 }
@@ -143,7 +145,8 @@ void storage_print_all(const Storage* storage)
     }
 
     storage_print_header_all_holidays();
-    for (i = 0; i < length; i++) storage_print_holiday((Holiday*)(vector_get(storage->vector, i)));
+    for (i = 0; i < length; i++)
+        storage_print_holiday((Holiday*)(vector_get(storage->vector, i)));
 
     // ALL undos
     //     printf("HISTORY"); print_eol(); print_eol();

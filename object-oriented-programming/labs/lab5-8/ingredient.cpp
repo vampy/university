@@ -1,5 +1,5 @@
-#include <string>
 #include "ingredient.hpp"
+#include <string>
 using namespace std;
 
 Ingredient::Ingredient(unsigned int id, unsigned int quantity, string name, string producer)

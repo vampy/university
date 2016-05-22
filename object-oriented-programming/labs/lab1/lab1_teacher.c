@@ -2,9 +2,9 @@
 //
 // k, k = 0, 1, ..., m, for line m, where m = 1, 2, ..., n.
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 // Calculate the factorial of a number
 // input:
@@ -15,7 +15,8 @@ int factorial(int n)
 {
     int i, n_fact = 1;
 
-    for (i = 1; i <= n; i++) n_fact = n_fact * i;
+    for (i = 1; i <= n; i++)
+        n_fact = n_fact * i;
 
     return n_fact;
 }
@@ -31,7 +32,8 @@ void print_pascal_triangle(int dimension)
     {
         // print the current row
         // Combination of k taken with i
-        for (i = 0; i <= k; i++) printf("%d ", factorial(k) / (factorial(i) * factorial(k - i)));
+        for (i = 0; i <= k; i++)
+            printf("%d ", factorial(k) / (factorial(i) * factorial(k - i)));
 
         printf("\n");
     }

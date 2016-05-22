@@ -1,9 +1,9 @@
 #ifndef REPOSITORY_H_
 #define REPOSITORY_H_
-#include "vector.hpp"
-#include "list.hpp"
 #include "ingredient.hpp"
+#include "list.hpp"
 #include "repository_filters.hpp"
+#include "vector.hpp"
 
 class Repository
 {

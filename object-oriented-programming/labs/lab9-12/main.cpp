@@ -1,13 +1,13 @@
 // Create graphical user interface for the application using Qt
 #include <QApplication>
 
-#include "vector.hpp"
-#include "list.hpp"
-#include "mem_repository.hpp"
-#include "file_repository.hpp"
 #include "controller.hpp"
+#include "file_repository.hpp"
+#include "list.hpp"
 #include "mainwindow.h"
+#include "mem_repository.hpp"
 #include "tests.hpp"
+#include "vector.hpp"
 
 using namespace std;
 

@@ -1,32 +1,32 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QList>
-#include <QVector>
-#include <QString>
-#include <QStringList>
+#include <QComboBox>
 #include <QDebug>
-#include <QWidget>
+#include <QFont>
+#include <QFormLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QList>
 #include <QMainWindow>
 #include <QPushButton>
-#include <QLabel>
-#include <QFont>
-#include <QComboBox>
-#include <QLineEdit>
-#include <QLayout>
-#include <QFormLayout>
-#include <QHBoxLayout>
+#include <QString>
+#include <QStringList>
 #include <QVBoxLayout>
-#include <QGroupBox>
+#include <QVector>
+#include <QWidget>
 
-#include <QTableWidget>
-#include <QTableWidgetItem>
 #include <QAbstractItemView>
 #include <QHeaderView>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 
 #include "controller.hpp"
-#include "repository.hpp"
 #include "ingredient.hpp"
+#include "repository.hpp"
 
 #define DELETE_POINTER(pointer) \
     delete (pointer);           \
@@ -54,7 +54,7 @@ public slots:
 
 private:
     Controller* controller;
-    QVector<int> sortHeader = {-1, -1, -1, -1};
+    QVector<int> sortHeader      = {-1, -1, -1, -1};
     QVector<QString> tableHeader = {"id", "Name", "Producer", "Quantity"};
     QStringList filterCombo; // for filterQuantityCombo
 
@@ -101,8 +101,8 @@ private:
     void setWidgetsText();
     void refreshTableData();
     void clearFormData();
-    bool validateFormData(
-        unsigned int& id, string& name, string& producer, unsigned int& quantity, bool idExists = true);
+    bool
+    validateFormData(unsigned int& id, string& name, string& producer, unsigned int& quantity, bool idExists = true);
     bool validateFormId(unsigned int& id, bool idExists = true);
 };
 

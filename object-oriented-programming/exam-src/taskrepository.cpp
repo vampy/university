@@ -7,7 +7,7 @@ static bool cmpSortTasks(const Task* a, const Task* b) { return a->getName() < b
 TaskRepository::TaskRepository(QString filename)
 {
     this->filename = filename;
-    this->tasks = new QVector<Task*>;
+    this->tasks    = new QVector<Task*>;
     this->readFromFile();
 }
 
@@ -81,7 +81,7 @@ void TaskRepository::readFromFile()
     while (!handle.atEnd())
     {
         QString line = handle.readLine();
-        line = line.trimmed();
+        line         = line.trimmed();
         if (line.isEmpty())
         {
             continue;

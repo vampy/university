@@ -14,13 +14,13 @@
 #include <iostream>
 #include <string>
 
-#include "vector.hpp"
+#include "controller.hpp"
+#include "file_repository.hpp"
 #include "list.hpp"
 #include "mem_repository.hpp"
-#include "file_repository.hpp"
-#include "controller.hpp"
-#include "ui.hpp"
 #include "tests.hpp"
+#include "ui.hpp"
+#include "vector.hpp"
 
 using namespace std;
 

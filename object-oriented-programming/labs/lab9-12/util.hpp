@@ -1,13 +1,13 @@
 #ifndef UTIL_H_
 #define UTIL_H_
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <stdexcept>
 #include <algorithm>
-#include <functional>
 #include <cctype>
+#include <cstdlib>
+#include <functional>
+#include <iostream>
 #include <locale>
+#include <stdexcept>
+#include <string>
 
 #define UTIL_DEBUG true
 

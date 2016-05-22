@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "utils.h"
 #include "holiday.h"
+#include "utils.h"
 #include "validate.h"
 #include "vector.h"
 
