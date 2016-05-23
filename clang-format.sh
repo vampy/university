@@ -10,18 +10,18 @@ function usage()
 
 # Try different clang-format commands...
 if type "clang-format" > /dev/null 2>&1; then
-	CLANG_FORMAT="clang-format"
+    CLANG_FORMAT="clang-format"
 elif type "clang-format-3.8" > /dev/null 2>&1; then
-	CLANG_FORMAT="clang-format-3.8"
+    CLANG_FORMAT="clang-format-3.8"
 elif type "clang-format-3.7" > /dev/null 2>&1; then
-	CLANG_FORMAT="clang-format-3.7"
+    CLANG_FORMAT="clang-format-3.7"
 else
     CLANG_FORMAT=""
 fi
 
 if [ -z "$CLANG_FORMAT" ]; then
-	echo "No clang-format command can be found"
-	exit 1
+    echo "No clang-format command can be found"
+    exit 1
 fi
 echo "Using: $("$CLANG_FORMAT" --version)"
 
