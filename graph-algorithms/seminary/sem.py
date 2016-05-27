@@ -1,3 +1,6 @@
+import graph
+
+
 def buildGraph():
     g = graph.DoubleDictGraph(5)
 
@@ -15,10 +18,11 @@ def topsort(g):
     stack.reverse()
 
     # run once, g is a graph object
-    if not cycle(stack,g):
+    if not cycle(stack, g):
         return stack
 
     return None
+
 
 def dfs(node, viz, stack, g):
     viz.add(node)
@@ -32,7 +36,7 @@ def dfs(node, viz, stack, g):
 
 
 def cycle(stack, g):
-""" Cycle verifica daca rezultatul toposortului(stackul) are sau nu cicluri"""
+    """ Cycle verifica daca rezultatul toposortului(stackul) are sau nu cicluri"""
     viz = set()
     for i in stack:
         if i in viz:
@@ -46,6 +50,7 @@ def cycle(stack, g):
             return True
 
     return False
+
 
 def findAllWalks(g):
     walks = []
@@ -62,6 +67,7 @@ def findAllWalksFrom(g, node):
             list.append([node] + walk)
 
     return list
+
 
 def findNRWalks(g):
     cache = {}
@@ -82,7 +88,7 @@ def findNrWalksFrom(g, node, cache):
         nrwalks = nrwalks + findNrWalksFrom(g, i, cache)
 
     cache[node] = nrwalks
-    print "%s -> %s" % (node,nrwalks)
+    print("%s -> %s" % (node, nrwalks))
 
     return nrwalks
 
@@ -90,11 +96,13 @@ def findNrWalksFrom(g, node, cache):
 def run():
     g = DoubleDictGraph()
     list = topsort(g)
-    print list
+    print(list)
     list1 = finAllWalks(g)
-    print list1
+    print(list1)
     list3 = findNrWalks(g)
-    print list3
+    print(list3)
+
+
 run()
 
 """
