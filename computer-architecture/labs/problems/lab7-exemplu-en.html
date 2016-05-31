@@ -1,0 +1,83 @@
+<html><head></head>
+<body>
+<pre>
+Problem. A string of doublewords is given. Compute the number of multiples of 8 from
+the string of the low bytes of the high word from the elements of the doubleword string
+and find the sum of the digits (in base 10) of this number.
+
+
+Example: If the following doubleword string is given 
+	sir   dd   12300011h, 0abcd0h, 2218acach, 7a082ae3h, 0c820ddd1h, 7828ddd1h, 0c8d8ddd1h, 0c8b0ddd1h, 7260ddd1h, 2a70ddd1h, 7850ddd1h, 0c840ddd1h
+
+This string will be represented in the memory in little-endian format (from small addresses to large addresses):
+11h| 00h| 30h| 12h| d0h| bch| 0ah| 00h| ach| ach| 18h| 22h| e3h| 2ah| 08h| 7ah| d1h| ddh| 20h| c8h| d1h| ddh| 28h| 78h| d1h| ddh| d8h| c8h| d1h| ddh| b0h| c8h| d1h| ddh| 60h| 72h| d1h| ddh| 70h| 2ah| d1h| ddh| 50h| 78h| d1h| ddh| 40h| c8h 
+
+The high words from these doublewords will be:
+30h| 12h| 0ah| 00h| 18h| 22h| 08h| 7ah| 20h| c8h| 28h| 78h| d8h| c8h| b0h| c8h| 60h| 72h| 70h| 2ah| 50h| 78h| 40h| c8h 
+
+The low bytes of the high word from the elements of the doubleword string will be:
+30h| 0ah| 18h| 08h| 20h| 28h| d8h| b0h| 60h| 70h| 50h| 40h
+
+The number of multiples of 8 from the string of the low bytes of the high word from the elements of the doubleword string
+is 11 and the sum of this number's digits is 2.
+
+Solution: We first parse the doubleword string and obtain the number of multiples of 8
+from the string of the low bytes of the high word from the elements of the doubleword string.
+Then we obtain the digits of this number by successive divisions to 10 and then compute the sum of these digits.
+
+
+
+assume ds: data, cs: code
+data segment
+	sir  dd  12300011h,0abcd0h,2218acach,7a082ae3h,0c820ddd1h,7828ddd1h,0c8d8ddd1h,0c8b0ddd1h,7260ddd1h,2a70ddd1h,7850ddd1h,0c840ddd1h
+	len equ ($-sir)/4	;the length of the string (in doublewords)
+	opt db 8		;variabile used for testing divisibility to 8
+	zece db 10		;variabile used for determining the digits in base 10 of a number by successive divisions to 10
+	suma db  0		;variabile used for holding the sum of the digits
+data ends
+code segment
+start:
+	mov ax, data
+	mov ds, ax
+ 
+	mov si, offset sir	;in ds:si we will store the FAR address of the string "sir" 
+	cld			;parse the string from left to right(DF=0).    
+	mov cx, len		;we will parse the elements of the string in a loop with len iterations.
+	mov bx, 0		;in bx we will hold the number of multiples of 8.
+	repeta:
+		lodsw		;in ax we will have the low word (least significant) of the current doubleword from the string
+		lodsw		;in ax we will have the high word (most significant) of the current doubleword from the string
+		mov ah, 0	;we are interested in the low byte (least significant) of this word (AL)
+		div opt		;check whether al is divisible to 8
+		cmp ah, 0	;if the remainder is 0, resume the loop "repeta". 
+				;else increment the number of multiples of 8 from BX. 
+		jnz nonmultiplu
+		inc bx
+
+		nonmultiplu:
+			loop repeta		;if there are more elements (cx>0) resume the loop.
+
+	;next, we obtain the 10-th base digits of the number BX by successive divisions to 10 and then compute the sum of these digits
+
+	mov ax, bx
+	transf:
+		div zece	;divide the number from AX to 10 in order to obtain the last digit; this digit will be in AH
+	add suma, ah		;add the digit to the sum.
+	cmp al, 0
+	jz sfarsit		;if the quotient (from al) is 0 it means we obtained all the digits and we can leave the loop "transf"
+				;else prepare the quotient for a new iteration 
+	mov ah, 0				
+	jmp transf		;resume the loop in order to obtain a new digit.
+
+sfarsit:			
+	mov ax, 4C00h
+	int 21h	
+code ends
+end start
+
+</pre>
+</body>
+</html>
+
+
+

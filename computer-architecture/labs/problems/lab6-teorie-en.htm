@@ -1,0 +1,44 @@
+<html>
+
+<head>
+
+<title>Laboratory 6</title>
+</head>
+
+
+<body>
+<strong>Laboratory 6 - string operations</strong><br><br>
+
+<strong>Operands comparisons</strong><br><br>
+
+<strong>CMP d,s</strong><br>
+it compares the value of the operands (the operands are not modified) - fictive substraction d - s<br>
+it modifies the flags OF, SF, ZF, AF, PF and CF<br><br>
+
+<strong>TEST d,s</strong><br>
+fictive logical operation  d AND s<br>
+it modifies the flags OF, CF, SF, ZF, PF<br><br><br>
+
+<strong>Conditional jumps</strong><br><br>
+
+When we want to compare two signed numbers, we should use "less than" and "greater than", and when we want to compare unsigned numbers, we should use
+"below" and "above". <br><br>
+
+<a href="lab6-j-en.doc" target="_blank">Conditional jump instructions</a><br><br><br>
+
+<strong>Loop instructions</strong><br><br>
+
+[instruction] label<br><br>
+
+Assembly language 80x86 has special instructions for performing loops: LOOP, LOOPE, LOOPNE and JCXZ<br><br>
+
+LOOP instruction has the effect of reexecuting the block of instructions starting at label, while the value of register CX is different than 0.
+First it decrements the register CX, then it makes the test and possibly the jump. The jump is "short" (max. 127 bytes). <br><br>
+
+LOOPE instruction (LOOP while Equal) is different than LOOP regading the end condition, the loop ending whether if CX=0 or if ZF=1.
+
+When using LOOPNE (LOOP while Not Equal) the loop ends if CX=0 or ZF=0. <br><br>
+
+</body>
+
+</html>

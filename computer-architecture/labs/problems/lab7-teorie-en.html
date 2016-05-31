@@ -1,0 +1,136 @@
+<html><head><title>Operatii pe siruri de octeti/cuvinte/dublucuvinte</title></head>
+<body><b>
+<h2>Instructions working on strings of bytes/words/doublewords</h2></b>
+<p>Instructions working on strings have default operands (parameters). <br/>
+<b>Types of string instructions:</b></p>
+<ul>
+  <li>which use a source string and a destination string (MOVSB, MOVSW, CMPSB, 
+  CMPSW) 
+  <li>which use only a source string (LODSB, LODSW) 
+  <li>which use only a destination string (STOSB, STOSW, SCASB, SCASW)</li>
+</ul>
+<p><b>You will remember them more easily:)</b> </p>
+<ul>
+  <li>Move String = MOVS </li>
+  <li>Compare String = CMPS </li>
+  <li>Load String = LODS </li>
+  <li>Store String = STOS </li>
+  <li>Scan String = SCAS </li>
+</ul><br/>
+A string is characterized by: <br/>
+- <i>the type of the elements(bytes or words)</i> =&gt; is given by the last letter of the instruction that is used 
+(B=byte, W=word), both strings having the same type <br/>
+- <i>the address of the first element</i> =&gt; is a FAR memory address which is memorised in: <br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- in DS:SI - for the source string<br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- in ES:DI - for the destination string <br/>
+- <i>the parsing direction</i> =&gt; is given by the value of the DF flag (0 - from small addresses to large addresses, 1 - from large 
+addresses to small addresses. See CLD, STD) <br/>
+- <i>the number of elements</i> =&gt; when needed is placed in CX <br/><br/>
+
+<b>Instructions for data transfer</b> <br/><br/>
+<table border=1>
+  <tr>
+    <td>LODSB</td>
+    <td>The byte from the address &lt;DS:SI&gt; is loaded in AL<br/>
+	If DF=0 then inc(SI), else dec(SI)
+    </td>
+  <tr>
+    <td>LODSW</td>
+    <td>The word from the address &lt;DS:SI&gt; is loaded in AX<br/>
+	If DF=0 then SI:=SI+2, else SI:=SI-2
+    </td>
+  <tr>
+    <td>STOSB</td>
+    <td>Store AL into the byte from the address &lt;ES:DI&gt;<br/>
+	If DF=0 then inc(DI), else dec(DI)
+    </td>
+  <tr>
+    <td>STOSW</td>
+    <td>Store AX into the word from the address &lt;ES:DI&gt;<br/>
+	If DF=0 then DI:=DI+2, else DI:=DI-2
+    </td>
+  <tr>
+    <td>MOVSB</td>
+    <td>Store the byte from the address &lt;DS:SI&gt; to the address &lt;ES:DI&gt;<br/>
+	If DF=0 then inc(SI), inc(DI), else dec(SI), dec(DI)
+    </td>
+  <tr>
+    <td>MOVSW</td>
+    <td>Store the word from the address &lt;DS:SI&gt; to the address &lt;ES:DI&gt;<br/>
+	If DF=0 then SI:=SI+2, DI:=DI+2, else SI:=SI-2, DI:=DI-2
+    </td>
+  </tr>
+</table><br/><br/>
+<u>Example:</u> We have a source string of words. Copy this string into another string. We assume we know the length of this string. <br/><br/>
+<pre>
+	mov CX, dim_sir 
+	mov SI, OFFSET sir_sursa 
+	mov AX, SEG sir_sursa 
+	mov DS, AX 
+	mov DI, OFFSET sir_dest 
+	mov AX, SEG sir_dest 
+	mov ES, AX 
+	CLD 
+	Again: 
+		LODSW 
+		STOSW 
+		LOOP Again 
+</pre>
+<br/><br/>
+
+<p><b>Instructions for data comparisons in strings</b></p>
+<table border=1>
+  <tr>
+    <td>SCASB</td>
+    <td>CMP AL, &lt;ES:DI&gt;<br/>
+	If DF=0 then inc(DI), else dec(DI)</td>
+  <tr>
+    <td>SCASW</td>
+    <td>CMP AX, &lt;ES:DI&gt;<br/>
+	If DF=0 then DI:=DI+2, else DI:=DI-2</td>
+  <tr>
+    <td>CMPSB</td>
+    <td>CMP &lt;DS:SI&gt;, &lt;ES:DI&gt;<br/>
+	If DF=0 then inc(SI), inc(DI), else dec(SI), dec(DI)</td>
+  <tr>
+    <td>CMPSW</td>
+    <td>CMP &lt;DS:SI&gt;, &lt;ES:DI&gt;<br/>
+	If DF=0 then SI:=SI+2, DI:=DI+2, else SI:=SI-2, DI:=DI-2</td>
+   </tr>
+</table>
+<br/><br/>
+<u>Example:</u>A string of bytes is given. Find the last occurrence of the character "0" in this string. 
+<br/><br/>
+<pre>
+	;... the address of the destination string is loaded here 
+	MOV AL, '0' 
+	MOV CX, lung_sir 
+	STD 
+	Cont_caut:		 ;continue the search... 
+		SCASB 
+		JE Gasit 
+		LOOP Cont_caut 
+	... 
+	Gasit: 
+		INC DI		 ;go back to the character found before DI was decremented
+</pre>
+<br/><br/>
+<b>Repetitive execution of a string instruction</b> 
+<br/><br/><i>repetitive_prefix string_instruction</i> <br/><br/>equivalent to 
+<br/><br/>
+<pre>
+Again:
+	string_instruction 
+	LOOP Again 
+</pre>
+... where <i>repetitive_prefix</i> can be REP, equivalent to REPE (<i>Repeat While Equal</i>), 
+REPZ (<i>Repeat While Zero</i>) - which repeat the execution of instructions SCAS or CMPS 
+until CX becomes 0 or when an unmatch occurs ( =&gt; ZF=0) <br/>
+... or it can be REPNE (<i>Repeat While Not Equal</i>) or REPNZ (<i>Repeat While Not Zero</i>) - which repeat the execution of instructions 
+SCAS or CMPS until CX becomes 0 or when a match occurs ( =&gt; ZF=1) 
+<br/><br/>
+<u><b>Observations:</b></u><br/>
+- string instructions don not change the flags as a result of modifications to SI, DI or CX<br/>
+- LODS, STOS, MOVS - do not change any flag, while SCAS and CMPS change the flags because they compare data. 
+</body></html>
+

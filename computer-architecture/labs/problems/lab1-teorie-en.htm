@@ -1,0 +1,73 @@
+<html>
+
+<head>
+<title>Laboratory 1</title>
+</head>
+
+<body>
+
+<strong>Laboratory 1</strong><br><br>
+
+<strong>1. How to use tasm, tlink, td?</strong><br><br>
+ 
+<strong>tasm</strong> - assemble a program with embedded DEBUG information<br>
+This is done using he following TASM command line syntax : tasm example or tasm example.asm<br>
+ - important options: /l, /zi<br><br>
+ 
+<strong>tlink</strong> - linking with debug information in order ro create an executable file<br>
+- fis1.obj + fis2.obj + ... -> fisier.exe (or fisier.com)<br>
+This is done by entering the following command : tlink example or tlink example.obj<br>
+- important options: /v, /t<br><br>
+ 
+ 
+<strong>td</strong> - running debug
+- This is done by entering the following command: td example or td example.exe<br>
+
+ 
+<strong>Observation</strong><br><br>
+ 
+Without options:<br>
+...> tasm example<br>
+...> tlink example<br>
+...> td example<br><br>
+ 
+With options:<br>
+...> tasm /zi example<br>
+...> tlink /v example<br>
+...> td example<br><br>
+ 
+<br>
+ As with the other programs, the extension .exe is optional and will be assumed if not specified. AT this point you need to explore the different windows and options in TD. Notice that because of the embedded debug information, the screen shows the actual program commands, labels and arguments.
+ Notice the function keys at the bottom of the screen. The most useful of these will be the step (F8) and trace (F7) commands. Using the mouse, we can display information such as the content of the various registers. Under the VIEW menu, open the CPU Registers window. 
+The register information is of great use when stepping through a program and trying to determine whether the program is working correctly or where there might be an error in program control. The final screen below shows what the register contents are and where the program currently is executing when we have single stepped (F7) through several instructions. Note that the triangular cursor on the left of the screen points to the next line to be executed.
+ 
+ <hr>
+<strong>2. Example</strong><br><br>
+
+An assembly language program should be entered with any text editor and have the extension fname.asm. The format of the program is illustrated in the following example. For practice, enter this program using the notepad editor.
+ <br>
+ 
+ASSUME cs: code, ds:data<br>
+&nbsp;&nbsp;&nbsp;; we tell to the assembler which segments we will use in the program<br>
+ 
+data SEGMENT                <br>
+&nbsp;&nbsp;&nbsp;;data - place holder for start of data segment<br>
+data ENDS<br>
+ 
+code SEGMENT<br>
+&nbsp;&nbsp;&nbsp;;code - place holder for start of code segment<br>
+start:<br>
+&nbsp;&nbsp;&nbsp;mov ax,data             &nbsp;&nbsp;&nbsp;; the data segment  address will be copied in ax<br>
+&nbsp;&nbsp;&nbsp;mov ds,ax                    &nbsp;&nbsp;&nbsp;; ax's content will be copied into ds<br>
+&nbsp;&nbsp;&nbsp;; .......<br>
+&nbsp;&nbsp;&nbsp;; here will be our instructions<br>
+&nbsp;&nbsp;&nbsp;;........<br>
+&nbsp;&nbsp;&nbsp;mov ax,4C00h<br>
+&nbsp;&nbsp;&nbsp;int 21h&nbsp;&nbsp;&nbsp;; the end of the execution<br>
+                            
+code ENDS<br>
+END start<br>
+
+</body>
+
+</html>

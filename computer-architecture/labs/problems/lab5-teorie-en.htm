@@ -1,0 +1,144 @@
+<html>
+
+<head>
+
+<title>Laboratory 5</title>
+</head>
+
+
+<body>
+<strong>Laboratory 5 - bit operations</strong><br><br>
+
+<strong>Shift operations</strong><br><br>
+
+<strong>shl</strong> - shift left<br>
+<strong>shr</strong> - shift right<br>
+<strong>sal</strong> - shift arithmetic left<br>
+<strong>sar</strong> - shift arithmetic right<br><br>
+
+<strong>shl destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are shifted <i>number</i> positions to the left. The rightmost bits are filled with 0. The last dissapearing bit is kept in CF.<br><br>
+
+Exemple:<br>
+mov al, 00110011<br>
+mov cl, 2<br>
+shl al, cl ; -> al = 11001100, CF = 0<br><br>
+
+<strong>shr destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are shifted <i>number</i> positions to the right. The leftmost bits are filled with 0. The last dissapearing bit is kept in CF.<br><br>
+
+Exemple:<br>
+mov al, 01011110<br>
+mov cl, 2<br>
+shr al, cl ; -> al = 00010111, CF = 1<br><br>
+
+<strong>sar destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are shifted <i>number</i> positions to the right. The leftmost bits are filled with the sign bit. The last dissapearing bit is kept in CF.<br><br>
+
+Exemple:<br>
+mov al, 11011110<br>
+mov cl, 2<br>
+sar al, cl ; -> al = 11110111, CF = 1<br><br>
+
+<strong>sal</strong>: identical to <strong>shl</strong><br><br><br>
+
+
+<strong>Bit rotations</strong><br><br>
+
+<strong>rol</strong> - rotate left<br>
+<strong>ror</strong> - rotate right<br>
+<strong>rcl</strong> - rotate through carry left<br>
+<strong>rcr</strong> - rotate through carry right <br><br>
+
+<strong>rol destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are rotated <i>number</i> positions to the left. A bit that goes out on the left side will be automatically added to the right. The last rotated bit is kept in CF.<br><br>
+
+Exemple:<br>
+mov al, 00110011<br>
+mov cl, 2<br>
+rol al, cl ; -> al = 11001100, CF = 0<br><br>
+
+<strong>ror destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are rotated <i>number</i> positions to the right. A bit that goes out on the right side will be automatically added to the left. The last rotated bit is kept in CF.<br><br>
+
+Exemple:<br>
+mov al, 00111110<br>
+mov cl, 2<br>
+ror al, cl ; -> al = 10001111, CF = 1<br><br>
+
+<strong>rcl destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are rotated <i>number</i> positions to the left. A bit that goes out on the left side will be kept in CF. The previous value of CF will be automatically added on the right hand side of <i>destination</i><br><br>
+
+Exemple:<br>
+stc; CF = 1 (set carry)<br>
+mov al, 00110011<br>
+mov cl, 2<br>
+rcl al, cl ; -> al = 11001110, CF = 0<br><br>
+
+<strong>rcr destination, number</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>number</i> can be 1 or register cl (the value of cl must not exceed 31)<br><br>
+
+Effect:<br>
+The bits stored in <i>destination</i> are rotated <i>number</i> positions to the right. A bit that goes out on the right side will be kept in CF. The previous value of CF will be automatically added on the left hand side of <i>destination</i><br><br>
+
+Exemple:<br>
+stc; CF = 1 (set carry)<br>
+mov al, 00110011<br>
+mov cl, 2<br>
+rcr al, cl ; -> al = 11001100, CF = 1<br><br>
+<br>
+
+<strong>Logical operations</strong><br><br>
+
+<strong>and</strong> - logical AND<br>
+<strong>or</strong> - logical OR<br>
+<strong>xor</strong> - logical EXCLUSIVE OR<br>
+<strong>not</strong> - logical invert<br><br>
+
+<strong>and destination, source</strong><br>
+<strong>or destination, source</strong><br>
+<strong>xor destination, source</strong><br>
+<strong>not destination</strong><br>
+- <i>destination</i> can be a register or a memory location of 1 or 2 bytes<br>
+- <i>source</i> can be a 1 or 2 bytes register, memory location or constant<br>
+- both operands should have the same dimension<br>
+- operands can not be both memory locations<br><br>
+
+Effect:<br>
+destination = destination and source<br>
+destination = destination or source<br>
+destination = destination xor source<br>
+destination = not destination<br><br>
+
+
+Obs.: shift and rotate operations also affect OF. For more information, please refer to Norton Guide.<br><br>
+
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<html>
+
+<head>
+
+<title>Laboratory 5 - exemple</title>
+</head>
+
+
+<body>
+<strong>Laboratory 5 - exemple</strong><br><br>
+
+; The words A and B are given. Obtain the word C in the following way:<br>
+;- the bits 0-2 of C are the same as the bits 10-12 of B<br>
+;- the bits 3-6 of C have the value 1<br>
+;- the bits 7-10 of C are the same as the bits 1-4 of A<br>
+;- the bits 11-12 of C have the value 0<br>
+;- the bits 13-15 of C are the invert of the bits 9-11 of B<br><br>
+
+; We will obtain the word C by succesive "isolation" of bits sequences.<br>
+; We call isolation of bits 10-12 of B the operation by which the value of these<br>
+; bits is kept unchanged while the values of all the other bits are made 0.<br>
+; The isolation is made by using the operator AND between the word B and<br>
+; 0001110000000000. Once isolated, the sequence of bits is put on the right <br>
+; position by using a rotate operation. The final word is obtained by applying the<br>
+; operator OR between all intermediate results obtained by using isolations and rotations.<br>
+; Obs: the rank of the bits starts with 0 from the right hand side<br><br>
+
+assume cs:code, ds:data<br>
+data segment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a dw 0111011101010111b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b dw 1001101110111110b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;c dw ?<br>
+data ends<br><br>
+
+code segment<br>
+start:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  mov ax, data ; we load in ds the address of data segment<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  mov ds, ax<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  mov bx, 0 ; we compute the result in bx<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  mov ax, b ; we isolate the bits 10-12 of b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  and ax, 0001110000000000b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  mov cl, 10<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  ror ax, cl ; we rotate 10 positions to the right<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  or bx, ax ; we put the bits into the result<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  or bx, 0000000001111000b ; we force the value of bits 3-6 to 1<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  mov ax, a ; we isolate the bits 1-4 of a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  and ax, 0000000000011110b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  mov cl, 6<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  rol ax, cl ; we rotate 6 positions to the left<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  or bx, ax ; we put the bits into the result<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  and bx, 1110011111111111b ; we force the value of bits 11-12 to 0<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  mov ax, b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  not ax ; we invert the value of b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  and ax, 0000111000000000b ; we isolated the bits 9-11 of b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  mov cl, 4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  rol ax, cl ; we shift 4 positions to the left<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  or bx, ax ; we put the bits into the result<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  mov c, bx ; we put the value of the register into the memory location for the result<br><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;  mov ax, 4c00h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;  int 21h<br>
+code ends<br>
+end start<br><br>
+
+
+</body>
+
+</html>
