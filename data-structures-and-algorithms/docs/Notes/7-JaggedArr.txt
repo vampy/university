@@ -1,0 +1,31 @@
+
+#include <iostream>
+#include <string>
+
+typedef  char * CString;
+typedef CString* TJaggedArray;
+//typedef char** TJaggedArray;
+
+void readStrings(TJaggedArray& strs)
+{
+	int n;
+	char myStr[200];
+
+	std::cin >> n;
+	strs = new CString[n+1];
+	strs[n]=NULL;
+	for(int i=0; i<n;i++){
+		std::cin >> myStr;
+		strs[i]=new char[strlen(myStr)+1];
+		strcpy(strs[i],myStr);
+	}
+
+}
+
+void printStrings(const TJaggedArray& strs)
+{
+	for(int i=0; strs[i]!=NULL ;i++){
+		std::cout << strlen(strs[i]) <<" : " << strs[i] << std::endl;
+	}
+
+}

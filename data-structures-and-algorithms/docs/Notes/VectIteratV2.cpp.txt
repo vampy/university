@@ -1,0 +1,51 @@
+// ...
+
+class Iterator{
+public:
+   virtual bool isValid()=0;
+   virtual void moveNext()=0;
+   virtual TElement& getCurrent()=0;
+}; 
+
+
+class Vector{
+   int cap;
+   int n;
+   TElement* els;
+public:
+   //...
+
+private:
+   //...
+
+
+private:
+   class IteratorIdx:public Iterator{
+		// ...
+		public:
+			// ...
+	}; 
+
+public:
+   Iterator* getIterator(){
+		return new IteratorIdx(this);	
+   }
+   
+};
+
+
+
+
+void test(){
+	
+  Vector v; 
+
+  // ...
+
+  Iterator* it;
+  it = v.getIterator();  
+
+}
+
+
+  // ...

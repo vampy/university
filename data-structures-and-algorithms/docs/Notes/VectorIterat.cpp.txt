@@ -1,0 +1,122 @@
+//...
+
+typedef int TElement;
+
+
+class Vector{
+   int cap;				//		int _capacity;
+   int n;				//		int _size;
+   TElement* els;		//		TElement* _elements
+
+public:
+	//...
+
+friend class IteratorIdx1;
+friend class IteratorIdx2;
+friend class IteratorAddr;
+
+private:
+	// ...
+
+};
+
+
+
+// FORWARD Iterator
+class Iterator{
+public:
+   virtual bool isValid()=0;
+   virtual void moveNext()=0;
+   virtual TElement getCurrent()=0;
+}; 
+
+
+
+class IteratorIdx1:public Iterator{
+   int idx;
+   Vector* v;
+public:
+   explicit IteratorIdx1(Vector& x){
+      idx=0;
+      v=&x;
+   }
+
+   bool isValid(){
+      return (idx<(*v).n);
+   }
+   void moveNext(){
+      idx++;
+   } 
+   TElement getCurrent(){
+      return (*v).els[idx];
+   }
+}; 
+
+class IteratorIdx2:public Iterator{
+   int idx;
+   Vector& v;
+public:
+   explicit IteratorIdx2(Vector& x):idx(0),v(x){
+   }
+
+   bool isValid(){
+      return (idx<v.n);
+   }
+   void moveNext(){
+      idx++;
+   } 
+   TElement getCurrent(){
+      return v.els[idx];
+   }
+}; 
+
+
+class IteratorAddr:public Iterator{
+   TElement* current;
+   TElement* afterLast;
+public:
+   explicit IteratorAddr(Vector& x){
+     current=x.els;
+     afterLast=x.els+x.n;
+   }
+
+   bool isValid(){
+      return (current<afterLast);
+   }
+   void moveNext(){
+      current++;
+   } 
+   TElement getCurrent(){
+      return *current;
+   }
+}; 
+
+
+
+//...
+
+
+void testIterat(){
+	
+  Vector v; 
+  TElement el;
+  
+  for(int i=0;i<5;i++){
+     el=i+10 ;
+     v.addLast(el);
+  };
+
+  Iterator* it;
+  it = new IteratorIdx1(v);  //Idx1, Idx2, Addr
+  while ((*it).isValid()){
+		el = (*it).getCurrent();
+		cout << el << " ";
+		(*it).moveNext();
+  };	
+
+}
+
+
+
+//...
+
