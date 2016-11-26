@@ -1,0 +1,212 @@
+<html>
+<body>
+<h1>Grep/Sed/Awk Practice Problems</h1>
+
+The hints given below are not the only way to solve the problem. Please
+try to find alternative solutions, as that will help expand your
+konwledge of the Linux commands. The expected results are based on
+the test data files below:
+<ul>
+    <li><a href="passwd.fake">passwd.fake</a> - Fake /etc/passwd</li>
+    <li><a href="ps.fake">ps.fake</a> - Use command "cat ps.fake" instead of command "ps -ef"</li>
+    <li><a href="last.fake">last.fake</a> - Use command "cat last.fake" instead of command "last"</li>
+</ul>
+
+<table border="1">
+    <tr>
+    <tr>
+        <td></b>#</b></td>
+        <td><b>Problem<b></td>
+        <td><b>Hints<b></td>
+        <td><b>Expected Result<b></td>
+        <td><b>Solution (by Daniel Butum)</b></td>
+    </tr>
+    <tr valign="top">
+        <td>1.</td>
+        <td>Find all the usernames that logged in from "economica" on a Sunday</td>
+        <td>Use "last" to find the last logins, and then search for entries containing "economica" and "Sun". Extract
+            the first column, and using "sort" and "uniq" display only distinct usernames.
+        </td>
+        <td>
+            <pre>boir1417
+giie1411
+piir1546
+vlir1593</pre>
+        </td>
+        <td>
+            <pre>cat last.fake | grep -P 'economica.*Sun' | awk '{ print $1}' | sort | uniq
+
+SAU
+
+cat last.fake | awk '/economica.*Sun/ {print $1}' | sort | uniq
+</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>2.</td>
+        <td>Find all the users that logged into the system after 11PM</td>
+        <td>Use "last" to get the data. Extract the username and the login time columns. Replace ";" with space int he
+            result, then print only the usernames that appear on lines with the middle field 23 or greater. Use the
+            "head" command to eliminate the last line which is not really part of the data. Use "sort" and "uniq" to
+            show only distinct user names.
+        </td>
+        <td>
+            <pre>piir1546
+srir1568
+tnir1590
+vlir1593</pre>
+        </td>
+
+        <td>
+            <pre>head -n -2 last.fake  | awk '{print $1 " " $7}' | sed -e 's/:[0-9]*//' | awk '$2 >= 23 {print $1}' | sort | uniq
+
+SAU
+
+head -n -2 last.fake | sed -r 's/:[0-9]*//g' | awk '$7 >= 23 {print $1}' | sort | uniq
+            </pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>3.</td>
+        <td>Display the full names of the users having a username that starts with "m" and with a user ID divisible by
+            7.
+        </td>
+        <td>Use /etc/passwd. Search for line starting with "m", the display the fifth column of the lines that have the
+            third field divisible by 7
+        </td>
+        <td>
+            <pre>Malinescu Amalia-Greta
+Martinescu Bogdan
+Malinescu Bianca-Liliana
+Malinescu Diana-Flavia
+Malinescu Elena-Ioana
+Martinescu Laurentiu</pre>
+        </td>
+        <td>
+            <pre>cat passwd.fake | awk -F ':' '/^m/ && $3 % 7 == 0 {print $5}'</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>4.</td>
+        <td>Display all the distinct TTYs used by user root.</td>
+        <td>Use command "ps -ef" to get the data. Search for lines starting with "root" and display their sisth field.
+            Use "sort" and "uniq" to display the distinct value
+        </td>
+        <td>
+            <pre>?
+pts/2
+tty1
+tty2
+tty3
+tty4
+tty5
+tty6</pre>
+        </td>
+        <td>
+            <pre>cat ps.fake | awk '/^root/ {print $6}' | sort | uniq</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>5.</td>
+        <td>Find the full names of all the users whose username ends in 88</td>
+        <td>Use /etc/passed. Search for the required entries, then extract the fifth column only.</td>
+        <td>
+            <pre>Lobodescu Amalia-Monica
+Leopardescu Dan</pre>
+        </td>
+        <td>
+            <pre>cat passwd.fake | awk -F ':' '$1~/.*88/ { print $5}'</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>6.</td>
+        <td>Find all users whose user ID has three digits and starts with 23</td>
+        <td>Use /etc/passwd. Search for the requried entries and then display the fifth column only. Rely on the
+            structure of the file and possibly also on the length of the usernames
+        </td>
+        <td>
+            <pre>Malinescu Elena-Greta
+Malinescu Elena-Ioana
+Malinescu Elena-Liliana
+Malinescu Elena-Monica</pre>
+        </td>
+        <td>
+            <pre>cat passwd.fake | awk -F ':' '$3~/^23[0-9]/ {print $5}'</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>7.</td>
+        <td>Find all usersnames starting with "k" that logged on "pts/9"</td>
+        <td>Use the command "last". Search by the second field, then extract just the first. Use the commands "sort" and
+            "uniq" to display only distinct usernames
+        </td>
+        <td>
+            <pre>khim1342
+krim1353
+hkim1332
+kaar1185</pre>
+        </td>
+        <td>
+            <pre>Exemplul din stanga e gresit, anyways continue:
+cat last.fake | awk '/^k/ && $2=="pts/9" {print $1}' | sort | uniq</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>8.</td>
+        <td>Find all the distinct usernames starting with "r" that are currently running programs, and display them
+            duplicating every vowel
+        </td>
+        <td>Use the command "ps -ef". Search for lines starting with "r" then use "sort" and "uniq" to remove
+            duplicates. Search/replace the resutl duplicating every vowel
+        </td>
+        <td>
+            <pre>raarees
+roooot
+rpc
+rpcuuseer
+rtkiit</pre>
+        </td>
+        <td>
+            <pre>cat ps.fake | awk '/^r/ {print $1}' | sort | uniq | sed -r 's/([aeiou])/\1\1/g'</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>9.</td>
+        <td>Display all the distinct lines left in /etc/passwd after deleting all letter and digits and spaces.</td>
+        <td>Search replace the required characters. User "sort" and "uniq" to display to distinct lines.</td>
+        <td>
+            <pre>::::-:////://
+:::::////://</pre>
+        </td>
+        <td>
+            <pre>cat passwd.fake | sed -r 's/[0-9]| |[a-zA-Z]//g' | sort | uniq</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>10.</td>
+        <td>Display all the distinct lines left in /etc/passwd after deleting all characters except "r".</td>
+        <td>Search replace the required characters. User "sort" and "uniq" to display to distinct lines.</td>
+        <td>
+            <pre>r
+rr
+rrr
+rrrr</pre>
+        </td>
+        <td>
+            <pre>cat passwd.fake | sed -r 's/[^r]//g' | sort | uniq</pre>
+        </td>
+    </tr>
+    <tr valign="top">
+        <td>11.</td>
+        <td>Calculate the average of the PIDs of the processes currently running in the system.</td>
+        <td>Use command "ps -ef". Calculate the sum of the second field values and divede by the number of records</td>
+        <td>
+            <pre>8373.95</pre>
+        </td>
+        <td>
+            <pre>cat ps.fake | awk 'BEGIN{total=0; nr=0;} {total += $2; nr++;} END{print total/nr}'</pre>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

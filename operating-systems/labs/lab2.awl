@@ -1,0 +1,57 @@
+"^a.*[0-9].*m$" - starts with a, then can have any character (.*), then a number [0-9], then anything
+again then ends with m
+-w finds by words
+-o matches only the piece that exactly matches it
+-c count
+-v shows lines that don't match the regexp
+
+"^a.*m$" - starts with a and ends with m, can have anything in between.
+[^0-9] - not a number
+"^a[^0-9]*m$" - starts with a, ends with m, and has anything in between that is not a number
+	      	(not 0-9 from [^0-9] and any number of these cause of *)
+
+
+-----------------------------------------------------------------------------------------------------
+sed replaces expressions (only on screen output, not really in the actual file)
+sed  s to replace shit
+
+
+sed "s/Dan/XYZ/" regexp.txt replaces Dan by XYZ
+
+ex:replace all lower case to upper case
+use y
+
+sed "y/letterstoreplace/letterstoreplacewith/"
+ex: sed "y/ie/IE/" regexp.txt replaces i with I and e with E
+
+put g after the last slash, i.e. "s/Dan/XYZ/g" to make it go to the end of the line (otherwise it'll just go to the first occurence)
+
+
+grep "escu" regexp.txt | sed "s/escu/dfhx/" - replaces escu with dfhx and only shows lines containing
+the word escu in the first place
+
+------------------------------------------------------------------------------------------------------
+awk is like a programming language
+
+special conditions: BEGIND, END
+
+can have 3 blocks between {}
+
+the middle one is executed for every line (default is middle)
+
+if you put BEGIN/END before a block it will be executed before/after the middle thing is done parsing
+every line
+
+
+awk "{something to execute for each line}"
+
+cat regexp.txt | awk '{print "message"}' - prints message for each line in regexp.txt
+
+$nr - where nr is the nr of the word you want to access from the file
+
+NF - nr of words on the line => $nf - last word
+FNR - nr of the line in the file => $fnr the whole line
+
+-F - sets the word separator
+i.e awk -F ":" '{print $5}' use it to print the name of the people from the fake etc/passwd on rares's
+website

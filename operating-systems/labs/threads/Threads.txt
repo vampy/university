@@ -1,0 +1,74 @@
+Threads
+-------
+
+
+ - a thread is an execution unit that executes a function
+ 
+ - there are many thread implementations , mostly every OS has a native flavor of threads , but
+   there are also libraries that are ported across OSes. In Linux the standard are the POSIX threads
+   aka pthreads
+   
+ - API : pthread_create ( kinda' like fork)
+		 pthread_join (like wait)
+		 pthread_self (like getpid)
+ 
+ - there is always a main thread which is NOT a parent to the other threads, it's just the main thread .
+ However when  the main thread ends all other threads end ( unless they are detached ) 
+ 
+ - pthread_create  , does NOt wait for the thread function to finish. it comes back right away
+   it created the thread , and the function will be executed concurrently ( at the same time ) 
+   with the main thread.
+   
+ - the OS is responsible for choosing which of your threads get the CPU and when and for how long .
+   
+ - since all threads share the same memory space and can modify the same variables or memory 
+   locations , it is possible to get corrupted results of data . this is mostly caused by
+   two or more threads reading and writing the same memory location . This is called a
+   race condition
+   
+ - One possible execution scenario for t2 
+ -----------------------------------------
+ 
+ Consider M as the main thread and T0 - T9 the other 10 threads
+ 
+ M gets the CPU - > arg = 0,0  -> Create thread T1
+ M takes off the CPU
+ OS has to chose between the M and T1
+ OS chooses M
+ 
+ M gets the CPU - > arg = 1,1  -> Create thread T2
+ M takes off the CPU
+ OS has to chose between the M and T1 , T2 
+ OS chooses T1
+ 
+ T1 gets the CPU - >  prints out 4
+ T1 taken off the CPU
+ OS has to chose between M, T2, and T3
+ OS chooses T3
+ 
+ T3gets CPu - > prints out 4
+ ....
+ 
+ 
+ MUTEXES
+---------
+
+
+- used for synchronization ( mutual exclusion)
+- API : pthread_mutex_init
+- API : pthread_mutex_destroy
+- API : pthread_mutex_lock
+- API : pthread_mutex_unlock
+
+
+whenever data gets corrupted you will be tempted to add delays into your program to fix it
+
+!ATENTION : Do not do it EVER
+- Either use different memory location or use synchronization mechanism (like the mutexes)
+
+- why am I saying DO NOT EVER DO THAT ? Because , given the undeterministic nature of threads execution 
+  , every now and then it will go bad . the display will decrease the chances of errors but the errors are
+  still possible
+  
+- mutexes act as locks around a fragment of code , only one thread can execute that code at the 
+  time . 

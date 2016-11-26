@@ -1,0 +1,104 @@
+Primele 7 de bash:
+
+1. Sa afiseze toate liniile dintr-un fisier care incep cu un numar (grep)
+
+2. Sa afiseze din a.txt continutu cu toate cuvintele "cat " inlocuite cu "dog" (cuvant cat inseamna sa fie "cat" separat, nu CATering) (sed)
+
+3. Se da un fisier a.txt care contine mai multe linii si pe fiecare linie "numar:numar:numar". Sa se afiseze pe ecran suma celor 3 numere de pe fiecare linie (awk)
+
+4. Sa se scrie toate argumentele care sunt executabile
+
+5. Sa se afiseze suma tuturor argumentelor (nu trebuie verificare, sunt numere)
+
+6. Echivalentul a <, >= si == in bash.
+
+7. Care este relatia dintre true si false din bash si exit codeuri
+
+apoi au mai fost dar nu le stiu pe toate si nici in ordine:
+
+8. Sa scrii o comanda UNIX C prin care sa poti executa un proces si sa scoti outputu (cred ca la popen se referea)
+
+9. Se da urmatorul cod:
+
+fork();
+fork();
+wait();
+wait();
+
+Cate procese noi(fara parinte) se creeaza?
+
+10. In UNIX se poate ca oricare doua procese sa comunice intre ele prin pipe? Justificati raspunsul
+
+11. Se dau doua procesele a si b si fisierele fifo ab si ba create.
+
+a:
+open(ab, O_READONLY); //sau cum ii aia cu rdonly
+open(ba, O_RW...)
+
+b:
+open(ba, O_RDONLY);
+open(ab, O_RW...)
+
+Ce se intampla la executarea celor doua programe? justificati raspunsul
+
+12. Dupa executarea unei comenzi exec se ruleaza codul scris dupa exec? Justificati ... (ceva de genu) (proasta formulare am gasit, intelegeti voi)
+
+14. A dat codul urmator sau ceva de genu:
+
+void* f(void *arg){
+printf("%d\n", *(int*)arg);
+...
+}
+
+int main(){
+pthread_t t[3];
+int i;
+for(i = 0 ; i < 3; i++)
+pthread_create(&t[i], NULL, f, &i);
+...join urma
+}
+
+Ce se afiseaza pe ecran la executare? Justificati
+
+Ideea era ca trimitea &i si in f scria *(int*)arg
+
+15. Iti dadea doua functii
+
+while(1) {
+______spatiu de completat___
+______ spatiu de completat___
+
+pthread_mutex_unlock(&m1);
+pthread_mutex_unlock(&m2);
+
+}
+
+si trebuia sa completez cu comenzi acolo ca sa produci un deadlock.
+
+16. Ce inseamna P() si V() de la semaphore (raspuns scurt, intr-o linie trebuia sa raspunzi)
+
+17. Cand se schimba un proces in unix din RUN in WAIT ( ceva de genu, trebuia un raspuns scurt)
+
+18. ceva cu deadlock si nu stiu ce graph resource
+
+19. Iti dadea urmatoru pseudocod:
+
+semapor a, b;
+a.value = 1
+b.value = 0
+
+si doua functii while(1){
+
+_____Spatiu de completat___
+_____________
+
+print("A"); //si cealalta functie //print("B");
+
+_________
+_________Spatiu de completat
+
+}
+
+si trebuia sa pui P(a), P(b), V(a) si V(b) astfel incat functiile sa printeze A B A B A B A B A B...
+
+20. Doua din trei metode de alocare a memoriei virtuale 
