@@ -21,7 +21,7 @@ The source code repository of almost all the courses I attended while studying c
 - [Operating Systems](/operating-systems/)
 
 ### Year 2
-#### Semester 1
+#### Semester 1vampy-university
 - [Advanced Programming Methods](/advanced-programming-methods/)
 - [Distributed Operating Systems (Operating Systems 2)](/distributed-operating-systems/)
 - [Databases](/databases/)

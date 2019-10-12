@@ -1,9 +1,12 @@
+# Object oriented programming (OOP)
+[Website](http://www.cs.ubbcluj.ro/~istvanc/oop/)
+
 # About
 Almost every directory has the requirements at the top of `main.c`/`main.cpp` file.
 
 The `.pro` file are meant to be opened with Qt Creator or `qmake` (if you want to compile using the terminal).
 
-The `CMakeLists.txt` are cmake files describing the project in that directory, you can compile using the terminal 
+The `CMakeLists.txt` are cmake files describing the project in that directory, you can compile using the terminal
 or open them with any editor that supports cmake projects.
 To get a debug build use `-DCMAKE_BUILD_TYPE=Debug`.
 

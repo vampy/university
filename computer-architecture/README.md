@@ -1,5 +1,7 @@
 # Computer Architecture
-[Website Course](http://www.cs.ubbcluj.ro/~vancea/). [Website Lab](http://www.cs.ubbcluj.ro/~radu.dragos/teaching/arhitectura-sistemelor-de-calcul/).
+[Website Course](http://www.cs.ubbcluj.ro/~vancea/)
+
+[Website Lab](http://www.cs.ubbcluj.ro/~radu.dragos/teaching/arhitectura-sistemelor-de-calcul/).
 
 The source code of all the labs.
 
