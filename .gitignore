@@ -16,3 +16,4 @@ CMakeLists.txt.user
 main.spec
 .project
 .pydevproject
+.vscode
