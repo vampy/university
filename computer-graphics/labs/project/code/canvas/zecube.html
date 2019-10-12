@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cube</title>
+<head>
+
+</head>
+
+<body>
+
+<canvas id="canvas-container" width="400" height="400">
+    Ze browser does not support HTML5 Canvas
+</canvas>
+
+<div id="vx1" style="font-size: 8px"></div>
+<div id="vx2" style="font-size: 8px"></div>
+<div id="vx3" style="font-size: 8px"></div>
+<div id="vx4" style="font-size: 8px"></div>
+<div id="vx5" style="font-size: 8px"></div>
+<div id="vx6" style="font-size: 8px"></div>
+<div id="vx7" style="font-size: 8px"></div>
+<div id="vx8" style="font-size: 8px"></div>
+<div id="Vector1" style="font-size: 8px"></div>
+<div id="Vector2" style="font-size: 8px"></div>
+<div id="Vector3" style="font-size: 8px"></div>
+<div id="Vector4" style="font-size: 8px"></div>
+<div id="Vector5" style="font-size: 8px"></div>
+<div id="Vector6" style="font-size: 8px"></div>
+<div id="Vector7" style="font-size: 8px"></div>
+<div id="Vector8" style="font-size: 8px"></div>
+
+<script>
+
+    /*
+     A / D / X / W =  translate
+     UP / DOWN / LEFT / RIGHT = rotate
+     + / - = scale
+     */
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var canvas = document.getElementById("canvas-container");
+        var context = canvas.getContext("2d");
+        window.onkeypress = takeAction;
+
+        var cube = new Array(8);
+
+        cube[1] = new Array(3);
+        cube[1]['x'] = "-100";
+        cube[1]['y'] = "100";
+        cube[1]['z'] = "-100";
+
+        context.moveTo(Number(cube[1]['x']), Number(cube[1]['y']));
+        context.fillStyle = "red";
+        context.fillText("test", Number(cube[1]['x']), Number(cube[1]['y']), 20);
+        //context.fillRect(Number(cube[1]['x']), Number(cube[1]['y']), 5, 5);
+
+        cube[2] = new Array(3);
+        cube[2]['x'] = "-100";
+        cube[2]['y'] = "-100";
+        cube[2]['z'] = "-100";
+
+        cube[3] = new Array(3);
+        cube[3]['x'] = "100";
+        cube[3]['y'] = "-100";
+        cube[3]['z'] = "-100";
+
+        cube[4] = new Array(3);
+        cube[4]['x'] = "100";
+        cube[4]['y'] = "100";
+        cube[4]['z'] = "-100";
+
+        cube[5] = new Array(3);
+        cube[5]['x'] = "-100";
+        cube[5]['y'] = "100";
+        cube[5]['z'] = "100";
+
+        cube[6] = new Array(3);
+        cube[6]['x'] = "-100";
+        cube[6]['y'] = "-100";
+        cube[6]['z'] = "100";
+
+        cube[7] = new Array(3);
+        cube[7]['x'] = "100";
+        cube[7]['y'] = "-100";
+        cube[7]['z'] = "100";
+
+        cube[8] = new Array(3);
+        cube[8]['x'] = "100";
+        cube[8]['y'] = "100";
+        cube[8]['z'] = "100";
+
+        drawCube();
+
+        function takeAction(key) {
+            context.fillStyle = "#ffffff";
+            context.fillRect(0, 0, 400, 400);
+
+            switch (key.keyCode || key.which) {
+                case 37:
+                    for (var s = 1; s <= 8; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        var tz3 = oz * Math.cos(0.1) - ox * Math.sin(0.1);
+                        var tx3 = ox * Math.cos(0.1) + oz * Math.sin(0.1);
+                        var ty3 = oy;
+
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 38:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz * Math.cos(0.1) + oy * Math.sin(0.1);
+                        tx3 = ox;
+                        ty3 = oy * Math.cos(0.1) - oz * Math.sin(0.1);
+
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 39:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz * Math.cos(-0.1) - ox * Math.sin(-0.1);
+                        tx3 = ox * Math.cos(-0.1) + oz * Math.sin(-0.1);
+                        ty3 = oy;
+
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 40:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz * Math.cos(-0.1) + oy * Math.sin(-0.1);
+                        tx3 = ox;
+                        ty3 = oy * Math.cos(-0.1) - oz * Math.sin(-0.1);
+
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 43:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz * 1.01;
+                        tx3 = ox * 1.01;
+                        ty3 = oy * 1.01;
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 45:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz / 1.01;
+                        tx3 = ox / 1.01;
+                        ty3 = oy / 1.01;
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 100:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz;
+                        tx3 = ox + 0.5;
+                        ty3 = oy;
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 97:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz;
+                        tx3 = ox - 0.5;
+                        ty3 = oy;
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 120:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz;
+                        tx3 = ox;
+                        ty3 = oy - 0.5;
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+
+                case 119:
+                    for (s = 1; s < 9; s++) {
+                        var ox = Number(cube[s]['x']);
+                        var oy = Number(cube[s]['y']);
+                        var oz = Number(cube[s]['z']);
+
+                        tz3 = oz;
+                        tx3 = ox;
+                        ty3 = oy + 0.5;
+
+                        //tx3 = Math.round(tx3);
+                        //ty3 = Math.round(ty3);
+                        //tz3 = Math.round(tz3);
+
+                        document.getElementById('vx' + s).innerHTML = 'x : ' + tx3 + ' y: ' + ty3 + ' z: ' + tz3;
+
+                        cube[s]['x'] = tx3;
+                        cube[s]['y'] = ty3;
+                        cube[s]['z'] = tz3;
+
+                    }
+                    break;
+            }
+
+            //alert(key.keyCode || key.which);
+
+            drawCube();
+        }
+
+
+        function drawCube() {
+
+            // Vertex
+            //             for(var i=1 ; i < 9 ; i++)
+            //             {
+            //
+            //             context.fillStyle = "#000000";
+            //             context.fillRect(Cube[i]['x'] + 200, Cube[i]['y'] + 200, 1, 1);
+            //
+            //             }
+
+            // Segments
+            for (var j = 1; j <= 12; j++) {
+                if (j == 1 || j == 5 || j == 9) {
+                    context.fillStyle = "rgba(0,0,0,0.3)";
+                    context.beginPath();
+                }
+
+                if (j < 9) {
+                    if (j == 4 || j == 8) {
+
+                        switch (j) {
+                            case 4:
+                                k = 1;
+                                break;
+
+                            case 8:
+                                k = 5;
+                                break;
+                        }
+
+                        // j = 4, k = 1
+                        // j = 8, k = 5
+                        var v1 = cube[k]['x'] - cube[j]['x'];
+                        var v2 = cube[k]['y'] - cube[j]['y'];
+                        var v3 = cube[k]['z'] - cube[j]['z'];
+
+                        var VL = Math.sqrt(v1 * v1 + v2 * v2 + v3 * v3);
+
+                        var V = '( ' + v1 + ' , ' + v2 + ' , ' + v3 + ' ) [' + VL + ']';
+
+                        document.getElementById('Vector' + j).innerHTML = V;
+
+                        context.lineTo(cube[k]['x'] + 200, cube[k]['y'] + 200);
+                        //context.stroke();
+
+
+                    } else {
+                        if (j == 1) {
+                            context.moveTo(cube[j]['x'] + 200, cube[j]['y'] + 200);
+                        }
+
+                        // next hop
+                        if (j < 8) {
+                            var k = j + 1;
+                        }
+
+                        v1 = cube[k]['x'] - cube[j]['x'];
+                        v2 = cube[k]['y'] - cube[j]['y'];
+                        v3 = cube[k]['z'] - cube[j]['z'];
+
+                        var VL = Math.sqrt(v1 * v1 + v2 * v2 + v3 * v3);
+
+                        var V = '( ' + v1 + ' , ' + v2 + ' , ' + v3 + ' ) [' + VL + ']';
+
+                        document.getElementById('Vector' + j).innerHTML = V;
+
+                        context.lineTo(cube[k]['x'] + 200, cube[k]['y'] + 200);
+                        // context.stroke();
+                    }
+
+                    if (j == 4 || j == 8) {
+                        context.closePath();
+                        context.fill();
+                    }
+
+                } else {
+
+                    //context.strokeStyle = "#0000ff";
+
+                    switch (j) {
+
+                        case 9:
+                            context.fillStyle = "rgba(64,64,64,0.3)";
+                            context.beginPath();
+                            context.moveTo(cube[1]['x'] + 200, cube[1]['y'] + 200);
+                            context.lineTo(cube[5]['x'] + 200, cube[5]['y'] + 200);
+                            context.lineTo(cube[6]['x'] + 200, cube[6]['y'] + 200);
+                            context.lineTo(cube[2]['x'] + 200, cube[2]['y'] + 200);
+                            context.lineTo(cube[1]['x'] + 200, cube[1]['y'] + 200);
+                            context.closePath();
+                            context.fill();
+                            //context.stroke();
+
+                            break;
+
+                        case 10:
+                            context.fillStyle = "rgba(64,64,64,0.3)";
+                            context.beginPath();
+                            context.moveTo(cube[2]['x'] + 200, cube[2]['y'] + 200);
+                            context.lineTo(cube[6]['x'] + 200, cube[6]['y'] + 200);
+                            context.lineTo(cube[7]['x'] + 200, cube[7]['y'] + 200);
+                            context.lineTo(cube[3]['x'] + 200, cube[3]['y'] + 200);
+                            context.lineTo(cube[2]['x'] + 200, cube[2]['y'] + 200);
+                            context.closePath();
+                            context.fill();
+                            //context.stroke();
+
+                            break;
+
+                        case 11:
+                            context.fillStyle = "rgba(64,64,64,0.3)";
+                            context.beginPath();
+                            context.moveTo(cube[4]['x'] + 200, cube[4]['y'] + 200);
+                            context.lineTo(cube[8]['x'] + 200, cube[8]['y'] + 200);
+                            context.lineTo(cube[5]['x'] + 200, cube[5]['y'] + 200);
+                            context.lineTo(cube[1]['x'] + 200, cube[1]['y'] + 200);
+                            context.lineTo(cube[4]['x'] + 200, cube[4]['y'] + 200);
+                            context.closePath();
+                            context.fill();
+                            //context.stroke();
+
+                            break;
+
+                        case 12:
+                            context.fillStyle = "rgba(64,64,64,0.3)";
+                            context.beginPath();
+                            context.moveTo(cube[3]['x'] + 200, cube[3]['y'] + 200);
+                            context.lineTo(cube[7]['x'] + 200, cube[7]['y'] + 200);
+                            context.lineTo(cube[8]['x'] + 200, cube[8]['y'] + 200);
+                            context.lineTo(cube[4]['x'] + 200, cube[4]['y'] + 200);
+                            context.lineTo(cube[3]['x'] + 200, cube[3]['y'] + 200);
+                            context.closePath();
+                            context.fill();
+                            //context.stroke();
+                            break;
+                    }
+                }
+            }
+
+            context.fillRect(200, 200, 5, 5);
+
+        }
+    });
+
+</script>
+
+</body>
+</html>

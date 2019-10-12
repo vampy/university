@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Main">
+  <grid id="27dc6" binding="form_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="766" height="401"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="b048c" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="d7b4" class="javax.swing.JButton" binding="loadCube">
+            <constraints/>
+            <properties>
+              <text value="Load Cube"/>
+            </properties>
+          </component>
+          <component id="d825b" class="javax.swing.JButton" binding="loadPyarmid">
+            <constraints/>
+            <properties>
+              <text value="Load Pyramid"/>
+            </properties>
+          </component>
+          <component id="e5792" class="javax.swing.JButton" binding="resetFromFile">
+            <constraints/>
+            <properties>
+              <text value="Reload file"/>
+            </properties>
+          </component>
+          <component id="4a895" class="javax.swing.JLabel" binding="firstLabel">
+            <constraints/>
+            <properties>
+              <text value="First"/>
+            </properties>
+          </component>
+          <component id="559ef" class="javax.swing.JTextField" binding="firstText">
+            <constraints/>
+            <properties>
+              <columns value="4"/>
+              <horizontalAlignment value="0"/>
+              <text value="1"/>
+            </properties>
+          </component>
+          <component id="5f0f9" class="javax.swing.JButton" binding="firstButton">
+            <constraints/>
+            <properties>
+              <text value="Set"/>
+            </properties>
+          </component>
+          <component id="570ce" class="javax.swing.JLabel" binding="secondLabel">
+            <constraints/>
+            <properties>
+              <text value="Second"/>
+            </properties>
+          </component>
+          <component id="1d99d" class="javax.swing.JTextField" binding="secondText">
+            <constraints/>
+            <properties>
+              <columns value="4"/>
+              <horizontalAlignment value="0"/>
+              <text value="1"/>
+            </properties>
+          </component>
+          <component id="b4ed4" class="javax.swing.JButton" binding="setButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Set"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

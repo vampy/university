@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden
+        }
+    </style>
+</head>
+<body>
+<script src="../js/three.js/three.js"></script>
+<script src="../js/TrackballControls.js"></script>
+
+<script id="vertex-shader-1" type="x-shader/x-vertex">
+varying vec3 vVertexWorldPosition;
+varying vec3 vVertexNormal;
+
+void main() {
+    // compute intensity
+    vVertexNormal = normalize(normalMatrix * normal);
+    vVertexWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+</script>
+
+<script id="fragment-shader-1" type="x-shader/x-fragment">
+uniform vec3 glowColor;
+uniform float coeficient;
+uniform float power;
+
+varying vec3 vVertexNormal;
+varying vec3 vVertexWorldPosition;
+
+void main() {
+    vec3 worldCameraToVertex= vVertexWorldPosition - cameraPosition;
+    vec3 viewCameraToVertex = (viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;
+    viewCameraToVertex = normalize(viewCameraToVertex);
+    float intensity = pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);
+
+    gl_FragColor = vec4(glowColor, intensity);
+}
+</script>
+
+<script id="vertex-shader-2" type="x-shader/x-vertex">
+varying vec3 vNormal;
+
+void main() {
+    // compute intensity
+    vNormal		= normalize(normalMatrix * normal);
+
+    gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+</script>
+
+<script id="fragment-shader-2" type="x-shader/x-fragment">
+uniform float coeficient;
+uniform float power;
+uniform vec3  glowColor;
+
+varying vec3  vNormal;
+
+void main() {
+    float intensity	= pow(coeficient - dot(vNormal, vec3(0.0, 0.0, 1.0)), power);
+
+    gl_FragColor	= vec4(glowColor * intensity, 1.0);
+}
+</script>
+
+<script>
+    "use strict";
+
+    // Variables
+    var renderer,
+        camera,
+        scene,
+        controls,
+        lastTimeMS = null,
+        renderStack = [],
+        earthMesh,
+        moonMesh;
+
+    // Constants
+    var VIEW_ANGLE = 45,
+        NEAR = 0.01,
+        FAR = 100;
+
+
+    initScene();
+    animateScene();
+
+    function getShaderCode(scriptId) {
+        var shaderScript = document.getElementById(scriptId);
+        if (!shaderScript) {
+            throw("*** Error: unknown script element" + scriptId);
+        }
+
+        return shaderScript.text;
+    }
+
+    function initializeRenderer() {
+        renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMapEnabled = true;
+        document.body.appendChild(renderer.domElement);
+    }
+
+    function initializeCamera() {
+        camera = new THREE.PerspectiveCamera(VIEW_ANGLE, window.innerWidth / window.innerHeight, NEAR, FAR);
+        camera.position.z = 1;
+
+        var mouse = {x: 0, y: 0};
+
+        document.addEventListener('mousemove', function(event) {
+            mouse.x = (event.clientX / window.innerWidth) - 0.5;
+            mouse.y = (event.clientY / window.innerHeight) - 0.5;
+        }, false);
+
+        renderStack.push(function(delta, now) {
+            camera.position.x += (mouse.x * 4 - camera.position.x) * (delta * 3);
+            camera.position.y += (mouse.y * 4 - camera.position.y) * (delta * 3);
+            camera.lookAt(scene.position)
+        });
+
+//        controls = new THREE.TrackballControls(camera);
+//        controls.addEventListener('change', renderScene);
+//        controls.target.set( 0, 0, 0 );
+    }
+
+    function initializeScene() {
+        scene = new THREE.Scene();
+    }
+
+    function initializeLights() {
+        var light = new THREE.AmbientLight(0x222222);
+        scene.add(light);
+
+        light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(5, 5, 5);
+        scene.add(light);
+
+        light.castShadow = true;
+        light.shadowCameraNear = 0.01;
+        light.shadowCameraFar = 15;
+        light.shadowCameraFov = 45;
+
+        light.shadowCameraLeft = -1;
+        light.shadowCameraRight = 1;
+        light.shadowCameraTop = 1;
+        light.shadowCameraBottom = -1;
+
+        //light.shadowCameraVisible = true;
+        light.shadowBias = 0.001;
+        light.shadowDarkness = 0.2;
+
+        light.shadowMapWidth = 1024;
+        light.shadowMapHeight = 1024;
+    }
+
+    function initScene() {
+        // Renderer
+        initializeRenderer();
+
+        // Scene
+        initializeScene();
+
+        // Camera
+        initializeCamera();
+
+        // Lights
+        initializeLights();
+
+        // Starfield
+        var starSphere = createStarfield();
+        scene.add(starSphere);
+
+        // Earth container
+        var containerEarth = new THREE.Object3D();
+        containerEarth.rotateZ(-23.4 * Math.PI / 180);
+        containerEarth.position.z = 0;
+        scene.add(containerEarth);
+
+        // Moon
+        moonMesh = createMoon();
+        moonMesh.position.set(0.5, 0.5, 0.5);
+        moonMesh.scale.multiplyScalar(1 / 5);
+        moonMesh.receiveShadow = true;
+        moonMesh.castShadow = true;
+        containerEarth.add(moonMesh);
+
+        // Earth
+        earthMesh = createEarth();
+        earthMesh.receiveShadow = true;
+        earthMesh.castShadow = true;
+        containerEarth.add(earthMesh);
+
+        renderStack.push(function(delta, now) {
+            earthMesh.rotation.y += 1 / 32 * delta;
+            moonMesh.rotation.y -= 1 / 32 * delta;
+        });
+
+        // Add earth glow
+        var geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        var material = createAtmosphereMaterial1();
+        material.uniforms.glowColor.value.set(0x00b3ff);
+        material.uniforms.coeficient.value = 0.8;
+        material.uniforms.power.value = 2.0;
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.scale.multiplyScalar(1.01);
+        containerEarth.add(mesh);
+
+        geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        material = createAtmosphereMaterial1();
+        material.side = THREE.BackSide;
+        material.uniforms.glowColor.value.set(0x00b3ff);
+        material.uniforms.coeficient.value = 0.5;
+        material.uniforms.power.value = 4.0;
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.scale.multiplyScalar(1.15);
+        containerEarth.add(mesh);
+
+        // Clouds
+        var earthCloudMesh = createEarthCloud();
+        earthCloudMesh.receiveShadow = true;
+        earthCloudMesh.castShadow = true;
+
+        renderStack.push(function(delta, now) {
+            earthCloudMesh.rotation.y += 1 / 8 * delta;
+        });
+
+        containerEarth.add(earthCloudMesh);
+
+        window.addEventListener('resize', onWindowResize, false);
+        document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+        renderStack.push(renderScene);
+    }
+
+    function onDocumentMouseDown() {
+        earthMesh.rotation.y += 10 * (Math.PI / 180);
+        moonMesh.rotation.y -= 10 * (Math.PI / 180);
+        renderScene();
+    }
+
+    function createEarth() {
+        var geometry = new THREE.SphereGeometry(0.5, 32, 32);
+
+        var material = new THREE.MeshPhongMaterial({
+            // Diffuse texture - main color of the surface
+            map: THREE.ImageUtils.loadTexture('textures/earthmap1k.jpg'),
+
+            /* Bump texture - elevation / height of the Earth's surface
+             A bump map "perturbates the surface normals of the object using the perturbed normal during lighting calculations"
+             Each of the bump texture's pixels acts as a height on the surface
+             */
+            bumpMap  : THREE.ImageUtils.loadTexture('textures/earthbump1k.jpg'),
+            bumpScale: 0.05,
+
+            /* Specular texture
+             Each pixel determines the intensity of specularity.
+             In this case, only the sea is specular because water reflects water more than earth
+             */
+            specularMap: THREE.ImageUtils.loadTexture('textures/earthspec1k.jpg'),
+            specular   : new THREE.Color('grey')
+        });
+
+        return new THREE.Mesh(geometry, material);
+    }
+
+    function createEarthCloud() {
+        var canvasResult = document.createElement('canvas');
+        canvasResult.width = 1024;
+        canvasResult.height = 512;
+        var contextResult = canvasResult.getContext('2d');
+
+        var imageMap = new Image();
+
+        imageMap.addEventListener("load", function() {
+            var canvasMap = document.createElement('canvas');
+            canvasMap.width = imageMap.width;
+            canvasMap.height = imageMap.height;
+
+            var contextMap = canvasMap.getContext('2d');
+            contextMap.drawImage(imageMap, 0, 0);
+
+            var dataMap = contextMap.getImageData(0, 0, canvasMap.width, canvasMap.height);
+
+            var imageTrans = new Image();
+
+            imageTrans.addEventListener("load", function() {
+                var canvasTrans = document.createElement('canvas');
+                canvasTrans.width = imageTrans.width;
+                canvasTrans.height = imageTrans.height;
+
+                var contextTrans = canvasTrans.getContext('2d');
+                contextTrans.drawImage(imageTrans, 0, 0);
+                var dataTrans = contextTrans.getImageData(0, 0, canvasTrans.width, canvasTrans.height);
+
+                // merge dataMap + dataTrans into dataResult
+                var dataResult = contextMap.createImageData(canvasMap.width, canvasMap.height);
+
+                for (var y = 0, offset = 0; y < imageMap.height; y++) {
+                    for (var x = 0; x < imageMap.width; x++, offset += 4) {
+                        dataResult.data[offset] = dataMap.data[offset];
+                        dataResult.data[offset + 1] = dataMap.data[offset + 1];
+                        dataResult.data[offset + 2] = dataMap.data[offset + 2];
+                        dataResult.data[offset + 3] = 255 - dataTrans.data[offset];
+                    }
+                }
+
+                contextResult.putImageData(dataResult, 0, 0);
+                material.map.needsUpdate = true;
+            });
+
+            imageTrans.src = 'textures/earthcloudmaptrans.jpg';
+        }, false);
+
+        imageMap.src = 'textures/earthcloudmap.jpg';
+
+        var geometry = new THREE.SphereGeometry(0.51, 32, 32);
+
+        var material = new THREE.MeshPhongMaterial({
+            map        : new THREE.Texture(canvasResult),
+            side       : THREE.DoubleSide,
+            transparent: true,
+            opacity    : 0.8
+        });
+
+        return new THREE.Mesh(geometry, material);
+    }
+
+    function createMoon() {
+        var geometry = new THREE.SphereGeometry(0.5, 32, 32);
+
+        var material = new THREE.MeshPhongMaterial({
+            map      : THREE.ImageUtils.loadTexture('textures/moonmap1k.jpg'),
+            bumpMap  : THREE.ImageUtils.loadTexture('textures/moonbump1k.jpg'),
+            bumpScale: 0.002
+        });
+
+        return new THREE.Mesh(geometry, material)
+    }
+
+    function createStarfield() {
+        var material = new THREE.MeshBasicMaterial({
+            map : THREE.ImageUtils.loadTexture('textures/galaxy_starfield.png'),
+            side: THREE.BackSide
+        });
+
+        var geometry = new THREE.SphereGeometry(100, 32, 32);
+
+        return new THREE.Mesh(geometry, material);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animateScene() {
+        requestAnimationFrame(function animate(nowMsec) {
+//            controls.update();
+
+            requestAnimationFrame(animate);
+
+            // catch up to fra,es of we have a slowdown
+            lastTimeMS = lastTimeMS || nowMsec - 1000 / 60;
+            var deltaMS = Math.min(200, nowMsec - lastTimeMS);
+            lastTimeMS = nowMsec;
+
+            renderStack.forEach(function(onRenderFct) {
+                onRenderFct(deltaMS / 1000, nowMsec / 1000)
+            });
+        });
+    }
+
+    function renderScene() {
+        renderer.render(scene, camera);
+    }
+
+    function createAtmosphereMaterial1() {
+        return new THREE.ShaderMaterial({
+            uniforms      : {
+                coeficient: {
+                    type : "f",
+                    value: 1.0
+                },
+                power     : {
+                    type : "f",
+                    value: 2
+                },
+                glowColor : {
+                    type : "c",
+                    value: new THREE.Color('pink')
+                }
+            },
+            vertexShader  : getShaderCode("vertex-shader-1"),
+            fragmentShader: getShaderCode("fragment-shader-1"),
+            transparent   : true,
+            depthWrite    : false
+        });
+    }
+
+    function createAtmosphereMaterial2() {
+        return new THREE.ShaderMaterial({
+            uniforms      : {
+                coeficient: {
+                    type : "f",
+                    value: 1.0
+                },
+                power     : {
+                    type : "f",
+                    value: 2
+                },
+                glowColor : {
+                    type : "c",
+                    value: new THREE.Color('pink')
+                }
+            },
+            vertexShader  : getShaderCode("vertex-shader-2"),
+            fragmentShader: getShaderCode("vertex-shader-2"),
+            side          : THREE.FrontSide,
+            blending      : THREE.AdditiveBlending,
+            transparent   : true,
+            depthWrite    : false
+        });
+    }
+</script>
+</body>
+</html>

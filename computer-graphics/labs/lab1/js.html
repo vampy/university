@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+<script>
+    // Returns a random integer between min (included) and max (excluded)
+    // Using Math.round() will give you a non-uniform distribution!
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;
+    var x = width / 2, y = height /2;
+    var speed = 0.5;
+    var length = 30;
+
+    function Point(x, y, opt_radius) {
+        this.x = x;
+        this.y = y;
+        this.radius = opt_radius || 0;
+    }
+
+    function Tuple(first, second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    function getRandomDot() {
+        return new Point(getRandomInt(0, width), getRandomInt(0, height), getRandomInt(10, 50));
+    }
+
+    function getRandomLine() {
+        return new Tuple(
+            new Point(getRandomInt(0, width), getRandomInt(0, height)),
+            new Point(getRandomInt(0, width), getRandomInt(0, height))
+        );
+    }
+
+    var positions = [];
+    var dots = [];
+    for (var i = 0; i < length; i++) {
+        positions.push(getRandomLine());
+        dots.push(getRandomDot());
+    }
+
+    function render() {
+        context.clearRect(0, 0, width, height);
+
+        for (var i = 0; i < length; i++) {
+            var tuple = positions[i];
+            var start = tuple.first, end = tuple.second;
+
+            // draw lines
+            context.beginPath();
+            context.moveTo(start.x, start.y);
+            context.lineTo(end.x, end.y);
+            context.lineWidth = getRandomInt(1, 20);
+            context.strokeStyle = "#"+((1<<24)*Math.random()|0).toString(16);
+            context.stroke();
+
+            // draw dots
+            context.beginPath();
+            context.fillStyle = "#"+((1<<24)*Math.random()|0).toString(16);
+            context.arc(dots[i].x, dots[i].y, dots[i].radius, 0, Math.PI * 2, false);
+            context.fill();
+            context.closePath();
+
+            if (i == length - 1) {
+                positions[i] = getRandomLine();
+                dots[i] = getRandomDot();
+            } else {
+                positions[i] = positions[i + 1];
+                dots[i] = dots[i + 1];
+            }
+        }
+
+        requestAnimationFrame(render);
+    }
+
+    render();
+//            console.log(x, y);
+//          context.beginPath();
+//        context.moveTo(100, 150);
+//        context.lineTo(parseInt(x), parseInt(y));
+</script>
+</body>
+</html>

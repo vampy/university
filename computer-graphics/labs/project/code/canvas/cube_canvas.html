@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Cube</title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            border: 1px solid black;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = startRendering;
+
+        function Point3D(x, y, z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+
+            this.rotateX = function(angle) {
+                var rad, cosa, sina, y, z;
+
+                rad = angle * Math.PI / 180;
+                cosa = Math.cos(rad);
+                sina = Math.sin(rad);
+
+                y = this.y * cosa - this.z * sina;
+                z = this.y * sina + this.z * cosa;
+
+                return new Point3D(this.x, y, z);
+            };
+
+            this.rotateY = function(angle) {
+                var rad, cosa, sina, x, z;
+
+                rad = angle * Math.PI / 180;
+                cosa = Math.cos(rad);
+                sina = Math.sin(rad);
+
+                z = this.z * cosa - this.x * sina;
+                x = this.z * sina + this.x * cosa;
+
+                return new Point3D(x, this.y, z);
+            };
+
+            this.rotateZ = function(angle) {
+                var rad, cosa, sina, x, y;
+
+                rad = angle * Math.PI / 180;
+                cosa = Math.cos(rad);
+                sina = Math.sin(rad);
+
+                x = this.x * cosa - this.y * sina;
+                y = this.x * sina + this.y * cosa;
+
+                return new Point3D(x, y, this.z);
+            };
+
+            this.project = function(viewWidth, viewHeight, fov, viewDistance) {
+                var factor, x, y;
+
+                factor = fov / (viewDistance + this.z);
+
+                x = this.x * factor + viewWidth / 2;
+                y = this.y * factor + viewHeight / 2;
+
+                return new Point3D(x, y, this.z);
+            }
+        }
+
+        var vertices = [
+            new Point3D(-1, 1, -1),  // vertex 1
+            new Point3D(1, 1, -1),   // vertex 2
+            new Point3D(1, -1, -1),  // vertex 3
+            new Point3D(-1, -1, -1), // vertex 4
+            new Point3D(-1, 1, 1),   // vertex 5
+            new Point3D(1, 1, 1),    // vertex 6
+            new Point3D(1, -1, 1),   // vertex 7
+            new Point3D(-1, -1, 1)   // vertex 8
+        ];
+
+        // The vertices that compose each of the 6 faces.
+        // (each number is an index in the vertex list)
+        // Each face is composed of 4 points
+        var faces = [
+            [0, 1, 2, 3], // face 1
+            [1, 5, 6, 2], // face 2
+            [5, 4, 7, 6], // face 3
+            [4, 0, 3, 7], // face 4
+            [0, 4, 5, 1], // face 5
+            [3, 2, 6, 7]  // face 6
+        ];
+
+        // The colors for each face
+        var colors = [
+            [255, 0, 0],
+            [0, 255, 0],
+            [0, 0, 255],
+            [255, 255, 0],
+            [0, 255, 255],
+            [255, 0, 255]
+        ];
+
+        var angle = 1;
+        var perspectiveCoefficient = 300;
+        var viewDistance = 3;
+        var viewPortWidth;
+        var viewPortHeight;
+        var xPosition;
+        var yPosition;
+        var light = new Point3D(1, 10, -10);
+        var alpha = 1;
+
+        function arrayToRGB(arr) {
+            if (arr.length === 3) {
+                return "rgb(" + Math.abs(arr[0]) + "," + arr[1] + "," + arr[2] + ")";
+            }
+
+            if (arr.length === 4) {
+                return "rgba(" + Math.abs(arr[0]) + "," + arr[1] + "," + arr[2] + "," + arr[3] + ")";
+            }
+
+            return "rgb(0,0,0)";
+        }
+
+        function startRendering() {
+            var canvas = document.getElementById("canvas");
+
+            if (canvas && canvas.getContext) {
+                ctx = canvas.getContext("2d");
+                viewPortWidth = canvas.width;
+                viewPortHeight = canvas.height;
+                //                console.log(viewPortWidth);
+                //                console.log(viewPortHeight);
+                animate();
+            }
+        }
+
+        function render() {
+            var transformedVertices = [];
+
+            ctx.fillStyle = "lightgrey";
+            ctx.fillRect(0, 0, viewPortWidth, viewPortHeight);
+
+            for (var i = 0; i < vertices.length; i++) {
+                var vertex = vertices[i];
+                var rotatedPoint = vertex.rotateX(angle).rotateY(angle).rotateZ(angle);
+                var projectedPoint = rotatedPoint.project(viewPortWidth, viewPortHeight, perspectiveCoefficient,
+                    viewDistance);
+                transformedVertices.push(projectedPoint)
+            }
+
+            var avg_z = [];
+
+            // Painter's Algorithm (Depth Sort) or "Z-sorting" sorts all faces so they are rendered back-to-front.
+
+            // http://en.wikipedia.org/wiki/Hidden_surface_determination#Hidden_surface_removal_algorithms
+            // http://en.wikipedia.org/wiki/Painter%27s_algorithm
+            // Sort the polygons in the scene by their depth
+            // Draw them back to front
+            for (var i = 0; i < faces.length; i++) {
+                var face = faces[i];
+                avg_z[i] = {
+                    "index": i, "z": (transformedVertices[face[0]].z +
+                    transformedVertices[face[1]].z +
+                    transformedVertices[face[2]].z +
+                    transformedVertices[face[3]].z) / 4.0
+                };
+            }
+
+            avg_z.sort(function(a, b) {
+                return b.z - a.z;
+            });
+
+            for (var i = 0; i < faces.length; i++) {
+                var face = faces[avg_z[i].index];
+
+                var pr = new Point3D(0, 0, perspectiveCoefficient);
+
+                // "Backface culling" - only faces that are facing the camera are rendered
+                if (hiddenSurface(pr, transformedVertices[face[0]], transformedVertices[face[1]],
+                        transformedVertices[face[2]])) {
+                    var N = normal(transformedVertices[face[0]], transformedVertices[face[1]],
+                        transformedVertices[face[2]]);
+                    var resultColor = illuminate(light, N, colors[avg_z[i].index], alpha);
+                    //console.log(arrayToRGB(resultColor));
+                    ctx.fillStyle = arrayToRGB(resultColor);
+                    ctx.beginPath();
+                    ctx.moveTo(transformedVertices[face[0]].x, transformedVertices[face[0]].y);
+                    ctx.lineTo(transformedVertices[face[1]].x, transformedVertices[face[1]].y);
+                    ctx.lineTo(transformedVertices[face[2]].x, transformedVertices[face[2]].y);
+                    ctx.lineTo(transformedVertices[face[3]].x, transformedVertices[face[3]].y);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+
+            angle += 2;
+        }
+
+        function hiddenSurface(P, a0, a1, a2) {
+            var v1 = new Point3D(a0.x - P.x, a0.y - P.y, a0.z - P.z),
+                N = normal(a0, a1, a2);
+
+            return scalarProduct(v1, N) >= 0;
+        }
+
+        function scalarProduct(v1, v2) {
+            return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+        }
+
+        function normal(a0, a1, a2) {
+            var v1x = a1.x - a0.x;
+            var v1y = a1.y - a0.y;
+            var v1z = a1.z - a0.z;
+
+            var v2x = a2.x - a0.x;
+            var v2y = a2.y - a0.y;
+            var v2z = a2.z - a0.z;
+
+            return new Point3D(v1y * v2z - v1z * v2y,
+                v1z * v2x - v1x * v2z,
+                v1x * v2y - v1y * v2x);
+        }
+
+        function illuminate(v1, N, color, alpha) {
+            var cosu;
+
+            //console.log("v1=" + JSON.stringify(v1));
+            //console.log("N=" + JSON.stringify(N));
+
+            cosu = scalarProduct(v1, N);
+            //console.log(cosu);
+
+            if (cosu <= 0) {
+                return [0, 0, 0];
+            }
+
+            cosu = cosu / Math.sqrt(scalarProduct(v1, v1) * scalarProduct(N, N));
+            cosu = Math.exp(alpha * Math.log(cosu));
+
+            var r = color[0];
+            var g = color[1];
+            var b = color[2];
+
+            var c = Math.round(b * cosu);
+            c = c * 256 + Math.round(g * cosu);
+            c = c * 256 + Math.round(r * cosu);
+
+            //console.log("c=" + c);
+
+            return [(c) & 0xFF, (c >> 8) & 0xFF, (c >> 16) & 0xFF, alpha];
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            render();
+        }
+
+    </script>
+</head>
+<body>
+<canvas id="canvas" width="600" height="600">
+    HTML5 canvas element not supported
+</canvas>
+
+</body>
+</html>

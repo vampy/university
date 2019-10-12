@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Plane</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden
+        }
+    </style>
+</head>
+<body>
+<script src="js/three.js/three.js"></script>
+
+<script>
+    "use strict";
+
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+
+    // near & far
+    camera.position.y = -450;
+
+    // up & down
+    camera.position.z = 400;
+
+    // left & right
+    camera.rotation.x = .70;
+
+    var scene = new THREE.Scene();
+
+    var plane = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshNormalMaterial());
+
+    scene.add(plane);
+
+    renderer.render(scene, camera);
+
+    // 45 degrees =3.14159/180 * 45
+</script>
+</body>
+</html>

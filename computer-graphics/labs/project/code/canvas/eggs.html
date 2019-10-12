@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8/>
+    <title>Ellipses / Eggs</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="800"></canvas>
+
+<script>
+    var canvas = document.getElementById('canvas');
+
+    if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        drawEllipseWithBezier(ctx, 10, 10, 200, 60, 'blue');
+        drawEllipseWithBezierByCenter(ctx, 110, 110, 200, 60, '#0099ff');
+        drawEllipseWithArcAndScale(ctx, 110, 250, 100, 30, 'orange');
+        drawEllipseWithQuadraticCurve(ctx, 10, 290, 200, 60, 'green');
+        drawOval(180, 950, 150, 80)
+    }
+
+    // cx,cy - center, r - horizontal radius X
+    function drawEllipseWithArcAndScale(ctx, cx, cy, rx, ry, style) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.translate(cx - rx, cy - ry);
+        ctx.scale(rx, ry);
+        ctx.arc(1, 1, 1, 0, 2 * Math.PI, false);
+        ctx.restore();
+        ctx.save();
+        if (style) {
+            ctx.strokeStyle = style;
+        }
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawEllipseWithBezierByCenter(ctx, cx, cy, w, h, style) {
+        drawEllipseWithBezier(ctx, cx - w / 2.0, cy - h / 2.0, w, h, style);
+    }
+
+    function drawEllipseWithBezier(ctx, x, y, w, h, style) {
+        var kappa = .5522848,
+            ox = (w / 2) * kappa, // control point offset horizontal
+            oy = (h / 2) * kappa, // control point offset vertical
+            xe = x + w,           // x-end
+            ye = y + h,           // y-end
+            xm = x + w / 2,       // x-middle
+            ym = y + h / 2;       // y-middle
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x, ym);
+        ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+        ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+        ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+        ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+        if (style) {
+            ctx.strokeStyle = style;
+        }
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawEllipseWithQuadraticCurve(ctx, x, y, w, h, style) {
+
+        var kappa = .5522848,
+            ox = (w / 2) * kappa, // control point offset horizontal
+            oy = (h / 2) * kappa, // control point offset vertical
+            xe = x + w,           // x-end
+            ye = y + h,           // y-end
+            xm = x + w / 2,       // x-middle
+            ym = y + h / 2;       // y-middle
+
+        ctx.save();
+
+        ctx.beginPath();
+        ctx.moveTo(x, ym);
+
+        ctx.quadraticCurveTo(x, y, xm, y);
+        ctx.quadraticCurveTo(xe, y, xe, ym);
+        ctx.quadraticCurveTo(xe, ye, xm, ye);
+        ctx.quadraticCurveTo(x, ye, x, ym);
+
+        if (style) {
+            ctx.strokeStyle = style;
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
+    /**
+     * scale(x, y) - x, y are values of horizontal and vertical ratio
+     * e.g. x = 0.5 means the image will be reduced by 50% in the width direction
+     * If you want to create an oval that is twice as wide as high,
+     * we give the value 1 to x and to y the ratio of 0.5
+     */
+    function drawOval(x, y, radiusWidth, radiusHeight) {
+        ctx.save();
+        ctx.scale(1, radiusHeight / radiusWidth);
+
+        ctx.beginPath();
+        ctx.arc(x, y, radiusWidth, 0, 2 * Math.PI);
+        ctx.rotate(45);
+        ctx.restore();
+
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "orange";
+        ctx.stroke();
+        ctx.closePath();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Cube animate</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden
+        }
+    </style>
+</head>
+<body>
+<script src="js/three.js/three.js"></script>
+
+<script>
+    "use strict";
+    //        var nextRotation = 0, rotationSpeed = 0.01, fps = 60;
+    //
+    //        setInterval(function()
+    //        {
+    //            cube.rotation.z = nextRotation;
+    //            renderer.render(scene, camera);
+    //            nextRotation += rotationSpeed;
+    //        }, 1000 / fps);
+
+    var angularSpeed = 0.2,
+        lastTime = 0;
+
+    function animate() {
+        var time = (new Date()).getTime();
+        var timeDiff = time - lastTime;
+        var angularChange = angularSpeed * timeDiff * 2 * Math.PI / 1000;
+        cube.rotation.z -= angularChange;
+        lastTime = time;
+
+        renderer.render(scene, camera);
+
+        requestAnimationFrame(function() {
+            animate();
+        });
+    }
+
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+
+    // near & far
+    camera.position.y = -400; // pull the camera back to see the object in the middle of the scene
+
+    // up & down
+    camera.position.z = 400; // raise the camera up 200 units
+
+    // left & right
+    camera.rotation.x = 45 * (Math.PI / 180);
+
+    // everything starts at the center of the scene
+    var scene = new THREE.Scene();
+
+    // without new THREE.MeshNormalMaterial() we'll get a wireframe cube
+    var cube = new THREE.Mesh(new THREE.CubeGeometry(200, 100, 200), new THREE.MeshNormalMaterial());
+
+    // rotate the cube a certain number of degrees
+    cube.rotation.z = .5;
+
+    scene.add(cube);
+
+    animate();
+
+    // In three.js doc: Math.degToRad(degrees) and Math.radToDeg(radians)
+    // .75 = aproximately 45 degrees which is = 3.14159/180 * 45
+</script>
+</body>
+</html>

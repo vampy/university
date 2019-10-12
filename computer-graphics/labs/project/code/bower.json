@@ -1,0 +1,24 @@
+{
+  "name": "Grafica",
+  "version": "0.0.0",
+  "authors": [
+    "Daniel Butum <danibutum@gmail.com>"
+  ],
+  "keywords": [
+    "webgl",
+    "three.js"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "sprintf": "~1.0.2",
+    "three.js": "*"
+  }
+}

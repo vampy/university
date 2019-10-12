@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            background-color: bisque;
+        }
+
+        canvas {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            width: 800px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas-container" width="600" height="600">
+    This text is displayed if your browser does not support HTML5 Canvas.
+</canvas>
+
+<script>
+    var canvas = document.getElementById('canvas-container');
+
+    function draw() {
+        if (canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = 'cadetblue';
+            //ctx.fillRect(0, 0, 600, 600);
+            /*
+             Rectangles
+             (x, y) is the position on the canvas (relative to the origin) of the top-left corner of the rectangle
+
+             - fillRect(x, y, width, height) - Draws a filled rectangle.
+             - strokeRect(x, y, width, height) - Draws a rectangular outline.
+             - clearRect(x, y, width, height) - Clears the specified rectangular area, making it fully transparent.
+             - rect(x, y, width, height) Draws a rectangle whose top-left corner is specified by (x, y) with the specified width and height.
+             Adds a rectangular path to a currently open path.
+             When this method is executed, the moveTo() method is automatically called with the parameters (0,0).
+             In other words, the current pen position is automatically reset to the default coordinates.
+             */
+            /*
+             Paths
+             - beginPath()
+             Creates a new path. Once created, future drawing commands are directed into the path and used to build the path up.
+
+             - Path methods
+             Methods to set different paths for objects.
+
+             - closePath()
+             Closes the path so that future drawing commands are once again directed to the ctx.
+
+             - stroke()
+             Draws the shape by stroking its outline.
+
+             - fill()
+             Draws a solid shape by filling the path's content area.
+
+             - moveTo(x, y)
+             Moves the pen to the coordinates specified by x and y.
+             When the canvas is initialized or beginPath() is called, you typically will want to use the moveTo() function to place the starting point somewhere else
+
+             - lineTo(x, y)
+             Draws a line from the current drawing position to the position specified by x and y.
+             The starting point is dependent on previously drawn paths,
+             where the end point of the previous path is the starting point for the following, etc.
+             The starting point can also be changed by using the moveTo() method.
+
+             - arc(x, y, radius, startAngle, endAngle, anticlockwise)
+             Draws an arc which is centered at (x, y) position with radius r starting at startAngle and ending at endAngle going in the given direction by anticlockwise (defaulting to clockwise).
+             The startAngle and endAngle parameters define the start and end points of the arc in radians, along the curve of the circle. These are measured from the x axis.
+
+             Angles in the arc function are measured in radians, not degrees. To convert degrees to radians you can use the following JavaScript expression:
+             radians = (Math.PI/180)*degrees
+
+             - arcTo(x1, y1, x2, y2, radius)
+             Draws an arc with the given control points and radius, connected to the previous point by a straight line.
+
+             - quadraticCurveTo(cp1x, cp1y, x, y)
+             Draws a quadratic Bézier curve from the current pen position to the end point specified by x and y, using the control point specified by cp1x and cp1y.
+
+             - bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+             Draws a cubic Bézier curve from the current pen position to the end point specified by x and y, using the control points specified by (cp1x, cp1y) and (cp2x, cp2y).
+
+             A quadratic Bézier curve has a start and an end point and just one control point, while a cubic Bézier curve uses two control points.
+             The x and y parameters in both of these methods are the coordinates of the end point.
+             cp1x and cp1y are the coordinates of the first control point, and cp2x and cp2y are the coordinates of the second control point.
+
+             # Path2D API
+             To simplify the code and to improve performance, the Path2D object, available in recent versions of browsers,
+             lets you cache or record these drawing commands. You are able to play back your paths quickly.
+
+             - Path2D()
+             The Path2D() constructor returns a newly instantiated Path2D object, optionally with another path as an argument (creates a copy), or optionally with a string consisting of SVG path data.
+
+             - Path2D.addPath(path [, transform])
+             Adds a path to the current path with an optional transformation matrix.
+             The Path2D API also adds a way to combine paths using the addPath method. This can be useful when you want to built objects from several components
+
+             - All path methods like moveTo, rect, arc or quadraticCurveTo, etc., are available on Path2D objects.
+
+             The Canvas API also provides save() and restore(), for saving and restoring all the canvas ctx’s attributes.
+             */
+
+
+            function getPixelColorComponents(x, y) {
+                // width x height (300, 150)
+                // (2,3)
+                // (2 + 3 * 300) * 4
+                // ctx.createImageData()
+                // For any ImageData object i, i.data.length will always be equal to i.width * i.height * 4
+                var imageData = ctx.getImageData(0, 0, 300, 150);
+
+                var offset = (x + y * imageData.width) * 4;
+
+                // RGBA
+                var red = imageData.data[offset];
+                var green = imageData.data[offset + 1];
+                var blue = imageData.data[offset + 2];
+                var alpha = imageData.data[offset + 3];
+            }
+
+        }
+    }
+
+    draw();
+</script>
+</body>
+</html>
