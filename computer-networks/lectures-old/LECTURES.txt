@@ -1,0 +1,16 @@
+Lecture 1 - General introduction and the socket interface
+Lecture 2 - Data encoding and TCP/IP I/O Modes
+Lecture 3 - the Physical Layer
+Lecture 4 - the Application Layer
+Lecture 5 - The Data Link Layer
+Lecture 6 - Error Detection and Correction & Media Access Control
+Lecture 7 - The Network Layer
+Lecture 8 - The Network Layer (Cont)
+Lecture 9 - IP Routing: IP Routing Examples. (some of the examples are only presented during the lecture – and not available in the slides)
+Lecture 10 - Network Security (Security Attacks and their resolution)
+Lecture 11 - Firewalls   NO powerpoint presentations from here on (Sorry for those not present during the lectures)
+Lecture 12 - Cryptography and secure data transmission ...
+Lecture 13 - Cryptography and secure data transmission ...
+Lecture 14 - Students already stressed about the upcoming exam session (we’ll see)  J
+
+  

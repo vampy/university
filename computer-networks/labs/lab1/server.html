@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>server.c</title>
+<meta name="generator" content="C++2HTML by Jasper Bedaux" />
+<!-- To generate your own colored code visit http://www.bedaux.net/cpp2html/ -->
+<style type="text/css">
+.comment { color: #999999; font-style: italic; }
+.pre { color: #000099; }
+.string { color: #009900; }
+.char { color: #009900; }
+.float { color: #996600; }
+.int { color: #999900; }
+.bool { color: #000000; font-weight: bold; }
+.type { color: #FF6633; }
+.flow { color: #FF0000; }
+.keyword { color: #990000; }
+.operator { color: #663300; font-weight: bold; }
+</style>
+</head>
+<body>
+<pre><span class="pre">#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+</span><span class="type">
+int</span> c<span class="operator">;</span><span class="comment">
+
+// Mecanismul de time-out. Paragraful 3.
+</span><span class="type">void</span> time_out<span class="operator">(</span><span class="type">int</span> semnal<span class="operator">) {</span>
+  int32_t r<span class="operator"> = -</span><span class="int">1</span><span class="operator">;</span>
+  r<span class="operator"> =</span> htonl<span class="operator">(</span>r<span class="operator">);</span>
+  printf<span class="operator">(</span><span class="string">"Time out.\n"</span><span class="operator">);</span>
+  send<span class="operator">(</span>c<span class="operator">, &amp;</span>r<span class="operator">,</span><span class="keyword"> sizeof</span><span class="operator">(</span>int32_t<span class="operator">),</span><span class="int"> 0</span><span class="operator">);</span>
+  close<span class="operator">(</span>c<span class="operator">);</span><span class="comment"> // desi nu am primit nimic de la client in 10 secunde, inchidem civilizat conexiunea cu acesta
+</span>  exit<span class="operator">(</span><span class="int">1</span><span class="operator">);
+}</span><span class="type">
+
+void</span> tratare<span class="operator">() {</span><span class="type">
+  int</span> cod<span class="operator">;</span>
+  int32_t r<span class="operator">;</span>
+  uint8_t b<span class="operator">;</span><span class="comment">
+  // Observatie: Deoarece dimensiunea tipului int difera de la platforma la platforma,
+  // (spre exemplu, in Borland C in DOS e reprezentat pe 2 octeti, iar in C sub Linux pe
+  // 4 octeti) este necesara utilizarea unor tipuri intregi standard. A se vedea
+  // stdint.h.
+</span><span class="keyword">  struct</span> sockaddr_in server<span class="operator">;</span><span class="flow">
+
+  if</span><span class="operator"> (</span>c<span class="operator"> &lt;</span><span class="int"> 0</span><span class="operator">) {</span>
+    fprintf<span class="operator">(</span>stderr<span class="operator">,</span><span class="string"> "Eroare la stabilirea conexiunii cu clientul.\n"</span><span class="operator">);</span>
+    exit<span class="operator">(</span><span class="int">1</span><span class="operator">);
+  }</span><span class="flow">
+  else</span>
+    printf<span class="operator">(</span><span class="string">"Un nou client s-a conectat cu succes.\n"</span><span class="operator">);</span>
+
+  signal<span class="operator">(</span>SIGALRM<span class="operator">,</span> time_out<span class="operator">);</span>
+  alarm<span class="operator">(</span><span class="int">10</span><span class="operator">);</span>
+
+  r<span class="operator"> =</span><span class="int"> 0</span><span class="operator">;</span><span class="comment"> // rezultatul, numarul de caractere spatii primite de la client
+</span><span class="flow">  do</span><span class="operator"> {</span>
+    cod<span class="operator"> =</span> recv<span class="operator">(</span>c<span class="operator">, &amp;</span>b<span class="operator">,</span><span class="int"> 1</span><span class="operator">,</span><span class="int"> 0</span><span class="operator">);</span>
+    printf<span class="operator">(</span><span class="string">"Am primit %d caractere.\n"</span><span class="operator">,</span> cod<span class="operator">);</span><span class="flow">
+
+    if</span><span class="operator"> (</span>cod<span class="operator"> ==</span><span class="int"> 1</span><span class="operator">)</span><span class="comment"> // citire cu succes a unui caracter
+</span>      alarm<span class="operator">(</span><span class="int">10</span><span class="operator">);</span><span class="comment">  // resetam timerul si asteptam din nou 10 secunde urmatorul caracter
+</span><span class="flow">      
+    if</span><span class="operator"> (</span>cod<span class="operator"> !=</span><span class="int"> 1</span><span class="operator">) {</span>
+      r<span class="operator"> = -</span><span class="int">1</span><span class="operator">;</span><span class="flow">
+      break</span><span class="operator">;
+    }</span><span class="flow">
+      
+    if</span><span class="operator"> (</span>b<span class="operator"> ==</span><span class="char"> ' '</span><span class="operator">) {</span><span class="comment">
+      // Paragraful 5 din protocolul
+</span><span class="flow">      if</span><span class="operator"> (</span>r<span class="operator"> ==</span> INT32_MAX<span class="operator">) {</span><span class="comment"> // intregul maxim pozitiv pe 4 octetii cu semn sau 0x7FFFFFFF (a se vedea stdint.h)
+</span>        r<span class="operator"> = -</span><span class="int">2</span><span class="operator">;</span><span class="flow">
+        break</span><span class="operator">;
+      }</span>
+      r<span class="operator">++;
+    }
+  }</span><span class="flow">
+  while</span><span class="operator"> (</span>b<span class="operator"> !=</span><span class="int"> 0</span><span class="operator">);</span><span class="comment"> // sirul de caractere de la client se considera terminat la intalnirea caracterului 0 (NULL, '\0') 
+  // Paragraful 2 - terminam citirea sirului de la client la primirea caracterului NULL
+</span>  
+  alarm<span class="operator">(</span><span class="int">0</span><span class="operator">);</span><span class="comment"> // oprim timerul
+</span>
+  r<span class="operator"> =</span> htonl<span class="operator">(</span>r<span class="operator">);</span>
+  send<span class="operator">(</span>c<span class="operator">, &amp;</span>r<span class="operator">,</span><span class="keyword"> sizeof</span><span class="operator">(</span>int32_t<span class="operator">),</span><span class="int"> 0</span><span class="operator">);</span>
+  r<span class="operator"> =</span> ntohl<span class="operator">(</span>r<span class="operator">);</span>
+    
+  close<span class="operator">(</span>c<span class="operator">);</span><span class="flow">
+
+  if</span><span class="operator"> (</span>r<span class="operator"> &gt;=</span><span class="int"> 0</span><span class="operator">)</span>
+    printf<span class="operator">(</span><span class="string">"Am inchis cu succes conexiunea cu un client. I-am trimis %d spatii.\n"</span><span class="operator">,</span> r<span class="operator">);</span><span class="flow">
+  else</span><span class="operator"> {</span>
+    printf<span class="operator">(</span><span class="string">"Am inchis cu eroare conexiunea cu un client. Cod de eroare %d.\n"</span><span class="operator">,</span> r<span class="operator">);</span>
+    exit<span class="operator">(</span><span class="int">1</span><span class="operator">);
+  }</span>
+    
+  exit<span class="operator">(</span><span class="int">0</span><span class="operator">);</span><span class="comment">
+  // Terminam procesul fiu - foarte important!!! altfel numarul de procese creste exponential.
+  // Fiul se termina dupa ce deserveste clientul.
+</span><span class="operator">}</span><span class="type">
+
+             
+int</span><span class="keyword"> main</span><span class="operator">() {</span><span class="type">
+  int</span> s<span class="operator">,</span> l<span class="operator">,</span> cod<span class="operator">;</span><span class="keyword">
+  struct</span> sockaddr_in client<span class="operator">,</span> server<span class="operator">;</span>  
+  
+  s<span class="operator"> =</span> socket<span class="operator">(</span>PF_INET<span class="operator">,</span> SOCK_STREAM<span class="operator">,</span><span class="int"> 0</span><span class="operator">);</span><span class="flow">
+  if</span><span class="operator"> (</span>s<span class="operator"> &lt;</span><span class="int"> 0</span><span class="operator">) {</span>
+    fprintf<span class="operator">(</span>stderr<span class="operator">,</span><span class="string"> "Eroare la creare socket server.\n"</span><span class="operator">);</span><span class="flow">
+    return</span><span class="int"> 1</span><span class="operator">;
+  }</span>
+  
+  memset<span class="operator">(&amp;</span>server<span class="operator">,</span><span class="int"> 0</span><span class="operator">,</span><span class="keyword"> sizeof</span><span class="operator">(</span><span class="keyword">struct</span> sockaddr_in<span class="operator">));</span>
+  server<span class="operator">.</span>sin_family<span class="operator"> =</span> AF_INET<span class="operator">;</span>
+  server<span class="operator">.</span>sin_port<span class="operator"> =</span> htons<span class="operator">(</span><span class="int">4321</span><span class="operator">);</span>
+  server<span class="operator">.</span>sin_addr<span class="operator">.</span>s_addr<span class="operator"> =</span> INADDR_ANY<span class="operator">;</span>
+  
+  cod<span class="operator"> =</span> bind<span class="operator">(</span>s<span class="operator">, (</span><span class="keyword">struct</span> sockaddr<span class="operator"> *) &amp;</span>server<span class="operator">,</span><span class="keyword"> sizeof</span><span class="operator">(</span><span class="keyword">struct</span> sockaddr_in<span class="operator">));</span><span class="flow">
+  if</span><span class="operator"> (</span>cod<span class="operator"> &lt;</span><span class="int"> 0</span><span class="operator">) {</span>
+    fprintf<span class="operator">(</span>stderr<span class="operator">,</span><span class="string"> "Eroare la bind. Portul este deja folosit.\n"</span><span class="operator">);</span><span class="flow">
+    return</span><span class="int"> 1</span><span class="operator">;
+  }</span>
+  
+  listen<span class="operator">(</span>s<span class="operator">,</span><span class="int"> 5</span><span class="operator">);</span><span class="flow">
+  
+  while</span><span class="operator"> (</span><span class="int">1</span><span class="operator">) {</span><span class="comment"> // deserveste oricati clienti
+</span>
+    memset<span class="operator">(&amp;</span>client<span class="operator">,</span><span class="int"> 0</span><span class="operator">,</span><span class="keyword"> sizeof</span><span class="operator">(</span>client<span class="operator">));</span>
+    l<span class="operator"> =</span><span class="keyword"> sizeof</span><span class="operator">(</span>client<span class="operator">);</span>
+
+    printf<span class="operator">(</span><span class="string">"Astept sa se conecteze un client.\n"</span><span class="operator">);</span>
+    c<span class="operator"> =</span> accept<span class="operator">(</span>s<span class="operator">, (</span><span class="keyword">struct</span> sockaddr<span class="operator"> *) &amp;</span>client<span class="operator">, &amp;</span>l<span class="operator">);</span>
+    printf<span class="operator">(</span><span class="string">"S-a conectat clientul cu adresa %s si portul %d.\n"</span><span class="operator">,</span> inet_ntoa<span class="operator">(</span>client<span class="operator">.</span>sin_addr<span class="operator">),</span> ntohs<span class="operator">(</span>client<span class="operator">.</span>sin_port<span class="operator">));</span><span class="flow">
+    
+    if</span><span class="operator"> (</span>fork<span class="operator">() ==</span><span class="int"> 0</span><span class="operator">) {</span><span class="comment"> // server concurent, conexiunea va fi tratata de catre un proces fiu separat
+</span>      tratare<span class="operator">();
+    }</span><span class="comment">
+    // parintele continua bucla while asteptand un nou client
+</span><span class="operator">  }
+  
+}</span>
+</pre>
+</body>
+</html>

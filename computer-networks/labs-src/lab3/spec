@@ -1,0 +1,73 @@
+Lab 3
+
+Write an UDP broadcast application that serves as client and server in the same time. The application is started with the network broadcast address <NBCAST> as argument in the command line.
+
+    Upon launching the application listens on UDP port 7777.
+    Every 3 seconds the application sends a UDP broadcast message to NBCAST port 7777 with the format: TIMEQUERY\0 (string)
+    Whenever the application receives a TIMEQUERY demand it answers to the source IP:port with a string message: TIME HH:MM:SS\0 (current time) using unicast.
+    Every 10 seconds the application sends a UDP broadcast message to NBCAST port 7777 with the format:  DATEQUERY\0 (string)
+    Whenever the application receives a DATEQUERY demand it answers to the source IP:port with a string message: DATE DD:MM:YYYY\0 (current date) using unicast.
+    The application will keep a list of peers (that answer to broadcast – IP:portno) and update the information anytime a unicast message is received upon a broadcast.
+    When an entry in a list does not have any answer for 3 consecutive broadcasts it will be removed from the list.
+    The list will be displayed (ip,date, time) on the screen upon each update (using a screen positioning api like conio or by erasing the screen before each update).
+    Every malformed request/response received will be counted and displayed at the end of a screen update. You will have a list of malformed messages displayed with their source IP address. The list should be limited in size and implemented as a queue. Recent messages are add in the head and old messages are moving towards the tail.
+
+ 
+
+Note: Suggestion: Implement the application on Windows, or run it on your laptop in order to be able (all of you simultaneously) to listen on port 7777. Your application should strictly follow the protocol and be able to interact with all applications written by your colleagues.
+
+Note: On Windows in order to have timer like events (periodical events handled) use timeSetEvent or a similar function and set a different callback function for each type of event.
+
+Note: Sending broadcast UDP requires a setsockopt(sock,SOL_SOCKET,SO_BROADCAST,&broadcast,sizeof(broadcast) as in example.
+
+Receiving broadcast usually doesn’t require any additional effort compared to a normal UDP application. If not able to receive broadcast on windows try to setsockopt  on the receiving socket as well.
+
+Note (Malformed traffic): To generate malformed traffic one could use the nc (network cat) command on a linux like system as it follows:
+
+nc -4 –u <dstip> <dstport>
+
+ and type in anything until CTRD+D is pressed ! Anything typed in will be sent to the the remote IP and port using the specified protocol (u=udp)
+
+or
+
+<command> | nc -4 –u 172.30.5.16 7777
+
+ 
+
+ 
+
+ 
+
+Exemplu afisare rezultate:
+
+172.30.0.4:7777                                  TIME 16:51:43   DATE 08:04:2014
+
+172.30.118.185:7777                         TIME 16:51:47   DATE 08:04:2014
+
+172.30.116.220:7777                         TIME 16:51:44   DATE 08:04:2014
+
+172.30.112.50:7777                           TIME 16:51:42   DATE 08:04:2014
+
+ 
+
+Malformed Data:
+
+172.30.118.185:7777 - HELLO
+
+172.30.118.185:7777 - HELLO
+
+172.30.118.185:7777 - HELLO
+
+172.30.118.185:7777 - HELLO
+
+172.30.118.185:7777 - HELLO
+
+172.30.116.220:7777 - asdasdDATE 08:04:201
+
+172.30.116.220:7777 - asdasdTIME 16:30:50
+
+172.30.116.220:7777 - asdasdTIME 16:30:52
+
+172.30.116.220:7777 - asdasdTIME 16:30:56
+
+172.30.116.220:7777 - asdasdTIME 16:30:59

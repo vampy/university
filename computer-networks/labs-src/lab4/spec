@@ -1,0 +1,234 @@
+Lab 4
+
+The same problem as for Lab2  (file send over UDP). Only that the server sends as the first packet the length of the file in bytes and then the content of the file in the following packets;
+
+The implementation is done using reliable UDP – which means you need to implement some of the control mechanisms of TCP using UDP. You need to keep a state on each side of a connection.  The state structure contains for each pairs of (IP:port) to which your application is talking to:
+
+1.    The SequenceNo (own);
+
+2.    The expectedSequenceNo received from the remote party;
+
+3.    A integer number representing the number of retries your application has performed for a given send (see bellow MAXRETRY);
+
+4.    A receiveQueue (use a queue here) with a  size of 5xMAXPKTSIZE (defined in the application – default 1024)  bytes for holding data not read by the user;
+
+ 
+
+Using this state the application has to handle packet loss and duplication. The information your protocol exchanges in order to ensure reliability is presented bellow.
+
+The structure for the header (inside the UDP datagram) is the following:
+
+HEADER:
+
+SequenceNo
+
+(uint32)
+
+PayloadLen
+
+ (uint16)
+    
+
+AckFlag
+
+(uint16)
+
+val=0/1
+
+ACK value (uint32)
+
+Payload Data
+
+ 
+
+Where:
+
+SequenceNo - is the packet sequence index starting at 0 for the first data packet; This index is incremented for all packets transporting effective payload. For a packet not transporting any payload the SequenceNo is not incremented (for packets containing ACKs only for example)
+
+PayloadLen   is the payload length in bytes of the Payload Data section – this is 0 for an ACK only packet;
+
+AckFlag -  indicates packet contains an ACK confirming a previous data packet. ACKs can be piggybacked into the data packets this way;
+
+ACK – index of the next expected packet(SequenceNo) – i.e. ACK-1 bytes have been received from the sender’s complete data stream; Note that ACKs wrap around at 232-1  value – you need to handle this case;
+
+Payload Data  the actual data content;
+
+ 
+
+Your implementation should handle maximum payload sizes of MAXPKTSIZE bytes; Situations of sending payload sizes larger that MAXPKTSIZE are handled by splitting the send operation in multiple sends with payloads having a maximum size of MAXPKTSIZE;
+
+ 
+
+You should implement a reliableSend and reliableRead operations as following:
+
+ 
+
+int reliableSend(int sockfd, (void *)buffer, size_t bufflen, const struct sockaddr *dest_addr, size_t destlen)
+
+    The call is blocking and only returns when either the entire buffer content has been sent or an irrecoverable error occurred.
+    The call returns either the number of bytes successfully sent or -1 in case of error;
+    A packet is sent using the packetSend (implemented by you) call. The packet header is filled in with the appropriate values;
+
+1.    SequenceNo is set to 0 for the first packet exchanged with IP:port and incremented for each packetSend call that transports some payload.
+
+2.    PayloadLen is set to the length of payload in bytes.
+
+3.    AckFlag =0 for packetSend calls not acknowledging previously received data; AckFlag = 1 only when packetSend sends back and acknowledge in the current packet;
+
+4.    Ack is set (only when AckFlag=1) to the value of the expectedSequenceNo+1 for IP:port;
+
+5.    Payload data set with user data up to MAXPKTSIZE bytes; Buffer sizes larger than MAXPKTSIZE bytes are split into multiple calls packetSend - same as sendto but with payload sizes of maximum MAXPKTSIZE bytes (handled in the same reliableSend call);
+
+§  For each packetSend call with PayloadLen > 0 reliableSend waits (you can use select) TIMEOUT seconds (a predefined constants throughout your application) for an ACK:
+
+1.    If no packet with an ACK is received from the remote party during the TIMEOUT period:
+
+a.    it is assumed that the sent packet was lost. In this case the packetSend call is retried using the same TIMEOUT. 
+
+b.    When MAXRETRY (predefined at the application level) retries is reached, the reliableSend  call fails and -1 is returned to the user;
+
+§  If an ACK packet is received:
+
+1.    If the received ACK=SequenceNo+1
+
+a.    SequenceNo = SequenceNo+1
+
+b.    If necessary (payload was split due to size) reliableSend passes to the next packetSend otherwise return to the user with bufflen bytes sent;
+
+2.    If the received ACK = SequenceNo (receive party queue is full ?) then
+
+a.    uSleep RETRYTIMEOUT seconds (default 500 msecs);
+
+b.    repeat the same packet again with packetSend;
+
+c.    do not take in account MAXRETRY retries while remote party is returning an ACK = SequenceNo (remote party is there and alive – just with full queue probably)
+
+3.    If the received ACK > SequenceNo+1 (error remote party out of sync)
+
+a.    Sleep RETRYTIMEOUT
+
+b.    Repeat the same packet again with packetSend
+
+c.    Limit to MAXRETRY retries and the return error to the user;
+
+§  If a data packet arrives while waiting for an ACK:
+
+1.    if the received SequenceNo=expectedSequenceNo and there is available space in the receiveQueue:
+
+a.    The payload is added to the receiveQueue
+
+b.    expectedSequenceNo=expectedSequenceNo+1
+
+c.    send as ACK= expectedSequenceNo back;
+
+2.    If the receiveQueue is full
+
+a.    Send ACK=expectedSequenceNo back;
+
+3.    Then reliableSend resumes waiting for an ACK for the remaining period of time from TIMEOUT (select updates the time structure with the remaining/elapsed time).
+
+ 
+
+ 
+
+int reliableRecv(int sockfd, (void *buffer, size_t bufflen, struct sockaddr *src_addr, size_t *srclen);
+
+§  The call is blocking until data is available to deliver to the user;
+
+§  The call returns either the number of successfully read bytes or -1 in case of error;
+
+§  The call checks the receiveQueue first and copies MIN( len(receiveQueue), bufflen) bytes (if any available) into the supplied buffer. In this case no recvfrom call is issued;
+
+§  If the receiveQueue is empty a packetRecv call is issued and the reliableRecv blocks awaiting for data; Upon successful return from packetRecv:
+
+1.    If received SequenceNo  = expectedSequenceNo
+
+a.    the data is copied to the receiveQueue
+
+b.    expectedSequenceNo = expectedSequenceNo+1
+
+a.    A packet with AckFlag=1, ACK=expectedSequenceNo and PayloadLen=0 is sent back using packetSend;
+
+b.    MIN( len(receiveQueue), bufflen) bytes from receiveQueue are copied into buffer and the call returns to the user filling the appropriate input call params;
+
+2.    If received SequenceNo < expectedSequenceNo
+
+a.    send ACK=expectedSequenceNo
+
+b.    drop the packet
+
+3.    If received SequenceNo > expectedSequenceNo
+
+a.    Send ACK=expectedSequenceNo
+
+b.    drop the packet
+
+ 
+
+NOTICE:
+
+1.    All comparisons with SequenceNo and ACK should take in account the wrap around at 232-1;
+
+2.    implement reliableSend and reliableRecv  and their helper functions in a common source file used by both client and server;
+
+3.    packetSend and packetRecv – take a buffer with the header filled in,  with the size of the buffer already confined at the proper MAXPKTSIZE+sizeof(HEADER) and call sendto, respectively recvfrom;
+
+4.    You need to simulate both data packet and ACK packet loss. For this you can use a  discrete random number generator (values 0 and 1) that indicates if the actual sendto inside packetSend/packetRecv call is performed or not according to the 0 or 1 values generated (function provided bellow).
+
+ 
+
+QUESTIONS:
+
+1.    Has  this algorithm any flaws (provided it is used with UDP) ?
+
+2.    If you consider it has – what are those flaws ?
+
+ 
+
+The discrete error generator might look like the following. The function returns:
+
+·         Only 1 when called with err_ratio=0 and israndom=0
+
+·         Random 0 and 1 when called with israndom=1 (err_ration doesn’t matter here)
+
+·         One 0 every err_ratio calls when called with err_ratio>0 and israndom=0
+
+ 
+
+unsigned char generateError(int err_ratio, unsigned char israndom) {
+
+   static int count =0;
+
+   //using pure random 0 generation here. err_ratio doesn't count
+
+   if (israndom) {
+
+     if (count==0) srandom( time(NULL) );
+
+     count++;
+
+     return random() % 2;
+
+   }
+
+ 
+
+   int result;
+
+   // constant 1 only if err_ratio=0 and israndom=false
+
+   if (err_ratio == 0 )
+
+     result= 1;
+
+   else
+
+     // generate 0 with a err_ratio percentage
+
+     result = count % err_ratio?1:0;
+
+   count++;
+
+   return result;
+
+}

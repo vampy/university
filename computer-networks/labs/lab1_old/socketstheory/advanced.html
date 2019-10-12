@@ -1,0 +1,1344 @@
+<HTML
+><HEAD
+><TITLE
+>Slightly Advanced Techniques</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.70
+"><LINK
+REL="HOME"
+TITLE="Beej's Guide to Network Programming"
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"><LINK
+REL="PREVIOUS"
+TITLE="Client-Server Background"
+HREF="clientserver.html"><LINK
+REL="NEXT"
+TITLE="More References"
+HREF="reference.html"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=utf-8"></HEAD
+><BODY
+CLASS="sect1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Beej's Guide to Network Programming</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="clientserver.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="reference.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="sect1"
+><H1
+CLASS="sect1"
+><A
+NAME="advanced"
+>6. Slightly Advanced Techniques</A
+></H1
+><P
+>These aren't <EM
+>really</EM
+> advanced, but they're
+getting out of the more basic levels we've already covered.  In fact, if
+you've gotten this far, you should consider yourself fairly accomplished
+in the basics of Unix network programming!  Congratulations!</P
+><P
+>So here we go into the brave new world of some of the more
+esoteric things you might want to learn about sockets.  Have at
+it!</P
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="blocking"
+>6.1. Blocking</A
+></H2
+><P
+>Blocking.  You've heard about it--now what the heck is it?  In a
+nutshell, "block" is techie jargon for "sleep".  You probably noticed
+that when you run <B
+CLASS="command"
+>listener</B
+>, above, it just sits there
+until a packet arrives.  What happened is that it called
+<TT
+CLASS="function"
+>recvfrom()</TT
+>, there was no data, and so
+<TT
+CLASS="function"
+>recvfrom()</TT
+> is said to "block" (that is, sleep
+there) until some data arrives.</P
+><P
+>Lots of functions block.  <TT
+CLASS="function"
+>accept()</TT
+> blocks.
+All the <TT
+CLASS="function"
+>recv()</TT
+> functions block.  The reason they
+can do this is because they're allowed to.  When you first create the
+socket descriptor with <TT
+CLASS="function"
+>socket()</TT
+>, the kernel sets it
+to blocking.  If you don't want a socket to be blocking, you have to
+make a call to <TT
+CLASS="function"
+>fcntl()</TT
+>:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    #include &#60;unistd.h&#62;
+    #include &#60;fcntl.h&#62;
+    .
+    .
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    fcntl(sockfd, F_SETFL, O_NONBLOCK);
+    .
+    . 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>By setting a socket to non-blocking, you can effectively "poll"
+the socket for information.  If you try to read from a non-blocking
+socket and there's no data there, it's not allowed to block--it will
+return <TT
+CLASS="constant"
+>-1</TT
+> and <TT
+CLASS="parameter"
+><I
+>errno</I
+></TT
+> will be
+set to <TT
+CLASS="constant"
+>EWOULDBLOCK</TT
+>.</P
+><P
+>Generally speaking, however, this type of polling is a bad idea.
+If you put your program in a busy-wait looking for data on the socket,
+you'll suck up CPU time like it was going out of style.  A more elegant
+solution for checking to see if there's data waiting to be read comes in
+the following section on <TT
+CLASS="function"
+>select()</TT
+>.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="select"
+>6.2. <TT
+CLASS="function"
+>select()</TT
+>--Synchronous I/O Multiplexing</A
+></H2
+><P
+>This function is somewhat strange, but it's very useful.  Take the
+following situation: you are a server and you want to listen for
+incoming connections as well as keep reading from the connections you
+already have.</P
+><P
+>No problem, you say, just an <TT
+CLASS="function"
+>accept()</TT
+> and a
+couple of <TT
+CLASS="function"
+>recv()</TT
+>s.  Not so fast, buster!  What if
+you're blocking on an <TT
+CLASS="function"
+>accept()</TT
+> call?  How are you
+going to <TT
+CLASS="function"
+>recv()</TT
+> data at the same time?  "Use
+non-blocking sockets!"  No way!  You don't want to be a CPU hog.  What,
+then?</P
+><P
+><TT
+CLASS="function"
+>select()</TT
+> gives you the power to monitor
+several sockets at the same time.  It'll tell you which ones are ready
+for reading, which are ready for writing, and which sockets have raised
+exceptions, if you really want to know that.</P
+><P
+>Without any further ado, I'll offer the synopsis of
+<TT
+CLASS="function"
+>select()</TT
+>:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;       #include &#60;sys/time.h&#62;
+       #include &#60;sys/types.h&#62;
+       #include &#60;unistd.h&#62;
+
+       int select(int numfds, fd_set *readfds, fd_set *writefds,
+                  fd_set *exceptfds, struct timeval *timeout); 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>The function monitors "sets" of file descriptors; in particular
+<TT
+CLASS="parameter"
+><I
+>readfds</I
+></TT
+>, <TT
+CLASS="parameter"
+><I
+>writefds</I
+></TT
+>, and
+<TT
+CLASS="parameter"
+><I
+>exceptfds</I
+></TT
+>.  If you want to see if you can read
+from standard input and some socket descriptor,
+<TT
+CLASS="parameter"
+><I
+>sockfd</I
+></TT
+>, just add the file descriptors
+<TT
+CLASS="constant"
+>0</TT
+> and <TT
+CLASS="parameter"
+><I
+>sockfd</I
+></TT
+> to the set
+<TT
+CLASS="parameter"
+><I
+>readfds</I
+></TT
+>.  The parameter
+<TT
+CLASS="parameter"
+><I
+>numfds</I
+></TT
+> should be set to the values of the highest
+file descriptor plus one.  In this example, it should be set to
+<TT
+CLASS="parameter"
+><I
+>sockfd+1</I
+></TT
+>, since it is assuredly higher than
+standard input (<TT
+CLASS="constant"
+>0</TT
+>).</P
+><P
+>When <TT
+CLASS="function"
+>select()</TT
+> returns,
+<TT
+CLASS="parameter"
+><I
+>readfds</I
+></TT
+> will be modified to reflect which of the
+file descriptors you selected which is ready for reading.  You can test
+them with the macro <TT
+CLASS="function"
+>FD_ISSET()</TT
+>, below.</P
+><P
+>Before progressing much further, I'll talk about how to manipulate
+these sets.  Each set is of the type <TT
+CLASS="type"
+>fd_set</TT
+>.  The following
+macros operate on this type:</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="function"
+>FD_ZERO(fd_set *set)</TT
+> -- clears a
+file descriptor set</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>FD_SET(int fd, fd_set *set)</TT
+> -- adds
+<TT
+CLASS="parameter"
+><I
+>fd</I
+></TT
+> to the set</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>FD_CLR(int fd, fd_set *set)</TT
+> --
+removes <TT
+CLASS="parameter"
+><I
+>fd</I
+></TT
+> from the set</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>FD_ISSET(int fd, fd_set *set)</TT
+> --
+tests to see if <TT
+CLASS="parameter"
+><I
+>fd</I
+></TT
+> is in the
+set</P
+></LI
+></UL
+><P
+>Finally, what is this weirded out <TT
+CLASS="type"
+>struct timeval</TT
+>?
+Well, sometimes you don't want to wait forever for someone to send you
+some data.  Maybe every 96 seconds you want to print "Still Going..." to
+the terminal even though nothing has happened.  This time structure
+allows you to specify a timeout period.  If the time is exceeded and
+<TT
+CLASS="function"
+>select()</TT
+> still hasn't found any ready file
+descriptors, it'll return so you can continue processing.</P
+><P
+>The <TT
+CLASS="type"
+>struct timeval</TT
+> has the follow fields:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    struct timeval {
+        int tv_sec;     // seconds
+        int tv_usec;    // microseconds
+    }; 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Just set <TT
+CLASS="parameter"
+><I
+>tv_sec</I
+></TT
+> to the number of seconds to
+wait, and set <TT
+CLASS="parameter"
+><I
+>tv_usec</I
+></TT
+> to the number of
+microseconds to wait.  Yes, that's <EM
+>micro</EM
+>seconds,
+not milliseconds.  There are 1,000 microseconds in a millisecond, and
+1,000 milliseconds in a second.  Thus, there are 1,000,000 microseconds
+in a second.  Why is it "usec"?  The "u" is supposed to look like the
+Greek letter μ (Mu) that we use for "micro".  Also, when the function
+returns, <TT
+CLASS="parameter"
+><I
+>timeout</I
+></TT
+> <EM
+>might</EM
+> be
+updated to show the time still remaining.  This depends on what flavor
+of Unix you're running.</P
+><P
+>Yay!  We have a microsecond resolution timer!  Well, don't count
+on it.  Standard Unix timeslice is around 100 milliseconds, so you might
+have to wait that long no matter how small you set your <TT
+CLASS="type"
+>struct
+timeval</TT
+>.</P
+><P
+>Other things of interest:  If you set the fields in your
+<TT
+CLASS="type"
+>struct timeval</TT
+> to <TT
+CLASS="constant"
+>0</TT
+>,
+<TT
+CLASS="function"
+>select()</TT
+> will timeout immediately, effectively
+polling all the file descriptors in your sets.  If you set the
+parameter <TT
+CLASS="parameter"
+><I
+>timeout</I
+></TT
+> to NULL, it will never timeout,
+and will wait until the first file descriptor is ready.  Finally, if you
+don't care about waiting for a certain set, you can just set it to NULL
+in the call to <TT
+CLASS="function"
+>select()</TT
+>.</P
+><P
+><A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/examples/select.c"
+TARGET="_top"
+>The following code snippet</A
+> waits 2.5 seconds for
+something to appear on standard input:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    /*
+    ** select.c -- a select() demo
+    */
+
+    #include &#60;stdio.h&#62;
+    #include &#60;sys/time.h&#62;
+    #include &#60;sys/types.h&#62;
+    #include &#60;unistd.h&#62;
+
+    #define STDIN 0  // file descriptor for standard input
+
+    int main(void)
+    {
+        struct timeval tv;
+        fd_set readfds;
+
+        tv.tv_sec = 2;
+        tv.tv_usec = 500000;
+
+        FD_ZERO(&#38;readfds);
+        FD_SET(STDIN, &#38;readfds);
+
+        // don't care about writefds and exceptfds:
+        select(STDIN+1, &#38;readfds, NULL, NULL, &#38;tv);
+
+        if (FD_ISSET(STDIN, &#38;readfds))
+            printf("A key was pressed!\n");
+        else
+            printf("Timed out.\n");
+
+        return 0;
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>If you're on a line buffered terminal, the key you hit should be
+RETURN or it will time out anyway.</P
+><P
+>Now, some of you might think this is a great way to wait for data
+on a datagram socket--and you are right: it <EM
+>might</EM
+>
+be.  Some Unices can use select in this manner, and some can't.  You
+should see what your local man page says on the matter if you want to
+attempt it.</P
+><P
+>Some Unices update the time in your <TT
+CLASS="type"
+>struct timeval</TT
+> to
+reflect the amount of time still remaining before a timeout.  But others
+do not.  Don't rely on that occurring if you want to be portable.  (Use
+<TT
+CLASS="function"
+>gettimeofday()</TT
+> if you need to track time
+elapsed.  It's a bummer, I know, but that's the way it is.)</P
+><P
+>What happens if a socket in the read set closes the connection?
+Well, in that case, <TT
+CLASS="function"
+>select()</TT
+> returns with that
+socket descriptor set as "ready to read".  When you actually do
+<TT
+CLASS="function"
+>recv()</TT
+> from it, <TT
+CLASS="function"
+>recv()</TT
+> will
+return <TT
+CLASS="constant"
+>0</TT
+>.  That's how you know the client has
+closed the connection.</P
+><P
+>One more note of interest about <TT
+CLASS="function"
+>select()</TT
+>: if
+you have a socket that is <TT
+CLASS="function"
+>listen()</TT
+>ing, you can
+check to see if there is a new connection by putting that socket's file
+descriptor in the <TT
+CLASS="parameter"
+><I
+>readfds</I
+></TT
+> set.</P
+><P
+>And that, my friends, is a quick overview of the almighty
+<TT
+CLASS="function"
+>select()</TT
+> function.</P
+><P
+>But, by popular demand, here is an in-depth example.
+Unfortunately, the difference between the dirt-simple example, above, and
+this one here is significant.  But have a look, then read the
+description that follows it.</P
+><P
+><A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/examples/selectserver.c"
+TARGET="_top"
+>This program</A
+> acts
+like a simple multi-user chat server.  Start it running in one window,
+then <B
+CLASS="command"
+>telnet</B
+> to it ("<B
+CLASS="command"
+>telnet hostname
+9034</B
+>") from multiple other windows.  When you type something
+in one <B
+CLASS="command"
+>telnet</B
+> session, it should appear in all the
+others.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    /*
+    ** selectserver.c -- a cheezy multiperson chat server
+    */
+
+    #include &#60;stdio.h&#62;
+    #include &#60;stdlib.h&#62;
+    #include &#60;string.h&#62;
+    #include &#60;unistd.h&#62;
+    #include &#60;sys/types.h&#62;
+    #include &#60;sys/socket.h&#62;
+    #include &#60;netinet/in.h&#62;
+    #include &#60;arpa/inet.h&#62;
+
+    #define PORT 9034   // port we're listening on
+
+    int main(void)
+    {
+        fd_set master;   // master file descriptor list
+        fd_set read_fds; // temp file descriptor list for select()
+        struct sockaddr_in myaddr;     // server address
+        struct sockaddr_in remoteaddr; // client address
+        int fdmax;        // maximum file descriptor number
+        int listener;     // listening socket descriptor
+        int newfd;        // newly accept()ed socket descriptor
+        char buf[256];    // buffer for client data
+        int nbytes;
+        int yes=1;        // for setsockopt() SO_REUSEADDR, below
+        int addrlen;
+        int i, j;
+
+        FD_ZERO(&#38;master);    // clear the master and temp sets
+        FD_ZERO(&#38;read_fds);
+
+        // get the listener
+        if ((listener = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+            perror("socket");
+            exit(1);
+        }
+
+        // lose the pesky "address already in use" error message
+        if (setsockopt(listener, SOL_SOCKET, SO_REUSEADDR, &#38;yes,
+                                                            sizeof(int)) == -1) {
+            perror("setsockopt");
+            exit(1);
+        }
+
+        // bind
+        myaddr.sin_family = AF_INET;
+        myaddr.sin_addr.s_addr = INADDR_ANY;
+        myaddr.sin_port = htons(PORT);
+        memset(&#38;(myaddr.sin_zero), '\0', 8);
+        if (bind(listener, (struct sockaddr *)&#38;myaddr, sizeof(myaddr)) == -1) {
+            perror("bind");
+            exit(1);
+        }
+
+        // listen
+        if (listen(listener, 10) == -1) {
+            perror("listen");
+            exit(1);
+        }
+
+        // add the listener to the master set
+        FD_SET(listener, &#38;master);
+
+        // keep track of the biggest file descriptor
+        fdmax = listener; // so far, it's this one
+
+        // main loop
+        for(;;) {
+            read_fds = master; // copy it
+            if (select(fdmax+1, &#38;read_fds, NULL, NULL, NULL) == -1) {
+                perror("select");
+                exit(1);
+            }
+
+            // run through the existing connections looking for data to read
+            for(i = 0; i &#60;= fdmax; i++) {
+                if (FD_ISSET(i, &#38;read_fds)) { // we got one!!
+                    if (i == listener) {
+                        // handle new connections
+                        addrlen = sizeof(remoteaddr);
+                        if ((newfd = accept(listener, (struct sockaddr *)&#38;remoteaddr,
+                                                                 &#38;addrlen)) == -1) { 
+                            perror("accept");
+                        } else {
+                            FD_SET(newfd, &#38;master); // add to master set
+                            if (newfd &#62; fdmax) {    // keep track of the maximum
+                                fdmax = newfd;
+                            }
+                            printf("selectserver: new connection from %s on "
+                                "socket %d\n", inet_ntoa(remoteaddr.sin_addr), newfd);
+                        }
+                    } else {
+                        // handle data from a client
+                        if ((nbytes = recv(i, buf, sizeof(buf), 0)) &#60;= 0) {
+                            // got error or connection closed by client
+                            if (nbytes == 0) {
+                                // connection closed
+                                printf("selectserver: socket %d hung up\n", i);
+                            } else {
+                                perror("recv");
+                            }
+                            close(i); // bye!
+                            FD_CLR(i, &#38;master); // remove from master set
+                        } else {
+                            // we got some data from a client
+                            for(j = 0; j &#60;= fdmax; j++) {
+                                // send to everyone!
+                                if (FD_ISSET(j, &#38;master)) {
+                                    // except the listener and ourselves
+                                    if (j != listener &#38;&#38; j != i) {
+                                        if (send(j, buf, nbytes, 0) == -1) {
+                                            perror("send");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } // it's SO UGLY!
+                }
+            }
+        }
+        
+        return 0;
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Notice I have two file descriptor sets in the code:
+<TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> and <TT
+CLASS="parameter"
+><I
+>read_fds</I
+></TT
+>.  The
+first, <TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+>, holds all the socket descriptors
+that are currently connected, as well as the socket descriptor that is
+listening for new connections.</P
+><P
+>The reason I have the <TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> set is that
+<TT
+CLASS="function"
+>select()</TT
+> actually <EM
+>changes</EM
+> the
+set you pass into it to reflect which sockets are ready to read.  Since
+I have to keep track of the connections from one call of
+<TT
+CLASS="function"
+>select()</TT
+> to the next, I must store these safely
+away somewhere.  At the last minute, I copy the
+<TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> into the <TT
+CLASS="parameter"
+><I
+>read_fds</I
+></TT
+>,
+and then call <TT
+CLASS="function"
+>select()</TT
+>.</P
+><P
+>But doesn't this mean that every time I get a new connection, I
+have to add it to the <TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> set?  Yup!  And
+every time a connection closes, I have to remove it from the
+<TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> set?  Yes, it does.</P
+><P
+>Notice I check to see when the <TT
+CLASS="parameter"
+><I
+>listener</I
+></TT
+>
+socket is ready to read.  When it is, it means I have a new connection
+pending, and I <TT
+CLASS="function"
+>accept()</TT
+> it and add it to the
+<TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> set.  Similarly, when a client connection
+is ready to read, and <TT
+CLASS="function"
+>recv()</TT
+> returns
+<TT
+CLASS="constant"
+>0</TT
+>, I know the client has closed the connection, and
+I must remove it from the <TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> set.</P
+><P
+>If the client <TT
+CLASS="function"
+>recv()</TT
+> returns non-zero,
+though, I know some data has been received.  So I get it, and then go
+through the <TT
+CLASS="parameter"
+><I
+>master</I
+></TT
+> list and send that data to all
+the rest of the connected clients.</P
+><P
+>And that, my friends, is a less-than-simple overview of the
+almighty <TT
+CLASS="function"
+>select()</TT
+> function.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="sendall"
+>6.3. Handling Partial <TT
+CLASS="function"
+>send()</TT
+>s</A
+></H2
+><P
+>Remember back in the <A
+HREF="syscalls.html#sendrecv"
+>section about
+<TT
+CLASS="function"
+>send()</TT
+></A
+>, above, when I said that
+<TT
+CLASS="function"
+>send()</TT
+> might not send all the bytes you asked it
+to?  That is, you want it to send 512 bytes, but it returns 412.  What
+happened to the remaining 100 bytes?</P
+><P
+>Well, they're still in your little buffer waiting to be sent out.
+Due to circumstances beyond your control, the kernel decided not to send
+all the data out in one chunk, and now, my friend, it's up to you to get
+the data out there.</P
+><P
+>You could write a function like this to do it, too:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    #include &#60;sys/types.h&#62;
+    #include &#60;sys/socket.h&#62;
+
+    int sendall(int s, char *buf, int *len)
+    {
+        int total = 0;        // how many bytes we've sent
+        int bytesleft = *len; // how many we have left to send
+        int n;
+
+        while(total &#60; *len) {
+            n = send(s, buf+total, bytesleft, 0);
+            if (n == -1) { break; }
+            total += n;
+            bytesleft -= n;
+        }
+
+        *len = total; // return number actually sent here
+
+        return n==-1?-1:0; // return -1 on failure, 0 on success
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>In this example, <TT
+CLASS="parameter"
+><I
+>s</I
+></TT
+> is the socket you want
+to send the data to, <TT
+CLASS="parameter"
+><I
+>buf</I
+></TT
+> is the buffer containing
+the data, and <TT
+CLASS="parameter"
+><I
+>len</I
+></TT
+> is a pointer to an
+<TT
+CLASS="type"
+>int</TT
+> containing the number of bytes in the buffer.</P
+><P
+>The function returns <TT
+CLASS="constant"
+>-1</TT
+> on error (and
+<TT
+CLASS="parameter"
+><I
+>errno</I
+></TT
+> is still set from the call to
+<TT
+CLASS="function"
+>send()</TT
+>.)  Also, the number of bytes actually sent
+is returned in <TT
+CLASS="parameter"
+><I
+>len</I
+></TT
+>.  This will be the same number
+of bytes you asked it to send, unless there was an error.
+<TT
+CLASS="function"
+>sendall()</TT
+> will do it's best, huffing and puffing,
+to send the data out, but if there's an error, it gets back to you right
+away.</P
+><P
+>For completeness, here's a sample call to the function:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    char buf[10] = "Beej!";
+    int len;
+
+    len = strlen(buf);
+    if (sendall(s, buf, &#38;len) == -1) {
+        perror("sendall");
+        printf("We only sent %d bytes because of the error!\n", len);
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>What happens on the receiver's end when part of a packet arrives?
+If the packets are variable length, how does the receiver know when one
+packet ends and another begins?  Yes, real-world scenarios are a royal
+pain in the donkeys.  You probably have to
+<EM
+>encapsulate</EM
+> (remember that from the <A
+HREF="theory.html#lowlevel"
+>data encapsulation section</A
+> way back there at
+the beginning?)  Read on for details!</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="sonofdataencap"
+>6.4. Son of Data Encapsulation</A
+></H2
+><P
+>What does it really mean to encapsulate data, anyway?  In the
+simplest case, it means you'll stick a header on there with either some
+identifying information or a packet length, or both.</P
+><P
+>What should your header look like?  Well, it's just some binary
+data that represents whatever you feel is necessary to complete your
+project.</P
+><P
+>Wow.  That's vague.</P
+><P
+>Okay.  For instance, let's say you have a multi-user chat program
+that uses <TT
+CLASS="constant"
+>SOCK_STREAM</TT
+>s.  When a user types ("says")
+something, two pieces of information need to be transmitted to the
+server: what was said and who said it.</P
+><P
+>So far so good?  "What's the problem?" you're asking.</P
+><P
+>The problem is that the messages can be of varying lengths.  One
+person named "tom" might say, "Hi", and another person named
+"Benjamin" might say, "Hey guys what is up?"</P
+><P
+>So you <TT
+CLASS="function"
+>send()</TT
+> all this stuff to the clients
+as it comes in.  Your outgoing data stream looks like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="screen"
+>&#13;    t o m H i B e n j a m i n H e y g u y s w h a t i s u p ?
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>And so on.  How does the client know when one message starts and
+another stops?  You could, if you wanted, make all messages the same
+length and just call the <TT
+CLASS="function"
+>sendall()</TT
+> we implemented,
+<A
+HREF="advanced.html#sendall"
+>above</A
+>.  But that wastes bandwidth!  We
+don't want to <TT
+CLASS="function"
+>send()</TT
+> 1024 bytes just so "tom" can
+say "Hi".</P
+><P
+>So we <EM
+>encapsulate</EM
+> the data in a tiny header
+and packet structure.  Both the client and server know how to pack and
+unpack (sometimes referred to as "marshal" and "unmarshal") this data.
+Don't look now, but we're starting to define a
+<EM
+>protocol</EM
+> that describes how a client and server
+communicate!</P
+><P
+>In this case, let's assume the user name is a fixed length of 8
+characters, padded with <TT
+CLASS="constant"
+>'\0'</TT
+>.  And then let's
+assume the data is variable length, up to a maximum of 128
+characters.  Let's have a look a sample packet structure that we might
+use in this situation:</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+><TT
+CLASS="computeroutput"
+>len</TT
+> (1 byte, unsigned)
+-- The total length of the packet, counting the 8-byte user name and
+chat data.</P
+></LI
+><LI
+><P
+><TT
+CLASS="computeroutput"
+>name</TT
+> (8 bytes) -- The
+user's name, NUL-padded if necessary.</P
+></LI
+><LI
+><P
+><TT
+CLASS="computeroutput"
+>chatdata</TT
+>
+(<EM
+>n</EM
+>-bytes) -- The data itself, no more than 128
+bytes.  The length of the packet should be calculated as the length of
+this data plus 8 (the length of the name field,
+above).</P
+></LI
+></OL
+><P
+>Why did I choose the 8-byte and 128-byte limits for the fields?  I
+pulled them out of the air, assuming they'd be long enough.  Maybe,
+though, 8 bytes is too restrictive for your needs, and you can have a
+30-byte name field, or whatever.  The choice is up to you.</P
+><P
+>Using the above packet definition, the first packet would consist
+of the following information (in hex and ASCII):</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="screen"
+>&#13;      0A     74 6F 6D 00 00 00 00 00      48 69
+   (length)  T  o  m    (padding)         H  i
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>And the second is similar:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="screen"
+>&#13;      14     42 65 6E 6A 61 6D 69 6E      48 65 79 20 67 75 79 73 20 77 ...
+   (length)  B  e  n  j  a  m  i  n       H  e  y     g  u  y  s     w  ...
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>(The length is stored in Network Byte Order, of course.  In this
+case, it's only one byte so it doesn't matter, but generally speaking
+you'll want all your binary integers to be stored in Network Byte Order
+in your packets.)</P
+><P
+>When you're sending this data, you should be safe and use a
+command similar to <A
+HREF="advanced.html#sendall"
+><TT
+CLASS="function"
+>sendall()</TT
+></A
+>, above, so you
+know all the data is sent, even if it takes multiple calls to
+<TT
+CLASS="function"
+>send()</TT
+> to get it all out.</P
+><P
+>Likewise, when you're receiving this data, you need to do a bit of extra
+work.  To be safe, you should assume that you might receive a partial
+packet (like maybe we receive "<TT
+CLASS="computeroutput"
+>00 14 42 65
+6E</TT
+>" from Benjamin, above, but that's all we get in this
+call to <TT
+CLASS="function"
+>recv()</TT
+>).  We need to call
+<TT
+CLASS="function"
+>recv()</TT
+> over and over again until the packet is
+completely received.</P
+><P
+>But how?  Well, we know the number of bytes we need to receive in
+total for the packet to be complete, since that number is tacked on the
+front of the packet.  We also know the maximum packet size is 1+8+128,
+or 137 bytes (because that's how we defined the packet.)</P
+><P
+>What you can do is declare an array big enough for two packets.
+This is your work array where you will reconstruct packets as they
+arrive.</P
+><P
+>Every time you <TT
+CLASS="function"
+>recv()</TT
+> data, you'll feed it
+into the work buffer and check to see if the packet is complete.  That
+is, the number of bytes in the buffer is greater than or equal to the
+length specified in the header (+1, because the length in the header
+doesn't include the byte for the length itself.)  If the number of bytes
+in the buffer is less than 1, the packet is not complete, obviously.
+You have to make a special case for this, though, since the first byte
+is garbage and you can't rely on it for the correct packet
+length.</P
+><P
+>Once the packet is complete, you can do with it what you
+will.  Use it, and remove it from your work buffer.</P
+><P
+>Whew!  Are you juggling that in your head yet?  Well, here's the
+second of the one-two punch: you might have read past the end of one
+packet and onto the next in a single <TT
+CLASS="function"
+>recv()</TT
+> call.
+That is, you have a work buffer with one complete packet, and an
+incomplete part of the next packet!  Bloody heck.  (But this is why you
+made your work buffer large enough to hold <EM
+>two</EM
+>
+packets--in case this happened!)</P
+><P
+>Since you know the length of the first packet from the header, and
+you've been keeping track of the number of bytes in the work buffer, you
+can subtract and calculate how many of the bytes in the work buffer
+belong to the second (incomplete) packet.  When you've handled the first
+one, you can clear it out of the work buffer and move the partial second
+packed down the to front of the buffer so it's all ready to go for the
+next <TT
+CLASS="function"
+>recv()</TT
+>.</P
+><P
+>(Some of you readers will note that actually moving the partial
+second packet to the beginning of the work buffer takes time, and the
+program can be coded to not require this by using a circular buffer.
+Unfortunately for the rest of you, a discussion on circular buffers is
+beyond the scope of this article.  If you're still curious, grab a data
+structures book and go from there.)</P
+><P
+>I never said it was easy.  Ok, I did say it was easy.  And it is;
+you just need practice and pretty soon it'll come to you naturally.  By
+Excalibur I swear it!</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="clientserver.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="reference.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Client-Server Background</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>More References</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

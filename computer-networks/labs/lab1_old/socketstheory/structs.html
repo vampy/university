@@ -1,0 +1,806 @@
+<HTML
+><HEAD
+><TITLE
+>structs and Data Handling</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.70
+"><LINK
+REL="HOME"
+TITLE="Beej's Guide to Network Programming"
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"><LINK
+REL="PREVIOUS"
+TITLE="What is a socket?"
+HREF="theory.html"><LINK
+REL="NEXT"
+TITLE="System Calls or Bust"
+HREF="syscalls.html"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=utf-8"></HEAD
+><BODY
+CLASS="sect1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Beej's Guide to Network Programming</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="theory.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="syscalls.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="sect1"
+><H1
+CLASS="sect1"
+><A
+NAME="structs"
+>3. <TT
+CLASS="type"
+>struct</TT
+>s and Data Handling</A
+></H1
+><P
+>Well, we're finally here.  It's time to talk about programming.
+In this section, I'll cover various data types used by the sockets
+interface, since some of them are a real bear to figure out.</P
+><P
+>First the easy one: a socket descriptor.  A socket descriptor is
+the following type:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    int 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Just a regular <TT
+CLASS="type"
+>int</TT
+>.</P
+><P
+>Things get weird from here, so just read through and bear with me.
+Know this: there are two byte orderings: most significant byte
+(sometimes called an "octet") first, or least significant byte first.
+The former is called "Network Byte Order".  Some machines store their
+numbers internally in Network Byte Order, some don't.  When I say
+something has to be in Network Byte Order, you have to call a function
+(such as <TT
+CLASS="function"
+>htons()</TT
+>) to change it from "Host Byte
+Order".  If I don't say "Network Byte Order", then you must leave the
+value in Host Byte Order.</P
+><P
+>(For the curious, "Network Byte Order" is also know as "Big-Endian
+Byte Order".)</P
+><P
+>My First Struct<SUP
+>TM</SUP
+>--<TT
+CLASS="type"
+>struct
+sockaddr</TT
+>.  This structure holds socket address information for
+many types of sockets:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    struct sockaddr {
+        unsigned short    sa_family;    // address family, AF_xxx
+        char              sa_data[14];  // 14 bytes of protocol address
+    }; 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+><TT
+CLASS="parameter"
+><I
+>sa_family</I
+></TT
+> can be a variety of things, but
+it'll be <TT
+CLASS="constant"
+>AF_INET</TT
+> for everything we do in this
+document.  <TT
+CLASS="parameter"
+><I
+>sa_data</I
+></TT
+> contains a destination address
+and port number for the socket.  This is rather unwieldy since you don't
+want to tediously pack the address in the <TT
+CLASS="parameter"
+><I
+>sa_data</I
+></TT
+>
+by hand.</P
+><P
+>To deal with <TT
+CLASS="type"
+>struct sockaddr</TT
+>, programmers created a
+parallel structure: <TT
+CLASS="type"
+>struct sockaddr_in</TT
+> ("in" for
+"Internet".)</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    struct sockaddr_in {
+        short int          sin_family;  // Address family
+        unsigned short int sin_port;    // Port number
+        struct in_addr     sin_addr;    // Internet address
+        unsigned char      sin_zero[8]; // Same size as struct sockaddr
+    }; 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>This structure makes it easy to reference elements of the socket
+address.  Note that <TT
+CLASS="parameter"
+><I
+>sin_zero</I
+></TT
+> (which is included
+to pad the structure to the length of a <TT
+CLASS="type"
+>struct sockaddr</TT
+>)
+should be set to all zeros with the function
+<TT
+CLASS="function"
+>memset()</TT
+>.  Also, and this is the
+<EM
+>important</EM
+> bit, a pointer to a <TT
+CLASS="type"
+>struct
+sockaddr_in</TT
+> can be cast to a pointer to a <TT
+CLASS="type"
+>struct
+sockaddr</TT
+> and vice-versa.  So even though
+<TT
+CLASS="function"
+>socket()</TT
+> wants a <TT
+CLASS="type"
+>struct sockaddr*</TT
+>, you
+can still use a <TT
+CLASS="type"
+>struct sockaddr_in</TT
+> and cast it at the last
+minute!  Also, notice that <TT
+CLASS="parameter"
+><I
+>sin_family</I
+></TT
+> corresponds
+to <TT
+CLASS="parameter"
+><I
+>sa_family</I
+></TT
+> in a <TT
+CLASS="type"
+>struct sockaddr</TT
+>
+and should be set to "<TT
+CLASS="constant"
+>AF_INET</TT
+>".  Finally, the
+<TT
+CLASS="parameter"
+><I
+>sin_port</I
+></TT
+> and <TT
+CLASS="parameter"
+><I
+>sin_addr</I
+></TT
+> must
+be in <EM
+>Network Byte Order</EM
+>!</P
+><P
+>"But," you object, "how can the entire structure,
+<TT
+CLASS="type"
+>struct in_addr sin_addr</TT
+>, be in Network
+Byte Order?"  This question requires careful examination of the
+structure <TT
+CLASS="type"
+>struct in_addr</TT
+>, one of the
+worst unions alive:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    // Internet address (a structure for historical reasons)
+    struct in_addr {
+        unsigned long s_addr; // that's a 32-bit long, or 4 bytes
+    }; 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Well, it <EM
+>used</EM
+> to be a union, but now those
+days seem to be gone.  Good riddance.  So if you have declared
+<TT
+CLASS="parameter"
+><I
+>ina</I
+></TT
+> to be of type <TT
+CLASS="type"
+>struct
+sockaddr_in</TT
+>, then <TT
+CLASS="parameter"
+><I
+>ina.sin_addr.s_addr</I
+></TT
+>
+references the 4-byte IP address (in Network Byte Order).  Note that
+even if your system still uses the God-awful union for <TT
+CLASS="type"
+>struct
+in_addr</TT
+>, you can still reference the 4-byte IP address in exactly
+the same way as I did above (this due to
+<TT
+CLASS="computeroutput"
+>#define</TT
+>s.)</P
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="convert"
+>3.1. Convert the Natives!</A
+></H2
+><P
+>We've now been lead right into the next section.  There's been too
+much talk about this Network to Host Byte Order conversion--now is the
+time for action!</P
+><P
+>All righty.  There are two types that you can convert:
+<TT
+CLASS="type"
+>short</TT
+> (two bytes) and <TT
+CLASS="type"
+>long</TT
+> (four bytes).
+These functions work for the <TT
+CLASS="type"
+>unsigned</TT
+> variations as well.
+Say you want to convert a <TT
+CLASS="type"
+>short</TT
+> from Host Byte Order to
+Network Byte Order.  Start with "h" for "host", follow it with "to",
+then "n" for "network", and "s" for "short": h-to-n-s, or
+<TT
+CLASS="function"
+>htons()</TT
+> (read: "Host to Network Short").</P
+><P
+>It's almost too easy...</P
+><P
+>You can use every combination if "n", "h", "s", and "l" you want,
+not counting the really stupid ones.  For example, there is NOT a
+<TT
+CLASS="function"
+>stolh()</TT
+> ("Short to Long Host") function--not at this
+party, anyway.  But there are:</P
+><P
+>&#13;<P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="function"
+>htons()</TT
+> -- "Host to Network Short"</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>htonl()</TT
+> -- "Host to Network Long"</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>ntohs()</TT
+> -- "Network to Host Short"</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>ntohl()</TT
+> -- "Network to Host Long"</P
+></LI
+></UL
+>
+</P
+><P
+>Now, you may think you're wising up to this.  You might think,
+"What do I do if I have to change byte order on a <TT
+CLASS="type"
+>char</TT
+>?"
+Then you might think, "Uh, never mind."  You might also think that since
+your 68000 machine already uses network byte order, you don't have to
+call <TT
+CLASS="function"
+>htonl()</TT
+> on your IP addresses.  You would be
+right, <EM
+>BUT</EM
+> if you try to port to a machine that has
+reverse network byte order, your program will fail.  Be portable!  This
+is a Unix world!  (As much as Bill Gates would like to think otherwise.)
+Remember: put your bytes in Network Byte Order before you put them on
+the network.</P
+><P
+>A final point: why do <TT
+CLASS="parameter"
+><I
+>sin_addr</I
+></TT
+> and
+<TT
+CLASS="parameter"
+><I
+>sin_port</I
+></TT
+> need to be in Network Byte Order in a
+<TT
+CLASS="type"
+>struct sockaddr_in</TT
+>, but <TT
+CLASS="parameter"
+><I
+>sin_family</I
+></TT
+>
+does not?  The answer: <TT
+CLASS="parameter"
+><I
+>sin_addr</I
+></TT
+> and
+<TT
+CLASS="parameter"
+><I
+>sin_port</I
+></TT
+> get encapsulated in the packet at the IP
+and UDP layers, respectively.  Thus, they must be in Network Byte Order.
+However, the <TT
+CLASS="parameter"
+><I
+>sin_family</I
+></TT
+> field is only used by the
+kernel to determine what type of address the structure contains, so it
+must be in Host Byte Order.  Also, since
+<TT
+CLASS="parameter"
+><I
+>sin_family</I
+></TT
+> does <EM
+>not</EM
+> get sent
+out on the network, it can be in Host Byte Order.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="ipaddr"
+>3.2. IP Addresses and How to Deal With Them</A
+></H2
+><P
+>Fortunately for you, there are a bunch of functions  that allow
+you to manipulate IP addresses.  No need to figure them out by hand and
+stuff them in a <TT
+CLASS="type"
+>long</TT
+> with the
+<TT
+CLASS="computeroutput"
+>&#60;&#60;</TT
+> operator.</P
+><P
+>First, let's say you have a <TT
+CLASS="type"
+>struct sockaddr_in ina</TT
+>,
+and you have an IP address
+"<TT
+CLASS="computeroutput"
+>10.12.110.57</TT
+>" that you want to store
+into it.  The function you want to use,
+<TT
+CLASS="function"
+>inet_addr()</TT
+>, converts an IP address in
+numbers-and-dots notation into an unsigned long.  The assignment can be
+made as follows:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    ina.sin_addr.s_addr = inet_addr("10.12.110.57"); 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Notice that <TT
+CLASS="function"
+>inet_addr()</TT
+> returns the address
+in Network Byte Order already--you don't have to call
+<TT
+CLASS="function"
+>htonl()</TT
+>.  Swell!</P
+><P
+>Now, the above code snippet isn't very robust because there is no
+error checking.  See, <TT
+CLASS="function"
+>inet_addr()</TT
+> returns
+<TT
+CLASS="constant"
+>-1</TT
+> on error.  Remember binary numbers?
+<TT
+CLASS="constant"
+>(unsigned)-1</TT
+> just happens to correspond to the IP
+address <TT
+CLASS="computeroutput"
+>255.255.255.255</TT
+>!  That's the
+broadcast address!  Wrongo.  Remember to do your error checking
+properly.</P
+><P
+>Actually, there's a cleaner interface you can use instead of
+<TT
+CLASS="function"
+>inet_addr()</TT
+>: it's called
+<TT
+CLASS="function"
+>inet_aton()</TT
+> ("aton" means "ascii to network"):</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    #include &#60;sys/socket.h&#62;
+    #include &#60;netinet/in.h&#62;
+    #include &#60;arpa/inet.h&#62;
+
+    int inet_aton(const char *cp, struct in_addr *inp); 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>And here's a sample usage, while packing a <TT
+CLASS="type"
+>struct
+sockaddr_in</TT
+> (this example will make more sense to you when you
+get to the sections on <A
+HREF="syscalls.html#bind"
+>&#13;<TT
+CLASS="function"
+>bind()</TT
+></A
+> and <A
+HREF="syscalls.html#connect"
+><TT
+CLASS="function"
+>connect()</TT
+></A
+>.)</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    struct sockaddr_in my_addr;
+
+    my_addr.sin_family = AF_INET;         // host byte order
+    my_addr.sin_port = htons(MYPORT);     // short, network byte order
+    inet_aton("10.12.110.57", &#38;(my_addr.sin_addr));
+    memset(&#38;(my_addr.sin_zero), '\0', 8); // zero the rest of the struct 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+><TT
+CLASS="function"
+>inet_aton()</TT
+>, <EM
+>unlike practically
+every other socket-related function</EM
+>, returns non-zero on
+success, and zero on failure.  And the address is passed back in
+<TT
+CLASS="parameter"
+><I
+>inp</I
+></TT
+>.</P
+><P
+>Unfortunately, not all platforms implement
+<TT
+CLASS="function"
+>inet_aton()</TT
+> so, although its use is preferred, the
+older more common <TT
+CLASS="function"
+>inet_addr()</TT
+> is used in this
+guide.</P
+><P
+>All right, now you can convert string IP addresses to their binary
+representations.  What about the other way around?  What if you have a
+<TT
+CLASS="type"
+>struct in_addr</TT
+> and you want to print it in numbers-and-dots
+notation?  In this case, you'll want to use the function
+<TT
+CLASS="function"
+>inet_ntoa()</TT
+> ("ntoa" means "network to ascii") like
+this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    printf("%s", inet_ntoa(ina.sin_addr)); 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>That will print the IP address.  Note that
+<TT
+CLASS="function"
+>inet_ntoa()</TT
+> takes a <TT
+CLASS="type"
+>struct in_addr</TT
+> as
+an argument, not a <TT
+CLASS="type"
+>long</TT
+>.  Also notice that it returns a
+pointer to a char.  This points to a statically stored char array within
+<TT
+CLASS="function"
+>inet_ntoa()</TT
+> so that each time you call
+<TT
+CLASS="function"
+>inet_ntoa()</TT
+> it will overwrite the last IP address
+you asked for.  For example:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    char *a1, *a2;
+    .
+    .
+    a1 = inet_ntoa(ina1.sin_addr);  // this is 192.168.4.14
+    a2 = inet_ntoa(ina2.sin_addr);  // this is 10.12.110.57
+    printf("address 1: %s\n",a1);
+    printf("address 2: %s\n",a2); 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>will print:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    address 1: 10.12.110.57
+    address 2: 10.12.110.57 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>If you need to save the address, <TT
+CLASS="function"
+>strcpy()</TT
+> it
+to your own character array.</P
+><P
+>That's all on this topic for now.  Later, you'll learn to convert
+a string like "whitehouse.gov" into its corresponding IP address (see
+<A
+HREF="syscalls.html#dns"
+>DNS</A
+>, below.)</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="theory.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="syscalls.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>What is a socket?</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>System Calls or Bust</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

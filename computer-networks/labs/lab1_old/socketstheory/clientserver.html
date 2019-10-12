@@ -1,0 +1,762 @@
+<HTML
+><HEAD
+><TITLE
+>Client-Server Background</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.70
+"><LINK
+REL="HOME"
+TITLE="Beej's Guide to Network Programming"
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"><LINK
+REL="PREVIOUS"
+TITLE="System Calls or Bust"
+HREF="syscalls.html"><LINK
+REL="NEXT"
+TITLE="Slightly Advanced Techniques"
+HREF="advanced.html"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=utf-8"></HEAD
+><BODY
+CLASS="sect1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Beej's Guide to Network Programming</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="syscalls.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="advanced.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="sect1"
+><H1
+CLASS="sect1"
+><A
+NAME="clientserver"
+>5. Client-Server Background</A
+></H1
+><P
+>It's a client-server world, baby.  Just about everything on the
+network deals with client processes talking to server processes and
+vice-versa.  Take <B
+CLASS="command"
+>telnet</B
+>, for instance.  When you
+connect to a remote host on port 23 with telnet (the client), a program
+on that host (called <B
+CLASS="command"
+>telnetd</B
+>, the server) springs to
+life.  It handles the incoming telnet connection, sets you up with a
+login prompt, etc.</P
+><DIV
+CLASS="figure"
+><A
+NAME="figure2"
+></A
+><P
+><B
+>Figure 2. Client-Server Interaction.</B
+></P
+><DIV
+CLASS="mediaobject"
+><P
+><IMG
+SRC="cs.gif"
+ALT="[Client-Server Interaction Diagram]"
+></IMG
+></P
+></DIV
+></DIV
+><P
+>The exchange of information between client and server is
+summarized in <A
+HREF="clientserver.html#figure2"
+>Figure 2</A
+>.</P
+><P
+>Note that the client-server pair can speak
+<TT
+CLASS="constant"
+>SOCK_STREAM</TT
+>, <TT
+CLASS="constant"
+>SOCK_DGRAM</TT
+>, or
+anything else (as long as they're speaking the same thing.)  Some good
+examples of client-server pairs are
+<B
+CLASS="command"
+>telnet</B
+>/<B
+CLASS="command"
+>telnetd</B
+>,
+<B
+CLASS="command"
+>ftp</B
+>/<B
+CLASS="command"
+>ftpd</B
+>, or
+<B
+CLASS="command"
+>bootp</B
+>/<B
+CLASS="command"
+>bootpd</B
+>.  Every time you use
+<B
+CLASS="command"
+>ftp</B
+>, there's a remote program,
+<B
+CLASS="command"
+>ftpd</B
+>, that serves you.</P
+><P
+>Often, there will only be one server on a machine, and that server
+will handle multiple clients using <TT
+CLASS="function"
+>fork()</TT
+>.  The
+basic routine is: server will wait for a connection,
+<TT
+CLASS="function"
+>accept()</TT
+> it, and <TT
+CLASS="function"
+>fork()</TT
+> a
+child process to handle it.  This is what our sample server does in the
+next section.</P
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="simpleserver"
+>5.1. A Simple Stream Server</A
+></H2
+><P
+>All this server does is send the string "<TT
+CLASS="computeroutput"
+>Hello,
+World!\n</TT
+>" out over a stream connection.  All you need
+to do to test this server is run it in one window, and telnet to it from
+another with:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="screen"
+>&#13;    <TT
+CLASS="prompt"
+>$</TT
+> <B
+CLASS="command"
+>telnet remotehostname 3490</B
+>
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>where <TT
+CLASS="computeroutput"
+>remotehostname</TT
+> is the name
+of the machine you're running it on.</P
+><P
+><A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/examples/server.c"
+TARGET="_top"
+>The server code</A
+>: (Note: a
+trailing backslash on a line means that the line is continued on the
+next.)</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    /*
+    ** server.c -- a stream socket server demo
+    */
+
+    #include &#60;stdio.h&#62;
+    #include &#60;stdlib.h&#62;
+    #include &#60;unistd.h&#62;
+    #include &#60;errno.h&#62;
+    #include &#60;string.h&#62;
+    #include &#60;sys/types.h&#62;
+    #include &#60;sys/socket.h&#62;
+    #include &#60;netinet/in.h&#62;
+    #include &#60;arpa/inet.h&#62;
+    #include &#60;sys/wait.h&#62;
+    #include &#60;signal.h&#62;
+
+    #define MYPORT 3490    // the port users will be connecting to
+
+    #define BACKLOG 10     // how many pending connections queue will hold
+
+    void sigchld_handler(int s)
+    {
+        while(wait(NULL) &#62; 0);
+    }
+
+    int main(void)
+    {
+        int sockfd, new_fd;  // listen on sock_fd, new connection on new_fd
+        struct sockaddr_in my_addr;    // my address information
+        struct sockaddr_in their_addr; // connector's address information
+        int sin_size;
+        struct sigaction sa;
+        int yes=1;
+
+        if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+            perror("socket");
+            exit(1);
+        }
+
+        if (setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&#38;yes,sizeof(int)) == -1) {
+            perror("setsockopt");
+            exit(1);
+        }
+        
+        my_addr.sin_family = AF_INET;         // host byte order
+        my_addr.sin_port = htons(MYPORT);     // short, network byte order
+        my_addr.sin_addr.s_addr = INADDR_ANY; // automatically fill with my IP
+        memset(&#38;(my_addr.sin_zero), '\0', 8); // zero the rest of the struct
+
+        if (bind(sockfd, (struct sockaddr *)&#38;my_addr, sizeof(struct sockaddr))
+                                                                       == -1) {
+            perror("bind");
+            exit(1);
+        }
+
+        if (listen(sockfd, BACKLOG) == -1) {
+            perror("listen");
+            exit(1);
+        }
+
+        sa.sa_handler = sigchld_handler; // reap all dead processes
+        sigemptyset(&#38;sa.sa_mask);
+        sa.sa_flags = SA_RESTART;
+        if (sigaction(SIGCHLD, &#38;sa, NULL) == -1) {
+            perror("sigaction");
+            exit(1);
+        }
+
+        while(1) {  // main accept() loop
+            sin_size = sizeof(struct sockaddr_in);
+            if ((new_fd = accept(sockfd, (struct sockaddr *)&#38;their_addr,
+                                                           &#38;sin_size)) == -1) {
+                perror("accept");
+                continue;
+            }
+            printf("server: got connection from %s\n",
+                                               inet_ntoa(their_addr.sin_addr));
+            if (!fork()) { // this is the child process
+                close(sockfd); // child doesn't need the listener
+                if (send(new_fd, "Hello, world!\n", 14, 0) == -1)
+                    perror("send");
+                close(new_fd);
+                exit(0);
+            }
+            close(new_fd);  // parent doesn't need this
+        }
+
+        return 0;
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>In case you're curious, I have the code in one big
+<TT
+CLASS="function"
+>main()</TT
+> function for (I feel) syntactic clarity.
+Feel free to split it into smaller functions if it makes you feel
+better.</P
+><P
+>(Also, this whole <TT
+CLASS="function"
+>sigaction()</TT
+> thing might be
+new to you--that's ok.  The code that's there is responsible for reaping
+zombie processes that appear as the <TT
+CLASS="function"
+>fork()</TT
+>ed child
+processes exit.  If you make lots of zombies and don't reap them, your
+system administrator will become agitated.)</P
+><P
+>You can get the data from this server by using the client
+listed in the next section.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="simpleclient"
+>5.2. A Simple Stream Client</A
+></H2
+><P
+>This guy's even easier than the server.  All this client does is
+connect to the host you specify on the command line, port 3490.  It gets
+the string that the server sends.</P
+><P
+><A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/examples/client.c"
+TARGET="_top"
+>The client
+source</A
+>:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    /*
+    ** client.c -- a stream socket client demo
+    */
+
+    #include &#60;stdio.h&#62;
+    #include &#60;stdlib.h&#62;
+    #include &#60;unistd.h&#62;
+    #include &#60;errno.h&#62;
+    #include &#60;string.h&#62;
+    #include &#60;netdb.h&#62;
+    #include &#60;sys/types.h&#62;
+    #include &#60;netinet/in.h&#62;
+    #include &#60;sys/socket.h&#62;
+
+    #define PORT 3490 // the port client will be connecting to 
+
+    #define MAXDATASIZE 100 // max number of bytes we can get at once 
+
+    int main(int argc, char *argv[])
+    {
+        int sockfd, numbytes;  
+        char buf[MAXDATASIZE];
+        struct hostent *he;
+        struct sockaddr_in their_addr; // connector's address information 
+
+        if (argc != 2) {
+            fprintf(stderr,"usage: client hostname\n");
+            exit(1);
+        }
+
+        if ((he=gethostbyname(argv[1])) == NULL) {  // get the host info 
+            perror("gethostbyname");
+            exit(1);
+        }
+
+        if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+            perror("socket");
+            exit(1);
+        }
+
+        their_addr.sin_family = AF_INET;    // host byte order 
+        their_addr.sin_port = htons(PORT);  // short, network byte order 
+        their_addr.sin_addr = *((struct in_addr *)he-&#62;h_addr);
+        memset(&#38;(their_addr.sin_zero), '\0', 8);  // zero the rest of the struct 
+
+        if (connect(sockfd, (struct sockaddr *)&#38;their_addr,
+                                              sizeof(struct sockaddr)) == -1) {
+            perror("connect");
+            exit(1);
+        }
+
+        if ((numbytes=recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
+            perror("recv");
+            exit(1);
+        }
+
+        buf[numbytes] = '\0';
+
+        printf("Received: %s",buf);
+
+        close(sockfd);
+
+        return 0;
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Notice that if you don't run the server before you run the client,
+<TT
+CLASS="function"
+>connect()</TT
+> returns "Connection refused".  Very
+useful.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="datagram"
+>5.3. Datagram Sockets</A
+></H2
+><P
+>I really don't have that much to talk about here, so I'll just
+present a couple of sample programs: <TT
+CLASS="filename"
+>talker.c</TT
+> and
+<TT
+CLASS="filename"
+>listener.c</TT
+>.</P
+><P
+><B
+CLASS="command"
+>listener</B
+> sits on a machine waiting for an
+incoming packet on port 4950.  <B
+CLASS="command"
+>talker</B
+> sends a packet
+to that port, on the specified machine, that contains whatever the user
+enters on the command line.</P
+><P
+>Here is the <A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/examples/listener.c"
+TARGET="_top"
+>source for
+<TT
+CLASS="filename"
+>listener.c</TT
+></A
+>:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    /*
+    ** listener.c -- a datagram sockets "server" demo
+    */
+
+    #include &#60;stdio.h&#62;
+    #include &#60;stdlib.h&#62;
+    #include &#60;unistd.h&#62;
+    #include &#60;errno.h&#62;
+    #include &#60;string.h&#62;
+    #include &#60;sys/types.h&#62;
+    #include &#60;sys/socket.h&#62;
+    #include &#60;netinet/in.h&#62;
+    #include &#60;arpa/inet.h&#62;
+
+    #define MYPORT 4950    // the port users will be connecting to
+
+    #define MAXBUFLEN 100
+
+    int main(void)
+    {
+        int sockfd;
+        struct sockaddr_in my_addr;    // my address information
+        struct sockaddr_in their_addr; // connector's address information
+        int addr_len, numbytes;
+        char buf[MAXBUFLEN];
+
+        if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+            perror("socket");
+            exit(1);
+        }
+
+        my_addr.sin_family = AF_INET;         // host byte order
+        my_addr.sin_port = htons(MYPORT);     // short, network byte order
+        my_addr.sin_addr.s_addr = INADDR_ANY; // automatically fill with my IP
+        memset(&#38;(my_addr.sin_zero), '\0', 8); // zero the rest of the struct
+
+        if (bind(sockfd, (struct sockaddr *)&#38;my_addr,
+                                              sizeof(struct sockaddr)) == -1) {
+            perror("bind");
+            exit(1);
+        }
+
+        addr_len = sizeof(struct sockaddr);
+        if ((numbytes=recvfrom(sockfd,buf, MAXBUFLEN-1, 0,
+                           (struct sockaddr *)&#38;their_addr, &#38;addr_len)) == -1) {
+            perror("recvfrom");
+            exit(1);
+        }
+
+        printf("got packet from %s\n",inet_ntoa(their_addr.sin_addr));
+        printf("packet is %d bytes long\n",numbytes);
+        buf[numbytes] = '\0';
+        printf("packet contains \"%s\"\n",buf);
+
+        close(sockfd);
+
+        return 0;
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Notice that in our call to <TT
+CLASS="function"
+>socket()</TT
+> we're
+finally using <TT
+CLASS="constant"
+>SOCK_DGRAM</TT
+>.  Also, note that there's
+no need to <TT
+CLASS="function"
+>listen()</TT
+> or
+<TT
+CLASS="function"
+>accept()</TT
+>.  This is one of the perks of using
+unconnected datagram sockets!</P
+><P
+>Next comes the <A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/examples/talker.c"
+TARGET="_top"
+>source for
+<TT
+CLASS="filename"
+>talker.c</TT
+></A
+>:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    /*
+    ** talker.c -- a datagram "client" demo
+    */
+
+    #include &#60;stdio.h&#62;
+    #include &#60;stdlib.h&#62;
+    #include &#60;unistd.h&#62;
+    #include &#60;errno.h&#62;
+    #include &#60;string.h&#62;
+    #include &#60;sys/types.h&#62;
+    #include &#60;sys/socket.h&#62;
+    #include &#60;netinet/in.h&#62;
+    #include &#60;arpa/inet.h&#62;
+    #include &#60;netdb.h&#62;
+
+    #define MYPORT 4950    // the port users will be connecting to
+
+    int main(int argc, char *argv[])
+    {
+        int sockfd;
+        struct sockaddr_in their_addr; // connector's address information
+        struct hostent *he;
+        int numbytes;
+
+        if (argc != 3) {
+            fprintf(stderr,"usage: talker hostname message\n");
+            exit(1);
+        }
+
+        if ((he=gethostbyname(argv[1])) == NULL) {  // get the host info
+            perror("gethostbyname");
+            exit(1);
+        }
+
+        if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
+            perror("socket");
+            exit(1);
+        }
+
+        their_addr.sin_family = AF_INET;     // host byte order
+        their_addr.sin_port = htons(MYPORT); // short, network byte order
+        their_addr.sin_addr = *((struct in_addr *)he-&#62;h_addr);
+        memset(&#38;(their_addr.sin_zero), '\0', 8); // zero the rest of the struct
+
+        if ((numbytes=sendto(sockfd, argv[2], strlen(argv[2]), 0,
+             (struct sockaddr *)&#38;their_addr, sizeof(struct sockaddr))) == -1) {
+            perror("sendto");
+            exit(1);
+        }
+
+        printf("sent %d bytes to %s\n", numbytes,
+                                               inet_ntoa(their_addr.sin_addr));
+
+        close(sockfd);
+
+        return 0;
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>And that's all there is to it!  Run <B
+CLASS="command"
+>listener</B
+> on
+some machine, then run <B
+CLASS="command"
+>talker</B
+> on another.  Watch them
+communicate!  Fun G-rated excitement for the entire nuclear
+family!</P
+><P
+>Except for one more tiny detail that I've mentioned many times in
+the past: connected datagram sockets.  I need to talk about this here,
+since we're in the datagram section of the document.  Let's say that
+<B
+CLASS="command"
+>talker</B
+> calls <TT
+CLASS="function"
+>connect()</TT
+> and
+specifies the <B
+CLASS="command"
+>listener</B
+>'s address.  From that point
+on, <B
+CLASS="command"
+>talker</B
+> may only sent to and receive from the
+address specified by <TT
+CLASS="function"
+>connect()</TT
+>.  For this reason,
+you don't have to use <TT
+CLASS="function"
+>sendto()</TT
+> and
+<TT
+CLASS="function"
+>recvfrom()</TT
+>; you can simply use
+<TT
+CLASS="function"
+>send()</TT
+> and <TT
+CLASS="function"
+>recv()</TT
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="syscalls.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="advanced.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>System Calls or Bust</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Slightly Advanced Techniques</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

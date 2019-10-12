@@ -1,0 +1,1287 @@
+<HTML
+><HEAD
+><TITLE
+>Common Questions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.70
+"><LINK
+REL="HOME"
+TITLE="Beej's Guide to Network Programming"
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"><LINK
+REL="PREVIOUS"
+TITLE="More References"
+HREF="reference.html"><LINK
+REL="NEXT"
+TITLE="Disclaimer and Call for Help"
+HREF="conclusion.html"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=utf-8"></HEAD
+><BODY
+CLASS="sect1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Beej's Guide to Network Programming</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="reference.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="conclusion.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="sect1"
+><H1
+CLASS="sect1"
+><A
+NAME="faq"
+>8. Common Questions</A
+></H1
+><DIV
+CLASS="qandaset"
+><DL
+><DT
+>Q: <A
+HREF="faq.html#AEN1346"
+>Where can I get those header files?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1352"
+>What do I do when <TT
+CLASS="function"
+>bind()</TT
+> reports
+"Address already in use"?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1364"
+>How do I get a list of open sockets on the
+system?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1376"
+>How can I view the routing table?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1384"
+>How can I run the client and server programs if I only
+have one computer?  Don't I need a network to write network
+program?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1398"
+>How can I tell if the remote side has closed
+connection?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1405"
+>How do I implement a "ping" utility?  What is ICMP?
+Where can I find out more about raw sockets and
+<TT
+CLASS="constant"
+>SOCK_RAW</TT
+>?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1412"
+>How do I build for Windows?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1419"
+>How do I build for Solaris/SunOS?  I keep getting linker
+errors when I try to compile!</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1425"
+>Why does <TT
+CLASS="function"
+>select()</TT
+> keep falling out
+on a signal?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1444"
+>How can I implement a timeout on a call to
+<TT
+CLASS="function"
+>recv()</TT
+>?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1461"
+>How do I encrypt or compress the data before sending it
+through the socket?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1491"
+>What is this "<TT
+CLASS="constant"
+>PF_INET</TT
+>" I keep
+seeing?  Is it related to
+<TT
+CLASS="constant"
+>AF_INET</TT
+>?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1500"
+>How can I write a server that accepts shell commands
+from a client and executes them?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1545"
+>I'm sending a slew of data, but when I
+<TT
+CLASS="function"
+>recv()</TT
+>, it only receives 536 bytes or 1460 bytes at
+a time.  But if I run it on my local machine, it receives all the data
+at the same time.  What's going on?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1558"
+>I'm on a Windows box and I don't have the
+<TT
+CLASS="function"
+>fork()</TT
+> system call or any kind of <TT
+CLASS="type"
+>struct
+sigaction</TT
+>.  What to do?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1573"
+>How do I send data securely with TCP/IP using
+encryption?</A
+></DT
+><DT
+>Q: <A
+HREF="faq.html#AEN1579"
+>I'm behind a firewall--how do I let people outside the
+firewall know my IP address so they can connect to my
+machine?</A
+></DT
+></DL
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1346"
+></A
+><B
+>Q: </B
+>Where can I get those header files?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>If you don't have them on your system already, you
+probably don't need them.  Check the manual for your particular
+platform.  If you're building for Windows, you only need to
+<TT
+CLASS="computeroutput"
+>#include
+&#60;winsock.h&#62;</TT
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1352"
+></A
+><B
+>Q: </B
+>What do I do when <TT
+CLASS="function"
+>bind()</TT
+> reports
+"Address already in use"?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>You have to use <TT
+CLASS="function"
+>setsockopt()</TT
+> with the
+<TT
+CLASS="constant"
+>SO_REUSEADDR</TT
+> option on the listening socket.  Check
+out the <A
+HREF="syscalls.html#bind"
+>section on
+<TT
+CLASS="function"
+>bind()</TT
+></A
+> and the <A
+HREF="advanced.html#select"
+>section on <TT
+CLASS="function"
+>select()</TT
+></A
+> for an
+example.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1364"
+></A
+><B
+>Q: </B
+>How do I get a list of open sockets on the
+system?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Use the <B
+CLASS="command"
+>netstat</B
+>.  Check the
+<B
+CLASS="command"
+>man</B
+> page for full details, but you should get some
+good output just typing:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="screen"
+>&#13;<TT
+CLASS="prompt"
+>$</TT
+> <B
+CLASS="command"
+>netstat</B
+>
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>The only trick is determining which socket is associated with
+which program. <TT
+CLASS="computeroutput"
+>:-)</TT
+></P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1376"
+></A
+><B
+>Q: </B
+>How can I view the routing table?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Run the <B
+CLASS="command"
+>route</B
+> command (in
+<TT
+CLASS="filename"
+>/sbin</TT
+> on most Linuxes) or the command
+<B
+CLASS="command"
+>netstat -r</B
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1384"
+></A
+><B
+>Q: </B
+>How can I run the client and server programs if I only
+have one computer?  Don't I need a network to write network
+program?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Fortunately for you, virtually all machines implement a
+loopback network "device" that sits in the kernel and pretends to be a
+network card.  (This is the interface listed as
+"<TT
+CLASS="computeroutput"
+>lo</TT
+>" in the routing table.)</P
+><P
+>Pretend you're logged into a machine named
+"<TT
+CLASS="computeroutput"
+>goat</TT
+>".  Run the client in one window
+and the server in another.  Or start the server in the background
+("<B
+CLASS="command"
+>server &#38;</B
+>") and run the client in the same
+window.  The upshot of the loopback device is that you can either
+<B
+CLASS="command"
+>client goat</B
+> or <B
+CLASS="command"
+>client localhost</B
+>
+(since "<TT
+CLASS="computeroutput"
+>localhost</TT
+>" is likely defined in
+your <TT
+CLASS="filename"
+>/etc/hosts</TT
+> file) and you'll have the client
+talking to the server without a network!</P
+><P
+>In short, no changes are necessary to any of the code to make it
+run on a single non-networked machine!  Huzzah!</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1398"
+></A
+><B
+>Q: </B
+>How can I tell if the remote side has closed
+connection?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>You can tell because <TT
+CLASS="function"
+>recv()</TT
+> will
+return <TT
+CLASS="constant"
+>0</TT
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1405"
+></A
+><B
+>Q: </B
+>How do I implement a "ping" utility?  What is ICMP?
+Where can I find out more about raw sockets and
+<TT
+CLASS="constant"
+>SOCK_RAW</TT
+>?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>All your raw sockets questions will be answered in W.
+Richard Stevens' UNIX Network Programming books.  See the <A
+HREF="reference.html#books"
+>books</A
+> section of this guide.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1412"
+></A
+><B
+>Q: </B
+>How do I build for Windows?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>First, delete Windows and install Linux or BSD.
+<TT
+CLASS="computeroutput"
+>};-)</TT
+>.  No, actually, just see the <A
+HREF="intro.html#windows"
+>section on building for
+Windows</A
+> in the introduction.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1419"
+></A
+><B
+>Q: </B
+>How do I build for Solaris/SunOS?  I keep getting linker
+errors when I try to compile!</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>The linker errors happen because Sun boxes don't
+automatically compile in the socket libraries.  See the <A
+HREF="intro.html#solaris"
+>section on building for Solaris/SunOS</A
+> in the
+introduction for an example of how to do this.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1425"
+></A
+><B
+>Q: </B
+>Why does <TT
+CLASS="function"
+>select()</TT
+> keep falling out
+on a signal?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Signals tend to cause blocked system calls to return
+<TT
+CLASS="constant"
+>-1</TT
+> with <TT
+CLASS="parameter"
+><I
+>errno</I
+></TT
+> set to
+<TT
+CLASS="constant"
+>EINTR</TT
+>.  When you set up a signal handler with
+<TT
+CLASS="function"
+>sigaction()</TT
+>, you can set the flag
+<TT
+CLASS="constant"
+>SA_RESTART</TT
+>, which is supposed to restart the system
+call after it was interrupted.</P
+><P
+>Naturally, this doesn't always work.</P
+><P
+>My favorite solution to this involves a
+<TT
+CLASS="computeroutput"
+>goto</TT
+> statement.  You know this
+irritates your professors to no end, so go for it!</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;select_restart:
+    if ((err = select(fdmax+1, &#38;readfds, NULL, NULL, NULL)) == -1) {
+        if (errno == EINTR) {
+            // some signal just interrupted us, so restart
+            goto select_restart;
+        }
+        // handle the real error here:
+        perror("select");
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Sure, you don't <EM
+>need</EM
+> to use
+<TT
+CLASS="computeroutput"
+>goto</TT
+> in this case; you can use other
+structures to control it.  But I think the
+<TT
+CLASS="computeroutput"
+>goto</TT
+> statement is actually
+cleaner.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1444"
+></A
+><B
+>Q: </B
+>How can I implement a timeout on a call to
+<TT
+CLASS="function"
+>recv()</TT
+>?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Use <A
+HREF="advanced.html#select"
+><TT
+CLASS="function"
+>select()</TT
+></A
+>!  It allows you to
+specify a timeout parameter for socket descriptors that you're looking
+to read from.  Or, you could wrap the entire functionality in a single
+function, like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;#include &#60;unistd.h&#62;
+#include &#60;sys/time.h&#62;
+#include &#60;sys/types.h&#62;
+#include &#60;sys/socket.h&#62;
+
+int recvtimeout(int s, char *buf, int len, int timeout)
+{
+    fd_set fds;
+    int n;
+    struct timeval tv;
+
+    // set up the file descriptor set
+    FD_ZERO(&#38;fds);
+    FD_SET(s, &#38;fds);
+
+    // set up the struct timeval for the timeout
+    tv.tv_sec = timeout;
+    tv.tv_usec = 0;
+
+    // wait until timeout or data received
+    n = select(s+1, &#38;fds, NULL, NULL, &#38;tv);
+    if (n == 0) return -2; // timeout!
+    if (n == -1) return -1; // error
+
+    // data must be here, so do a normal recv()
+    return recv(s, buf, len, 0);
+}
+
+// Sample call to recvtimeout():
+    .
+    .
+    n = recvtimeout(s, buf, sizeof(buf), 10); // 10 second timeout
+
+    if (n == -1) {
+        // error occurred
+        perror("recvtimeout");
+    }
+    else if (n == -2) {
+        // timeout occurred
+    } else {
+        // got some data in buf
+    }
+    .
+    . 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Notice that <TT
+CLASS="function"
+>recvtimeout()</TT
+> returns
+<TT
+CLASS="constant"
+>-2</TT
+> in case of a timeout.  Why not return
+<TT
+CLASS="constant"
+>0</TT
+>?  Well, if you recall, a return value of
+<TT
+CLASS="constant"
+>0</TT
+> on a call to <TT
+CLASS="function"
+>recv()</TT
+> means
+that the remote side closed the connection.  So that return value is
+already spoken for, and <TT
+CLASS="constant"
+>-1</TT
+> means "error", so I
+chose <TT
+CLASS="constant"
+>-2</TT
+> as my timeout indicator.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1461"
+></A
+><B
+>Q: </B
+>How do I encrypt or compress the data before sending it
+through the socket?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>One easy way to do encryption is to use SSL (secure sockets
+layer), but that's beyond the scope of this guide.</P
+><P
+>But assuming you want to plug in or implement your own compressor
+or encryption system, it's just a matter of thinking of your data as
+running through a sequence of steps between both ends.  Each step
+changes the data in some way.</P
+><P
+>&#13;<P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>server reads data from file (or whereever)</P
+></LI
+><LI
+><P
+>server encrypts data  (you add this part)</P
+></LI
+><LI
+><P
+>server <TT
+CLASS="function"
+>send()</TT
+>s encrypted data</P
+></LI
+></OL
+>
+</P
+><P
+>Now the other way around:</P
+><P
+>&#13;<P
+></P
+><OL
+START="4"
+TYPE="1"
+><LI
+><P
+>client <TT
+CLASS="function"
+>recv()</TT
+>s encrypted data</P
+></LI
+><LI
+><P
+>client decrypts data  (you add this part)</P
+></LI
+><LI
+><P
+>client writes data to file (or whereever)</P
+></LI
+></OL
+>
+</P
+><P
+>You can also do compression at the same point that you do the
+encryption/decryption, above.  Or you could do both!  Just remember to
+compress before you encrypt.  <TT
+CLASS="computeroutput"
+>:)</TT
+></P
+><P
+>Just as long as the client properly undoes what the server does,
+the data will be fine in the end no matter how many intermediate steps
+you add.</P
+><P
+>So all you need to do to use my code is to find the place between
+where the data is read and the data is sent (using
+<TT
+CLASS="function"
+>send()</TT
+>) over the network, and stick some code in
+there that does the encryption.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1491"
+></A
+><B
+>Q: </B
+>What is this "<TT
+CLASS="constant"
+>PF_INET</TT
+>" I keep
+seeing?  Is it related to
+<TT
+CLASS="constant"
+>AF_INET</TT
+>?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Yes, yes it is.  See <A
+HREF="syscalls.html#socket"
+>the section on
+<TT
+CLASS="function"
+>socket()</TT
+></A
+> for details.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1500"
+></A
+><B
+>Q: </B
+>How can I write a server that accepts shell commands
+from a client and executes them?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>For simplicity, lets say the client
+<TT
+CLASS="function"
+>connect()</TT
+>s, <TT
+CLASS="function"
+>send()</TT
+>s, and
+<TT
+CLASS="function"
+>close()</TT
+>s the connection (that is, there are no
+subsequent system calls without the client connecting again.)</P
+><P
+>The process the client follows is this:</P
+><P
+>&#13;<P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+><TT
+CLASS="function"
+>connect()</TT
+> to server</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>send("/sbin/ls &#62; /tmp/client.out")</TT
+></P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>close()</TT
+> the connection</P
+></LI
+></OL
+>
+</P
+><P
+>Meanwhile, the server is handling the data and executing
+it:</P
+><P
+>&#13;<P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+><TT
+CLASS="function"
+>accept()</TT
+> the connection from the client</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>recv(str)</TT
+> the command string</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>close()</TT
+> the connection</P
+></LI
+><LI
+><P
+><TT
+CLASS="function"
+>system(str)</TT
+> to run the command</P
+></LI
+></OL
+>
+</P
+><P
+><EM
+>Beware!</EM
+>  Having the server execute what the
+client says is like giving remote shell access and people can do things
+to your account when they connect to the server.  For instance, in the
+above example, what if the client sends "<B
+CLASS="command"
+>rm -rf ~</B
+>"?
+It deletes everything in your account, that's what!</P
+><P
+>So you get wise, and you prevent the client from using any except
+for a couple utilities that you know are safe, like the
+<B
+CLASS="command"
+>foobar</B
+> utility:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    if (!strcmp(str, "foobar")) {
+        sprintf(sysstr, "%s &#62; /tmp/server.out", str);
+        system(sysstr);
+    } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>But you're still unsafe, unfortunately: what if the client enters
+"<B
+CLASS="command"
+>foobar; rm -rf ~</B
+>"?  The safest thing to do is to
+write a little routine that puts an escape ("<TT
+CLASS="constant"
+>\</TT
+>")
+character in front of all non-alphanumeric characters (including spaces,
+if appropriate) in the arguments for the command.</P
+><P
+>As you can see, security is a pretty big issue when the server
+starts executing things the client sends.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1545"
+></A
+><B
+>Q: </B
+>I'm sending a slew of data, but when I
+<TT
+CLASS="function"
+>recv()</TT
+>, it only receives 536 bytes or 1460 bytes at
+a time.  But if I run it on my local machine, it receives all the data
+at the same time.  What's going on?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>You're hitting the MTU--the maximum size the physical medium can
+handle.  On the local machine, you're using the loopback device which
+can handle 8K or more no problem.  But on ethernet, which can only
+handle 1500 bytes with a header, you hit that limit.  Over a modem, with
+576 MTU (again, with header), you hit the even lower limit.</P
+><P
+>You have to make sure all the data is being sent, first of all.
+(See the <A
+HREF="advanced.html#sendall"
+><TT
+CLASS="function"
+>sendall()</TT
+></A
+>
+function implementation for details.) Once you're sure of that, then you
+need to call <TT
+CLASS="function"
+>recv()</TT
+> in a loop until all your data
+is read.</P
+><P
+>Read the section <A
+HREF="advanced.html#sonofdataencap"
+>Son of Data
+Encapsulation</A
+> for details on receiving complete packets of data
+using multiple calls to <TT
+CLASS="function"
+>recv()</TT
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1558"
+></A
+><B
+>Q: </B
+>I'm on a Windows box and I don't have the
+<TT
+CLASS="function"
+>fork()</TT
+> system call or any kind of <TT
+CLASS="type"
+>struct
+sigaction</TT
+>.  What to do?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>If they're anywhere, they'll be in POSIX libraries that may have
+shipped with your compiler.  Since I don't have a Windows box, I really
+can't tell you the answer, but I seem to remember that Microsoft has a
+POSIX compatibility layer and that's where <TT
+CLASS="function"
+>fork()</TT
+>
+would be.  (And maybe even <TT
+CLASS="type"
+>sigaction</TT
+>.)</P
+><P
+>Search the help that came with VC++ for "fork" or "POSIX" and see if it
+gives you any clues.</P
+><P
+>If that doesn't work at all, ditch the
+<TT
+CLASS="function"
+>fork()</TT
+>/<TT
+CLASS="type"
+>sigaction</TT
+> stuff and replace it
+with the Win32 equivalent: <TT
+CLASS="function"
+>CreateProcess()</TT
+>.  I
+don't know how to use <TT
+CLASS="function"
+>CreateProcess()</TT
+>--it takes a
+bazillion arguments, but it should be covered in the docs that came with
+VC++.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1573"
+></A
+><B
+>Q: </B
+>How do I send data securely with TCP/IP using
+encryption?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Check out the <A
+HREF="http://www.openssl.org/"
+TARGET="_top"
+>OpenSSL
+project</A
+>.</P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="AEN1579"
+></A
+><B
+>Q: </B
+>I'm behind a firewall--how do I let people outside the
+firewall know my IP address so they can connect to my
+machine?</P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+>A: </B
+>Unfortunately, the purpose of a firewall is to prevent
+people outside the firewall from connecting to machines inside the
+firewall, so allowing them to do so is basically considered a breach of
+security.</P
+><P
+>This isn't to say that all is lost.  For one thing, you can still
+often <TT
+CLASS="function"
+>connect()</TT
+> through the firewall if it's doing
+some kind of masquerading or NAT or something like that.  Just design
+your programs so that you're always the one initiating the connection,
+and you'll be fine.</P
+><P
+>If that's not satisfactory, you can ask your sysadmins to poke a
+hole in the firewall so that people can connect to you.  The firewall
+can forward to you either through it's NAT software, or through a proxy
+or something like that.</P
+><P
+>Be aware that a hole in the firewall is nothing to be taken
+lightly.  You have to make sure you don't give bad people access to the
+internal network; if you're a beginner, it's a lot harder to make
+software secure than you might imagine.</P
+><P
+>Don't make your sysadmin mad at me.
+<TT
+CLASS="computeroutput"
+>;-)</TT
+></P
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="reference.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="conclusion.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>More References</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Disclaimer and Call for Help</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

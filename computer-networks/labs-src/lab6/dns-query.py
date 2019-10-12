@@ -6,10 +6,10 @@ __description__ = "A simple DNS lookup utility, similar to 'dig'"
 # iterative: python3 dns-query.py wordpress.com -s 192.228.79.201 -q A -nr
 # recursive: python3 dns-query.py wordpress.com -q A -r
 import argparse
-import random
 import socket
-import struct
 import sys
+import struct
+import random
 from enum import Enum, unique
 from ipaddress import IPv4Address, IPv6Address
 
@@ -112,8 +112,7 @@ class DNSQuestion:
         Pack a question
         :return: bytes
         """
-        return DNSMessage.name_to_bytes(
-            self.qname) + DNSQuestion.header_format.pack(self.qtype.value, self.qclass.value)
+        return DNSMessage.name_to_bytes(self.qname) + DNSQuestion.header_format.pack(self.qtype.value, self.qclass.value)
 
     @staticmethod
     def from_bytes(message_bytes, offset):
@@ -411,16 +410,8 @@ class DNSMessage:
     def to_bytes(self):
         """:return: bytes"""
         # set flags, use 0xF which is 1111 as a bit mask
-        flags = (
-            self.qr.value << 15) | (
-            (self.opcode.value & 0xF) << 11) | (
-            self.aa << 10) | (
-            self.tc << 9) | (
-            self.rd << 8) | (
-            self.ra << 7) | (
-            self.z << 6) | (
-            self.ad << 5) | (
-            self.cd << 4) | self.rcode.value
+        flags = (self.qr.value << 15) | ((self.opcode.value & 0xF) << 11) | (self.aa << 10) | (self.tc << 9) | (self.rd << 8) | \
+                (self.ra << 7) | (self.z << 6) | (self.ad << 5) | (self.cd << 4) | self.rcode.value
 
         # set header
         data = self.header_format.pack(self.identifier, flags, self.question_count, self.additional_count,
@@ -448,10 +439,7 @@ class DNSMessage:
             message.header_format.unpack(message_bytes[offset:message.header_format.size])
         message.qr, message.opcode, message.aa = bit_get(flags, 15), (flags & (0xF << 11)) >> 11, bit_get(flags, 10)
         message.tc, message.rd, message.ra = bit_get(flags, 9), bit_get(flags, 8), bit_get(flags, 7)
-        message.z, message.ad, message.cd, message.rcode = bit_get(
-            flags, 6), bit_get(
-            flags, 5), bit_get(
-            flags, 4), flags & 0xF
+        message.z, message.ad, message.cd, message.rcode = bit_get(flags, 6), bit_get(flags, 5), bit_get(flags, 4), flags & 0xF
         offset += message.header_format.size
 
         # set questions
@@ -481,8 +469,7 @@ class DNSMessage:
                "QR = %s, OPCODE = %s, AA = %d, TC = %d, RD = %d, RA = %d, Z = %d, AD = %d, CD = %d, RCODE = %s\n" \
                "questions = %d, answers = %d\n" \
                "authority = %d, additional = %d\n" \
-               % (self.identifier, self.qr.name, self.opcode.name, self.aa, self.tc, self.rd, self.ra, self.z, self.ad,
-                  self.cd,
+               % (self.identifier, self.qr.name, self.opcode.name, self.aa, self.tc, self.rd, self.ra, self.z, self.ad, self.cd,
                   self.rcode.name, self.question_count, self.answer_count, self.authority_count, self.additional_count)
 
     def to_str(self):
@@ -518,12 +505,7 @@ if __name__ == "__main__":
     cmd_parser.add_argument("hostname", help="Hostname too look up")
     cmd_parser.add_argument("--server", "-s", default="8.8.8.8", help="DNS server ip")
     cmd_parser.add_argument("--port", "-p", default=53, type=int, help="DNS server port")
-    cmd_parser.add_argument(
-        "--recursive",
-        "-r",
-        dest="is_recursive",
-        action="store_true",
-        help="Use recursive querying, default")
+    cmd_parser.add_argument("--recursive", "-r", dest="is_recursive", action="store_true", help="Use recursive querying, default")
     cmd_parser.add_argument("--no-recursive", "-nr", dest="is_recursive", action="store_false",
                             help="Do not use recursive querying, use iterative")
     cmd_parser.add_argument("--question", "-q", default="A", type=str,

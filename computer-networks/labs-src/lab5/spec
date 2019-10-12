@@ -1,0 +1,86 @@
+Lab 5
+
+Write an UDP multicast chat application. The application is started with a multicast address <MCAST> (224.100.101.102) as argument in the command line. Upon launching, the application joins MCAST group and listens on UDP port 7777. The application sends and receives messages of the form:
+
+„CHATv1”<string>
+
+8 bytes pad 0
+    
+
+RoomName: <string>
+
+(32 bytes) pad 0
+    
+
+ID: <string>
+
+(32 bytes) pad 0
+    
+
+Oper:
+
+1 byte
+    
+
+Msg Len:
+
+2 bytes
+
+Message: <string>
+
+ 
+
+ID: size  - 32 bytes padded with 0.
+
+RoomName : 32 bytes padded with 0.
+
+Msg Len – message length (payload) without the header
+
+Message – string NULL terminated
+
+ 
+
+Oper:
+
+1 – new ID subscription – new member in the Room RoomName(should be filled)
+
+2 – ID unsubscribe from RoomName (should be filled)
+
+3 – Message  - need to fill in the RoomName, Msg Len and Message fields with the actual message.
+
+4 – List rooms Request - every application answers with the room names is subscribed to. (RoomName is NULL)
+
+5 - List rooms Reply – list of rooms separated by NULLs and terminated with double NULL (RoomName is NULL) - in the Message body
+
+ 
+
+The applications reads commands from the user:
+
+    LIST – returns the list of rooms.
+    JOIN <room name> - subscribes to a room (send corresponding message)
+    LEAVE <room name> - leave room (send corresponding message)
+    MSG <room name> <msg>  - send message to room
+    NICK <nickname> - sets the ID for further correspondence.
+    QUIT – unsubscribe from all rooms, close sockets and exit.
+
+ 
+Requirements:
+
+An application will ignore any requests and messages for the groups is not subscribed to.
+
+Only correct messages and with version numbers (CHATvx) for the own implementation are handled.
+
+The application should display messages from all rooms is subscribed to in real time.
+
+The user could submit  commands at any time.
+
+Set the TTL Multicast in the applications to different values and check what is happening.
+
+ 
+Suggestion:
+
+1.    Implement the application on Windows (native or using mingw) in order to be able to test your multicast application in a real environment.
+
+2.    Use #pragma pack(1) in order to align your structure at a multiple on 1 byte (not 2 or 4 bytes). By default compiles align structures at multiples of 2(4) bytes by padding them with unused bytes for access performance reasons.
+
+Example: (multicast application) – run the sender and receiver on two different hosts (Ex: multicast address 224.0.0.1 and port 7777 )

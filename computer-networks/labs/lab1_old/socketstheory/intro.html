@@ -1,0 +1,582 @@
+<HTML
+><HEAD
+><TITLE
+>Intro</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.70
+"><LINK
+REL="HOME"
+TITLE="Beej's Guide to Network Programming"
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"><LINK
+REL="PREVIOUS"
+TITLE="Beej's Guide to Network Programming"
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"><LINK
+REL="NEXT"
+TITLE="What is a socket?"
+HREF="theory.html"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=utf-8"></HEAD
+><BODY
+CLASS="sect1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Beej's Guide to Network Programming</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="theory.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="sect1"
+><H1
+CLASS="sect1"
+><A
+NAME="intro"
+>1. Intro</A
+></H1
+><P
+>Hey!  Socket programming got you down?  Is this stuff just a
+little too difficult to figure out from the <B
+CLASS="command"
+>man</B
+>
+pages?  You want to do cool Internet programming, but you don't have
+time to wade through a gob of <TT
+CLASS="type"
+>struct</TT
+>s trying to figure out
+if you have to call <TT
+CLASS="function"
+>bind()</TT
+> before you
+<TT
+CLASS="function"
+>connect()</TT
+>, etc., etc.</P
+><P
+>Well, guess what!  I've already done this nasty business, and I'm
+dying to share the information with everyone!  You've come to the right
+place.  This document should give the average competent C programmer the
+edge s/he needs to get a grip on this networking noise.</P
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="AEN46"
+>1.1. Audience</A
+></H2
+><P
+>This document has been written as a tutorial, not a reference.  It
+is probably at its best when read by individuals who are just starting
+out with socket programming and are looking for a foothold.  It is
+certainly not the <EM
+>complete</EM
+> guide to sockets
+programming, by any means.</P
+><P
+>Hopefully, though, it'll be just enough for those man pages to
+start making sense... <TT
+CLASS="computeroutput"
+>:-)</TT
+></P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="AEN52"
+>1.2. Platform and Compiler</A
+></H2
+><P
+>The code contained within this document was compiled on a Linux PC
+using Gnu's <B
+CLASS="command"
+>gcc</B
+> compiler.  It should, however, build
+on just about any platform that uses <B
+CLASS="command"
+>gcc</B
+>.  Naturally,
+this doesn't apply if you're programming for Windows--see the <A
+HREF="intro.html#windows"
+>section on Windows programming</A
+>, below.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="AEN58"
+>1.3. Official Homepage</A
+></H2
+><P
+>This official location of this document is at California State
+University, Chico, at <TT
+CLASS="computeroutput"
+><A
+HREF="http://www.ecst.csuchico.edu/~beej/guide/net/"
+TARGET="_top"
+>http://www.ecst.csuchico.edu/~beej/guide/net/</A
+></TT
+>.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="solaris"
+>1.4. Note for Solaris/SunOS Programmers</A
+></H2
+><P
+>When compiling for Solaris or SunOS, you need to specify some
+extra command-line switches for linking in the proper libraries.  In
+order to do this, simply add "<TT
+CLASS="computeroutput"
+>-lnsl -lsocket
+-lresolv</TT
+>" to the end of the compile command, like
+so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="screen"
+>&#13;    <TT
+CLASS="prompt"
+>$</TT
+> <B
+CLASS="command"
+>cc -o server server.c -lnsl -lsocket -lresolv</B
+>
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>If you still get errors, you could try further adding a
+"<TT
+CLASS="computeroutput"
+>-lxnet</TT
+>" to the end of that command
+line.  I don't know what that does, exactly, but some people seem to
+need it.</P
+><P
+>Another place that you might find problems is in the call to
+<TT
+CLASS="function"
+>setsockopt()</TT
+>.  The prototype differs from that on
+my Linux box, so instead of:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;	int yes=1;
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>enter this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;	char yes='1';
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>As I don't have a Sun box, I haven't tested any of the above
+information--it's just what people have told me through email.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="windows"
+>1.5. Note for Windows Programmers</A
+></H2
+><P
+>I have a particular dislike for Windows, and encourage you to try
+Linux, BSD, or Unix instead.  That being said, you can still use this
+stuff under Windows.</P
+><P
+>First, ignore pretty much all of the system header files I mention
+in here.  All you need to include is:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    #include &#60;winsock.h&#62; 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>Wait!  You also have to make a call to
+<TT
+CLASS="function"
+>WSAStartup()</TT
+> before doing anything else with the
+sockets library.  The code to do that looks something like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="programlisting"
+>&#13;    #include &#60;winsock.h&#62;
+
+    {
+        WSADATA wsaData;   // if this doesn't work
+        //WSAData wsaData; // then try this instead
+
+        if (WSAStartup(MAKEWORD(1, 1), &#38;wsaData) != 0) {
+            fprintf(stderr, "WSAStartup failed.\n");
+            exit(1);
+        } 
+</PRE
+></TD
+></TR
+></TABLE
+><P
+>You also have to tell your compiler to link in the Winsock
+library, usually called <TT
+CLASS="filename"
+>wsock32.lib</TT
+> or
+<TT
+CLASS="filename"
+>winsock32.lib</TT
+> or somesuch.  Under VC++, this can be
+done through the <TT
+CLASS="computeroutput"
+>Project</TT
+> menu, under
+<TT
+CLASS="computeroutput"
+>Settings...</TT
+>.  Click the
+<TT
+CLASS="computeroutput"
+>Link</TT
+> tab, and look for the box titled
+"Object/library modules".  Add "wsock32.lib" to that list.</P
+><P
+>Or so I hear.</P
+><P
+>Finally, you need to call <TT
+CLASS="function"
+>WSACleanup()</TT
+> when
+you're all through with the sockets library.  See your online help for
+details.</P
+><P
+>Once you do that, the rest of the examples in this tutorial should
+generally apply, with a few exceptions.  For one thing, you can't use
+<TT
+CLASS="function"
+>close()</TT
+> to close a socket--you need to use
+<TT
+CLASS="function"
+>closesocket()</TT
+>, instead.  Also,
+<TT
+CLASS="function"
+>select()</TT
+> only works with socket descriptors, not
+file descriptors (like <TT
+CLASS="constant"
+>0</TT
+> for
+<TT
+CLASS="computeroutput"
+>stdin</TT
+>).</P
+><P
+>There is also a socket class that you can use,
+<TT
+CLASS="type"
+>CSocket</TT
+>.  Check your compilers help pages for more
+information.</P
+><P
+>To get more information about Winsock, read the <A
+HREF="http://tangentsoft.net/wskfaq/"
+TARGET="_top"
+>Winsock FAQ</A
+> and go from there.</P
+><P
+>Finally, I hear that Windows has no <TT
+CLASS="function"
+>fork()</TT
+>
+system call which is, unfortunately, used in some of my examples.  Maybe
+you have to link in a POSIX library or something to get it to work, or
+you can use <TT
+CLASS="function"
+>CreateProcess()</TT
+> instead.
+<TT
+CLASS="function"
+>fork()</TT
+> takes no arguments, and
+<TT
+CLASS="function"
+>CreateProcess()</TT
+> takes about 48 billion arguments.
+If you're not up to that, the <TT
+CLASS="function"
+>CreateThread()</TT
+> is a
+little easier to digest...unfortunately a discussion about
+multithreading is beyond the scope of this document.  I can only talk
+about so much, you know!</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="emailpolicy"
+>1.6. Email Policy</A
+></H2
+><P
+>I'm generally available to help out with email questions so feel
+free to write in, but I can't guarantee a response.  I lead a pretty
+busy life and there are times when I just can't answer a question you
+have.  When that's the case, I usually just delete the message.  It's
+nothing personal; I just won't ever have the time to give the detailed
+answer you require.</P
+><P
+>As a rule, the more complex the question, the less likely I am to
+respond.  If you can narrow down your question before mailing it and be
+sure to include any pertinent information (like platform, compiler,
+error messages you're getting, and anything else you think might help me
+troubleshoot), you're much more likely to get a response.  For more
+pointers, read ESR's document, <A
+HREF="http://www.tuxedo.org/~esr/faqs/smart-questions.html"
+TARGET="_top"
+>How To Ask
+Questions The Smart Way</A
+>.</P
+><P
+>If you don't get a response, hack on it some more, try to find the
+answer, and if it's still elusive, then write me again with the
+information you've found and hopefully it will be enough for me to help
+out.</P
+><P
+>Now that I've badgered you about how to write and not write me,
+I'd just like to let you know that I <EM
+>fully</EM
+>
+appreciate all the praise the guide has received over the years.  It's a
+real morale boost, and it gladdens me to hear that it is being used for
+good! <TT
+CLASS="computeroutput"
+>:-)</TT
+>  Thank you!</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="AEN120"
+>1.7. Mirroring</A
+></H2
+><P
+>You are more than welcome to mirror this site, whether publically
+or privately.  If you publically mirror the site and want me to link to
+it from the main page, drop me a line at
+<TT
+CLASS="email"
+>&#60;<A
+HREF="mailto:beej@piratehaven.org"
+>beej@piratehaven.org</A
+>&#62;</TT
+>.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="AEN124"
+>1.8. Note for Translators</A
+></H2
+><P
+>If you want to translate the guide into another language, write me
+at <TT
+CLASS="email"
+>&#60;<A
+HREF="mailto:beej@piratehaven.org"
+>beej@piratehaven.org</A
+>&#62;</TT
+> and I'll link to your translation from the
+main page.</P
+><P
+>Feel free to add your name and email address to the
+translation.</P
+><P
+>Sorry, but due to space constraints, I cannot host the
+translations myself.</P
+></DIV
+><DIV
+CLASS="sect2"
+><H2
+CLASS="sect2"
+><A
+NAME="AEN130"
+>1.9. Copyright and Distribution</A
+></H2
+><P
+>Beej's Guide to Network Programming is Copyright © 1995-2001
+Brian "Beej" Hall.</P
+><P
+>This guide may be freely reprinted in any medium provided that its
+content is not altered, it is presented in its entirety, and this
+copyright notice remains intact.</P
+><P
+>Educators are especially encouraged to recommend or supply copies
+of this guide to their students.</P
+><P
+>This guide may be freely translated into any language, provided
+the translation is accurate, and the guide is reprinted in its
+entirety.  The translation may also include the name and contact
+information for the translator.</P
+><P
+>The C source code presented in this document is hereby granted to
+the public domain.</P
+><P
+>Contact <TT
+CLASS="email"
+>&#60;<A
+HREF="mailto:beej@piratehaven.org"
+>beej@piratehaven.org</A
+>&#62;</TT
+> for more information.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="http://www.cs.ubbcluj.ro/~dadi/compnet/labs/lab1_old/socketstheory/index.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="theory.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Beej's Guide to Network Programming</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>What is a socket?</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

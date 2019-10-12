@@ -1,0 +1,505 @@
+<HTML
+><HEAD
+><TITLE
+>Beej's Guide to Network Programming</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.70
+"><LINK
+REL="NEXT"
+TITLE="Intro"
+HREF="socketstheory/intro.html"><META
+HTTP-EQUIV="Content-Type"
+CONTENT="text/html; charset=utf-8"></HEAD
+><BODY
+CLASS="article"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="ARTICLE"
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="title"
+><A
+NAME="AEN2"
+>Beej's Guide to Network Programming</A
+></H1
+><H2
+CLASS="subtitle"
+>Using Internet Sockets</H2
+><H3
+CLASS="author"
+><A
+NAME="AEN28"
+>Brian "Beej" Hall</A
+></H3
+><DIV
+CLASS="affiliation"
+><DIV
+CLASS="address"
+><P
+CLASS="address"
+><br>
+				beej@piratehaven.org<br>
+			</P
+></DIV
+></DIV
+><P
+CLASS="copyright"
+>Copyright &copy; 1995-2001 by Brian "Beej" Hall</P
+><DIV
+CLASS="revhistory"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+><TR
+><TH
+ALIGN="LEFT"
+VALIGN="TOP"
+COLSPAN="3"
+><B
+>Revision History</B
+></TH
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision Version 1.0.0</TD
+><TD
+ALIGN="LEFT"
+>August, 1995</TD
+><TD
+ALIGN="LEFT"
+>Revised by: beej</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Initial version.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision Version 1.5.5</TD
+><TD
+ALIGN="LEFT"
+>January 13, 1999</TD
+><TD
+ALIGN="LEFT"
+>Revised by: beej</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Latest HTML version.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision Version 2.0.0</TD
+><TD
+ALIGN="LEFT"
+>March 6, 2001</TD
+><TD
+ALIGN="LEFT"
+>Revised by: beej</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Converted to DocBook XML, corrections, additions.</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+>Revision Version 2.3.1</TD
+><TD
+ALIGN="LEFT"
+>October 8, 2001</TD
+><TD
+ALIGN="LEFT"
+>Revised by: beej</TD
+></TR
+><TR
+><TD
+ALIGN="LEFT"
+COLSPAN="3"
+>Fixed typos, syntax error in client.c, added some
+			stuff to the Q&#38;A section.</TD
+></TR
+></TABLE
+></DIV
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="socketstheory/intro.html"
+>Intro</A
+></DT
+><DD
+><DL
+><DT
+>1.1. <A
+HREF="socketstheory/intro.html#AEN46"
+>Audience</A
+></DT
+><DT
+>1.2. <A
+HREF="socketstheory/intro.html#AEN52"
+>Platform and Compiler</A
+></DT
+><DT
+>1.3. <A
+HREF="socketstheory/intro.html#AEN58"
+>Official Homepage</A
+></DT
+><DT
+>1.4. <A
+HREF="socketstheory/intro.html#solaris"
+>Note for Solaris/SunOS Programmers</A
+></DT
+><DT
+>1.5. <A
+HREF="socketstheory/intro.html#windows"
+>Note for Windows Programmers</A
+></DT
+><DT
+>1.6. <A
+HREF="socketstheory/intro.html#emailpolicy"
+>Email Policy</A
+></DT
+><DT
+>1.7. <A
+HREF="socketstheory/intro.html#AEN120"
+>Mirroring</A
+></DT
+><DT
+>1.8. <A
+HREF="socketstheory/intro.html#AEN124"
+>Note for Translators</A
+></DT
+><DT
+>1.9. <A
+HREF="socketstheory/intro.html#AEN130"
+>Copyright and Distribution</A
+></DT
+></DL
+></DD
+><DT
+>2. <A
+HREF="socketstheory/theory.html"
+>What is a socket?</A
+></DT
+><DD
+><DL
+><DT
+>2.1. <A
+HREF="socketstheory/theory.html#twotypes"
+>Two Types of Internet Sockets</A
+></DT
+><DT
+>2.2. <A
+HREF="socketstheory/theory.html#lowlevel"
+>Low level Nonsense and Network Theory</A
+></DT
+></DL
+></DD
+><DT
+>3. <A
+HREF="socketstheory/structs.html"
+><TT
+CLASS="type"
+>struct</TT
+>s and Data Handling</A
+></DT
+><DD
+><DL
+><DT
+>3.1. <A
+HREF="socketstheory/structs.html#convert"
+>Convert the Natives!</A
+></DT
+><DT
+>3.2. <A
+HREF="socketstheory/structs.html#ipaddr"
+>IP Addresses and How to Deal With Them</A
+></DT
+></DL
+></DD
+><DT
+>4. <A
+HREF="socketstheory/syscalls.html"
+>System Calls or Bust</A
+></DT
+><DD
+><DL
+><DT
+>4.1. <A
+HREF="socketstheory/syscalls.html#socket"
+><TT
+CLASS="function"
+>socket()</TT
+>--Get the File Descriptor!</A
+></DT
+><DT
+>4.2. <A
+HREF="socketstheory/syscalls.html#bind"
+><TT
+CLASS="function"
+>bind()</TT
+>--What port am I on?</A
+></DT
+><DT
+>4.3. <A
+HREF="socketstheory/syscalls.html#connect"
+><TT
+CLASS="function"
+>connect()</TT
+>--Hey, you!</A
+></DT
+><DT
+>4.4. <A
+HREF="socketstheory/syscalls.html#listen"
+><TT
+CLASS="function"
+>listen()</TT
+>--Will somebody please call
+me?</A
+></DT
+><DT
+>4.5. <A
+HREF="socketstheory/syscalls.html#accept"
+><TT
+CLASS="function"
+>accept()</TT
+>--"Thank you for calling port
+3490."</A
+></DT
+><DT
+>4.6. <A
+HREF="socketstheory/syscalls.html#sendrecv"
+><TT
+CLASS="function"
+>send()</TT
+> and <TT
+CLASS="function"
+>recv()</TT
+>--Talk
+to me, baby!</A
+></DT
+><DT
+>4.7. <A
+HREF="socketstheory/syscalls.html#sendtorecv"
+><TT
+CLASS="function"
+>sendto()</TT
+> and
+<TT
+CLASS="function"
+>recvfrom()</TT
+>--Talk to me, DGRAM-style</A
+></DT
+><DT
+>4.8. <A
+HREF="socketstheory/syscalls.html#closedown"
+><TT
+CLASS="function"
+>close()</TT
+> and
+<TT
+CLASS="function"
+>shutdown()</TT
+>--Get outta my face!</A
+></DT
+><DT
+>4.9. <A
+HREF="socketstheory/syscalls.html#getpeername"
+><TT
+CLASS="function"
+>getpeername()</TT
+>--Who are you?</A
+></DT
+><DT
+>4.10. <A
+HREF="socketstheory/syscalls.html#gethostname"
+><TT
+CLASS="function"
+>gethostname()</TT
+>--Who am I?</A
+></DT
+><DT
+>4.11. <A
+HREF="socketstheory/syscalls.html#dns"
+>DNS--You say "whitehouse.gov", I say "198.137.240.92"</A
+></DT
+></DL
+></DD
+><DT
+>5. <A
+HREF="socketstheory/clientserver.html"
+>Client-Server Background</A
+></DT
+><DD
+><DL
+><DT
+>5.1. <A
+HREF="socketstheory/clientserver.html#simpleserver"
+>A Simple Stream Server</A
+></DT
+><DT
+>5.2. <A
+HREF="socketstheory/clientserver.html#simpleclient"
+>A Simple Stream Client</A
+></DT
+><DT
+>5.3. <A
+HREF="socketstheory/clientserver.html#datagram"
+>Datagram Sockets</A
+></DT
+></DL
+></DD
+><DT
+>6. <A
+HREF="socketstheory/advanced.html"
+>Slightly Advanced Techniques</A
+></DT
+><DD
+><DL
+><DT
+>6.1. <A
+HREF="socketstheory/advanced.html#blocking"
+>Blocking</A
+></DT
+><DT
+>6.2. <A
+HREF="socketstheory/advanced.html#select"
+><TT
+CLASS="function"
+>select()</TT
+>--Synchronous I/O Multiplexing</A
+></DT
+><DT
+>6.3. <A
+HREF="socketstheory/advanced.html#sendall"
+>Handling Partial <TT
+CLASS="function"
+>send()</TT
+>s</A
+></DT
+><DT
+>6.4. <A
+HREF="socketstheory/advanced.html#sonofdataencap"
+>Son of Data Encapsulation</A
+></DT
+></DL
+></DD
+><DT
+>7. <A
+HREF="socketstheory/reference.html"
+>More References</A
+></DT
+><DD
+><DL
+><DT
+>7.1. <A
+HREF="socketstheory/reference.html#manpages"
+><B
+CLASS="command"
+>man</B
+> Pages</A
+></DT
+><DT
+>7.2. <A
+HREF="socketstheory/reference.html#books"
+>Books</A
+></DT
+><DT
+>7.3. <A
+HREF="socketstheory/reference.html#webref"
+>Web References</A
+></DT
+><DT
+>7.4. <A
+HREF="socketstheory/reference.html#rfcs"
+>RFCs</A
+></DT
+></DL
+></DD
+><DT
+>8. <A
+HREF="socketstheory/faq.html"
+>Common Questions</A
+></DT
+><DT
+>9. <A
+HREF="socketstheory/conclusion.html"
+>Disclaimer and Call for Help</A
+></DT
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="socketstheory/intro.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+>&nbsp;</TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Intro</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

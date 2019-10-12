@@ -1,0 +1,21 @@
+13.  Un client TCP trimite unui server un sir de caractere si doua numere (fie acestea s, i, l). 
+     Serverul va returna clientului subsirul de lungime l a lui s care incepe la pozitia i. 
+     
+
+The protocol:
+1. The client sends send the number of bytes of the string 's' as an unsigned 4 bytes integer.
+   The client then sends the string with the size specified in the above bytes.
+   The client then sends two 4 bytes unsigned integers, representing 'i' and 'l'.
+   
+2. If the servers does not receive any info for about 10 seconds in between any of the above 4 send requests
+(the server then sends an signed integer represented on 4 bytes with the value -1, representing the error code), it closes the client connection then.
+
+3. The server sends back the response in the following way:
+   It first sends an signed integer N on 4 bytes with the values:
+   - N >= 0 - the number of bytes of the substring, on success
+   - N = -1 - error receiving the string, protocol was not respected
+   - N = -2 - string overflow, the substring overflows the original string, meaning either 'i' or 'l'  was wrong.
+   
+  If N was >= 0 then it also sends the substring(starting at 'i' with length 'l') with N amount of bytes.
+
+4. If the client does not receive a response after 10 seconds from the server after sending all the data it closes the connection

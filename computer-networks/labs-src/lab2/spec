@@ -1,0 +1,21 @@
+Write a program that implements the following UDP concurrent client-server communication:
+
+The client connects to the server via UDP and sends a request for receiving the content of a file (sent over the socket to the server) The server receives the request and sends the content of the file called back to the client using UDP Sockets (Datagrams). The client will save the received content in a file with the same name (or slightly altered if the server and client are running on the same machine). The server should be able to handle multiple clients simultaneously !
+
+
+The client and server should take each a command line argument:
+    On the server the argument (SRVARG) is the number of bytes the server sends with each send operation;
+    On the client the argument (CLTARG) is the number of bytes the recvfrom call reads on each call (on an appropriate sized buffer);
+
+Notice:
+1.    The server reads from the file SRVARG bytes and sends to the client on each sendto call as many bytes as it managed to read from the file (usually SRVARG or less).
+
+2.    The file operations should not operate on strings when reading and writing the source and destination files. Reads and writes from the file should not be something like: fgets, fputs, fscanf(“%s”…), fprintf(“%s”,…). The file format is not specified and should be thus interpreted as binary.
+
+ 
+
+Q1. Study the case where the file size (text) is larger than 2 Mbytes of data
+Q2. Study the case where the client attempts to receive data in small chunks of data (buffers of only 100 bytes size) and the server sends chunks >100 bytes in size;
+Q3. What happens when the server buffer size is set to >65530 ?
+Q4. How do you implement a multiclient server when using UDP ?
+Q5. How does a client know when the server has sent the entire file ? 

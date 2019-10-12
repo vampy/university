@@ -1,0 +1,1005 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0047)http://www.cs.niu.edu/~sjchung/c463/network.htm -->
+<HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:v = 
+"urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>Network Architecture: Cyclic Redundancy for Transmission Error Correction</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content=Word.Document name=ProgId>
+<META content="MSHTML 6.00.2900.2523" name=GENERATOR>
+<META content="Microsoft Word 9" name=Originator><LINK 
+href="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/filelist.xml" rel=File-List><LINK 
+href="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/editdata.mso" rel=Edit-Time-Data><LINK 
+href="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/oledata.mso" rel=OLE-Object-Data><!--[if !mso]>
+<STYLE>v\:* {
+	BEHAVIOR: url(#default#VML)
+}
+o\:* {
+	BEHAVIOR: url(#default#VML)
+}
+w\:* {
+	BEHAVIOR: url(#default#VML)
+}
+.shape {
+	BEHAVIOR: url(#default#VML)
+}
+</STYLE>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Dr. Sei-Jong Chung</o:Author>
+  <o:LastAuthor>dr chun</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>23</o:TotalTime>
+  <o:LastPrinted>2001-07-10T20:58:00Z</o:LastPrinted>
+  <o:Created>2001-07-10T21:07:00Z</o:Created>
+  <o:LastSaved>2001-07-10T21:07:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1608</o:Words>
+  <o:Characters>9168</o:Characters>
+  <o:Company>Northern Illinois University</o:Company>
+  <o:Lines>76</o:Lines>
+  <o:Paragraphs>18</o:Paragraphs>
+  <o:CharactersWithSpaces>11258</o:CharactersWithSpaces>
+  <o:Version>9.2720</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>0</w:DisplayVerticalDrawingGridEvery>
+  <w:UseMarginsForDrawingGridOrigin/>
+  <w:Compatibility>
+   <w:FootnoteLayoutLikeWW8/>
+   <w:ShapeLayoutLikeWW8/>
+   <w:AlignTablesRowByRow/>
+   <w:ForgetLastTabAlignment/>
+   <w:LayoutRawTableWidth/>
+   <w:LayoutTableRowsApart/>
+  </w:Compatibility>
+ </w:WordDocument>
+</xml><![endif]-->
+<STYLE>@page  {mso-facing-pages: yes; }
+@page Section1 {size: 8.5in 11.0in; margin: 1.0in 1.0in 1.0in 1.0in; mso-header-margin: 0in; mso-footer-margin: 0in; mso-page-numbers: 1; mso-even-footer: url("http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/header.htm") ef1; mso-footer: url("http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/header.htm") f1; mso-paper-source: 0; }
+P.MsoNormal {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+LI.MsoNormal {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+DIV.MsoNormal {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+H1 {
+	FONT-SIZE: 14pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center; mso-bidi-font-weight: normal; mso-bidi-font-size: 10.0pt; mso-pagination: widow-orphan; mso-style-next: Normal; mso-outline-level: 1; mso-font-kerning: 0pt
+}
+H2 {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: center; mso-bidi-font-weight: normal; mso-bidi-font-size: 10.0pt; mso-pagination: widow-orphan; mso-style-next: Normal; mso-outline-level: 2
+}
+P.MsoFooter {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; tab-stops: center 3.0in right 6.0in
+}
+LI.MsoFooter {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; tab-stops: center 3.0in right 6.0in
+}
+DIV.MsoFooter {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; tab-stops: center 3.0in right 6.0in
+}
+P.MsoPlainText {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Courier New"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-bidi-font-family: "Times New Roman"
+}
+LI.MsoPlainText {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Courier New"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-bidi-font-family: "Times New Roman"
+}
+DIV.MsoPlainText {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Courier New"; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"; mso-bidi-font-family: "Times New Roman"
+}
+DIV.Section1 {
+	page: Section1
+}
+OL {
+	MARGIN-BOTTOM: 0in
+}
+UL {
+	MARGIN-BOTTOM: 0in
+}
+</STYLE>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]--></HEAD>
+<BODY lang=EN-US style="tab-interval: .5in">
+<DIV class=Section1>
+<P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></B></P>
+<H1><SPAN style="FONT-SIZE: 16pt; mso-bidi-font-size: 10.0pt">Network 
+Architecture:<o:p></o:p></SPAN></H1>
+<H2><SPAN style="FONT-SIZE: 14pt; mso-bidi-font-size: 10.0pt">Hamming Codes 
+&amp; Cyclic Redundancy for Transmission Error Correction<o:p></o:p></SPAN></H2>
+<P class=MsoNormal style="MARGIN-RIGHT: -0.25in; TEXT-ALIGN: center" 
+align=center><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN-RIGHT: 31.5pt"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Sei-Jong Chung<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Department of Computer Science<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Northern Illinois University<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; COLOR: blue; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">DeKalb, 
+Illinois 60115<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>USA<SPAN 
+style="COLOR: blue"><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; COLOR: blue; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>sjchung@cs.niu.edu*<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; COLOR: blue; mso-bidi-font-size: 10.0pt">*</SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> For<SPAN 
+style="COLOR: blue"> </SPAN>the<SPAN style="COLOR: blue"> </SPAN>C/C++ codes 
+written by the author for this article, send your request via this e-mail<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>address.<SPAN 
+style="COLOR: blue"><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">An 
+internet is a collection of interconnected networks. For the information 
+carrying capacity of the connections, <B 
+style="mso-bidi-font-weight: normal">bandwidth</B>, to be shared among all 
+users, a control mechanism must be created so that <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">the 
+bandwidth can be shared properly.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>The Internet's Transmission Control Protocol (<B 
+style="mso-bidi-font-weight: normal">TCP</B>) is one of <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">the 
+most widely used mechanisms for sharing the bandwidth.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">In 
+contrast to a simple DeMultiplexing protocol like the User Datagram Protocol (<B 
+style="mso-bidi-font-weight: normal">UDP</B>), TCP is a more<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>sophisticated transmission protocol that 
+offers a reliable, connection-oriented, byte-stream service. 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">The 
+sender writes bytes into a TCP connection and the receiver reads bytes out of 
+the TCP connection. That is, TCP on the source host buffers enough bytes from 
+the sending process to fill a reasonably-sized packet, then sends this packet to 
+its peer on the destination host, as shown in the figure 
+below:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">TCP 
+(Send Buffer)<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>-</SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾</SPAN></SPAN></SPAN></SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">®</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>transmit<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾</SPAN></SPAN></SPAN></SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">®</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> TCP (Receive Buffer) 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><I style="mso-bidi-font-style: normal"><SPAN 
+style="FONT-SIZE: 9pt; mso-bidi-font-size: 10.0pt">writes bytes</SPAN></I><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><B 
+style="mso-bidi-font-weight: normal"><I 
+style="mso-bidi-font-style: normal">packet<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>. .<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>packet</I></B><I 
+style="mso-bidi-font-style: normal"> </I><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN><I 
+style="mso-bidi-font-style: normal"><SPAN 
+style="FONT-SIZE: 9pt; mso-bidi-font-size: 10.0pt">reads bytes</SPAN></I><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0in -31.5pt 0pt 4.5pt; TEXT-INDENT: -4.5pt"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The packets transmitted between TCP peers in the above figure are called 
+<B style="mso-bidi-font-weight: normal">segments,<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN></B>since each one carries 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN-RIGHT: -31.5pt"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">a segment of the byte 
+stream.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>TCP has three mechanisms to 
+trigger the transmission of a segment. First, TCP maintains a variable, Maximum 
+Segment Size (MSS), and it sends a segment as soon as it has collected MSS bytes 
+from the sending process.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>Second, 
+TCP transmits a segment when the sending process explicitly asks 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN-RIGHT: -31.5pt"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">it to do so.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Specifically, TCP supports a <B 
+style="mso-bidi-font-weight: normal"><I 
+style="mso-bidi-font-style: normal">push</I></B> operation, and the sending 
+process invokes this operation to effectively flush the buffer of unsent 
+bytes.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>(This operation is used in 
+terminal emulators like <B style="mso-bidi-font-weight: normal"><I 
+style="mso-bidi-font-style: normal">Telnet, </I></B>where<B 
+style="mso-bidi-font-weight: normal"> <o:p></o:p></B></SPAN></P>
+<P class=MsoNormal style="MARGIN-RIGHT: -31.5pt"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">each byte has to be sent as 
+soon as it is typed.)<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>The final 
+trigger for transmitting a segment is a timer that periodically fires; the 
+resulting segment contains as many bytes as are currently buffered for 
+transmission. <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="tab-stops: 0in"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">In this paper, we will 
+examine how transmission errors are detected and corrected by transmission 
+control protocols such as TCP. We will first show how <B 
+style="mso-bidi-font-weight: normal">Hamming</B> <B 
+style="mso-bidi-font-weight: normal">Codes </B>can be constructed to detect and 
+correct<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="tab-stops: 0in"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">1-bit transmission 
+errors.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>Then, we will evaluate 
+various aspects of<SPAN style="mso-spacerun: yes">&nbsp; </SPAN><B 
+style="mso-bidi-font-weight: normal">Cyclic Redundancy</B> <B 
+style="mso-bidi-font-weight: normal">Check</B> (CRC) codes in comparison to 
+Hamming Codes. It has been said in the literature that in the presence of<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><B 
+style="mso-bidi-font-weight: normal">burst transmission errors</B>, which each 
+begin and end with a bit error, with zero or more intervening corrupted bits, 
+the <B style="mso-bidi-font-weight: normal">Cyclic Redundancy</B> <B 
+style="mso-bidi-font-weight: normal">Check</B> codes can be a powerful error 
+detection and correction scheme.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="tab-stops: 0in"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Its efficiency and the ease 
+with which CRC codes are built and implemented are some of the aspects 
+of<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="tab-stops: 0in"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">the <B 
+style="mso-bidi-font-weight: normal">CRC</B> codes that will be evaluated in 
+this paper. <o:p></o:p></SPAN></P>
+<P class=MsoNormal style="tab-stops: 0in"><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P><B 
+style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; FONT-FAMILY: 'Times New Roman'; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: 'Times New Roman'; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><BR 
+style="PAGE-BREAK-BEFORE: always" clear=all></SPAN></B>
+<P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt">I.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Hamming Codes for Detecting &amp; 
+Correcting 1-bit Transmission Errors<o:p></o:p></SPAN></B></P>
+<P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></B></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Consider transmitting the 
+character 'W'.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>Its ASCII code is 57 
+in hexadecimal and 1010111 in binary.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">If 
+there was 1-bit error in transmission and received as 1010110, (the 
+7<SUP>th</SUP> bit inverted), the character 'V' is<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">received, instead of<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>'W'.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Unless the TCP has a mechanism to verify 
+that the character received is the same character sent, the receiving TCP will 
+accept 'V' instead of 'W'.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Let 
+m be the length in bits of the character to transmit (7 in this example).<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">1)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>To detect transmission errors of up to k 
+bits,<SPAN style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>the minimum number of 
+(k+1) bits called "check bits" is needed.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">2)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>To detect and correct transmission 
+errors of up to k bits, <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>the minimum number r 
+of check bits is computed by:<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN-LEFT: 0.25in"><!--[if gte vml 1]><o:wrapblock><v:shapetype 
+id=_x0000_t75 coordsize = "21600,21600" o:preferrelative = "t" o:spt = "75" 
+filled = "f" stroked = "f" path = " m@4@5 l@4@11@9@11@9@5 xe"><v:stroke 
+joinstyle = "miter"></v:stroke><v:formulas><v:f eqn = 
+"if lineDrawn pixelLineWidth 0 "></v:f><v:f eqn = "sum @0 1 0 "></v:f><v:f eqn = 
+"sum 0 0 @1 "></v:f><v:f eqn = "prod @2 1 2 "></v:f><v:f eqn = 
+"prod @3 21600 pixelWidth "></v:f><v:f eqn = 
+"prod @3 21600 pixelHeight "></v:f><v:f eqn = "sum @0 0 1 "></v:f><v:f eqn = 
+"prod @6 1 2 "></v:f><v:f eqn = "prod @7 21600 pixelWidth "></v:f><v:f eqn = 
+"sum @8 21600 0 "></v:f><v:f eqn = "prod @7 21600 pixelHeight "></v:f><v:f eqn = 
+"sum @10 21600 0 "></v:f></v:formulas><v:path o:extrusionok = "f" 
+gradientshapeok = "t" o:connecttype = "rect"></v:path><o:lock aspectratio="t" 
+v:ext="edit"></o:lock></v:shapetype><v:shape id=_x0000_s1046 
+style="MARGIN-TOP: 0px; Z-INDEX: 4; LEFT: 0px; MARGIN-LEFT: 64.8pt; WIDTH: 156pt; POSITION: absolute; HEIGHT: 21pt; TEXT-ALIGN: left" 
+type = "#_x0000_t75" coordsize = "21600,21600" o:allowincell = "f"><v:imagedata 
+o:title="" src = "./sigcse23.061_files/image001.wmz"></v:imagedata><w:wrap type 
+= "topandbottom"></w:wrap></v:shape><![if gte mso 9]><o:OLEObject Type="Embed" ProgID="Equation.COEE2"
+  ShapeID="_x0000_s1046" DrawAspect="Content" ObjectID="_1056286431">
+ </o:OLEObject>
+ <![endif]><![endif]--><![if !vml]><span style='mso-ignore:vglayout'>
+ <table cellpadding=0 cellspacing=0>
+  <tr>
+   <td width=86 height=0></td>
+  </tr>
+  <tr>
+   <td></td>
+   <td><img width=208 height=28 src="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/image002.gif" v:shapes="_x0000_s1046"></td>
+  </tr>
+ </table>
+ </span><![endif]><!--[if gte vml 1]></o:wrapblock><![endif]--><BR 
+style="mso-ignore: vglayout" clear=all><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN></SPAN><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P><BR 
+style="mso-ignore: vglayout" clear=all>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Thus, if we want to detect 
+and correct 1-bit<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>error in 
+transmitting a character of length <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">m 
+bits, then we compute the minimum number r of check bits with<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>k = 1 as follows:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><!--[if gte vml 1]><o:wrapblock><v:shape id=_x0000_s1033 
+style="MARGIN-TOP: 0px; Z-INDEX: 1; MARGIN-LEFT: 0px; WIDTH: 184pt; POSITION: absolute; HEIGHT: 18pt" 
+type = "#_x0000_t75" coordsize = "21600,21600" o:allowincell = "f"><v:imagedata 
+o:title="" src = "./sigcse23.061_files/image003.wmz"></v:imagedata><w:wrap type 
+= "topandbottom"></w:wrap></v:shape><![if gte mso 9]><o:OLEObject Type="Embed" ProgID="Equation.COEE2"
+  ShapeID="_x0000_s1033" DrawAspect="Content" ObjectID="_1056286432">
+ </o:OLEObject>
+ <![endif]><![endif]--><![if !vml]><img width=245 height=24
+ src="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/image004.gif" v:shapes="_x0000_s1033"><![endif]><!--[if gte vml 1]></o:wrapblock><![endif]--><BR 
+style="mso-ignore: vglayout" clear=all><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P><BR 
+style="mso-ignore: vglayout" clear=all>
+<P class=MsoNormal><!--[if gte vml 1]><o:wrapblock><v:shape id=_x0000_s1034 
+style="MARGIN-TOP: 0px; Z-INDEX: 2; MARGIN-LEFT: 43.2pt; WIDTH: 125pt; POSITION: absolute; HEIGHT: 18pt" 
+type = "#_x0000_t75" coordsize = "21600,21600" o:allowincell = "f"><v:imagedata 
+o:title="" src = "./sigcse23.061_files/image005.wmz"></v:imagedata><w:wrap type 
+= "topandbottom"></w:wrap></v:shape><![if gte mso 9]><o:OLEObject Type="Embed" ProgID="Equation.COEE2"
+  ShapeID="_x0000_s1034" DrawAspect="Content" ObjectID="_1056286433">
+ </o:OLEObject>
+ <![endif]><![endif]--><![if !vml]><span style='mso-ignore:vglayout'>
+ <table cellpadding=0 cellspacing=0>
+  <tr>
+   <td width=58 height=0></td>
+  </tr>
+  <tr>
+   <td></td>
+   <td><img width=166 height=24 src="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/image006.gif" v:shapes="_x0000_s1034"></td>
+  </tr>
+ </table>
+ </span><![endif]><!--[if gte vml 1]></o:wrapblock><![endif]--><BR 
+style="mso-ignore: vglayout" clear=all><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">That is,<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P><BR 
+style="mso-ignore: vglayout" clear=all>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">To 
+detect and correct 1-bit error in transmitting the character 'W' (7-bit ASCII 
+code) in the above example, the minimum number of check bits to add (append) to 
+'W' = 57 in hexadecimal = 1010111 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">in 
+binary is:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><!--[if gte vml 1]><o:wrapblock><v:shape id=_x0000_s1037 
+style="MARGIN-TOP: 0px; Z-INDEX: 3; MARGIN-LEFT: 0px; WIDTH: 239pt; POSITION: absolute; HEIGHT: 18pt" 
+type = "#_x0000_t75" coordsize = "21600,21600" o:allowincell = "f"><v:imagedata 
+o:title="" src = "./sigcse23.061_files/image007.wmz"></v:imagedata><w:wrap type 
+= "topandbottom"></w:wrap></v:shape><![if gte mso 9]><o:OLEObject Type="Embed" ProgID="Equation.COEE2"
+  ShapeID="_x0000_s1037" DrawAspect="Content" ObjectID="_1056286434">
+ </o:OLEObject>
+ <![endif]><![endif]--><![if !vml]><img width=319 height=24
+ src="http://www.cs.ubbcluj.ro/~dadi/compnet/lectures/C6/sigcse23.061_files/image008.gif" v:shapes="_x0000_s1037"><![endif]><!--[if gte vml 1]></o:wrapblock><![endif]--><BR 
+style="mso-ignore: vglayout" clear=all><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">as<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>2<SUP>4</SUP> - 4 =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>16 - 4 =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>12<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">³</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>m + 1 = 7<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>8 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">The 
+length of the Code Word W(x) is<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>m + 
+r = 7 + 4 = 11 and<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>w(x) is 
+constructed by inserting the<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">four check bits into the 
+Message Word M(x), the character 'W' = 1010111, in the following positions: 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">2<SUP>0</SUP> = 1, 
+2<SUP>1</SUP> = 2, 2<SUP>2</SUP> = 4, 2<SUP>3</SUP> = 8<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">That is, in the Code Word 
+<SPAN style="mso-spacerun: yes">&nbsp;</SPAN>W(x) =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>w<SUB>1</SUB> w<SUB>2 
+</SUB>w<SUB>3</SUB> w<SUB>4</SUB> w<SUB>5</SUB> w<SUB>6</SUB> w<SUB>7 
+</SUB>w<SUB>8</SUB> w<SUB>9 </SUB>w<SUB>10</SUB> w<SUB>11 </SUB><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;</SPAN>to be built for transmission<SUB> 
+</SUB>,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">the 
+four check bits are<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>w<SUB>1</SUB> = 
+c<SUB>1</SUB>,<SUB><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SUB>w<SUB>2</SUB> = c<SUB>2</SUB>,<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>w<SUB>4</SUB><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>c<SUB>3</SUB>,<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>w<SUB>8<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUB>c<SUB>4 </SUB><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>and<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>the rest are the M(x) bits.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>Hence,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">W(x) =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>c<SUB>1</SUB> c<SUB>2</SUB> 
+w<SUB>1</SUB> c<SUB>3</SUB> w<SUB>2</SUB> w<SUB>3 </SUB>w<SUB>4</SUB> c<SUB>4 
+</SUB>w<SUB>5</SUB> w<SUB>6 </SUB>w<SUB>7</SUB> =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>c<SUB>1</SUB><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>c<SUB>2</SUB> 1 c<SUB>3</SUB> 0 1 0 
+c<SUB>4<SPAN style="mso-spacerun: yes">&nbsp; </SPAN></SUB>1 1 
+1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SUB><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SPAN></SUB><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Using the Even-Parity,<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>the check bits are computed as<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>c<SUB>1</SUB> = 1,<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>c<SUB>2</SUB><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>= 1,<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>c<SUB>3</SUB><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>= 0, c<SUB>4<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN></SUB>= 1.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Thus, the Code Word W(x) 
+that will enable the receiving<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>TCP<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>to detect and correct 
+any 1-bit <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">transmission error has been 
+built as:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">W(x) =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1 1 1 0 0 1 0 1 1 1 1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt">II.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Cyclic Redundancy Check 
+Codes</SPAN></B><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">In 
+the presence of<SPAN style="mso-spacerun: yes">&nbsp; </SPAN><B 
+style="mso-bidi-font-weight: normal">burst transmission errors</B>, which each 
+begin and end with a bit error, with zero or<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">more intervening corrupted 
+bits, the <B style="mso-bidi-font-weight: normal">Cyclic Redundancy</B> <B 
+style="mso-bidi-font-weight: normal">Check</B> (CRC)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>can be a useful error 
+detection<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">and 
+correction scheme.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>CRC codes are 
+based upon treating bit strings as representations of polynomials with 
+coefficients of<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0's and 1's 
+only.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>For example, 110001 has 6 
+bits and thus represents the six-term generating polynomial<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN>G(x) 
+=<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>x<SUP>5</SUP> + x<SUP>4</SUP> + 
+1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Polynomial arithmetic is 
+done modulo 2, according to the rules of algebraic theory. There are no carries 
+for addition, and no borrows for subtraction.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Both addition and subtraction are 
+identical to </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">, Exclusive OR.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Long division is carried out the same 
+way as it is in binary except that<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>the subtraction is done modulo 2.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>A divisor is said<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>"to go 
+into" a dividend if the dividend has as many bits as the 
+divisor.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">When the CRC code method is 
+employed, the sending TCP and the receiving TCP must agree upon a Generator 
+Polynomial G(x) in advance. Both the high-order and low-order bits of the 
+generator must be 1.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">The 
+basic idea is to append a checksum to the end of the frame M(x) in such a way 
+that the polynomial W(x) represented by the checksummed frame is divisible by 
+G(X), <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">i.e., R(x) = Remainder 
+of<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>W(x) </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> G(X) = 0. 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">When the receiver gets the 
+checksummed frame W(x), it divides W(x) by G(x).<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">If 
+the remainder of<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>W(x) </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> G(x) = 0, there were no 
+transmission errors.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Otherwise, there must be 
+transmission error(s).<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Example:<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Assume that M(x) =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1 0 1 0 1 1 1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>(for 'W')<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>and<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>G(x) =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>x<SUP>5</SUP> + x<SUP>4</SUP> + 1 =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Step 1.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>M(x) ^ 0000 =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1 0 1 0 1 1 1 0 0 0 0<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>(append<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0 0 0 0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>to<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>M(x))<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN>Q(x) 
+=<SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Step 2.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>M(x) ^ 0000 </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> G(x):<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>.--------------------------------<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1 0 0 1 1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>|<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>=<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>R(x) <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Step 3.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>W(x) = M(X) ^ R(x)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN><B 
+style="mso-bidi-font-weight: normal">Transmit<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>W(x) <o:p></o:p></B></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Step 4.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>TCP (Send Buffer) </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾</SPAN></SPAN></SPAN></SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">®</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> 1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾<SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¾</SPAN></SPAN></SPAN></SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">®</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> TCP (Receive Buffer) 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><I style="mso-bidi-font-style: normal"><SPAN 
+style="FONT-SIZE: 9pt; mso-bidi-font-size: 10.0pt">writes bytes</SPAN></I><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><B 
+style="mso-bidi-font-weight: normal"><I 
+style="mso-bidi-font-style: normal">packet<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>packet</I></B><I style="mso-bidi-font-style: normal"> </I><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></SPAN><I 
+style="mso-bidi-font-style: normal"><SPAN 
+style="FONT-SIZE: 9pt; mso-bidi-font-size: 10.0pt">reads bytes</SPAN></I><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">Step 5.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Let<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>T(x)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>be the transmitted word, the word 
+arrived at the receiving TCP.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The receiving TCP computes the remainder<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>R(x) of<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>T(x) </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> G(x).<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>If<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>R(x) =<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0 0 0 0, then<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>T(x) = W(x)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>and<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>there were no transmission 
+errors.<o:p></o:p></SPAN></P><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: 'Times New Roman'; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: 'Times New Roman'; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><BR 
+style="PAGE-BREAK-BEFORE: always; mso-special-character: line-break" 
+clear=all></SPAN>
+<P class=MsoNormal><![if !supportEmptyParas]><![endif]>&nbsp;<SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Let us assume that<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>T(x) 
+=<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>(7<SUP>th</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>bit inverted)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Computing<SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>T(x) 
+</SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> G(x)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>yields the following 
+R(x):<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>.-------------------------------------<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>|<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;</SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>1<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN>0<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>0<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>R(x)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Since R(x)<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0 0 0 1<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¹</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>0 0 0 0<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>the receiving TCP detects 
+(concludes) that<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>T(x) </SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">¹</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> W(x)<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>and<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>there was/were errors(s) in transmission.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>However, there is no sufficient 
+information for the <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>receiving TCP to correct the error(s).<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></B></P>
+<P class=MsoNormal><B style="mso-bidi-font-weight: normal"><SPAN 
+style="FONT-SIZE: 12pt; mso-bidi-font-size: 10.0pt">III.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>Cyclic Redundancy Check Codes in 
+comparison to Hamming Codes</SPAN></B><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">The 
+above example shows that there can be transmission errors that the CRC code can 
+not detect.<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>The goal in creating a 
+CRC code is to select a generating polynomial G(x) that covers the statistically 
+likely errors for a given fault model.<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>Common generating polynomials that give good error coverage include: 
+<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">CRC-16<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>x<SUP>16</SUP><SPAN style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>x<SUP>15<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUP>+ <SUP><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;</SPAN></SUP>x<SUP>2</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SUP><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN></SPAN></SUP><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">CRC-CCITT<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>x<SUP>16</SUP><SPAN style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>x<SUP>12<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUP>+ <SUP><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;</SPAN></SUP>x<SUP>5</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">CRC-32<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>=<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>x<SUP>32</SUP><SPAN style="mso-spacerun: yes">&nbsp; </SPAN>+ 
+x<SUP>26<SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUP>+ <SUP><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN></SUP>x<SUP>23</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+ x<SUP>16</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>x<SUP>12<SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUP>+ 
+<SUP><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;</SPAN></SUP>x<SUP>11</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+ x<SUP>10</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+ x<SUP>8<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUP>+ <SUP><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN></SUP>x<SUP>7</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+ x<SUP>5</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>x<SUP>4<SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN></SUP>+ 
+<SUP><SPAN style="mso-spacerun: yes">&nbsp;</SPAN></SUP><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>x<SUP>2</SUP><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>+ x + 1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">On 
+the other hand, the Hamming codes can not only detect but also correct any 1-bit 
+transmission errors.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">More research is needed for 
+Hamming Codes that will correct transmission errors of 2 or more bits, 
+even<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">though the likelihood of 
+such transmission errors are very small (less than 0.003%/32-bit 
+transmission).<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">The 
+use of<SPAN style="mso-spacerun: yes">&nbsp; </SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; FONT-FAMILY: Symbol; mso-bidi-font-size: 10.0pt; mso-ascii-font-family: 'Times New Roman'; mso-hansi-font-family: 'Times New Roman'; mso-char-type: symbol; mso-symbol-font-family: Symbol"><SPAN 
+style="mso-char-type: symbol; mso-symbol-font-family: Symbol">Å</SPAN></SPAN><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"> (Exclusive OR) in 
+constructing Cyclic Redundancy Check codes (packets) appears to 
+be<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">computationally more 
+efficient than the complex method by which Hamming codes are built.<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>But, the<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt">number of check bits 
+(checksums) is exact (no more than needed) in Hamming codes, while they are 
+generally longer and even arbitrary in Cyclic Redundancy Check<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>codes.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN 
+style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN style="FONT-SIZE: 11pt; mso-bidi-font-size: 10.0pt"><![if !supportEmptyParas]><![endif]>&nbsp;<o:p></o:p></SPAN></P></DIV></BODY></HTML>
