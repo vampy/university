@@ -49,4 +49,4 @@ The source code repository of almost all the courses I attended while studying c
 - Systems for Design and Implementation
 - Software Systems Verification and Validation
 - Virtual Machines, Design and Implementation
-- Numerical Analysis/Calculus
+- [Numerical Analysis/Calculus](/numerical-calculus/)
