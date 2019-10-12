@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <!-- Enables the caching through annotations -->
+    <!--<context:annotation-config />-->
+    <!--<cache:annotation-driven mode="aspectj"/>-->
+    <!--<aop:aspectj-autoproxy/>-->
+
+    <bean id="bookRepository" class="com.aop.repository.JDBCBookRepository">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="library" class="com.aop.model.Library">
+        <constructor-arg ref="bookRepository" />
+    </bean>
+    <bean id="guiController" class="com.aop.controller.GUIController">
+        <constructor-arg ref="library" />
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.pass}"/>
+    </bean>
+    <context:property-placeholder location="jdbc.properties"/>
+
+    <!-- cache definitions -->
+    <!-- simple cache manager -->
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="searchBooks"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="loanedBy"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="all"/>
+            </set>
+        </property>
+    </bean>
+    <cache:advice id="cacheBookRepository" cache-manager="cacheManager">
+        <cache:caching cache="searchBooks">
+            <cache:cacheable method="searchByTitle" key="#title"/>
+        </cache:caching>
+        <cache:caching cache="loanedBy">
+            <cache:cacheable method="getAllLoanedBy" key="#userID"/>
+            <cache:cache-evict method="loanBook" all-entries="true"/>
+            <cache:cache-evict method="returnBook" all-entries="true"/>
+        </cache:caching>
+        <cache:caching cache="all">
+            <cache:cacheable method="getAll"/>
+            <cache:cache-evict method="loanBook" all-entries="true"/>
+            <cache:cache-evict method="returnBook" all-entries="true"/>
+        </cache:caching>
+    </cache:advice>
+
+    <!--<bean id="performanceMonitor" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor"/>-->
+    <bean id="performanceMonitor" class="com.aop.aspect.PerformanceMonitor"/>
+    <aop:config>
+        <aop:advisor advice-ref="performanceMonitor"
+                     pointcut="execution(* com.aop.repository.JDBCBookRepository.*(..))"
+                     order="1"/>
+        <aop:advisor advice-ref="cacheBookRepository"
+                     pointcut="execution(* com.aop.repository.JDBCBookRepository.*(..))"
+                     order="2"/>
+    </aop:config>
+
+    <!--AUTHENTICATION-->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider>
+            <!--<security:user-service>-->
+                <!--<security:user name="admin" password="admin"-->
+                               <!--authorities="ROLE_USER,ROLE_SUPERVISOR"/>-->
+                <!--<security:user name="test" password="test"-->
+                               <!--authorities="ROLE_USER"/>-->
+            <!--</security:user-service>-->
+            <security:jdbc-user-service
+                    data-source-ref="dataSource"
+                    users-by-username-query="SELECT username, password, enabled FROM users where username=?"
+                    authorities-by-username-query="select username, 'ROLE_SUPERVISOR' as authority from  users where username =?"
+                    />
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="loginService" class="com.aop.aspect.UILoginService"/>
+    <bean id="authenticationSupport" class="ajia.security.AuthenticationSupport">
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="loginUI" ref="loginService"/>
+    </bean>
+
+    <bean id="authenticationAspect" class="com.aop.aspect.AuthenticationBookAspect"
+          factory-method="aspectOf">
+        <property name="authenticationSupport" ref="authenticationSupport"/>
+    </bean>
+</beans>

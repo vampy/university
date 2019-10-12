@@ -1,0 +1,6 @@
+	Observer with AOP
+
+
+
+Modify the problem with the Observer pattern to use the AOP-based implementation of the Observer design pattern. 
+Define an annotation, annotate the methods that change the state of the subject, and define a pointcut using the annotation.

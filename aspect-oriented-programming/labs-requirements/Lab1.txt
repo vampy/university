@@ -1,0 +1,61 @@
+		Aspect Oriented Programming - Logging/Tracing
+
+a) Design and implement a given application (with the Observer pattern). Use a database for persistent data.
+b) Trace the execution of each public method using one of the folowing logging/tracing tools:
+	*java.util.Logging (included in JSDK)
+	*Log4J
+
+
+1. Library
+
+==========
+
+A library offers its subscriber books that can be borrowed. The library has many terminals where the subscribers can borrow books. 
+
+ On the terminal, the subscriber sees all the available books and may borrow one or more books (no more than three).  After the loan is completed, all the other subscribers using the terminals see the updated list of available books.
+
+The subscriber can also search for a book, by typing a substring from the title. The terminal will display all the books from the library containing that substring together with their status (borrowed or available).
+
+
+
+
+
+
+
+2. Sales agent
+
+==============
+
+
+
+A firm has many sales agents that order products in the name of the customers and distribute the products to the clients. The firm has a software application that agents use to order products. Each sales agent has a terminal for  products visualization and products ordering.
+
+
+The agent's terminal displays the list of all the products offered  by the firm (product code, name, available quantity and price).
+
+
+The agent can order a product if the desired quantity is available. For ordering the agent selects the product from the list, introduces the quantity and trigger the order. After the successful completion of an order, all the other agents using their terminals will see the update list of available products. If the quantity for the order is greater than the available quantity, an error message will be displayed. 
+
+
+An agent can also search for products containing a given substring in their name. The application will display in a list or table all the products that contain that substring in their name. 
+
+
+
+
+
+3. Theater
+
+==========
+
+
+
+A theater uses a software system that allows spectators to reserve seats. Using this application the spectators can only reserve seats for a certain show and they have to pay for the seats before seeing the show.
+
+
+
+The application stores the list of seats for each room where the show will be performed. For each seat, the application stores the position (row number, box, etc), seat number and price. The spectators can search for a show by typing a part of its title, and the application should display the list of all the shows that contain the given substring. When a spectator selects a show the application will display the list of all seats and their status (available/reserved).   
+
+
+
+In order to reserve seats a spectator has to introduce his/her name and address,  and to select the desired seats from the list of seats. After the successful completion of a reservation all the other spectators using the application see the updated list of seats for the corresponding show. If some desired seats were already  reserved by other spectator while completing the reservation, the spectator will be notified that some seats have already been reserved and they are not available anymore. 
+

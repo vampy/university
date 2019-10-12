@@ -1,0 +1,5 @@
+	Spring and Spring AOP
+
+1. Modify the problem  to use the Spring Framework and databases (with Spring JDBC) .
+
+2. Use Spring AOP for performance monitoring and caching the objects retrieved from the database.

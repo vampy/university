@@ -1,0 +1,33 @@
+	AOP Project
+
+
+
+You have to use AOP for developing another software application (different from the one used for labs). It can be the application from Individual Project or Software Engineering, or any other application.
+
+
+
+You have to use databases (at your choice) for the repositories, and aspects. The final mark for the project will be computed as follows:
+
+
+
+- Clear separation between model, view, controller, repositories and use of a database - 4 points
+
+- Logging Aspect - 1 point
+
+- Performance Monitoring Aspect - 1
+
+- Caching Aspect - 2 points
+
+- Observer with Aspects	- 3 points
+
+- Authentication/authorization with aspects - 3 points TODO?
+
+- Other aspects - will be decided during evalution.
+
+
+
+The language used is at your choice.
+
+
+
+You may work in pairs. 

@@ -1,0 +1,12 @@
+	AOP Report
+
+You have to write a short report (at most 4 pages) about another AOP language (it cannot be AspectJ or Spring AOP).
+
+The report should contain information about join points, pointcuts, advices, introductions, aspects, and weaving for the chosen language.
+
+
+For maximum mark, you must also present a small working example in that language. Otherwise, the maximum grade will be 9.
+
+You may work in pairs.
+
+Report deadline: last week of the semester (during the course).

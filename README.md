@@ -30,7 +30,7 @@ The source code repository of almost all the courses I attended while studying c
 
 #### Semester 2
 - [Artificial Intelligence](/artificial-intelligence/)
-- Aspect Oriented Programming
+- [Aspect Oriented Programming](/aspect-oriented-programming/)
 - Database Management Systems (Databases 2)
 - Computer networks
 - Individual Project

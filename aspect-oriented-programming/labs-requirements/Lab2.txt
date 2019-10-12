@@ -1,0 +1,4 @@
+	Tracing with AOP
+
+a) Modify the previous system from lab1, to trace the methods using AspectJ.
+b) Inside the aspect, modify the library used for tracing (Logging ->Log4J, Log4J->Logging).
