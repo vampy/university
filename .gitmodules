@@ -1,9 +1,9 @@
-[submodule "group-project"]
-	path = group-project
-	url = git@github.com:vampy/university-PC.git
 [submodule "audio-video/project-code"]
 	path = audio-video/project-code
 	url = git@github.com:vampy/university-AVDP.git
 [submodule "software-engineering/lab-project/code"]
 	path = software-engineering/lab-project/code
 	url = git@github.com:vampy/university-SE.git
+[submodule "group-project/code"]
+	path = group-project/code
+	url = git@github.com:vampy/university-PC.git
