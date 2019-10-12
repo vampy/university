@@ -4,6 +4,6 @@
 [submodule "group-project"]
 	path = group-project
 	url = git@github.com:vampy/university-PC.git
-[submodule "audio-video"]
-	path = audio-video
+[submodule "audio-video/project-code"]
+	path = audio-video/project-code
 	url = git@github.com:vampy/university-AVDP.git

@@ -42,7 +42,7 @@ The source code repository of almost all the courses I attended while studying c
 - [Computer Graphics](/computer-graphics/)
 - [Group Project](/group-project/)
 - [Virtual Reality](/virtual-reality)
-- Web Programming
+- [Web Programming](/web-programming/)
 
 #### Semester 2
 - [Audio-Video Data Processing](/audio-video/)

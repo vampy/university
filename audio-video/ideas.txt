@@ -1,0 +1,18 @@
+Screen capture streaming
+Nu toata imaginea
+Imagine e impartita 8x8
+Trimiti numai diferentele de imagine catre client
+Clientul receptioneaza si afiseaza
+
+Take 3 matrices (rgb, yuv)
+Take blocks of 8x8
+A list of blocks
+For the next frame you compare with the previoius list of blocks
+min square error https://en.wikipedia.org/wiki/Mean_squared_error
+
+The client keeps the same queue.
+
+
+La lab:
+- o parte dintrun codec
+
