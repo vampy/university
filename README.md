@@ -48,5 +48,5 @@ The source code repository of almost all the courses I attended while studying c
 - [Audio-Video Data Processing](/audio-video/)
 - Systems for Design and Implementation
 - Software Systems Verification and Validation
-- Virtual Machines, Design and Implementation
+- [Virtual Machines, Design and Implementation](/virtual-machines/)
 - [Numerical Analysis/Calculus](/numerical-calculus/)

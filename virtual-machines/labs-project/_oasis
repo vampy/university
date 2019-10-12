@@ -1,0 +1,24 @@
+Name: VM-Interpreter
+Version: 0.1
+Synopsis: Core Java Interpreter
+Authors: God@heaven
+License: LGPL with OCaml linking exception
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+
+Executable "test"
+  Path: src/
+  MainIs: jexp.ml
+  CompiledObject: best
+  BuildDepends: threads, core, ppx_deriving.std
+  Install: false
+
+Executable "interpreter"
+  Path: src/
+  MainIs: interpreter.ml
+  CompiledObject: best
+  BuildDepends: threads, core, ppx_deriving.std
+  Install: false

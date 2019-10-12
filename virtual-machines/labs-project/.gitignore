@@ -1,0 +1,32 @@
+*.annot
+*.cmo
+*.cma
+*.cmi
+*.a
+*.o
+*.cmx
+*.cmxs
+*.cmxa
+
+# ocamlbuild working directory
+_build/
+build/
+build-*
+
+# ocamlbuild targets
+*.byte
+*.native
+
+# oasis generated files
+setup.data
+setup.log
+
+src/.ocp-indent-tmp
+#*.ml#
+src/parser.ml
+src/parser.mli
+*.automaton
+*.conflicts
+*.log
+
+.vscode/
