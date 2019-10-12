@@ -1,0 +1,192 @@
+
+Deci daca avem 2 liste si vrem sa le concatenam, optiunea cea mai buna
+este functia APPEND. Dar exista si o alta varianta, si anume functia
+NCONC.
+Diferenta dintre cele 2 functii poate nu se vede din prima, pentru ca
+(append '(1 2 3) '(4 5 6) '(7 8 9)) este (1 2 3 4 5 6 7 8 9) si
+(nconc '(1 2 3) '(4 5 6) '(7 8 9)) este tot (1 2 3 4 5 6 7 8 9).
+Totusi, exista o diferenta importanta, dar se vede doar daca folosim niste
+variabile (ceea ce la rezolvarea laboratoarelor nu ati avut voie sa
+faceti). In loc sa scriem direct listele de concatenat la apel, vom defini
+trei variabile (a, b, c) care sa reprezinte aceste 3 liste.
+(setq a '(1 2 3))
+(setq b '(4 5 6))
+(setq c '(7 8 9))
+
+(dupa aceste operatii, daca scrieti in consola Lisp de exemplu a - fara
+paranteze fara nimic - va afiseaza valoarea variabilei a, adica lista (1 2
+3)).
+
+(append a b c) imi da lista (1 2 3 4 5 6 7 8 9) ca si pana acum. Nicio
+surpriza aici. Si daca ma uit la variabilele definite, a b si c au exact
+aceeasi valoare ca si pana acum.
+(nconc a b c) imi da lista (1 2 3 4 5 6 7 8 9) ca si pana acum, dar daca
+ma uit la valoarea variabilelor, acolo sunt modificari.
+a are valoarea (1 2 3 4 5 6 7 8 9)
+b are valoarea (4 5 6 7 8 9)
+c are valoarea (7 8 9)
+
+Deci diferenta principala intre append si nconc este ca nconc iti modifica
+efectiv (fizic) listele. Nu stiu cat de bine va descurcati cu listele
+inlantuite cu alocare dinamica (dynamically linked list), sigur ati facut
+la structuri de date si algoritmi. Aceste liste nu sunt chiar liste
+inlantuite cu alocare dinamica, dar poate va ajuta sa intelegi de ce arata
+asa ciudat a b si c dupa nconc, daca le priviti ca liste inlantuite.
+O lista inlantuita este alcatuita din noduri, fiecare nod are un pointer
+spre nodul urmator. Ultimul nod din lista are pointer spre NULL. Iar
+variabila care reprezinta lista este defapt un pointer la primul nod.
+NCONC in general poate sa primeasca orice numar de parametri, noi am avut
+3, hai sa zicem, la modul general, n parametri. Functia ia primele n-1
+liste, si modifica acel NULL de la ultimul nod din lista sa pointeze
+defapt la inceputul listei urmatoare. Astfel, toate nodurile care formeaza
+listele parametrii devin parte dintr-o singura lista lunga. Dar inceputul
+listelor separate nu s-a modificat. Daca te uiti la variabila a, contine
+toata lista. Daca te uiti la variabila b, vezi doar lista incepand cu
+primul element din fostul b (adica cu numarul 4)
+Nu stiu daca am reusit sa explic suficient de bine de ce arata asa listele
+(sau poate v-ati prins si fara explicatii). Daca nu e suficient de clar,
+va rog sa-mi scrieti, si va fac un desen :P.
+
+Si acum sa vedem niste exemple concrete legate de functii MAP. AI zis ca
+ai facut tema, deci probabil partea de baza o stii: functiile map mai
+primesc o functie in plus, si aplica functia respectiva pe rand, pe
+fiecare element din lista (listele daca e o functie cu mai multi
+parametrii) parametru. MAPCAR foloseste functia LIST pentru a face un
+singur rezultat din rezultatele "partiale", iar MAPCAN foloseste NCONC.
+
+Sa luam un exemplu simplu:
+(MAPCAR 'list '(1 2 3) '(a b c))
+Ce se intampla defapt? Se iau elementele din ambele liste (adica prima
+data 1 si a, dupa aceea 2 si b, dupa aceea 3 si c) si se aplica functia
+LIST pe aceste perechi.
+(LIST 1 a) -> (1 a)
+(LIST 2 b) -> (2 b)
+(LIST 3 c) -> (3 c)
+Iar aceste 3 rezultate sunt "unite" folosind functia list, deci rezultatul
+va fi (list '(1 a) '(2 b) '(3 c)), adica ((1 a) (2 b) (3 c)). Si daca
+scrieti in consola (MAPCAR 'list '(1 2 3) '(a b c)) exact asta o sa va dea
+ca rezultat (am incercat :P).
+
+Daca scriu (MAPCAN 'list '(1 2 3) '(a b c)) prima parte ramane la fel,
+adica se va apela functia list pentru acele 3 perechi, si o sa am cele 3
+liste scurte. Dar rezultatul final se face cu functia NCONC, deci (nconc
+'(1 a) '(2 b) '(3 c)), adica (1 a 2 b 3 c) - fara paranteze "extra"-.
+
+E important ca functia LIST poate sa primeasca ca parametru si liste, si
+atomi. Dar NCONC cere liste. Deci MAPCAN nu poate fi aplicat atunci cand
+rezultatele "partiale" nu sunt liste (adica poate fi aplicat, numai nu-ti
+da solutia corecta).
+
+De exemplu:
+(mapcar '+ '(1 2 3) '(4 5 6) '(7 8 9))  va deveni
+(+ 1 4 7) -> 12
+(+ 2 5 8) -> 15
+(+ 3 6 9) -> 18
+Dupa care se face list pentru cele 3 numere (list 12 15 18) si rezultatul
+functiei mapcar este (12 15 18).
+Cu NCONC rezultatul este NIL. (apeland direct (nconc 12 15 18) da eroare,
+ca 15 nu e lista, dar cand incerci sa faci aceeasi chestie cu mapcan pur
+si simplu returneaza NIL)
+
+Si inca un exemplu, unde puteti vedea in practica cu ce ne ajuta mapcan.
+Sa incercam sa scriem o functie care transforma o lista cu subliste intr-o
+lista liniara. Adica din lista (A (B C D) E (F G) H) sa faca lista (A B C
+D E F G H).
+
+Ce se intampla daca incercam sa rezolvam problema folosind functia MAPCAR?
+
+(defun transforma (l)
+(cond
+        ((null l) nil)
+        ((atom l) l)
+        (t (mapcar 'transforma l))
+)
+)
+
+Daca implementati si rulati varianta asta, puteti vedea ca va returneaza
+lista originala fara nici-o modificare. De ce oare?
+- apelul  (transforma '(A (B C D) E (F G) H)) intra pe ramura t
+(parametrul fiind o lista) si prin functia mapcar, functia transforma va
+fi apelata pentru fiecare element din lista:
+        - (transforma A)
+        - (transforma (B C D))
+        - (transforma E)
+        - (transforma (F G))
+        - (transforma H)
+        Apelurile pentru A E si H, intra pe ramura cu atom, si returneaza atomul
+respectiv, pentru cele 2 liste, iar se intra pe ramura t si se fac alte
+apeluri:
+
+        - (transforma A) -> A
+        - (transforma (B C D))
+                - (transforma B)
+                - (transforma C)
+                - (transforma D)
+        - (transforma E) -> E
+        - (transforma (F G))
+                - (transforma F)
+                - (transforma G)
+        - (transforma H) -> H
+
+        Nefiind alte subliste in listele noastre, aceste apeluri intra pe ramura
+cu atom, si returneaza atomul. Dupa care se foloseste functia LIST pentru
+a crea rezultatele. Dar, atenti, list nu se aplica direct pe toti atomii
+(A...H) deodata, ci se aplica asa cum au fost apelurile
+transforma...adica pentru (transforma (B C D)) - care are rezultatele
+"partiale" B C D, se creeaza lista (B C D), pentru (transforma (F G)) se
+creeaza lista (F G), si dupa aceea vine apelul (list A (B C D) E (F G)
+H), care ne returneaza lista originala.
+
+        Ok, asa nu e bine...eu vreau sa dispara sublistele, si pentru asta as
+putea folosi functia APPEND. Append mi-ar trebui in locul apelului la
+LIST, dar asta n-o pot modifica....adica mapcar foloseste LIST pentru a
+crea rezultatul final, si eu nu pot modifica asta. Dar pot incerca cu un
+APPLY APPEND sa modific rezultatul creat cu list.
+
+(Daca sunteti la functii map, probabil stiti deja apply-ul, dar o
+recapitulare scurta: la functia apply, dai ca parametru un nume de
+functie, si o lista, iar fiecare element din lista va fi "dat" ca
+parametru pentru functia respectiva. (apply 'append '((1 2) (3 4))) se
+transforma in (append '(1 2) '(3 4)) )
+
+Ok, hai sa adaugam un apply append in codul nostru:
+
+(defun transforma (l)
+(cond
+        ((null l) nil)
+        ((atom l) l)
+        (t (apply 'append (mapcar 'transforma l)))
+)
+)
+
+Poate va dati seama si fara incercare, dar daca rulam codul pentru lista
+de sus rezultatul este o eroare: "C is not a list". Intr-adevar, apelul
+(transforma (B C D)) ne returneaza lista (B C D) si noi facem un apply
+'append pe aceasta lista, ceea ce este defapt (append 'B 'C 'D). Si append
+da eroare la atomi. Solutia este ca atunci cand am atom, sa nu returnez
+atomul direct, si sa-l transform intr-o lista cu un singur element.
+Astfel, (transforma (B C D)) mi-ar returna ((B) (C) (D)), din care apply
+'append (adica (append '(B) '(C) '(D))) imi face o lista frumoasa, (B C
+D).
+
+(defun transforma (l)
+(cond
+        ((null l) nil)
+        ((atom l) (list l))
+        (t (apply 'append (mapcar 'transforma l)))
+)
+)
+Acum e bine. Puteti sa-i dati liste oricat de complicate, cu oricate
+subliste, o sa transforme intr-o lista liniara.
+Daca mai tineti minte, la inceputul acestui raspuns, am inceput spunand ca
+append si nconc sunt similare daca nu am variabile (si aici nu am). Deci
+problema poate fi rezolvata mai simplu, folosind functia MAPCAN (care
+foloseste NCONC), fara partea cu apply append
+
+(defun transforma (l)
+(cond
+        ((null l) nil)
+        ((atom l) (list l))
+        (t (mapcan 'transforma l))
+)
+)

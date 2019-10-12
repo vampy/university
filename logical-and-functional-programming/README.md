@@ -1,5 +1,10 @@
 # Logical and Functional programming
 
+[Website](https://web.archive.org/web/20150621003258/http://www.cs.ubbcluj.ro/~hfpop/teaching/2014/pfl/index.html)
+
+[Website LAB(DEAD)](http://www.cs.ubbcluj.ro/~marianzsu/PLFEn.html)
+
+
 ## Prolog
 The prolog environment used is [SWI-Prolog](http://www.swi-prolog.org/).
 

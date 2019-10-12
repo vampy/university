@@ -1,5 +1,5 @@
 # AOP project
-Repo: https://gitlab.com/leyyin-university/AOP
+Repo: https://gitlab.com/vampy-university/AOP
 
 # Installation
 Use IntelliJ IDEA :P

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{4B6E2857-E43C-485A-A58F-FBBFBA8A96D7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ToyInterpreter</RootNamespace>
+    <AssemblyName>toy-interperter-sharp</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="nunit.framework" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-dotnet, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="model\statement\Statement.cs" />
+    <Compile Include="model\expression\Expression.cs" />
+    <Compile Include="model\IStack.cs" />
+    <Compile Include="model\IDictionary.cs" />
+    <Compile Include="model\IList.cs" />
+    <Compile Include="controller\Interpreter.cs" />
+    <Compile Include="model\expression\Operation.cs" />
+    <Compile Include="model\expression\ConstExpression.cs" />
+    <Compile Include="model\expression\VarExpression.cs" />
+    <Compile Include="model\expression\ArithmeticExpression.cs" />
+    <Compile Include="model\statement\PrintStatement.cs" />
+    <Compile Include="model\statement\IfStatement.cs" />
+    <Compile Include="model\statement\AssignStatement.cs" />
+    <Compile Include="model\statement\CompStatement.cs" />
+    <Compile Include="model\ExeStack.cs" />
+    <Compile Include="model\Out.cs" />
+    <Compile Include="model\SymTable.cs" />
+    <Compile Include="model\Pair.cs" />
+    <Compile Include="model\ProgramState.cs" />
+    <Compile Include="repository\IRepository.cs" />
+    <Compile Include="repository\MemRepository.cs" />
+    <Compile Include="exceptions\DictionaryException.cs" />
+    <Compile Include="exceptions\ExpressionException.cs" />
+    <Compile Include="exceptions\StackException.cs" />
+    <Compile Include="model\Constants.cs" />
+    <Compile Include="model\GOut.cs" />
+    <Compile Include="model\GExeStack.cs" />
+    <Compile Include="model\GSymTable.cs" />
+    <Compile Include="model\ProgramStateObservable.cs" />
+    <Compile Include="model\IProgramStateObserver.cs" />
+    <Compile Include="view\TableObserver.cs" />
+    <Compile Include="view\StackObserver.cs" />
+    <Compile Include="view\OutObserver.cs" />
+    <Compile Include="exceptions\HeapException.cs" />
+    <Compile Include="model\IHeap.cs" />
+    <Compile Include="model\GHeap.cs" />
+    <Compile Include="model\expression\HeapNewExpression.cs" />
+    <Compile Include="model\expression\HeapReadExpression.cs" />
+    <Compile Include="model\statement\ForkStatement.cs" />
+    <Compile Include="view\VConsole.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="view\GUI.cs" />
+    <Compile Include="gtk-gui\View.GUI.cs" />
+    <Compile Include="view\GUIDebugDialog.cs" />
+    <Compile Include="gtk-gui\View.GUIDebugDialog.cs" />
+    <Compile Include="view\GUIStatementDialog.cs" />
+    <Compile Include="gtk-gui\View.GUIStatementDialog.cs" />
+    <Compile Include="view\GUIExpressionDialog.cs" />
+    <Compile Include="gtk-gui\View.GUIExpressionDialog.cs" />
+    <Compile Include="model\LockTable.cs" />
+    <Compile Include="model\ILockTable.cs" />
+    <Compile Include="model\statement\LockEnterStatement.cs" />
+    <Compile Include="model\statement\LockExitStatement.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="model\" />
+    <Folder Include="controller\" />
+    <Folder Include="model\expression\" />
+    <Folder Include="model\statement\" />
+    <Folder Include="view\" />
+    <Folder Include="repository\" />
+    <Folder Include="exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

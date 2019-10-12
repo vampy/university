@@ -1,5 +1,5 @@
 # SDI
-Repo: https://gitlab.com/leyyin-university/sdi
+Repo: https://gitlab.com/vampy-university/sdi
 
 Open `ChatSockets` or `lab2` with IDEA.
 

@@ -21,20 +21,20 @@ The source code repository of almost all the courses I attended while studying c
 - [Operating Systems](/operating-systems/)
 
 ### Year 2
-#### Semester 1vampy-university
+#### Semester 1
 - [Advanced Programming Methods](/advanced-programming-methods/)
-- [Distributed Operating Systems (Operating Systems 2)](/distributed-operating-systems/)
+- [Distributed Operating Systems (Operating Systems 2/OS2)](/distributed-operating-systems/)
 - [Databases](/databases/)
 - [Logical and Functional Programming](/logical-and-functional-programming/)
 - [Statistics and Probabilities](/statistics-and-probabilities/)
 
 #### Semester 2
-- [Artificial Intelligence](/artificial-intelligence/)
-- [Aspect Oriented Programming](/aspect-oriented-programming/)
-- [Database Management Systems (Databases 2)](/databases-2/)
-- [Computer networks](/computer-networks/)
+- [Artificial Intelligence (AI)](/artificial-intelligence/)
+- [Aspect Oriented Programming (AOP)](/aspect-oriented-programming/)
+- [Database Management Systems (Databases 2/DB2)](/databases-2/)
+- [Computer networks (CN)](/computer-networks/)
 - [Individual Project](/individual-project)
-- [Software Engineering](/software-engineering/)
+- [Software Engineering (SE)](/software-engineering/)
 
 ### Year 3
 #### Semester 1
