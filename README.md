@@ -41,7 +41,7 @@ The source code repository of almost all the courses I attended while studying c
 - [Compilers (Formal languages and compilation techniques)](/compilers/)
 - [Computer Graphics](/computer-graphics/)
 - [Group Project](/group-project/)
-- Virtual Reality
+- [Virtual Reality](/virtual-reality)
 - Web Programming
 
 #### Semester 2

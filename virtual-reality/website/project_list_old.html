@@ -1,0 +1,508 @@
+<html>
+  <head>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <title>Virtual Reality</title>
+
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      .Title {
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      .Semester {
+        font-size: 18px;
+      }
+
+      .Year {
+        font-size: 16px;
+      }
+
+      .ProfLabel {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .Prof {
+        font-size: 16px;
+      }
+
+      .SectionTitle {
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .LatestNews {
+        font-size: 16px;
+        border: solid red 1px;
+        color:red;
+      }
+
+      .OldNews {
+        font-size: 12px;
+        border: solid #777 1px;
+        color:#777;
+      }
+
+      .SourceCode {
+        font-family: Courier New;
+        font-size: 12px;
+        color:#008;
+      }
+
+      .PseudoCode {
+        font-family: Courier New;
+        font-size: 14px;
+        font-weight: bold;
+        color:#00F;
+      }
+
+      .OldSourceCode {
+        font-family: Courier New;
+        font-size: 10px;
+        color:#558;
+      }
+
+      .LabHead {
+        font-size: 16px;
+        font-weight: bold;
+        border: solid black 1px;
+      }
+
+      .Lab {
+        font-size: 16px;
+        border: solid black 1px;
+      }
+
+      .WhiteRow {
+        background: white;
+      }
+
+      .DarkRow {
+        background: #DDDDDD;
+      }
+ 
+      .HeaderRow {
+        background: #AAA;
+      }
+
+      .ProjectTable {
+        margin-bottom: 5px;
+      }
+
+      .ProjectCell {
+        font-size: 16px;
+        border: solid black 1px;
+        vertical-align: top;
+        padding: 2px;
+      }
+
+      .ProjectStatusCellProposed {
+        font-size: 16px;
+        border: solid black 1px;
+        vertical-align: top;
+        padding: 2px;
+        color: #FF8800
+      }
+
+      .ProjectStatusCellPresented {
+        font-size: 16px;
+        border: solid black 1px;
+        vertical-align: top;
+        padding: 2px;
+        color: #008800
+      }
+
+      .ProjectStatusCellWarning {
+        font-size: 16px;
+        border: solid black 1px;
+        vertical-align: top;
+        padding: 2px;
+        color: red
+      }
+
+      .ProjectHead {
+        font-size: 16px;
+        font-weight: bold;
+        border: solid black 1px;
+        vertical-align: top;
+        padding: 2px;
+        background: #CCC;
+      }
+
+      .ProjectTableTitle {
+        font-size: 16px;
+        font-weight: bold;
+        border: solid black 1px;
+        vertical-align: top;
+        padding: 2px;
+        background: #777;
+        color: white;
+        text-align: center;
+      }
+
+      .ProjectTitle {
+        font-style: italic;
+      }
+
+      .ProjectWarning {
+        font-weight: bold;
+        font-style: italic;
+        color: red;
+      }
+    </style>
+  </head>
+  
+  <body link="blue"
+    vlink="blue"
+    alink="red">
+
+      <table class="ProjectTable">
+        <tr>
+          <td class="ProjectTableTitle" colspan="4">Old Projects</td>
+        </tr>
+        <tr>
+          <td class="ProjectHead">Team</td>
+          <td class="ProjectHead">Project</td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Hasna, Laura<br>
+            Cosma, Anamaria
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Distributed scenegraph synchronization.</span>
+            Objects created in one scene graph should appear in the remote scences as well.
+            The positions and orientations of the objects in the scengraphs should be synchronized as well.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Nadas, Mihai<br>
+            Sabou, Ovidiu<br>
+            Ghita, Daniel
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Talking and gesticulating avatar.</span>
+            The avatar will present an object to the user through voice and gestures.
+            The avatar's face will be animated to match the spoken words.
+            The object presented by the avatar will be controlled by the user through an accelerometer.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Larionescu, Andrei<br>
+            Vlad, Alexandra
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Bowling lane.</span>
+            The bowling ball should move with a speed proportional to the interaction with the throwing hand (virtual).
+            The interaction between the ball and the pins should be realistical (use the ODE library for this)
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Cighi, Florin<br>
+            Maghear, Adrian Florin
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Distributed first-person shooter.</span>
+            Avatar exploring a virtual labirinth and shooting at each other.
+            Collision detection with the labirinth walls and bullets will be performed.
+            The simulation will run on at least two machines.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Vleju, Boris<br>
+            Palermo, Mihai
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Interaction between a virtual human hand and a virtual ball.</span>
+            The hand and the ball will be locked in a virtual room.
+            The ball will be placed initially on a virtual table and the task is to grab the ball and move it on a second virtual tabl ein the room.
+            The ball should either deform accordingly when squeezed by the virtual hand or bounce of the floor if dropped.
+            In the case of bouncing, the ball should also deform when touching the floor (simple scaling on one axis)
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Catana, Cristian<br>
+            Mates, Catalin
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Cars driving on un-even terrain.</span>
+            The application will generate a terrain surface automaticaly.
+            The terrain will have hills and other smaller size deformations.
+            Virtual cars will drive on this surface calculating automatically the altitude and orientation of the car.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Popovici, Ciprian-Gabriel<br>
+            Rosa, Marius
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Cars driving on a F1-type circuit</span>
+            The cars will be controlled simultaneously and independently by multiple players.
+            Collisions with other cars or circuit walls will be calculated and the cars will be positioned accordingly (use ODE for this).
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Lototchi, Leon
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Car driving on a track.</span>
+            The car wil lbe controlled by a game pad.
+            The car movement will be controlled by changing the acceleration (implement physical laws).
+            Upon colliding with obstacles on the track the car will react according to the laws of physics (use ODE or implement your own simpler approach).
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Berciu, Radu
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Virtual snooker.</span>
+            Interactions between balls should be calculated according to the laws of physics.
+            The environment should look realistical.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Stanciu, Andreea
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Virtual lottery.</span>
+            Several balls in in a large transparent sphere move under the effect of air flow.
+            The sphere has an exit hole whtourgh which the balls can fly out (use ODE).
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Stirb, Liviu<br>
+            Nistor, Alin
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Robots fighting in a ring.</span>
+            The robots will be controlled independently by two users.
+            The interactions between the robots will be controlled using the ODE library.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Calugaru, Cristian<br>
+            Georgiu, Ioana
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Ping-pong game.</span>
+            The paddles will controleld independently by two different users.
+            The ball will move and bounce off the paddles or the table or the net according to the laws of physics.
+            The simulation will detect when the ball falls off the table.
+            (Try ODE for this)
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Crisan, Ana-Maria
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Space Clash.</span>
+              A spaceship hovers around a planet (does not move away from it, only orbits it) and has to protect it from alien ships which come towards the planet.
+              The ship will be destroyed if it comes in contact with an alien ship and the game will end when a predetermined number of alien ships have crashed into the planet.
+              The spaceship is controlled by the user with the mouse and it is able to shoot at alien ship, which will be destroyed when they intercept a bullet.
+              The user wins the game when all alien ships are destroyed (their number is decided when the game starts).
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Jibotean, Sorin
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Flight Simulator.</span>
+            Airplane flies over a terrain with buildings.
+            The ground scrolls underneath the airplane to create the flying sensation.
+            The airplane can shoot bullets.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Bologa, Bogdana
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Labyrinth.</span>
+            Move a ball in a labyrinth with holes in the ground by titlting the ground surface.
+            The game is over when the ball reaches the labyrinth exit or when it falls through a hole.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Pascalau, Adina<br>
+            Fedorovici, Octavian<br>
+            Chirila, Andrei
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Count sheep 'till you sleep.</span>
+            Each sheep will run to the fence under the effect of a certain acceleration and will jump at a certain moment.
+            If the sheep is too low it will bounce off the fence.
+            The sheep should be enclosed with a round fence, and several sheep will run to the fence on vearious directions.
+            Sheep colliding with each other will bounce.
+            The sheep will have to make the approriate "sheep-sounds".
+            The jumping and landing should also be accompanied by sounds.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Plesa, Adrian Calin<br>
+            Rutas, Cristian
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Barber-shop.</span>
+            Avatar moving in a room, exploring different objects in the room and being able to get a haircut when approaching a chair.
+            Upon approaching, the avatar will be automatically brought to the places of interest by moving it on a smooth path.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Salanta, Denis<br>
+            Moldovan, Mihai
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Solar System.</span>
+            Abstract solar system throgh which the use can navigate with a space ship.
+            The spaceship controlls will eb visible in the simulation window. 
+            The space ship can shoot rockets and destroy the planets.
+            Planet explosion will be modeled realistically using particle fields.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Padurean, Gabriel
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Shooting range.</span>
+            A long room with multiple targets and other obstacles.
+            Using a gun the user must shoot the targets in the room.
+            There will be collision detection between the bullets and the targets.
+            There will be smoke comming from the gun after shooting.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Guttman, Artur<br>
+            Lascu, Silviu
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Canon shooting at wall of bricks.</span>
+            The ball will bounce of the bricks and will move according to the laws of physics.
+            If the ball bounces back and hits the cannon the game is over.
+            The simulation will include 3D sounds.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Varga, Dezso<br>
+            Vinitor, Csaba
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Penalty shoot out.</span>
+             A virtual player shoots a ball.
+             The ball can miss the target, bounce off the bar or move the net.
+             The net should move realistically.
+             The ball should bounce according to the laws of physics.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Miron, Alina Dana
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Virtual rain.</span>
+            Simulate rain drops falling in the wind.
+            The direction and velocity of the wind will be controllable.
+          </td>
+        </tr>
+        <!--tr>
+          <td class="ProjectCell" nowrap>
+            Filipas, Mark<br>
+            Hosu, Claudia<br>
+            Vlad, Bogdan 
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">???</span>
+          </td>
+        </tr-->
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Ciobanu, Alexandru<br>
+            Ardelean, Alexandra
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">3D Arcade Volleyball.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Abrudan, Alina<br>
+            Avram Mircea Daniel
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Virtual Volleyball.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Goron, Camelia
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Exploring a labirinth.</span>
+          </td>
+        </tr>
+        <!--tr>
+          <td class="ProjectCell" nowrap>
+            Bersan, Roxana<br>
+            Straub, Edwin<br>
+            Szucs, Attila
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">???</span>
+          </td>
+        </tr-->
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Rusu, Adrian<br>
+            Stetcu, Adrian<br>
+            Urda-Cimpean, Andrada
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Island walk.</span>
+            Avatar moving with realistic gait on an island surrounded by water.
+            Interaction with the environment and with the water.
+          </td>
+        </tr>
+        <tr>
+          <td class="ProjectCell" nowrap>
+            Trifoi, Daniel Liviu
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">Blocksters game.</span>
+          </td>
+        </tr>
+        <!--tr>
+          <td class="ProjectCell" nowrap>
+            Rosca, Cristina<br>
+            Lototchi, Leon
+          </td>
+          <td class="ProjectCell">
+            <span class="ProjectTitle">???</span>
+          </td>
+        </tr-->
+      </table>
+  </body>
+</html>

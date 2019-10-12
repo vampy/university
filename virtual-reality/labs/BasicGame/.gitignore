@@ -1,0 +1,6 @@
+build/
+*.so
+*.jnlp
+build.xml
+*.MF
+nbproject
