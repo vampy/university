@@ -1,0 +1,11 @@
+<acceptance-test-run title="Searching by keyword apple should display the corresponding article" name="searching_by_keyword_apple_should_display_the_corresponding_article" steps="0" successful="0" failures="0" skipped="0" ignored="0" pending="0" annotated-result="ERROR" result="ERROR" duration="3" timestamp="2016-05-09T20:42:44.610+03:00">
+  <user-story id="lab5_serenity.features.search.SearchByKeywordStory" name="Search by keyword story" path="lab5_serenity.features.search"/>
+  <issues>
+    <issue>#WIKI-1</issue>
+  </issues>
+  <tags>
+    <tag name="Search" type="capability"/>
+    <tag name="Search" type="feature"/>
+    <tag name="Search/Search by keyword story" type="story"/>
+  </tags>
+</acceptance-test-run>

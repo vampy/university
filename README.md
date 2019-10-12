@@ -17,7 +17,7 @@ The source code repository of almost all the courses I attended while studying c
 - [Dynamic Systems](/dynamic-systems/)
 - [Geometry](/geometry/)
 - [Graph Algorithms](/graph-algorithms/)
-- [Object Oriented Programming](/object-oriented-programming/)
+- [Object Oriented Programming (OOP)](/object-oriented-programming/)
 - [Operating Systems](/operating-systems/)
 
 ### Year 2
@@ -47,6 +47,6 @@ The source code repository of almost all the courses I attended while studying c
 #### Semester 2
 - [Audio-Video Data Processing](/audio-video/)
 - Systems for Design and Implementation
-- Software Systems Verification and Validation
+- [Software Systems Verification and Validation (SSVV)](/software-systems-verification-and-validation/)
 - [Virtual Machines, Design and Implementation](/virtual-machines/)
 - [Numerical Analysis/Calculus](/numerical-calculus/)
