@@ -38,7 +38,7 @@ The source code repository of almost all the courses I attended while studying c
 
 ### Year 3
 #### Semester 1
-- Compilers (Formal languages and compilation techniques)
+- [Compilers (Formal languages and compilation techniques)](/compilers/)
 - [Computer Graphics](/computer-graphics/)
 - [Group Project](/group-project/)
 - Virtual Reality

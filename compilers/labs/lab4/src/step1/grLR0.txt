@@ -1,0 +1,8 @@
+S
+S, A, B
+a, c
+S -> AB
+A -> aA | aB
+B -> c
+#Comment
+#epsilon - ε

@@ -1,0 +1,149 @@
+Language Specification:
+ 1 .Language Definition:
+  # Alphabet:
+  1.1.a. Upper (A-Z) and lower case letters (a-z) of the English alphabet
+      b. Underline character '_';
+      c. Decimal digits (0-9);
+  Lexic:
+      a.Special symbols, representing:
+	 - operators 
+	      -arithm: + - * / 
+	      -assignment: = 
+	      -relational: < <= == => >
+	 - separators [ ] { } () , space newline tab
+	 - reserved words:
+		array char const fa altfel daca int program citeste atunci inceput sfarsit cat_timp scrie bool true false
+      b.identifiers
+	   -a sequence of letters and  digits that starts with an underline, such that the first character is a letter; the rule is:
+	     identifier := "_"letter | letter{letter | digit}
+	     letter := "A" | "B" | . ..| "Z" | "a" | "b" | ... | "z"
+	     digit := "0" | "1" |...| "9"
+      c.constants
+	 1.integer - rule:
+	      noconst:= "+"no|"-"no|no
+	      no:= digit | nzdigit{digit}
+	      nzdigit :=  "1" |...| "9"
+	 2.character
+	    character:= 'letter'| 'digit'
+	 3.bool
+	    bool:= adevarat|fals
+	    
+2.2 Syntax:
+	The words - predefined tokens are specified between " and ":	
+a) Sintactical rules:
+    program ::= decllist cmpdstmt
+   decllist ::= declaration | declaration newline declList
+declaration ::= type idList
+     idList ::= idDeclared|idDeclared "," idList
+ idDeclared ::= IDENTIFIER
+ idDeclared ::= IDENTIFIER "=" CONSTANT 
+      type1  ::= "bool" | "char" | "int"
+  arraydecl ::= type1 "[" no "]"
+      type  ::= type1|arraydecl
+   cmpdstmt ::=  "inceput" stmtlist "sfarsit"
+   stmtlist ::= stmt | stmt stmtlist
+       stmt ::= iostmt|assignstmt|cmpdstmt|ifstmt|whilestmt
+ assignstmt ::= IDENTIFIER "=" expression
+ expression ::= term arithmOp term | term
+     term ::= "(" expression ")" | IDENTIFIER | CONSTANT
+   arithmOp ::= "+"|"-"|"*"|"/"
+     iostmt ::= "citeste" "(" IDENTIFIER ")" | "scrie" "(" (IDENTIFIER|CONSTANT )")"
+     ifstmt ::= "daca" condition "atunci" newline stmt  "sfarsit"
+     ifstmt ::= "daca" condition "atunci" newline stmt  "sfarsit" "altfel" newline stmt "sfarsit"
+  whilestmt ::= "cat_timp" "("condition")" "fa" stmt "sfarsit"
+  condition ::= expression RELATION expression
+b) lexical rules:
+
+   RELATION ::= "<" | "<=" | "==" | "=!" | "=>" | ">"
+
+The tokens are codified according to the following table:
+- identifiers	- code 0
+- constants	- code  1
+- reserved words: each word has its own code
+- operators: each operator has its own code
+- separators: each separator has its own code
+Codification:
+-------------------------
+| Token type	|   code |
+-------------------------
+| identifier	|    0  |
+-------------------------
+| constant	|    1  |
+-------------------------
+| program       |    2  |
+-------------------------
+|  array	|    3  |
+-------------------------
+|  int	        |    4  |
+-------------------------
+| bool	        |    5  |
+-------------------------
+| char	        |    6  |
+-------------------------
+| float	        |    7  |
+-------------------------
+| inceput	|   8   |
+-------------------------
+| sfarsit	|   9   |
+-------------------------
+|citeste	|   10  |
+-------------------------
+|scrie 		|   11  |
+-------------------------
+| cat_timp	|   12  |
+-------------------------
+| fa 		|   13  |
+-------------------------
+| daca		|   14  |
+-------------------------
+| atunci	|   15  |
+-------------------------
+|  altfel 	|   16  |
+-------------------------
+| adevarat	|   17 |
+-------------------------
+|  fals 	|   18  |
+-------------------------
+|  nu		|   19  |
+-------------------------
+| :		|   20  |
+-------------------------
+| ;		|   21  |
+-------------------------
+| ,     	|   22  |
+-------------------------
+| .		|   23  |
+-------------------------
+| +		|   24  |
+-------------------------
+| - 		|   25  |
+-------------------------
+| * 		|   26  |
+-------------------------
+| / 		|   27  |
+-------------------------
+| (		|   28  |
+-------------------------
+| )		|   29  |
+-------------------------
+| [		|   30  |
+-------------------------
+| ]     	|   31  |
+-------------------------
+| {		|   32  |
+-------------------------
+| ==		|   33  |
+-------------------------
+| <     	|   34  |
+-------------------------
+| >		|   35  |
+-------------------------
+| =		|   36  |
+------------------------
+| <= 		|   37  |
+-------------------------
+| => 		|   38  |
+-------------------------
+| != 		|   39  |
+-------------------------
+| newline       | 40    |

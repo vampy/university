@@ -1,0 +1,4 @@
+int a;
+begin
+    a = 4
+end

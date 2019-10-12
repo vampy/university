@@ -1,0 +1,7 @@
+S
+S, A
+0, 1, 2, 3
+S -> 0S | 1A
+A -> 2A | 3
+#Comment
+#epsilon - ε

@@ -1,0 +1,30 @@
+int a
+int b
+int sum
+int i
+char letter
+array char message
+
+begin
+    if sum > 3 then
+        a = b
+        print(b)
+    else
+        b = 10
+    end
+
+    i = sum
+    while i > 0 do
+        i = i - 1
+    end
+
+    a = 4
+    b = 10
+    letter = 'A'
+    message = "Hello   World"
+
+    sum = a+b + c
+
+    message = letter +  ' ' + message + ' '
+    print(message + " END")
+end

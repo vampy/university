@@ -1,0 +1,14 @@
+int a=4, b=10, sum
+char letter = 'A'
+array char message = "Hello   World"
+
+begin
+    sum = a+b + c
+    if sum > 10 then
+        print(a + 1)
+    else
+        print(b)
+    end
+
+    print(letter +  ' ' + message + ' ')
+end
