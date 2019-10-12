@@ -33,7 +33,7 @@ The source code repository of almost all the courses I attended while studying c
 - [Aspect Oriented Programming](/aspect-oriented-programming/)
 - [Database Management Systems (Databases 2)](/databases-2/)
 - [Computer networks](/computer-networks/)
-- Individual Project
+- [Individual Project](/individual-project)
 - [Software Engineering](/software-engineering/)
 
 ### Year 3
