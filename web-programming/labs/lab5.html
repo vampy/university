@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<select name="counties">
+    <option selected>Choose county</option>
+</select>
+<select name="cities" disabled>
+    <option selected>Choose city</option>
+</select>
+<script>
+// Write an HTML page that contains two combo boxes. The first combo box contains a list of Romanian counties.
+// The second combo box contains a list of cities within the county selected in the first combo box. Whenever the
+// value in the fist combo box is changing, the second combo box will be update accordingly.
+
+    var counties = {
+        'Cluj': ['Cluj-Napoca', 'Turda', 'Vad'],
+        'Brasov': ['Brasov', 'Fagaras', 'Venetia'],
+        'Constanta': ['Constanta', 'Mangalia', 'Vama veche']
+    };
+
+    var elCounties = document.getElementsByName('counties')[0];
+    var elCities = document.getElementsByName('cities')[0];
+
+    // Add initial counties
+    var i = 0;
+    for (var key in counties) {
+        if (counties.hasOwnProperty(key)) {
+            var elOption = document.createElement('option');
+            elOption.value = key;
+            elOption.text = key;
+            elCounties.add(elOption);
+
+            i++;
+        }
+    }
+
+    elCounties.onchange = function() {
+        // Ignore first entry
+        if (!elCounties.selectedIndex) {
+            elCities.disabled = true;
+            return;
+        }
+
+        // Clear cities
+        elCities.disabled = false;
+        elCities.options.length = 0;
+
+        var firstOption = document.createElement('option');
+        firstOption.value = 'Choose city';
+        firstOption.text = 'Choose city';
+        elCities.add(firstOption);
+
+        var key = elCounties.value;
+        for (var i = 0; i < counties[key].length; i++) {
+            var elOption = document.createElement('option');
+            elOption.value = counties[key][i];
+            elOption.text = counties[key][i];
+            elCities.add(elOption);
+        }
+    };
+
+</script>
+</body>
+</html>

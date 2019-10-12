@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Content-Type: text/html"
+echo
+echo
+
+echo "<html><head></head>"
+echo "<body>"
+echo "Parameters are:<br />"
+user=`echo $QUERY_STRING | cut -d"&" -f 1 | cut -d"=" -f 2`
+pass=`echo $QUERY_STRING | cut -d"&" -f 2 | cut -d"=" -f 2`
+
+echo $user $pass
+
+echo "</body></html>"

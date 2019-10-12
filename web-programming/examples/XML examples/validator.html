@@ -1,0 +1,23 @@
+<html>
+<body>
+<h3>
+XML Validator against a DTD
+</h3>
+
+<script type="text/javascript">
+var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+xmlDoc.async="false";
+xmlDoc.validateOnParse="true";
+xmlDoc.load("book.xml");
+
+document.write("<br />Error Code: ");
+document.write(xmlDoc.parseError.errorCode);
+document.write("<br />Error Reason: ");
+document.write(xmlDoc.parseError.reason);
+document.write("<br />Error Line: ");
+document.write(xmlDoc.parseError.line);
+</script>
+
+</body>
+</html>
+

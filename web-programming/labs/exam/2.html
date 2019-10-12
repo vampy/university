@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+</head>
+<body>
+<div>
+    <a>a <span>b</span></a>
+    <p>c</p>
+</div>
+
+<div class="odd"></div>
+<div class="even"></div>
+<div class="all"></div>
+<script src="jquery.js"></script>
+<script>
+$(document).ready(function() {
+   console.log("script");
+    var allText = "";
+    var oddText = "";
+    var evenText = "";
+
+    $("div, span, p, a, th, td").each(function(i, obj) {
+        var $obj = $(obj);
+        allText += $obj.clone().children().remove().end().text().trim();
+//        console.log(i, $obj.text().trim());
+    });
+
+    console.log(allText);
+    for (var i = 0; i < allText.length; i++) {
+        if (i % 2 == 0) {
+            evenText += allText[i];
+        } else {
+            oddText += allText[i];
+        }
+    }
+    console.log(allText);
+    $(".odd").text("All odd: \n" + oddText);
+    $(".even").text("All even: \n" + evenText);
+    $(".all").text("All (" + allText.length + "):\n " + allText);
+//    console.log(evenText);
+//    console.log(oddText);
+});
+</script>
+</body>
+</html>

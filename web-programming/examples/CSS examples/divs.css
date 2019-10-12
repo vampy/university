@@ -1,0 +1,39 @@
+p.center {
+	text-align: center;
+	color: #7ceeff;
+}
+
+.header {
+	margin-left: auto;
+	margin-right: auto;
+	width: 520px;
+	background: #a9cfb3 url("top_round.png") no-repeat left top;
+	padding: 0px 0px 0px 0px;	
+	text-align: center;
+}
+
+
+.body {
+	border-top-style: solid;
+	border-top-color: #001111;
+	border-top-width: 1px;
+	margin-top: 2px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: justify;
+	width: 520px;
+	height: 600px;
+	background-color: #cccfbb;
+}
+
+.footer {
+	margin-left: auto;
+	margin-right: auto;	
+	border-top-style: solid;
+	border-top-color: #001111;
+	border-top-width: 1px;
+	width: 520px;
+	height: 60px;
+	background-color: #ccddcc;
+}
+

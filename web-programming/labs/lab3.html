@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Gradients</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .box-gradient {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 0) 100%);
+        }
+
+        /*----------------------------------------------------------------------*/
+        .box-move-scene {
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+
+        .box-move {
+            position: relative;
+            left: 0;
+            top: 0;
+            background-color: blue;
+            width: 15%;
+            height: 100%;
+            transition: all 2s linear;
+        }
+
+        .box-move-scene:hover .box-move {
+            transform: rotate(360deg);
+            left: 85%;
+            background-color: red;
+        }
+
+        /*----------------------------------------------------------------------*/
+        .box-move-scene-2 {
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        .box-move-invisible, .box-move-2 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 15%;
+            height: 100%;
+        }
+
+        .box-move-2 {
+            transition: all 2s linear;
+            background-color: blue;
+        }
+
+        .box-move-invisible {
+            z-index: 1;
+        }
+
+        .box-move-invisible:hover + .box-move-2 {
+            transform: rotate(360deg);
+            left: 85%;
+            background-color: red;
+        }
+
+    </style>
+</head>
+<body>
+<!--http://www.the-art-of-web.com/css/css-animation/-->
+<!--Write a web page which contains a div which is colored with a gradient color that is fully transparent on the left and right sides and opaque in the center.-->
+<!--Write a web page which contains a div with a blue background color located on the top left corner of the page. When the mouse is over it the div should -->
+<!--rotate and move to the left until it reaches the top right corner of the page. The div should not jump directly to the top right corner.-->
+
+<!--<div class="box-move-scene">-->
+    <!--<div class="box-move"></div>-->
+<!--</div>-->
+<div class="box-move-scene-2">
+    <div class="box-move-invisible"></div>
+    <div class="box-move-2"></div>
+</div>
+<div class="box-gradient"></div>
+</body>
+</html>

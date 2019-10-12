@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="factorial.xsl"?>
+
+<array>
+	<number>1</number>
+	<number>2</number>
+	<number>3</number>
+	<number>4</number>
+	<number>5</number>
+	<number>6</number>
+</array>

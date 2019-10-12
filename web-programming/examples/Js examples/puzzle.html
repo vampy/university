@@ -1,0 +1,116 @@
+<html>
+<head>
+<style type="text/css">
+td {
+	margin:0;
+	border:0;
+	padding:0;
+}
+table
+{
+	border-collapse:separate;
+	border-spacing:1px;
+}
+</style>
+<script type="text/javascript">
+var emptyCell="25";
+
+function loadPuzzle() {
+	pics = new Array(26);
+	for(i=1; i<26; i++) {
+		gasit = true;
+		while (gasit==true) {
+			x = 1 + Math.floor(Math.random() * 1000) % 25;
+			gasit = false;
+			for (j=1; j<i; j++)
+				if (pics[j]==x) gasit = true;
+		}
+		pics[i] = x;
+		if (x==25) emptyCell = i;
+	}
+//	alert(pics+" ");
+//	pics[0] = "0";
+//	pics.sort();
+//	s = "";
+//	for(i=1; i<26; i++) s = s + "\npics[" + i + "]=" + pics[i];
+//	alert("Final:\n"+s);
+
+	var cell;
+	for(i=1; i<26; i++) {
+		cell = document.getElementById(i);		
+		if (cell) {
+			img = document.createElement("img");
+			if (i!=emptyCell)
+				img.setAttribute("src", "lena"+pics[i]+".jpg");
+			else
+				img.setAttribute("src", "empty.jpg");
+			cell.appendChild(img);
+		}
+	}
+}
+
+function move(cellID, cell) {
+//	alert(cellID);
+	console.log("this=",this," cell=",cell);
+	if (cellID==emptyCell) return;
+	rest = cellID % 5;
+	topPos = (cellID>5) ? cellID-5 : -1;
+	bottomPos = (cellID<21) ? cellID+5 : -1;
+	leftPos = (rest!=1) ? cellID-1 : -1;
+	rightPos = (rest>0) ? cellID+1 : -1;
+//	alert(topPos+ " " +bottomPos+" "+leftPos+" "+rightPos);
+	if (emptyCell!=topPos && emptyCell!=bottomPos && emptyCell!=leftPos && emptyCell!=rightPos)
+		return; 
+
+	cell1 = document.getElementById(emptyCell);
+	img1 = cell1.firstChild;
+	img = cell.firstChild;
+	cell.removeChild(cell.firstChild);
+	cell1.removeChild(cell1.firstChild);
+	 
+	cell.appendChild(img1);
+	cell1.appendChild(img);
+	emptyCell = cellID;
+}
+</script>
+</head>
+<body onload="loadPuzzle()">
+<table>
+	<tr>
+		<td id="1" onClick="move(1,this);"></td>
+		<td id="2" onClick="move(2,this);"></td>
+		<td id="3" onClick="move(3,this);"></td>
+		<td id="4" onClick="move(4,this);"></td>
+		<td id="5" onClick="move(5,this);"></td>
+	</tr>
+	<tr>
+		<td id="6" onClick="move(6,this);"></td>
+		<td id="7" onClick="move(7,this);"></td>
+		<td id="8" onClick="move(8,this);"></td>
+		<td id="9" onClick="move(9,this);"></td>
+		<td id="10" onClick="move(10,this);"></td>
+	</tr>
+	<tr>
+		<td id="11" onClick="move(11,this);"></td>
+		<td id="12" onClick="move(12,this);"></td>
+		<td id="13" onClick="move(13,this);"></td>
+		<td id="14" onClick="move(14,this);"></td>
+		<td id="15" onClick="move(15,this);"></td>
+	</tr>
+	<tr>
+		<td id="16" onClick="move(16,this);"></td>
+		<td id="17" onClick="move(17,this);"></td>
+		<td id="18" onClick="move(18,this);"></td>
+		<td id="19" onClick="move(19,this);"></td>
+		<td id="20" onClick="move(20,this);"></td>
+	</tr>
+	<tr>
+		<td id="21" onClick="move(21,this);"></td>
+		<td id="22" onClick="move(22,this);"></td>
+		<td id="23" onClick="move(23,this);"></td>
+		<td id="24" onClick="move(24,this);"></td>
+		<td id="25" onClick="move(25,this);"></td>
+	</tr>
+</table>
+</body>
+</html>

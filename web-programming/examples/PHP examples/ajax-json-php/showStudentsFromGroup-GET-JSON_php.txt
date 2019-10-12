@@ -1,0 +1,23 @@
+<?php
+	$con = mysqli_connect("localhost","forest","forest","forest");
+	if (!$con) {
+		die('Could not connect: ' . mysqli_error());
+	}
+
+	$id = $_GET["id"];
+
+	$result = mysqli_query($con, "SELECT * FROM Students where id='" . $id . "'");
+
+	$jsonData = array();
+	while ($row = mysqli_fetch_array($result)) {
+	    $jsonData['id'] = $row['id'];
+	    $jsonData['name'] = $row['name'];
+	    $jsonData['password'] = $row['password'];
+	    $jsonData['group_id'] = $row['group_id'];
+	}
+	echo json_encode($jsonData);
+
+	mysqli_close($con);
+?> 
+
+

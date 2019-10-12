@@ -1,0 +1,12 @@
+
+li {
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+}
+
+.green {
+	background-color: #11EE33;
+	border-bottom-style: solid;
+	border-bottom-color: #BBEEAA;
+}

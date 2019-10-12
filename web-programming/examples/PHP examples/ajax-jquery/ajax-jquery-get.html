@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script src="jquery-2.0.3.js"></script>
+		<script>
+			$(document).ready(function(){
+				$("#button").click(function() {
+					// parameter name: "test" from the ajax call is not actually used
+					$.get("showStudentsFromGroup-GET.php", {groupid : "2" , name : "test"},					
+						function(data,status) {
+						$("#maindiv").html(data);
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		Lista studentilor din grupa 2:
+		<div id="maindiv"></div>
+		<input id="button" type="button" value="get students" onclick="getStudents()" />
+	</body>
+</html>

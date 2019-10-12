@@ -1,0 +1,17 @@
+td {
+	width: 35%; 
+	background-color: #ee3345;
+}
+
+.clasahello { 
+	color: #884444;
+	width: 20%; 
+	border-bottom-style: groove; 
+	border-bottom-width: 2px;
+}
+
+div.maindiv {
+	width: 65%;
+	margin-left: auto;
+	margin-right: auto;
+}

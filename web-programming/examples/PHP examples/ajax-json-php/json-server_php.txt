@@ -1,0 +1,16 @@
+<?php
+
+// Prevent caching.
+header('Cache-Control: no-cache, must-revalidate');
+header('Expires: Mon, 01 Jan 1996 00:00:00 GMT');
+
+// The JSON standard MIME header.
+header('Content-Type: application/json; charset=UTF-8');
+
+$id = $_GET['id'];
+
+$data = array('Hello' => $id, 'There'=> $id);
+
+echo json_encode($data);
+
+?>

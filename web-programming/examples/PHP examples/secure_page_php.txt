@@ -1,0 +1,12 @@
+<?php
+	session_start();
+	if (!isset($_SESSION['validuser'])) {
+		header('Location: login.html');
+	} else {
+		echo "this information is private...";
+		echo "<form action='destroy_session.php' method='POST'>";
+		echo " 	 <input type='submit' value='Logout' name='logout' />";
+		echo "</form>";
+	}
+?>
+

@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Yahoo UK</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /*Develop a web page using only HTML and CSS that has the same design as the web page http://www.yahoo.com.*/
+        /*For small portions of text of maximum 3 words (e.g. menu items) you may use whatever text you want, but for */
+        /*larger portions of text (e.g. paragraphs) use "Lorem ipsum" text (you may use the generator from http://www.lipsum.com). */
+        /*Also, you may use exactly one image file in your web page (no more and no less); this image is the subject of your own choice. */
+        /*Within this web page you should also implement tab-based navigation. You are not allowed to use any text, */
+        /*images or resources from the yahoo.com site. We are interested in the "tabbed-based navigation", */
+        /*which means that when you are over one tab the content should change. Please use the :hover selector!*/
+        aside,
+        figcaption,
+        figure,
+        footer,
+        header,
+        main,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+
+        button,
+        input {
+            color: inherit;
+            font: inherit;
+            margin: 0;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        html {
+            font-family: sans-serif;
+            color: #222;
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        body {
+            margin: 0;
+            color: #5F5F5F;
+            background-color: #FAFAFC;
+            height: 100%;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 0.67em 0;
+        }
+
+        img {
+            border: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        input {
+            line-height: normal;
+        }
+
+        a:active, a:hover, textarea:focus, input:focus {
+            outline: 0;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .top-menu {
+            position: relative;
+            top: 0;
+            width: 100%;
+            margin-bottom: 2em;
+        }
+
+        .top-menu ul {
+            background-color: #2D1152;
+            list-style-type: none;
+            margin-top: 0;
+            padding-left: 1em;
+        }
+
+        .top-menu ul li {
+            color: white;
+            display: inline;
+            padding-left: 2em;
+        }
+
+        .top-menu ul li a {
+            font-family: arial, sans-serif;
+            color: white;
+        }
+
+        main {
+            position: relative;
+            margin-left: 5em;
+            width: 90%;
+            min-height: 800px;
+        }
+
+        main aside {
+            position: absolute;
+            right: 0;
+            top: 5em;
+            width: 30%;
+        }
+
+        .search .logo-wrapper, .search .input-wrapper, .search-button,
+        .search-right {
+            display: inline;
+        }
+
+        .search .logo-wrapper img {
+            width: 200px;
+            height: 60px;
+        }
+
+        .search .input-wrapper input {
+            margin: 0 .2em 0 1em;
+            width: 25em;
+            height: 2em;
+            padding: 4px 7px 4px 8px;
+        }
+
+        .search-button {
+            border-radius: 3px;
+            font-family: arial, sans-serif;
+            color: #ffffff;
+            background: #3498db;
+            padding: 10px 20px 10px 20px;
+            text-decoration: none;
+        }
+
+        .search-button:hover {
+            text-decoration: none;
+        }
+
+        .search-right {
+            position: absolute;
+            right: 0;
+            top: 1em;
+        }
+
+        .search-right img {
+            width: 27px;
+            height: 27px;
+        }
+
+        .main-navigation {
+            width: 15%;
+            display: inline-block;
+        }
+
+        .main-navigation ul {
+            position: relative;
+            list-style: none;
+            width: 100%;
+        }
+
+        .main-navigation a {
+            display: block;
+            width: 100%;
+        }
+
+        .main-navigation ul {
+            padding-left: 1em;
+        }
+
+        .main-navigation ul li {
+            padding-top: 1em;
+        }
+
+        .icon-generic {
+            display: inline;
+            width: 25px;
+            height: 25px;
+            vertical-align: bottom;
+            margin-right: 1em;
+        }
+
+        .section {
+            background-color: white;
+            padding: 10px;
+            /*border: 1px #888888 solid;*/
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .section-content {
+            display: block;
+        }
+
+        .section-content li {
+            width: 50%;
+            white-space: nowrap;
+        }
+
+        .right, .left {
+            display: inline-block;
+            width: 45%;
+        }
+
+        .main-content {
+            vertical-align: top;
+            display: inline-block;
+            width: 54%;
+        }
+
+        .main-content .image-header {
+            position: relative;
+            display: inline-block;
+            margin-top: 1em;
+        }
+
+        .main-content .image-header img {
+            width: 41em;
+            height: 16em;
+        }
+
+        .image-header .image-bottom {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .image-bottom .image-bottom-content {
+            padding: 10px;
+        }
+
+        .image-bottom-content h3, .image-bottom-content p {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+
+        .content-tabs {
+            margin-top: 15px;
+            background-color: #500095;
+            color: white;
+            border-radius: 3px;
+            padding: 5px 10px 10px 5px;
+        }
+
+        .content-tabs a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .content-tabs ul {
+            position: relative;
+            list-style: none;
+            margin: 0;
+            width: 90%;
+            padding-left: 1em;
+        }
+
+        .content-tabs ul li {
+            display: inline;
+            padding-right: 2em;
+            padding-left: 1em;
+            padding-bottom: 0.3em;
+        }
+
+        .content-tabs ul li:hover .content {
+            display: block;
+        }
+
+        .content-tabs .content {
+            color: black;
+        }
+
+        .content .body {
+            display: inline;
+        }
+
+        .content .title {
+            display: block;
+            position: relative;
+        }
+
+        .content-tabs .content {
+            display: none;
+            position: absolute;
+            padding-top: 20px;
+            left: 0;
+            width: 110%;
+            margin-bottom: 3em;
+        }
+
+        .content-section {
+            border: 1px grey solid;
+            padding-bottom: 10px;
+        }
+
+        .image, .content-section {
+            clear: both;
+        }
+
+        .content-section {
+            text-align: left;
+            height: 78px;
+            overflow: hidden;
+        }
+
+        .content-section img {
+            width: 100px;
+            vertical-align: middle;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .content-section a {
+            color: #324fe1;
+            vertical-align: top;
+            font-size: 17px;
+        }
+
+        .content-section .body {
+            overflow: hidden;
+        }
+
+        .content-section .title {
+            margin-left: 18%;
+        }
+
+        .image-filmstrip {
+            font-size: 0;
+            margin-left: 10px;
+        }
+
+        .image-filmstrip .film {
+            font-size: 0;
+            background-color: white;
+            display: inline-block;
+            vertical-align: top;
+            border: 1px white solid;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .image-filmstrip .film a {
+            font-size: 12px;
+            position: relative;
+            /*display: block;*/
+        }
+
+        .image-filmstrip .film:hover {
+            border-bottom: 10px #500095 solid;
+        }
+
+        .image-filmstrip .film img, .image-filmstrip .film  {
+            width: 122px;
+        }
+
+        .image-filmstrip .film  {
+            position: relative;
+            height: 128px;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="top-menu">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Mail</a></li>
+        <li><a href="#">News</a></li>
+        <li><a href="#">Sport</a></li>
+        <li><a href="#">Finance</a></li>
+        <li><a href="#">Style</a></li>
+        <li><a href="#">Celebrity</a></li>
+        <li><a href="#">Weather</a></li>
+        <li><a href="#">Answers</a></li>
+    </ul>
+</nav>
+
+<main>
+    <header class="search">
+        <div class="logo-wrapper">
+            <img src="img/image.jpg">
+        </div>
+        <div class="input-wrapper">
+            <input type="text" value="">
+
+            <div class="search-button">Search web</div>
+        </div>
+        <div class="search-right">
+            <a href="#">
+                <img src="img/image.jpg">
+                <span>Sign in</span>
+            </a>
+            <a href="#">
+                <img src="img/image.jpg">
+                <span>Mail</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="main-navigation">
+        <ul>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">Mail</a>
+            </li>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">News</a>
+            </li>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">Celebrity</a>
+            </li>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">Style</a>
+            </li>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">Videos</a>
+            </li>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">Sport</a>
+            </li>
+            <li>
+                <a href="#"><img class="icon-generic" src="img/image.jpg">Finance</a>
+            </li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="image-header">
+            <img src="img/image.jpg">
+
+            <div class="image-bottom">
+                <div class="image-bottom-content">
+                    <h3>Some title text</h3>
+
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nisl eros, sodales sit amet
+                        blandit nec, tempus eu ligula. Nam libero libero, volutpat id diam eu, convallis mattis felis.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="image-filmstrip">
+            <div class="film">
+                <img src="img/image.jpg">
+                <a>teachings of the great explorer of the</a>
+            </div>
+            <div class="film">
+                <img src="img/image.jpg">
+                <a>blinded by desire, that they cannot</a>
+            </div>
+            <div class="film">
+                <img src="img/image.jpg">
+                <a>The European languages are members </a>
+            </div>
+            <div class="film">
+                <img src="img/image.jpg">
+                <a>Woven silk pyjamas exchanged for </a>
+            </div>
+            <div class="film">
+                <img src="img/image.jpg">
+                <a>he quick, brown fox jumps over a</a>
+            </div>
+        </div>
+        <div class="content-tabs">
+            <ul>
+                <li>
+                    <a href="#">All stories</a>
+                    <div class="content">
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Lorem Ipsum is simply dummy text of the printing</a>
+
+                            <div class="body">
+                                tempus eu ligula. Nam libero libero, volutpat tempus eu ligula. Nam libero libero,
+                                volutpat
+                                tempus eu ligula. Nam libero libero, volutpat tempus eu ligula. Nam libero libero,
+                                volutpat
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Lorem Ipsum is simply dummy text of the printing</a>
+
+                            <div class="body">
+                                tempus eu ligula. Nam libero libero, volutpat
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Boudin tail shoulder kevin prosciutto.</a>
+
+                            <div class="body">
+                                Frankfurter ham hock corned beef pastrami jerky cupim.
+                                Corned beef alcatra jerky leberkas landjaeger beef ribs kevin. Short ribs andouille
+                                turducken
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">News</a>
+
+                    <div class="content">
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">A wonderful serenity has taken possession of my entire soul, l</a>
+
+                            <div class="body">
+                                I neglect my talents. I should be incapable of drawing a sment; and yver was a greater
+                                artist than now. When, while the lovely valley teems with vapour around me, and the
+                                meridian sun strikes the upper surface of the impenetrable foliage of my tr
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">The quick, brown fox jumps over a lazy dog. DJs flock by when
+                                                      MTV </a>
+
+                            <div class="body">
+                                Alex Trebek's fun TV quiz game. Woven silk pyjamas exchanged for blue quartz. Brawny
+                                gods just
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">A wonderful serenity has taken possession of my entire soul</a>
+
+                            <div class="body">
+                                y me: when I hear the buzz of the little world among the stalks, and grow familiar with
+                                the countless indescribable forms of the insects and flies, then I feel the presence of
+                                the Almighty, who formed us in his own image, and the breath
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">Sport</a>
+
+                    <div class="content">
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Lorem Ipsum is simply dummy text of the printing</a>
+
+                            <div class="body">
+                                tempus eu ligula. Nam libero libero, volutpat tempus eu ligula. Nam libero libero,
+                                volutpat
+                                tempus eu ligula. Nam libero libero, volutpat tempus eu ligula. Nam libero libero,
+                                volutpat
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Lorem Ipsum is simply dummy text of the printing</a>
+
+                            <div class="body">
+                                tempus eu ligula. Nam libero libero, volutpat
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Boudin tail shoulder kevin prosciutto.</a>
+
+                            <div class="body">
+                                Frankfurter ham hock corned beef pastrami jerky cupim.
+                                Corned beef alcatra jerky leberkas landjaeger beef ribs kevin. Short ribs andouille
+                                turducken
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#">Finance</a>
+
+                    <div class="content">
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">But I must explain to you how all this mistaken</a>
+
+                            <div class="body">
+                                by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#"> how to pursue pleasure rationally encounter consequences that are
+                                                       extremely painful. No</a>
+
+                            <div class="body">
+                                tempus eu ligula. Nam libero libero, volutpat
+                            </div>
+                        </div>
+                        <div class="content-section">
+                            <div class="image">
+                                <img src="img/image.jpg">
+                            </div>
+                            <a class="title" href="#">Boudin tail shoulder kevin prosciutto.</a>
+
+                            <div class="body">
+                                Frankfurter ham hock corned beef pastrami jerky cupim.
+                                Corned beef alcatra jerky leberkas landjaeger beef ribs kevin. Short ribs andouille
+                                turducken
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <aside>
+        <footer>
+            <div class="section">
+                <div class="section-title">
+                    Trending now
+                </div>
+                <div class="section-content">
+                    <ol>
+                        <div class="left">
+                            <li class=""><a href="#">UK</a></li>
+                            <li class=""><a href="#">Chilcot report</a></li>
+                            <li class=""><a href="#">PlayStation 4</a></li>
+                            <li class=""><a href="#">Apple TV</a></li>
+                            <li class=""><a href="#">Luke Skywalker</a></li>
+                        </div>
+                        <div class="right">
+                            <li class=""><a href="#">UK house</a></li>
+                            <li class=""><a href="#">Secured loans</a></li>
+                            <li class=""><a href="#"> Taylor Swift</a></li>
+                            <li class=""><a href="#"> Halloween costumes</a></li>
+                            <li class=""><a href="#">Spectre</a></li>
+                        </div>
+                    </ol>
+                </div>
+            </div>
+            <p>
+                <img style="width: 300px; height: auto; padding: 2px;" src="img/image.jpg" />
+            </p>
+        </footer>
+    </aside>
+</main>
+
+</body>
+</html>

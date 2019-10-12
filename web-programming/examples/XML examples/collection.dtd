@@ -1,0 +1,8 @@
+<!ELEMENT collection (book+)>
+<!ELEMENT book (title,author+,isbn,editor)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT isbn (#PCDATA)>
+<!ELEMENT editor (#PCDATA)>
+
+<!ATTLIST book category CDATA #REQUIRED>

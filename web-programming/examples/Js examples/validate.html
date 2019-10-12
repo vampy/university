@@ -1,0 +1,23 @@
+<html><head>
+<script type="text/javascript">
+function validate() {
+      x=document.myForm
+      input=x.myInput.value
+      if (input.length>5) {
+		alert("Do not insert more than 5 characters")
+		return false
+      } else  {
+           	return true
+      }
+}
+</script>
+</head>
+
+<body>
+<form name="myForm" action="validate.html#" onsubmit="return validate()">
+In this input box you are not allowed to insert more than 5 characters:
+<input type="text" name="myInput">
+<input type="submit" value="Send input">
+</form>
+</body>
+</html>

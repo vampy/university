@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="movies.xsl"?>
+<!--List by using XSLT all the movies playing this week in cinema. The movies are described in an XML document and have -->
+<!--at least the followind attributes: title, actors, genre, date of playing, duration etc. Each movie genre should be -->
+<!--formatted using a different CSS class.-->
+<movies>
+    <movie>
+        <title>Spectre</title>
+        <actors>Daniel Craig, Christoph Waltz, Léa Seydoux</actors>
+        <genre>Action</genre>
+        <date-play>6 November 2015</date-play>
+        <duration>148 min</duration>
+    </movie>
+    <movie>
+        <title>The Peanuts Movie</title>
+        <actors>Noah Schnapp, Bill Melendez, Hadley Belle Miller</actors>
+        <genre>Animation</genre>
+        <date-play>6 November 2015</date-play>
+        <duration>88 min</duration>
+    </movie>
+    <movie>
+        <title>The Martian</title>
+        <actors>Matt Damon, Jessica Chastain, Kristen Wiig</actors>
+        <genre>Adventure</genre>
+        <date-play>2 October 2015</date-play>
+        <duration>144 min</duration>
+    </movie>
+    <movie>
+        <title>The 33 </title>
+        <actors> Antonio Banderas, Rodrigo Santoro, Juliette </actors>
+        <genre>Biography</genre>
+        <date-play>12 November 2015</date-play>
+        <duration>127 min</duration>
+    </movie>
+</movies>

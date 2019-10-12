@@ -1,0 +1,48 @@
+h1 {
+    text-align: center;
+}
+
+form {
+    width: 90%;
+    margin: 0 auto;
+}
+
+label, input {
+    /* in order to define widths */
+    display: inline-block;
+    position: relative;
+}
+
+label {
+    width: 30%;
+    /* positions the label text beside the input */
+    text-align: left;
+}
+
+input {
+    float: right;
+}
+
+textarea {
+    width: 50em;
+    height: 10em;
+}
+
+main button {
+    margin-left: 13em;
+    padding: 1em;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-error {
+    color: red;
+}
+
+.menu {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}

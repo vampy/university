@@ -1,0 +1,29 @@
+<?php
+	$con = mysql_connect("localhost","forest","forest");
+	if (!$con) {
+		die('Could not connect: ' . mysql_error());
+	}
+
+	$groupid = $_POST["groupid"];
+
+	mysql_select_db("forest", $con);
+	//mysql_query("insert into Students values(3,'aaa','pass',23)");
+	$result = mysql_query("SELECT * FROM Students where group_id='" . $groupid . "'");
+
+	//echo "<html><body>";
+	echo "<table border='1'><tr><th>ID</th><th>Name</th><th>Password</th><th>Group_id</th></tr>";
+
+	while($row = mysql_fetch_array($result)){
+		echo "<tr>";
+		echo "<td>" . $row['id'] . "</td>";
+		echo "<td>" . $row['name'] . "</td>";
+		echo "<td>" . $row['password'] . "</td>";
+		echo "<td>" . $row['group_id'] . "</td>";
+		echo "</tr>";
+	}
+	echo "</table>";
+	//echo "</body></html>";
+	mysql_close($con);
+?> 
+
+

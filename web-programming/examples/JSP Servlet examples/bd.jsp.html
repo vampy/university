@@ -1,0 +1,10 @@
+<html>
+<head/><body>
+<%@ page import="utils.BDUtils" %>
+<% BDUtils bd=new BDUtils();
+   bd.connect();
+   out.println(bd.showData());	
+%>
+
+</body>
+</html>

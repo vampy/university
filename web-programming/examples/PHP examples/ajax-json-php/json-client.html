@@ -1,0 +1,34 @@
+<html>
+
+<head>
+
+<script src="http://www.cs.ubbcluj.ro/~forest/wp/PHP%20examples/ajax-json-php/jquery-2.0.3.js"></script>
+
+<script language="javascript">
+
+function show(json) {
+	alert(json.Hello);
+}
+
+function run() {
+	$.getJSON(
+	"json-server.php",  
+	{ id: 567 }, 
+	show 
+	);
+
+}
+
+window.onload=run;
+
+</script>
+
+</head>
+
+<body>
+
+JSON Test Page.
+
+</body>
+
+</html>

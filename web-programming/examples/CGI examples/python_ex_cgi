@@ -1,0 +1,18 @@
+#!/usr/bin/python
+
+import cgi
+import cgitb; cgitb.enable()
+import os, sys
+
+upload_dir = "/tmp/"
+form = cgi.FieldStorage()
+if not form.has_key("fisier"): exit 
+fileitem = form["fisier"]
+if not fileitem.file: exit
+fout = file (os.path.join(upload_dir, fileitem.filename), 'wb')
+while 1:
+	chunk = fileitem.file.read(100000)
+	if not chunk: break
+	fout.write (chunk)
+	fout.close()
+

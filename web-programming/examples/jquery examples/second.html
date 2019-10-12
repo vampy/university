@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="jquery-2.0.3.js"></script>
+		<script>
+			$(document).ready(function(){
+			$("p.voodoo").click(function(){
+			      $(this).fadeOut(2000);
+			      $(this).css("background-color","#ddff00");
+			      $(this).animate({top: '200px'},"slow");
+			});
+			});
+		</script>
+	</head>
+
+	<body>
+		<p>If you click on me, I will NOT disappear.</p>
+		<p class="voodoo" style="position: absolute">If you click on me, I will disappear.</p>
+	</body>
+
+</html> 
+

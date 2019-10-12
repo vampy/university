@@ -1,0 +1,107 @@
+<html>
+<head>
+
+<style>
+img.dragable
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+</style>
+
+<script language="JavaScript">
+
+var obj;
+var dragging = false;
+var posx, posy;
+posx = 0;
+posy = 0;
+
+
+function pick(event)
+{
+   if(event.target.name == "lena")
+   {
+      // save image loc
+      obj = event.target;
+      posx = obj.x;
+      posy = obj.y;
+      dragging = true;
+      console.log("In pick: posx="+posx+" posy="+posy);
+      //alert('in pick '+obj+' *'+obj.style.left+'* '+obj.style.top+' '+event.clientX+' '+event.clientY);
+      //obj.style.left = 200;
+      //obj.style.top = 300;
+   }
+   // save loc of mouse pointer
+   mx = event.clientX;
+   my = event.clientY;
+}
+
+function drag(event)
+{
+   if(dragging == true)
+   {
+      if(event.target.name == "lena")
+      {
+         // adjust loc of image
+         //obj.style.pixelLeft = posx + event.clientX - mx;
+	 //obj.style.pixelTop = posy + event.clientY - my;
+	 console.log("In drag: posx="+posx+" posy="+posy);
+         obj.style.left = posx + event.clientX - mx;
+         obj.style.top = posy + event.clientY - my;
+
+         // save image loc       
+         posx = obj.x;
+         posy = obj.y;
+      }
+   
+      // store mouse pointer loc
+      mx = event.clientX;  
+      my = event.clientY;  
+  }
+//  alert('in drag');
+}
+
+function drop()
+{
+   //alert('in drop');
+   console.log("In drop!");
+   dragging = false;
+   obj = null;
+}
+
+function cancelEvent() 
+{
+	window.event.returnValue = false;
+	alert('in cancelEvent');
+}
+
+function addEventSimple(obj,evt,fn) {
+	if (obj.addEventListener)
+		obj.addEventListener(evt,fn,false);
+	else if (obj.attachEvent)
+		obj.attachEvent('on'+evt,fn);
+}
+
+function removeEventSimple(obj,evt,fn) {
+	if (obj.removeEventListener)
+		obj.removeEventListener(evt,fn,false);
+	else if (obj.detachEvent)
+		obj.detachEvent('on'+evt,fn);
+}
+
+document.onmousedown = pick
+document.onmousemove = drag
+document.onmouseup = drop
+/*addEventSimple(document, 'mousedown', pick);
+addEventSimple(document, 'mousemove', drag);
+addEventSimple(document, 'mouseup', drop);*/
+
+</script>
+
+<body>
+	<!--<p><img ondragstart="cancelEvent()" name="lena" src="lena9.jpg" class="dragable"></p>-->
+<p><img name="lena" src="lena9.jpg" class="dragable"></p>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 6</title>
+    <meta charset="utf-8">
+    <style>
+        /*#nav, #nav ul {*/
+        /*list-style: none;*/
+        /*width: 100%;*/
+        /*padding: 0;*/
+        /*margin: 0;*/
+        /*}*/
+
+        /*#nav li {*/
+        /*position: relative;*/
+        /*display: inline-block;*/
+        /*float: left;*/
+        /*padding: 10px;*/
+        /*width: 10em;*/
+        /*background-color: gray;*/
+        /*}*/
+
+        /*#nav li ul {*/
+        /*position: absolute;*/
+        /*width: 10em;*/
+        /*left: -999em;*/
+        /*}*/
+
+        /*#nav ul li {*/
+        /*display: block;*/
+        /*}*/
+
+        /*#nav li:hover ul {*/
+        /*left: auto;*/
+        /*}*/
+    </style>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function() {
+            console.log('Ready');
+
+            var SHOW_CLASS = 'shown';
+            var ANIMATION_SPEED_MS = 500;
+
+            var $root = $('#nav'),
+                $root_items = $root.find('>li'),
+                $submenus = $root.find('ul'),
+                $submenu_items = $submenus.find('li'),
+                $all_menus = $root.add($submenus),
+                $all_items = $root.find('li'),
+                $all_links = $root.find('a');
+
+            $all_links.css({
+               'text-decoration': 'none',
+                'color': 'black',
+                'width': '100%',
+                'outline': 'none'
+            });
+
+            $all_menus.css({
+                'list-style': 'none',
+                'width'     : '100%',
+                'padding'   : '0',
+                'margin'    : '0'
+            });
+
+            $all_items.css({
+                'position': 'relative',
+                'display' : 'block'
+            });
+
+            $root_items.css({
+                'display'     : 'inline-block',
+                'width' : '5em',
+                'padding' : '20px',
+                'border-left': '1px'
+            });
+
+            $submenus.css({
+                'position': 'absolute'
+            });
+
+            $submenu_items.css({
+                'width' : '10em',
+                'padding-top': '10px',
+                'top': '20px'
+            });
+
+            function get_shown_items() {
+                return $root.find('.' + SHOW_CLASS);
+            }
+
+            function select($this) {
+                if (get_shown_items().length !== 0) return;
+                if ($this.hasClass(SHOW_CLASS)) return;
+
+                var $ul = $this.find('ul').first(),
+                    $a = $this.find('a').first();
+
+                $a.css('color', 'white');
+                $this.css('background-color', 'black');
+                $this.addClass(SHOW_CLASS);
+
+                $ul.slideDown(ANIMATION_SPEED_MS, function() {});
+            }
+
+            function unselect($this, $to_select) {
+                $to_select = $to_select || null;
+                var $ul = $this.find('ul').first(),
+                    $a = $this.find('a').first();
+
+                $a.css('color', 'black');
+                $this.css('background-color', 'white');
+                $this.removeClass(SHOW_CLASS);
+
+                $ul.slideUp(ANIMATION_SPEED_MS, function() {
+                    if ($to_select !== null) {
+                        select($to_select);
+                    }
+                });
+            }
+
+            // clicked on items
+            $submenus.hide();
+            $root_items.on('click', function() {
+                var $this = $(this);
+
+                // remove other selections
+                var $other_selected = get_shown_items();
+                if ($other_selected.length !== 0) {
+
+                    // deselect current item
+                    if ($other_selected.first().is($this)) {
+                        unselect($other_selected);
+                    } else {
+                        unselect($other_selected, $this);
+                    }
+
+                } else {
+                    select($this);
+                }
+            });
+
+            // clicked outside the menu
+            $(document).mouseup(function (e) {
+                if (!$root.is(e.target) && $root.has(e.target).length === 0) {
+                    var $item = get_shown_items();
+                    if ($item.length !== 0) unselect($item);
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+<!--Solve the following task using only the jQuery library (production version, jquery.min.js, or developement version, jquery.js); -->
+<!--YOU ARE NOT ALLOWED TO USE ANY OTHER JS LIBRARY, PLUGIN OR EXTENSION BESIDES THE JQUERY LIBRARY. Write a web page which -->
+<!--displays a horizontal dropdown menu. Each menu should drop down in a transition/animation when the user clicks the menu -->
+<!--title. It should also not simply dissapear when the menu slides up again, it should be done in an animation. You are not -->
+<!--allowed to use any independent CSS code (except CSS properties set through jquery method calls).-->
+
+
+<ul id="nav">
+    <li>
+        <a href="#">Home</a>
+    </li>
+    <li>
+        <a href="#">About</a>
+        <ul>
+            <li><a href="#">The product</a></li>
+            <li><a href="#">Meet the team</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#">Services</a>
+        <ul>
+            <li><a href="#">Sevice one</a></li>
+            <li><a href="#">Sevice two</a></li>
+            <li><a href="#">Sevice three</a></li>
+            <li><a href="#">Sevice four</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#">Product</a>
+        <ul>
+            <li><a href="#">Small product (one)</a></li>
+            <li><a href="#">Small product (two)</a></li>
+            <li><a href="#">Small product (three)</a></li>
+            <li><a href="#">Small product (four)</a></li>
+            <li><a href="#">Big product (five)</a></li>
+            <li><a href="#">Big product (six)</a></li>
+            <li><a href="#">Big product (seven)</a></li>
+            <li><a href="#">Big product (eight)</a></li>
+            <li><a href="#">Enormous product (nine)</a></li>
+            <li><a href="#">Enormous product (ten)</a></li>
+            <li><a href="#">Enormous product (eleven)</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#">Contact</a>
+        <ul>
+            <li><a href="#">Out-of-hours</a></li>
+            <li><a href="#">Directions</a></li>
+        </ul>
+    </li>
+</ul>
+</body>
+</html>

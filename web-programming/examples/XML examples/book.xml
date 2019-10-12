@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE collection SYSTEM "collection.dtd">
+<!--<?xml-stylesheet type="text/css" href="book.css"?>-->
+<?xml-stylesheet type="text/xsl" href="book.xsl"?>
+<collection>
+	<book category="Networking">
+		<title>High Performance TCP Networking</title>
+		<author>Raj Jain</author>
+		<isbn>567-78960</isbn>
+		<editor>Prentice Hall</editor>
+	</book> 
+	<book category="Databases">
+		<title>Transactional Information Systems</title>
+		<author>Gottfried Vossen</author>
+		<author>Gerhard Weikum</author>
+		<isbn>680-71060</isbn>
+		<editor>Morkan Kaufman Publishing</editor>
+	</book>
+	<book category="Mathematics">
+		<title>Mathematical Encyclopedia</title>
+		<author>Eric Weistein</author>
+		<isbn>545-678450</isbn>
+		<editor>Addison Wesley</editor>
+	</book>
+</collection>
