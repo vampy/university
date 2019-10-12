@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="MusicLibraryConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="MusicLibraryConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.lab4dbms.Properties.Settings.GlobalReference.Default.MusicLibraryConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="DataTable1TableAdapter" GeneratorDataComponentClassName="DataTable1TableAdapter" Name="DataTable1" UserDataComponentName="DataTable1TableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="MusicLibraryConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        USER_TBL.Name AS User_Name, GROUP_TBL.Name AS Group_Name, COUNT(LIBRARY_ENTRANCE_TBL.Usr_ID) AS Plays, AVG(TRACK_TBL.Track_Length_S) 
+                         AS Average_Track_Length
+FROM            USER_TBL INNER JOIN
+                         GROUP_TBL INNER JOIN
+                         GROUP_USER_TBL ON GROUP_TBL.Group_ID = GROUP_USER_TBL.Group_ID ON USER_TBL.Usr_ID = GROUP_USER_TBL.Usr_ID INNER JOIN
+                         TRACK_TBL INNER JOIN
+                         LIBRARY_ENTRANCE_TBL ON TRACK_TBL.Track_ID = LIBRARY_ENTRANCE_TBL.Track_ID ON USER_TBL.Usr_ID = LIBRARY_ENTRANCE_TBL.Usr_ID
+GROUP BY USER_TBL.Name, GROUP_TBL.Name</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="User_Name" DataSetColumn="User_Name" />
+              <Mapping SourceColumn="Group_Name" DataSetColumn="Group_Name" />
+              <Mapping SourceColumn="Plays" DataSetColumn="Plays" />
+              <Mapping SourceColumn="Average_Track_Length" DataSetColumn="Average_Track_Length" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1" msprop:Generator_UserDSName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="DataTable1" msprop:Generator_TableClassName="DataTable1DataTable" msprop:Generator_TableVarName="tableDataTable1" msprop:Generator_TablePropName="DataTable1" msprop:Generator_RowDeletingName="DataTable1RowDeleting" msprop:Generator_RowChangingName="DataTable1RowChanging" msprop:Generator_RowEvHandlerName="DataTable1RowChangeEventHandler" msprop:Generator_RowDeletedName="DataTable1RowDeleted" msprop:Generator_UserTableName="DataTable1" msprop:Generator_RowChangedName="DataTable1RowChanged" msprop:Generator_RowEvArgName="DataTable1RowChangeEvent" msprop:Generator_RowClassName="DataTable1Row">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="User_Name" msprop:Generator_ColumnVarNameInTable="columnUser_Name" msprop:Generator_ColumnPropNameInRow="User_Name" msprop:Generator_ColumnPropNameInTable="User_NameColumn" msprop:Generator_UserColumnName="User_Name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Group_Name" msprop:Generator_ColumnVarNameInTable="columnGroup_Name" msprop:Generator_ColumnPropNameInRow="Group_Name" msprop:Generator_ColumnPropNameInTable="Group_NameColumn" msprop:Generator_UserColumnName="Group_Name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Plays" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnPlays" msprop:Generator_ColumnPropNameInRow="Plays" msprop:Generator_ColumnPropNameInTable="PlaysColumn" msprop:Generator_UserColumnName="Plays" type="xs:int" minOccurs="0" />
+              <xs:element name="Average_Track_Length" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnAverage_Track_Length" msprop:Generator_ColumnPropNameInRow="Average_Track_Length" msprop:Generator_ColumnPropNameInTable="Average_Track_LengthColumn" msprop:Generator_UserColumnName="Average_Track_Length" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
