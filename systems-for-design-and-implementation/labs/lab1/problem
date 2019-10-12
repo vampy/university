@@ -1,0 +1,13 @@
+1. Library
+
+A library offers its subscriber books that can be borrowed. The library has many terminals where the subscribers can borrow books. 
+In order to use the  terminal, the subscriber must introduce his/her library ID.
+After a successful identification, the subscriber sees all the available books and may borrow one or more books (no more than three).  
+After the loan is completed, all the other subscribers using the terminals see the updated list of available books.
+
+The subscriber can also search for a book, by typing a substring from the title. 
+The terminal will display all the books from the library containing that substring together with their status (borrowed or available).
+
+For returning books there is only one terminal. 
+In order to return a book the subscriber introduces his/her library ID and the book ID. After a successful return the list of available books is automatically updated.
+

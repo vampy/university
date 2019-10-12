@@ -1,0 +1,20 @@
+﻿<Properties StartupItem="Server/Server.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="networking/ChatServerObjectProxy.cs">
+    <Files>
+      <File FileName="model/User.cs" Line="1" Column="1" />
+      <File FileName="ChatClient/ChatWindow.cs" Line="68" Column="14" />
+      <File FileName="Server/StartServer.cs" Line="1" Column="1" />
+      <File FileName="networking/ChatClientWorker.cs" Line="1" Column="1" />
+      <File FileName="ChatClient/StartChatClient.cs" Line="27" Column="10" />
+      <File FileName="ChatClient/ChatServerMock.cs" Line="1" Column="1" />
+      <File FileName="ChatClient/ChatClientCtrl.cs" Line="53" Column="4" />
+      <File FileName="networking/ChatServerObjectProxy.cs" Line="222" Column="40" />
+      <File FileName="Server/ChatServerImpl.cs" Line="66" Column="60" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

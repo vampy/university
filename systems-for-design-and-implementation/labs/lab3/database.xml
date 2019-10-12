@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config>
+    <driver>com.mysql.jdbc.Driver</driver>
+    <username>school</username>
+    <password>school</password>
+    <database>school_sdi</database>
+    <url>jdbc:mysql://localhost:3306/</url>
+</config>

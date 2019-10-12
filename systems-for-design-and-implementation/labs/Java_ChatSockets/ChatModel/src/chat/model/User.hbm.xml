@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class
+            name="chat.model.User"
+            table="USERS">
+        <id
+                name="id"
+                column="userId">
+        </id>
+        <property
+                name="passwd"
+                column="password"/>
+
+        <property name="name"
+                  column="name"/>
+        <!--  <many-to-one
+                  name="nextMessage"
+                  cascade="all"
+                  column="NEXT_MESSAGE_ID"/>    -->
+        <set name="friends" table="friends" cascade="save-update" lazy="true">
+            <key column="userId"/>
+            <many-to-many column="friendID" class="chat.model.User"/>
+        </set>
+    </class>
+</hibernate-mapping>

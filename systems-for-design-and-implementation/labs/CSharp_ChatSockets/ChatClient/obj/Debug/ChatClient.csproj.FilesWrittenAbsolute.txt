@@ -1,0 +1,12 @@
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/obj/Debug/ChatClient.Properties.Resources.resources
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/ChatClient.exe.mdb
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/ChatClient.exe
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/obj/Debug/ChatClient.exe
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/obj/Debug/ChatClient.exe.mdb
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/networking.dll
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/networking.dll.mdb
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/services.dll
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/services.dll.mdb
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/model.dll
+/Users/grigo/didactic/MPP/ExempleCurs/CSharp/ChatSockets/ChatClient/bin/Debug/model.dll.mdb

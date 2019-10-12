@@ -1,0 +1,39 @@
+1. Library
+
+A library offers its subscriber books that can be borrowed. The library has many terminals where the subscribers can borrow books. In order to use the  terminal, the subscriber must introduce his/her library ID.
+ After a successful identification, the subscriber sees all the available books and may borrow one or more books (no more than three).  After the loan is completed, all the other subscribers using the terminals see the updated list of available books.
+The subscriber can also search for a book, by typing a substring from the title. The terminal will display all the books from the library containing that substring together with their status (borrowed or available).
+
+For returning books there is only one terminal. In order to return a book the subscriber introduces his/her library ID and the book ID. After a successful return the list of available books is automatically updated.
+
+2. Sales agent
+
+A firm has many sales agents that order products in the name of the customers and distribute the products to the clients. The firm has a software application that agents use to order products. Each sales agent has a terminal for authentication, products visualization, and products ordering.
+After a successful authentication, the agent's terminal displays the list of all the products offered  by the firm (product code, name, available quantity and price).
+The agent can order a product if the desired quantity is available. For ordering the agent selects the product from the list, introduces the quantity and trigger the order. After the successful completion of an order, all the other agents using their terminals will see the update list of available products. If the quantity for the order is greater than the available quantity, an error message will be displayed. 
+An agent can also search for products containing a given substring in their name. The application will display in a list or table all the products that contain that substring in their name. 
+
+3. Bugs Tracking
+A software firm uses a software system through which developers and testers can communicate. Each employee uses an application for authentication and ...
+
+-The tester sees the list of all projects developed by the firm and can add new bugs for a certain project. After a successful addition of a new bug, all the programmers see the updated list of bugs for the corresponding project.
+-The programmer sees the list of projects he/she is working on and can search for the bugs for a certain project. After a bug has been fixed, the programmer can select it from the list of the corresponding project and mark it as fixed. After the status change of the bug, all the other programmers that are working on the same project see the updated list of bugs and their status.
+
+
+4. Employee Monitoring
+A firm uses a software system through which the boss and monitor his/her employees and can send them tasks to complete. The software system is composed of the following:
+-An application for the boss where he/she can see the list of all the employees that are currently at work (the name and the time the employee has arrived at work). The boss can send a task to an employee that is at work, and the employee automatically sees the sent task. The boss can also sent a task to all the employees that are at work.
+-An application for the employee. When he/she arrives at work he/she must authenticated. After a successful authentication, the boss automatically sees the employee in his/her list of employees that are at work. While the employee is at work, he/she sees all the tasks sent by the boss. When he/she leaves, the employee must close the application, and then the employee list seen by the boss is automatically updated.   
+
+5. Theater
+
+A theater uses a software system that allows spectators to reserve seats . Using this application the spectators can reserve seats for a certain show and they have to pay for the seats before seeing the show.
+The application stores the list of seats for each room where the show will be performed. For each seat, the application stores the position (row number, box, etc), seat number and price. The spectators can search for a show by typing a part of its title, and the application should display the list of all the shows that contain the given substring. When a spectator selects a show the application will display the list of all seats and their status (available/reserved).   
+In order to reserve seats a spectator has to introduce his/her name and address,  and to select the desired seats from the list of seats. After the successful completion of a reservation all the other spectators using the application see the updated list of seats for the corresponding show. If some desired seats were already  reserved by other spectator while completing the reservation, the spectator will be notified that some seats have already been reserved and they are not available anymore. 
+
+6. Hospital pharmacy
+
+A hospital has its own pharmacy and many sections. The drugs necessity for each section is provided by the hospital pharmacy. The hospital uses a software system to manage drugs orders from each section and their completion. The system is composed of:
+-One terminal for each section. The section staff can use this terminal to register new drugs orders. In order to use the terminal the staff must first authenticate. After authentication, the terminal displays the list of all available drugs. For drugs ordering, the person using the terminal must select the drug and introduce the quantity. After successful completion of a new order, the order is automatically displayed by the hospital pharmacy terminal. The section staff can also search for drugs by introducing a part of the drug's name. The terminal will display a list with all the available drugs that contain the given substring.
+
+-One terminal for the hospital pharmacy. The pharmacists must authenticate in order to be able to use the terminal. The pharmacists see the list of orders introduced by the section staff. Each element from the list will contain the section name, the drug name and the requested quantity. In order to change the status of  an order, the pharmacist selects the order from the list, and presses the corresponding button. After the successful completion of an order, the list of orders is automatically updated, and the corresponding section terminal will display the its completion. 

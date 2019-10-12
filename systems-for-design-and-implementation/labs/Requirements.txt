@@ -1,0 +1,42 @@
+Each student has to design and implement one distributed client-server application with distributed observer pattern. The implementation must be done in three ways: Java, C#, and Java-C#.
+
+Weeks 1-3
+  * You have to choose a problem P (max. 5 use-cases:authentication, search, etc...)
+  * You have to design the solution of the problem P.
+  * The design must be done using a CASE tool (use cases specification and diagram and class diagram) .
+
+Weeks 4-6
+  * Solution 1 (in C# or Java)
+  * At least the following must be used:
+	- application communication: TCP/IP or Remoting/RMI
+	- XML documents
+	- reflection
+	- persistence: text files or binary files
+  *Sequence diagram for each use case.
+
+Weeks 7-9
+   * Solution 2 (in Java or C#)
+   * At least the following must be used:
+	- client/server communication: TCP/IP or Remoting/RMI
+	- XML documents
+	- reflection
+	- persistence: text/XML files or binary files or relational database (at your choice) 
+
+Weeks 10-11: 
+  * Solution 3 (both Java and C#)
+  * You should use: 
+    - TCP/IP  or other technology
+    - XML documents
+    - Reflection
+    - Persistence: relational database (at your choice)
+Week 12:
+  * Web part: You have to add a web part to your application
+  * Web language/technology: at your choice
+
+Lab Final Mark:
+  * Design:      15% (deadline week 3)
+  * Solution 1:  20% (deadline week 6)
+  * Solution 2:  20% (deadline week 9)
+  * Solution 3:  20% (deadline week 11)
+  * Web part : 15% (deadline week 12)
+  * Lab activity: 10% 

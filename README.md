@@ -46,7 +46,7 @@ The source code repository of almost all the courses I attended while studying c
 
 #### Semester 2
 - [Audio-Video Data Processing](/audio-video/)
-- Systems for Design and Implementation
+- [Systems for Design and Implementation (SDI)](/systems-for-design-and-implementation/)
 - [Software Systems Verification and Validation (SSVV)](/software-systems-verification-and-validation/)
 - [Virtual Machines, Design and Implementation](/virtual-machines/)
 - [Numerical Analysis/Calculus](/numerical-calculus/)

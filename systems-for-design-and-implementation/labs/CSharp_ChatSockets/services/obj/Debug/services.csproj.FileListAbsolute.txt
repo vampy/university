@@ -1,0 +1,14 @@
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\bin\Debug\services.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\bin\Debug\services.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\bin\Debug\ChatCurs2011.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\bin\Debug\ChatCurs2011.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\obj\Debug\ResolveAssemblyReference.cache
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\obj\Debug\services.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\services\obj\Debug\services.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\bin\Debug\services.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\bin\Debug\services.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\bin\Debug\ChatCurs2011.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\bin\Debug\ChatCurs2011.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\obj\Debug\ResolveAssemblyReference.cache
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\obj\Debug\services.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\services\obj\Debug\services.pdb

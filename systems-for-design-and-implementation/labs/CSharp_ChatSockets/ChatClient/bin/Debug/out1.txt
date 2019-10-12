@@ -1,0 +1,30 @@
+response received chat.network.protocol.OkResponse
+Login succeeded ....
+Current user Id: ion, Name: 
+response received chat.network.protocol.GetLoggedFriendsResponse
+response received chat.network.protocol.NewMessageResponse
+Message received
+[ChatWindow] messString [test]: wwww
+Update Event called
+[ChatWindow] messString [ion]: dd
+Update Event called
+response received chat.network.protocol.OkResponse
+response received chat.network.protocol.NewMessageResponse
+Message received
+[ChatWindow] messString [test]: wqrt
+Update Event called
+response received chat.network.protocol.FriendLoggedOutResponse
+Friend logged out Id: test, Name: 
+Friend logged outId: test, Name: 
+[ChatWindow] friendLoggedOut test
+Update Event called
+ChatWindow closing UserClosing
+Ctrl logout
+response received chat.network.protocol.OkResponse
+ChatWindow closing ApplicationExitCall
+Reading error System.Runtime.Serialization.SerializationException: End of Stream encountered before parsing was completed.
+   at System.Runtime.Serialization.Formatters.Binary.__BinaryParser.Run()
+   at System.Runtime.Serialization.Formatters.Binary.ObjectReader.Deserialize(HeaderHandler handler, __BinaryParser serParser, Boolean fCheck, Boolean isCrossAppDomain, IMethodCallMessage methodCallMessage)
+   at System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(Stream serializationStream, HeaderHandler handler, Boolean fCheck, Boolean isCrossAppDomain, IMethodCallMessage methodCallMessage)
+   at System.Runtime.Serialization.Formatters.Binary.BinaryFormatter.Deserialize(Stream serializationStream)
+   at chat.network.server.ChatServerProxy.run() in E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\networking\ChatServerProxy.cs:line 236

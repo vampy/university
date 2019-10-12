@@ -1,0 +1,14 @@
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\bin\Debug\persistence.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\bin\Debug\persistence.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\bin\Debug\ChatCurs2011.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\bin\Debug\ChatCurs2011.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\obj\Debug\ResolveAssemblyReference.cache
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\obj\Debug\persistence.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ChatCurs2011\persistence\obj\Debug\persistence.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\bin\Debug\persistence.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\bin\Debug\persistence.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\bin\Debug\ChatCurs2011.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\bin\Debug\ChatCurs2011.pdb
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\obj\Debug\ResolveAssemblyReference.cache
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\obj\Debug\persistence.dll
+E:\users\grigo\didactic\MPP\Chat\C#\ProtoChat\persistence\obj\Debug\persistence.pdb
